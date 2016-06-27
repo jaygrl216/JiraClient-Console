@@ -1,6 +1,7 @@
 package com.sgt.pmportal.services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -45,9 +46,9 @@ public class ProjectServices {
 	 * 
 	 * @return ArrayList<JiraProject>
 	 */
-	public ArrayList<JiraProject> getAllJiraProjects() {
+	public List<JiraProject> getAllJiraProjects() {
 		ArrayList<Project> list = getAllProjects();
-		ArrayList<JiraProject> jiraProjects = new ArrayList<JiraProject>();
+		ArrayList<JiraProject> jiraProjects = new ArrayList<>();
 		for(Project p: list) {
 			jiraProjects.add(toJiraProject(p));
 		}
@@ -60,7 +61,7 @@ public class ProjectServices {
 	 * @return ArrayList<Project>
 	 */
 	private ArrayList<Project> getAllProjects() {
-		ArrayList<Project> projectList = new ArrayList<Project>();
+		ArrayList<Project> projectList = new ArrayList<>();
 		Promise<Iterable<BasicProject>> projects = client.getAllProjects();
 		Iterable<BasicProject> list = projects.claim();
 		for(BasicProject bp: list) {
@@ -145,33 +146,14 @@ public class ProjectServices {
 			Issue curIssue = issueProm.claim();
 			
 			//the following try and catch methods will prevent null pointer exceptions
-			String description = "";
-			String assigneeName = "";
-			String priority="";
-			DateTime creationDate = null;
-			DateTime dueDate = null;
-			
-			try {
-				description = curIssue.getDescription();
-			} catch(NullPointerException exception){}			
-			try{
-				
-				assigneeName = curIssue.getAssignee().getDisplayName();
-			} catch(NullPointerException exception){
-				assigneeName = null;
-			}
-			try{
-				priority=curIssue.getPriority().getName();
-				
-			}catch(NullPointerException exception){
-			}
-			
-			try{
-				creationDate=curIssue.getCreationDate();
-			} catch(NullPointerException exception){}
-			try{
-				dueDate=curIssue.getDueDate();
-			} catch(NullPointerException exception){}
+			String description = curIssue.getDescription();
+			String assigneeName = (curIssue.getAssignee() == null) ? null :
+				curIssue.getAssignee().getDisplayName();
+			String priority = (curIssue.getPriority() == null) ? null : 
+				curIssue.getPriority().getName();
+			DateTime creationDate = curIssue.getCreationDate();
+			DateTime dueDate = curIssue.getDueDate();
+		
 
 			JiraIssue jiraIssue = new JiraIssue(curIssue.getKey(), 
 					curIssue.getIssueType().getName(), priority,
