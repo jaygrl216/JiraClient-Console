@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import com.atlassian.jira.rest.client.IssueRestClient;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.ProjectRestClient;
-import com.atlassian.jira.rest.client.RestClientException;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
 import com.atlassian.jira.rest.client.domain.BasicProject;
 import com.atlassian.jira.rest.client.domain.Issue;
@@ -95,12 +94,7 @@ public class ProjectServices {
 	 * @return JiraProject
 	 */
 	public JiraProject getProjectByKey(String key) {
-		JiraProject project = null;
-		try{
-			project=toJiraProject(mainClient.getProjectClient().getProject(key).claim());
-		}catch(RestClientException projectnotfound){
-		}
-		return project;
+		return toJiraProject(mainClient.getProjectClient().getProject(key).claim());
 	}
 
 	/**
@@ -122,7 +116,7 @@ public class ProjectServices {
 	 * @return
 	 */
 	private ArrayList<Release> versionsToRelease(Iterable<Version> versions) {
-		ArrayList<Release> releases = new ArrayList<Release>();
+		ArrayList<Release> releases = new ArrayList<>();
 		for(Version v: versions) {
 			releases.add(new Release(v.getName(), v.getId(), v.getReleaseDate(), v.getSelf()));
 		}
@@ -140,11 +134,11 @@ public class ProjectServices {
 		SearchResult issues = result.claim();
 
 		IssueRestClient issueClient = mainClient.getIssueClient();
-		
+
 		for (BasicIssue i : issues.getIssues()) {
 			Promise<Issue> issueProm = issueClient.getIssue(i.getKey());
 			Issue curIssue = issueProm.claim();
-			
+
 			//the following try and catch methods will prevent null pointer exceptions
 			String description = curIssue.getDescription();
 			String assigneeName = (curIssue.getAssignee() == null) ? null :
@@ -153,7 +147,7 @@ public class ProjectServices {
 				curIssue.getPriority().getName();
 			DateTime creationDate = curIssue.getCreationDate();
 			DateTime dueDate = curIssue.getDueDate();
-		
+
 
 			JiraIssue jiraIssue = new JiraIssue(curIssue.getKey(), 
 					curIssue.getIssueType().getName(), priority,
