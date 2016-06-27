@@ -129,6 +129,11 @@ public class JiraProject {
 		return isOverdue;
 	}
 	
+	/**
+	 * Changes and returns isOverdue based on if date is past due date
+	 * 
+	 * @return boolean
+	 */
 	public boolean seeIfOverdue() {
 		Date today = Calendar.getInstance().getTime();
 		if (today.compareTo(due) > 0) {
