@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
@@ -101,7 +102,7 @@ System.out.println("Sprint: " + sprint.getName());
 	 */
 public Long calculateOverallSEA() throws IOException, ParseException{
 	ProjectServices pService=new ProjectServices(client);
-	ArrayList<JiraProject> projectList=pService.getAllJiraProjects();
+	List<JiraProject> projectList=pService.getAllJiraProjects();
 	double seaSum=0;
 	double length=projectList.size();
 	ArrayList<Long> seaList=new ArrayList<Long>();
