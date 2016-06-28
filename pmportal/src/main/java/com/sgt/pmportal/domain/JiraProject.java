@@ -129,10 +129,12 @@ public class JiraProject {
 		Date latest = new Date(0);
 		
 		for (JiraIssue i: issues) {
+			try{
 			Date issueDate = i.getDueDate().toDate();
 			if (issueDate.compareTo(latest) > 0) {
 				latest = issueDate;
 			}
+			}catch (NullPointerException noDueDate){}
 		}
 		
 		return latest;

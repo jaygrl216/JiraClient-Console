@@ -5,26 +5,30 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.RestClientException;
 import com.sgt.pmportal.domain.JiraProject;
+import com.sgt.pmportal.domain.Sprint;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.MetricsServices;
 import com.sgt.pmportal.services.ProjectServices;
+import com.sgt.pmportal.services.SprintServices;
 
 public class MetricTest {
 	private static final String JIRA_URL = "http://54.152.100.242/jira";
-	private static final String JIRA_ADMIN_USERNAME = "amital";
-	private static final String JIRA_ADMIN_PASSWORD = "ComPuteR90";
+	private static final String JIRA_ADMIN_USERNAME = "admin";
+	private static final String JIRA_ADMIN_PASSWORD = "admin";
 	private static String authorization;
 	private static JiraRestClient client=login();
 	MetricsServices metricServices=new MetricsServices(client, authorization, JIRA_URL);
 	ProjectServices pService=new ProjectServices(client);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PMPOR").claim(), null);
-
+	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
+	JiraProject project=pService.toJiraProjectWithIssues(client.getProjectClient().getProject("PA").claim());
+	ArrayList<Sprint> sprintList=new ArrayList<Sprint>();
 
 	/**
 	 * logins into JiraClient
@@ -47,8 +51,8 @@ public class MetricTest {
 		//this runs a series of tests as a java application
 		test.printInfo();
 		//test.testProgress();
-		test.testSEA();
-
+		//test.testSEA();
+		test.testOverallSEA();
 		System.out.println("Finished");
 
 	}
@@ -73,18 +77,23 @@ public class MetricTest {
 	}
 
 	public void testSEA() throws IOException, ParseException{
-
-		//MetricsService test
-		System.out.println("SEA test will display the sea of a project as a\n"
-				+ "percentage.\n");
+		System.out.println("Getting sprints...");
 		try{
-			Long sea=metricServices.calculateProjectSEA(project);
-			System.out.println("The SEA of project "+project.getName()+" is: " + sea + "%");
-		} catch (RestClientException noProject){
-			System.err.println("Project does not exist");
-		}
+		sprintList=sprintService.getClosedSprintsByProject(project);
+		Sprint sprint=sprintList.get(0);
+		//MetricsService test
+		System.out.println("SEA test will display the sea of a sprint as a\n"
+				+ "percentage.\n");
+			double sea=metricServices.calculateSprintSEA(sprint);
+			System.out.println("The SEA of sprint "+sprint.getName()+" is: " + sea + "%");
+	}catch(NullPointerException noSprint){
+		System.err.println(noSprint);
 	}
-
-
+	}
+	public void testOverallSEA() throws IOException, ParseException{
+		System.out.println("Overall SEA test will display the SEA of a project and its standard deviation");
+		ArrayList<Double> seaMetric=metricServices.calculateProjectSEA(project);
+		System.out.println("SEA: "+ seaMetric.get(0) + "+/-" + seaMetric.get(1)+"%");
+	}
 
 }
