@@ -85,7 +85,7 @@ public class MetricTest {
 		System.out.println("SEA test will display the sea of a sprint as a\n"
 				+ "percentage.\n");
 			double sea=metricServices.calculateSprintSEA(sprint);
-			System.out.println("The SEA of sprint "+sprint.getName()+" is: " + sea + "%");
+			System.out.println("The SEA of sprint "+sprint.getName()+" is: " + sea );
 	}catch(NullPointerException noSprint){
 		System.err.println(noSprint);
 	}
@@ -93,7 +93,7 @@ public class MetricTest {
 	public void testOverallSEA() throws IOException, ParseException{
 		System.out.println("Overall SEA test will display the SEA of a project and its standard deviation");
 		ArrayList<Double> seaMetric=metricServices.calculateProjectSEA(project);
-		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1)+"%");
+		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1));
 	}
 
 }

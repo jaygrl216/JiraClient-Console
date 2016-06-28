@@ -75,7 +75,7 @@ public class MetricsServices {
 		double startDate=sprint.getStartDate().getTime();
 		double estimatedDuration=endDate-startDate;
 		double actualDuration=completeDate-startDate;
-		double sea=(actualDuration/estimatedDuration * 100);
+		double sea=(actualDuration/estimatedDuration);
 		System.out.print("done: " + sea+"\n");
 		return sea;
 	}
