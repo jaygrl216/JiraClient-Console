@@ -93,6 +93,12 @@ public class GeneralServices {
 				priority,description, assigneeName, creationDate, dueDate);
 	}
 	
+	/**
+	 * Converts Basic User to JiraUser
+	 * @param user
+	 * @param client
+	 * @return JiraUser
+	 */
 	public static JiraUser toJiraUser(BasicUser user, JiraRestClient client) {
 		Promise<User> jiraUser = client.getUserClient().getUser(user.getName());
 		User realJiraUser = jiraUser.claim();

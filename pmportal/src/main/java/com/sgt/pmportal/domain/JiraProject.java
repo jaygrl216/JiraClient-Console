@@ -49,7 +49,7 @@ public class JiraProject {
 		isComplete = false;
 		isOverdue = false;
 		issues = new ArrayList<>();
-		due = new Date(0);
+		due = setDefaultDueDate();
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class JiraProject {
 		this.uri = uri;
 		isComplete = false;
 		isOverdue = false;
-		issues = issueList;
+		issues = new ArrayList<>(issueList);
 		due = setDefaultDueDate();
 	}
 
@@ -116,23 +116,37 @@ public class JiraProject {
 	public void complete() {
 		isComplete = true;
 	}
-
+	
+	/**
+	 * Gets the number of versions this project has
+	 * 
+	 * @return int
+	 */
 	public int getNumRelease() {
 		return releases.size();
 	}
-
+	
+	/**
+	 * returns the due Date of the project
+	 * @return
+	 */
 	public Date getDueDate() {
 		return due;
 	}
-
+	
+	/**
+	 * sets the default project due date based of the latest release due date
+	 * 
+	 * @return Date
+	 */
 	private Date setDefaultDueDate() {
 		Date latest = new Date(0);
 
-		for (JiraIssue i: issues) {
-			if(i.getDueDate() != null) {
-				Date issueDate = i.getDueDate().toDate();
-				if (issueDate.compareTo(latest) > 0) {
-					latest = issueDate;
+		for (Release curRelease: releases) {
+			if(curRelease.getRelease() != null) {
+				Date curDate = curRelease.getRelease().toDate();
+				if (curDate.compareTo(latest) > 0) {
+					latest = curDate;
 				}
 			}
 		}
@@ -164,7 +178,12 @@ public class JiraProject {
 	public List<Release> getReleases() {
 		return releases;
 	}
-
+	
+	/**
+	 * Gets whether a project is overdue or not
+	 * 
+	 * @return boolean
+	 */
 	public boolean getIsOverdue() {
 		return isOverdue;
 	}
