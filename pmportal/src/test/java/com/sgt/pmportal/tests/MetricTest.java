@@ -20,7 +20,7 @@ import com.sgt.pmportal.services.ProjectServices;
 import com.sgt.pmportal.services.SprintServices;
 
 public class MetricTest {
-	private static final String JIRA_URL = "http://52.39.123.69:8080";
+	private static final String JIRA_URL = "http://54.152.100.242/jira";
 	private static final String JIRA_ADMIN_USERNAME = "amital";
 	private static final String JIRA_ADMIN_PASSWORD = "ComPuteR90";
 	private static String authorization;
@@ -28,7 +28,7 @@ public class MetricTest {
 	MetricsServices metricServices=new MetricsServices(client, authorization, JIRA_URL);
 	ProjectServices pService=new ProjectServices(client, authorization, JIRA_URL);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("S2").claim(),null);
+	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PMPOR").claim(),null);
 	ArrayList<Sprint> sprintList=new ArrayList<Sprint>();
 
 	/**
@@ -51,10 +51,10 @@ public class MetricTest {
 		MetricTest test=new MetricTest();
 		//this runs a series of tests as a java application
 		test.printInfo();
-		//test.testProgress();
-		//test.testSEA();
-		//test.testOverallSEA();
-		//test.testAllDefects();
+		test.testProgress();
+		test.testSEA();
+		test.testOverallSEA();
+		test.testAllDefects();
 		test.testSprintEEA();
 		System.out.println("Finished");
 
@@ -108,6 +108,5 @@ public class MetricTest {
 		System.out.println("Overdue projects: "+defectArray.get(1)+"\n");
 	}
 public void testSprintEEA() throws IOException, ParseException{
-	System.out.println(client.getIssueClient().getIssue("S2-3").claim().getFieldByName("estimation"));
 }
 }

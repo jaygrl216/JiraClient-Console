@@ -134,7 +134,6 @@ public class MetricsServices {
 		ArrayList<Issue> issueList=sprintService.getIssuesBySprint(sprint);
 		for (Issue issue:issueList){
 			if (sprint.getStartDate().before(issue.getCreationDate().toDate())){
-				actualEffort=actualEffort + (double) issue.getFieldByName("estimation").getValue();
 			}
 		}
 		double eea=actualEffort/estimatedEffort;
