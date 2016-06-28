@@ -99,7 +99,7 @@ public class MetricTest {
 	public void testAllDefects() throws IOException, ParseException{
 		System.out.println("All defects test will calculate all metrics and find defects for all projects");
 		ArrayList<Long> defectArray=metricServices.calculateDefectTotal();
-		System.out.println("Defects: ");
+		System.out.println("Defects");
 		System.out.println("Bugs: "+defectArray.get(1));
 		System.out.println("SEA Warnings: "+defectArray.get(1));
 		System.out.println("EEA Warnings: "+defectArray.get(1));
