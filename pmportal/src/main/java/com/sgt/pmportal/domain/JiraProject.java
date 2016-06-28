@@ -22,9 +22,9 @@ public class JiraProject {
 	protected String key;
 	protected BasicUser lead;
 	protected String description;
-	protected ArrayList<Release> releases;
+	protected List<Release> releases;
 	protected URI uri;
-	protected ArrayList<JiraIssue> issues;
+	protected List<JiraIssue> issues;
 	protected Date due;
 	protected boolean isComplete;
 	protected boolean isOverdue;
@@ -50,6 +50,32 @@ public class JiraProject {
 		isComplete = false;
 		isOverdue = false;
 		issues = new ArrayList<>();
+		due = new Date(0);
+	}
+	
+	/**
+	 * Constructor for JiraProject with given issueList
+	 * 
+	 * @param name
+	 * @param key
+	 * @param lead
+	 * @param description
+	 * @param versionsToRelease
+	 * @param uri
+	 * @param issueList
+	 */
+	public JiraProject(String name, String key, BasicUser lead, String description,
+			List<Release> versionsToRelease, URI uri, List<JiraIssue> issueList) {
+		this.name = name;
+		this.key = key;
+		this.lead = lead;
+		this.description = description;
+		this.releases = new ArrayList<>(releases);
+		this.uri = uri;
+		isComplete = false;
+		isOverdue = false;
+		issues = new ArrayList<>();
+		due = setDefaultDueDate();
 	}
 	
 	public String getName() {
@@ -98,6 +124,19 @@ public class JiraProject {
 	
 	public Date getDueDate() {
 		return due;
+	}
+	
+	private Date setDefaultDueDate() {
+		Date latest = new Date(0);
+		
+		for (JiraIssue i: issues) {
+			Date issueDate = i.getDueDate().toDate();
+			if (issueDate.compareTo(latest) > 0) {
+				latest = issueDate;
+			}
+		}
+		
+		return latest;
 	}
 	
 	public void setDueDate(Date d) {

@@ -49,7 +49,7 @@ public class ProjectServices {
 		ArrayList<Project> list = getAllProjects();
 		ArrayList<JiraProject> jiraProjects = new ArrayList<>();
 		for(Project p: list) {
-			jiraProjects.add(toJiraProject(p));
+			jiraProjects.add(toJiraProject(p, null));
 		}
 		return jiraProjects;
 	}
@@ -81,7 +81,7 @@ public class ProjectServices {
 		ArrayList<Project> projects = getAllProjects();
 		for(Project p: projects) {
 			if(p.getName().equalsIgnoreCase(name)) {
-				return toJiraProject(p);
+				return toJiraProject(p, null);
 			}
 		}
 		throw new NullPointerException();
@@ -94,20 +94,25 @@ public class ProjectServices {
 	 * @return JiraProject
 	 */
 	public JiraProject getProjectByKey(String key) {
-		return toJiraProject(mainClient.getProjectClient().getProject(key).claim());
+		return toJiraProject(mainClient.getProjectClient().getProject(key).claim(), null);
 	}
 
 	/**
-	 * Returns a JiraProject from a JRJC Project
+	 * Returns a JiraProject implementation of a Project type
 	 * 
 	 * @param p
-	 * @return JiraProject
+	 * @param issueList
+	 * @return
 	 */
-	public JiraProject toJiraProject(Project p) {
-		JiraProject jp = new JiraProject(p.getName(), p.getKey(), p.getLead(), 
+	public JiraProject toJiraProject(Project p, List<JiraIssue> issueList) {
+		if(issueList == null) {
+			return new JiraProject(p.getName(), p.getKey(), p.getLead(), 
 				p.getDescription(), versionsToRelease(p.getVersions()), p.getUri());
-		populateIssues(jp);
-		return jp;
+		}
+		return new JiraProject(p.getName(), p.getKey(), p.getLead(), 
+				p.getDescription(), versionsToRelease(p.getVersions()), p.getUri(), issueList);
+
+		
 	}
 
 	/**
@@ -126,14 +131,17 @@ public class ProjectServices {
 	/**
 	 * Converts BasicIssues to Issues and then adds them to the
 	 * JiraProject it belongs too.
-	 * @param jp
+	 * @param p
+	 * @return JiraProject
 	 */
-	public void populateIssues(JiraProject jp) {
+	public JiraProject toJiraProjectWithIssues (Project p) {
 		Promise<SearchResult> result = mainClient.getSearchClient().searchJql(
-				"project=" + jp.getKey(),1000,0);
+				"project=" + p.getKey(),1000,0);
 		SearchResult issues = result.claim();
 
 		IssueRestClient issueClient = mainClient.getIssueClient();
+		
+		ArrayList<JiraIssue> issueList = new ArrayList<>();
 
 		for (BasicIssue i : issues.getIssues()) {
 			Promise<Issue> issueProm = issueClient.getIssue(i.getKey());
@@ -153,8 +161,10 @@ public class ProjectServices {
 					curIssue.getIssueType().getName(), priority,
 					description, assigneeName, creationDate, dueDate);
 
-			jp.addToIssues(jiraIssue);
+			issueList.add(jiraIssue);
 		}
+		
+		return toJiraProject(p, issueList);
 	}
 
 }

@@ -23,7 +23,7 @@ public class MetricTest {
 	private static JiraRestClient client=login();
 	MetricsServices metricServices=new MetricsServices(client, authorization, JIRA_URL);
 	ProjectServices pService=new ProjectServices(client);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PMPOR").claim());
+	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PMPOR").claim(), null);
 
 
 	/**
