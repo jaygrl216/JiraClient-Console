@@ -204,6 +204,10 @@ public class JiraProject {
 		return getIsOverdue();
 	}
 	
+	/* The following two methods are the velocity of the project. 
+	 * Velocity is calculated by totalSEA for closed sprints divided by number
+	 * of closed sprints
+	 */
 	public void setVelocity(double velocity) {
 		this.velocity = velocity;
 	}
