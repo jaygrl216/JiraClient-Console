@@ -71,6 +71,9 @@ public class SprintServices {
 		try {
 			JSONArray sprintArray=new JSONArray();
 			String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=active");
+			if (sprintResponse==null){
+				return sprintList;
+			}
 			JSONObject sprintObject=new JSONObject(sprintResponse);
 			sprintArray=sprintObject.getJSONArray("values");
 			//The data comes in in different formats. To simplify, we will convert them both to simple date objects
@@ -101,6 +104,9 @@ public class SprintServices {
 			//get each sprint and store it in an array
 			for (String ia:idArray){
 				String sprintResponse=getAgileData("/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId="+boardId+"&sprintId="+ia);
+				if (sprintResponse==null){
+					return sprintList;
+				}
 				JSONObject responseObject=new JSONObject(sprintResponse);
 				sprintArray.add(responseObject.getJSONObject("sprint"));
 			}
@@ -145,6 +151,9 @@ public class SprintServices {
 		try{
 			JSONArray sprintArray=new JSONArray();
 			String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=closed");
+			if (sprintResponse==null){
+				return sprintList;
+			}
 			JSONObject sprintObject=new JSONObject(sprintResponse);
 			sprintArray=sprintObject.getJSONArray("values");
 			//format date
@@ -175,6 +184,9 @@ public class SprintServices {
 			//get each sprint and store it in an array
 			for (String ia:idArray){
 				String sprintResponse=getAgileData("/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId="+boardId+"&sprintId="+ia);
+				if (sprintResponse==null){
+					return sprintList;
+				}
 				JSONObject responseObject=new JSONObject(sprintResponse);
 				sprintArray.add(responseObject.getJSONObject("sprint"));
 			}
@@ -219,6 +231,9 @@ public class SprintServices {
 		try{
 			JSONArray sprintArray=new JSONArray();
 			String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=future");
+			if (sprintResponse==null){
+				return sprintList;
+			}
 			JSONObject sprintObject=new JSONObject(sprintResponse);
 			sprintArray=sprintObject.getJSONArray("values");
 			//format date not applicable to future sprints
@@ -246,6 +261,9 @@ public class SprintServices {
 			//get each sprint and store it in an array
 			for (String ia:idArray){
 				String sprintResponse=getAgileData("/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId="+boardId+"&sprintId="+ia);
+				if (sprintResponse==null){
+					return sprintList;
+				}
 				JSONObject responseObject=new JSONObject(sprintResponse);
 				sprintArray.add(responseObject.getJSONObject("sprint"));
 			}
