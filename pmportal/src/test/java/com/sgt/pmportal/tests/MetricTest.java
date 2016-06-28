@@ -51,8 +51,9 @@ public class MetricTest {
 		//this runs a series of tests as a java application
 		test.printInfo();
 		test.testProgress();
-		//test.testSEA();
+		test.testSEA();
 		test.testOverallSEA();
+		
 		System.out.println("Finished");
 
 	}
@@ -94,6 +95,15 @@ public class MetricTest {
 		System.out.println("Overall SEA test will display the SEA of a project and its standard deviation");
 		ArrayList<Double> seaMetric=metricServices.calculateProjectSEA(project);
 		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1));
+	}
+	public void testAllDefects() throws IOException, ParseException{
+		System.out.println("Overall SEA test will display the SEA of a project and its standard deviation");
+		ArrayList<Long> defectArray=metricServices.calculateDefectTotal();
+		System.out.println("Defects: ");
+		System.out.println("Bugs: "+defectArray.get(1));
+		System.out.println("SEA Warnings: "+defectArray.get(1));
+		System.out.println("EEA Warnings: "+defectArray.get(1));
+		System.out.println("Overdue projects: "+defectArray.get(1));
 	}
 
 }
