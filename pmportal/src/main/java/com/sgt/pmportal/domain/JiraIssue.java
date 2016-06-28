@@ -86,6 +86,7 @@ try{
 	}
 
 	public String getType() {
+		try{
 		switch (type) {
 		case STORY:
 			return "Story";
@@ -98,6 +99,8 @@ try{
 		default:
 			return null;
 		}
+		}catch(NullPointerException noType){
+		}return null;
 	}
 
 	public String getPriority() {
