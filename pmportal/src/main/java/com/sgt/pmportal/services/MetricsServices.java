@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
+import com.atlassian.jira.rest.client.domain.Issue;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.Sprint;
 
@@ -120,7 +121,29 @@ public class MetricsServices {
 		seaMetric.add(seaDev);
 		return seaMetric;
 	}
-
+	/**
+	 * calculates EEA
+	 * 
+	 * @param sprint
+	 */
+	public void calculateSprintEEA(Sprint sprint){
+		// EEA=actualEffort/estimatedEffort
+		double actualEffort=0;
+		double estimatedEffort=0;
+		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
+		ArrayList<Issue> issueList=sprintService.getIssuesBySprint(sprint);
+		for (Issue issue:issueList){
+			if (sprint.getStartDate().before(issue.getCreationDate().toDate())){
+				actualEffort=actualEffort + (double) issue.getFieldByName("estimation").getValue();
+			}
+		}
+		
+		
+		
+		
+		double eea=actualEffort/estimatedEffort;
+		//TODO
+	}
 	/**
 	 * calculates EEA
 	 * 
