@@ -3,8 +3,6 @@ package com.sgt.pmportal.services;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
@@ -14,25 +12,21 @@ import com.sgt.pmportal.domain.Sprint;
 
 /**
  * The Metrics class is used to calculate information about the project
- * such as progress, SEA and work effort
+ * such as progress, SEA and EEA
  * 
  * @author Aman Mital
  * @author Jada Washington
  *
  */
 public class MetricsServices {
-	
 	JiraRestClient client;
 	String authorization;
 	String baseURL;
-	
 	/**
-	 * MetricsServices constructor gets initialized with 
+	 * MetricsServices constructor gets initilaized with 
 	 * a JiraRestclient
 	 * 
-	 * @param client
-	 * @param authorization
-	 * @param baseURL
+	 * @param client, authorization, base URL
 	 */
 	public MetricsServices(JiraRestClient client, String authorization, String baseURL){
 		this.client = client;
@@ -73,30 +67,18 @@ public class MetricsServices {
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	public Long calculateProjectSEA(JiraProject project) throws IOException, ParseException{
-	SprintServices sprintService=new SprintServices(client, authorization, baseURL);
-	ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-	Date completeDate = null;
-	Date endDate=null;
-	//gets the total number of sprints
-	double numSprints=sprintList.size();
-	//the number of 'good' sprints starts at the max value
-	double goodSprint=sprintList.size();
-	for (Sprint sprint:sprintList){
-		completeDate=sprint.getCompleteDate();
-		endDate=sprint.getEndDate();
-		//if the scheduled end date is before the complete date, the sprint is 'bad'
-		if (endDate.before(completeDate)){
-			goodSprint--;
-		}
-System.out.println("Sprint: " + sprint.getName());
-		System.out.println("Completed: "+completeDate);
-		System.out.println("Scheduled to complete: "+endDate);
+	public double calculateSprintSEA(Sprint sprint) throws IOException, ParseException{
+		System.out.print("Calculating SEA...");
+		//SEA=estimatedDuration/actualDuration
+		double completeDate=sprint.getCompleteDate().getTime();
+		double endDate=sprint.getEndDate().getTime();
+		double startDate=sprint.getStartDate().getTime();
+		double estimatedDuration=endDate-startDate;
+		double actualDuration=completeDate-startDate;
+		double sea=(estimatedDuration/actualDuration * 100);
+		System.out.print("done: " + sea+"\n");
+		return sea;
 	}
-	long sea=Math.round(goodSprint/numSprints * 100);
-	return sea;
-	}
-
 	/**
 	 * calculates overall SEA (for all projects) by averaging with STD deviation
 	 * 
@@ -104,26 +86,38 @@ System.out.println("Sprint: " + sprint.getName());
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-public Long calculateOverallSEA() throws IOException, ParseException{
-	ProjectServices pService=new ProjectServices(client);
-	List<JiraProject> projectList=pService.getAllJiraProjects();
-	double seaSum=0;
-	double length=projectList.size();
-	ArrayList<Long> seaList=new ArrayList<Long>();
-	//get sea values for every project
-	for (JiraProject project:projectList){
-		Long sea=calculateProjectSEA(project);
-		seaSum=seaSum+sea;
-		seaList.add(sea);
-	}
-	Long averageSEA=Math.round(seaSum/length);
-	//calculate standard deviation
-	for (Long sea:seaList){
+	public ArrayList<Double> calculateProjectSEA(JiraProject project) throws IOException, ParseException{
+		System.out.println("Getting sprints...");
+		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
+		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 	
+		double seaSum=0;
+		double length=sprintList.size();
+		System.out.println("Number of sprints: "+length);
+		ArrayList<Double> seaList=new ArrayList<Double>();
+		System.out.print("Retrieving SEA values...\n");
+		//get sea values for every sprint
+		for (Sprint sprint:sprintList){
+			double sea=calculateSprintSEA(sprint);
+				seaSum=seaSum+sea;
+				seaList.add(sea);
+		}
+		//calculate the average
+		double averageSEA=(seaSum/length);
+		//calculate standard deviation
+		double summand=0;
+		for (double sea:seaList){
+			summand=summand + (sea-averageSEA) * (sea-averageSEA);
+		}
+		double seaDev=Math.sqrt(summand/length);
+
+		//store values in an array list and return
+		ArrayList<Double> seaMetric=new ArrayList<Double>();
+		seaMetric.add(averageSEA);
+		seaMetric.add(seaDev);
+		return seaMetric;
 	}
-	return averageSEA;
-}
-	
+
 	/**
 	 * calculates EEA
 	 * 
