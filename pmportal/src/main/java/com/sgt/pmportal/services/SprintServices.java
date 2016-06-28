@@ -67,7 +67,7 @@ public class SprintServices {
 				}
 			}
 		}
-		
+		if (boardId!= "0"){
 		try {
 			JSONArray sprintArray=new JSONArray();
 			String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=active");
@@ -112,6 +112,7 @@ public class SprintServices {
 			}
 
 		}		
+		}
 		return sprintList;
 	}
 	public ArrayList<Sprint> getClosedSprintsByProject(JiraProject project) throws IOException, JSONException, ParseException{
@@ -140,6 +141,7 @@ public class SprintServices {
 				}
 			}
 		}
+		if (boardId!="0"){
 		try{
 			JSONArray sprintArray=new JSONArray();
 			String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=closed");
@@ -184,6 +186,7 @@ public class SprintServices {
 			}
 
 		}
+		}
 		return sprintList;
 	}
 	public ArrayList<Sprint> getFutureSprintsByProject(JiraProject project) throws IOException{
@@ -212,6 +215,7 @@ public class SprintServices {
 				}
 			}
 		}
+		if (boardId!="0"){
 		try{
 			JSONArray sprintArray=new JSONArray();
 			String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=future");
@@ -253,6 +257,7 @@ public class SprintServices {
 			}
 
 		}		
+		}
 		return sprintList;	
 	}
 	public ArrayList<Issue> getIssuesBySprint(Sprint sprint){
