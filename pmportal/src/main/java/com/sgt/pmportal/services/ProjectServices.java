@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.json.JSONException;
-
 import com.atlassian.jira.rest.client.IssueRestClient;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.ProjectRestClient;
@@ -41,6 +39,8 @@ public class ProjectServices {
 	/**
 	 * Constructor 
 	 * @param client
+	 * @param authorization
+	 * @param baseURL
 	 */
 	public ProjectServices(JiraRestClient client, String authorization, String baseURL) {
 		this.client = client.getProjectClient();
@@ -178,11 +178,11 @@ public class ProjectServices {
 	}
 	
 	/**
-	 * Get the velocity of each project 
-	 * @return 
-	 * @throws ParseException 
-	 * @throws IOException 
-	 * @throws JSONException 
+	 * 
+	 * @param project
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
 	 */
 	public double getVelocityForProject(JiraProject project) throws IOException, ParseException {
 		SprintServices sprintServs = new SprintServices(mainClient, authorization, baseURL);
