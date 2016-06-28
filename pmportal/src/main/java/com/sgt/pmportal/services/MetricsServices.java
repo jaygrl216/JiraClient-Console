@@ -137,10 +137,6 @@ public class MetricsServices {
 				actualEffort=actualEffort + (double) issue.getFieldByName("estimation").getValue();
 			}
 		}
-		
-		
-		
-		
 		double eea=actualEffort/estimatedEffort;
 		//TODO
 	}
