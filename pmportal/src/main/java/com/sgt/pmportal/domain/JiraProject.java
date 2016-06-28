@@ -25,6 +25,7 @@ public class JiraProject {
 	protected URI uri;
 	protected List<JiraIssue> issues;
 	protected Date due;
+	protected double velocity;
 	protected boolean isComplete;
 	protected boolean isOverdue;
 
@@ -50,6 +51,7 @@ public class JiraProject {
 		isOverdue = false;
 		issues = new ArrayList<>();
 		due = setDefaultDueDate();
+		velocity = 0;
 	}
 
 	/**
@@ -75,6 +77,7 @@ public class JiraProject {
 		isOverdue = false;
 		issues = new ArrayList<>(issueList);
 		due = setDefaultDueDate();
+		velocity = 0;
 	}
 
 	public String getName() {
@@ -199,6 +202,14 @@ public class JiraProject {
 			isOverdue = true;
 		}
 		return getIsOverdue();
+	}
+	
+	public void setVelocity(double velocity) {
+		this.velocity = velocity;
+	}
+	
+	public double getVelocity() {
+		return velocity;
 	}
 
 	/*
