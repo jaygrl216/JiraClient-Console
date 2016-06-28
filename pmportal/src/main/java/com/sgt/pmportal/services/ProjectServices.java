@@ -169,6 +169,13 @@ public class ProjectServices {
 		return toJiraProject(p, issueList);
 	}
 	
+	/**
+	 * Get the velocity of each project 
+	 */
+	public void getVelocityForProject() {
+		/* TODO figure out the velocity for project */
+	}
+	
 
 
 }
