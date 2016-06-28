@@ -224,6 +224,11 @@ public class ProjectServices {
 		return totalSEA/sprints.size();
 	}
 	
+	public boolean projectPlanningStatus (JiraProject project) {
+		/*TODO figure out how to use SEA and EEA to calculate a planning varibale */
+		return false;
+	}
+	
 
 
 }
