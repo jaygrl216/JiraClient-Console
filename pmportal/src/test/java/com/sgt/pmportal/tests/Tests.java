@@ -83,6 +83,7 @@ public class Tests {
 
 		try {
 			JiraProject pm = pservices.getProjectByName("PM-Portal");
+			ProjectServices.populateIssues(pm);
 			System.out.format("Gathering information for project: %s\n\n", 
 					pm.getName());
 			System.out.format("There are %d issues for %s.\n\n", 
@@ -235,7 +236,7 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 			//get issues from sprint
 			if (sprint !=null){
 				ArrayList<Issue> issueList=sprintService.getIssuesBySprint(sprint);
-				System.out.println("Issues in sprint \"" +sprint.getName()+"\":\n");
+				System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
 				for (Issue il:issueList){
 					System.out.println(il.getKey());
 				}

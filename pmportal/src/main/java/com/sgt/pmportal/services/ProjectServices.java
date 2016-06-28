@@ -32,7 +32,7 @@ import com.sgt.pmportal.domain.Sprint;
  */
 public class ProjectServices {
 	ProjectRestClient client;
-	JiraRestClient mainClient;
+	static JiraRestClient mainClient;
 	String baseURL;
 	String authorization;
 
@@ -175,6 +175,35 @@ public class ProjectServices {
 		}
 		
 		return toJiraProject(p, issueList);
+	}
+	
+	public static void populateIssues(JiraProject jp) {
+		Promise<SearchResult> result = mainClient.getSearchClient().searchJql(
+				"project=" + jp.getKey(),1000,0);
+		SearchResult issues = result.claim();
+
+		IssueRestClient issueClient = mainClient.getIssueClient();
+
+		for (BasicIssue i : issues.getIssues()) {
+			Promise<Issue> issueProm = issueClient.getIssue(i.getKey());
+			Issue curIssue = issueProm.claim();
+
+			//the following try and catch methods will prevent null pointer exceptions
+			String description = curIssue.getDescription();
+			String assigneeName = (curIssue.getAssignee() == null) ? null :
+				curIssue.getAssignee().getDisplayName();
+			String priority = (curIssue.getPriority() == null) ? null : 
+				curIssue.getPriority().getName();
+			DateTime creationDate = curIssue.getCreationDate();
+			DateTime dueDate = curIssue.getDueDate();
+
+
+			JiraIssue jiraIssue = new JiraIssue(curIssue.getKey(), 
+					curIssue.getIssueType().getName(), priority,
+					description, assigneeName, creationDate, dueDate);
+
+			jp.addToIssues(jiraIssue);
+		}
 	}
 	
 	/**

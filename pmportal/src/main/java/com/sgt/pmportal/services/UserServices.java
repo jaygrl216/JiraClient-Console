@@ -36,7 +36,7 @@ public class UserServices {
 		ArrayList<JiraIssue> issues = new ArrayList<JiraIssue>();
 		Iterable<BasicIssue> issueList = client.getSearchClient().searchJql(
 				"assignee=" + username,1000,0).claim().getIssues();
-		System.out.print("Loading Issues for User: " + username + "...");
+		System.out.print("Loading Issues for User: " + username + " ...");
 		for (BasicIssue i: issueList){
 			System.out.print(".");
 			JiraIssue j = GeneralServices.toJiraIssue(i, client);
