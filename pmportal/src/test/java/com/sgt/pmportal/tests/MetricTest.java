@@ -94,7 +94,7 @@ public class MetricTest {
 	public void testOverallSEA() throws IOException, ParseException{
 		System.out.println("Overall SEA test will display the SEA of a project and its standard deviation");
 		ArrayList<Double> seaMetric=metricServices.calculateProjectSEA(project);
-		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1));
+		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1)+"\n");
 	}
 	public void testAllDefects() throws IOException, ParseException{
 		System.out.println("All defects test will calculate all metrics and find defects for all projects");
@@ -103,7 +103,7 @@ public class MetricTest {
 		System.out.println("Bugs: "+defectArray.get(1));
 		System.out.println("SEA Warnings: "+defectArray.get(1));
 		System.out.println("EEA Warnings: "+defectArray.get(1));
-		System.out.println("Overdue projects: "+defectArray.get(1));
+		System.out.println("Overdue projects: "+defectArray.get(1)+"\n");
 	}
 
 }
