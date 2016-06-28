@@ -40,13 +40,14 @@ public class MetricsServices {
 	 * @param projectKey
 	 * @return double
 	 */
-	public String calculateProgress(String projectKey){
-		long progressCalc;
-		String progress="0%";
+	public double calculateProgress(String projectKey){
+		double progress;
 		double completedIssues = 0;
 		double total = 0;
+		
 		Iterable<BasicIssue> issueIterable=client.getSearchClient().searchJql("project="
 				+ projectKey,1000,0).claim().getIssues();
+	
 		for (BasicIssue ii: issueIterable){
 			total++;
 			if (Objects.equals(client.getIssueClient().getIssue(
@@ -54,8 +55,7 @@ public class MetricsServices {
 				completedIssues++;
 			}
 		}
-		progressCalc = Math.round(completedIssues / total * 100);
-		progress=progressCalc+"%";
+		progress = (completedIssues / total * 100);
 		return progress;
 	}
 
@@ -124,9 +124,10 @@ public class MetricsServices {
 	 * @param project
 	 */
 	public void calculateProjectEEA(JiraProject project){
-		// will complete
-		throw new UnsupportedOperationException();
-
+		// EEA=actualEffort/estimatedEffort
+		double actualEffort=0;
+		double estimatedEffort=0;
+double eea=actualEffort/estimatedEffort;
 	}
 
 	/**

@@ -50,7 +50,7 @@ public class MetricTest {
 		MetricTest test=new MetricTest();
 		//this runs a series of tests as a java application
 		test.printInfo();
-		//test.testProgress();
+		test.testProgress();
 		//test.testSEA();
 		test.testOverallSEA();
 		System.out.println("Finished");
@@ -69,8 +69,8 @@ public class MetricTest {
 		System.out.println("Progress test will display the progress of a project as a\n"
 				+ "percentage.\n");
 		try{
-			String progress=metricServices.calculateProgress(project.getKey());
-			System.out.println("The progress on project "+project.getName()+" is: " + progress);
+			double progress=metricServices.calculateProgress(project.getKey());
+			System.out.println("The progress on project "+project.getName()+" is: " + progress+"%");
 		} catch (RestClientException noProject){
 			System.err.println("Project does not exist");
 		}

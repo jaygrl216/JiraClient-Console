@@ -139,8 +139,8 @@ public class Tests {
 		try{
 			MetricsServices metricServices=new MetricsServices(client, authorization, JIRA_URL);
 			Project project=client.getProjectClient().getProject("PA").claim();
-			String progress=metricServices.calculateProgress(project.getKey());
-			System.out.println("The progress on project "+project.getName()+" is:" +progress);
+			double progress=metricServices.calculateProgress(project.getKey());
+			System.out.println("The progress on project "+project.getName()+" is:" +progress+"%");
 		} catch (RestClientException noProject){
 			System.err.println("Project does not exist");
 		}
