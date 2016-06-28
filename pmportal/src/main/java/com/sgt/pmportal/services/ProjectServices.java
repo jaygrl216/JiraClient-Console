@@ -19,6 +19,7 @@ import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.JiraUser;
 import com.sgt.pmportal.domain.Release;
+import com.sgt.pmportal.domain.Sprint;
 
 /**
  * The ProjectServices class gathers information from the client and creates
@@ -172,8 +173,13 @@ public class ProjectServices {
 	/**
 	 * Get the velocity of each project 
 	 */
-	public void getVelocityForProject() {
-		/* TODO figure out the velocity for project */
+	public void getVelocityForProject(JiraProject project) {
+		double totalSEA = 0;
+		for (Sprint s: project.getSprints()) {
+			double sea = MetricsServices.calculateSprintSEA(s);
+			totalSEA += sea;
+		}
+		return totalSEA/project.getSprints().size();
 	}
 	
 

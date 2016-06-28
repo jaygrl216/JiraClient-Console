@@ -68,7 +68,7 @@ public class MetricsServices {
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	public double calculateSprintSEA(Sprint sprint) throws IOException, ParseException{
+	public static double calculateSprintSEA(Sprint sprint) throws IOException, ParseException{
 		System.out.print("Calculating SEA...");
 		//SEA=actual/estimated
 		double completeDate=sprint.getCompleteDate().getTime();
