@@ -53,7 +53,7 @@ public class JiraIssue {
 			this.type = null;
 			break;
 		}
-
+try{
 		switch (p) {
 		case "Low":
 			this.p = Priority.LOW;
@@ -64,10 +64,10 @@ public class JiraIssue {
 		case "High":
 			this.p = Priority.HIGH;
 			break;
-		default:
-			this.p = null;
-			break;
 		}
+}catch (NullPointerException noPriority){
+	this.p=null;
+}
 	}
 
 	public String getKey() {

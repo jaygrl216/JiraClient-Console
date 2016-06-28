@@ -27,7 +27,7 @@ public class MetricTest {
 	MetricsServices metricServices=new MetricsServices(client, authorization, JIRA_URL);
 	ProjectServices pService=new ProjectServices(client);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-	JiraProject project=pService.toJiraProjectWithIssues(client.getProjectClient().getProject("PA").claim());
+	JiraProject project=pService.toJiraProjectWithIssues(client.getProjectClient().getProject("PMPOR").claim());
 	ArrayList<Sprint> sprintList=new ArrayList<Sprint>();
 
 	/**
@@ -93,7 +93,7 @@ public class MetricTest {
 	public void testOverallSEA() throws IOException, ParseException{
 		System.out.println("Overall SEA test will display the SEA of a project and its standard deviation");
 		ArrayList<Double> seaMetric=metricServices.calculateProjectSEA(project);
-		System.out.println("SEA: "+ seaMetric.get(0) + "+/-" + seaMetric.get(1)+"%");
+		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1)+"%");
 	}
 
 }

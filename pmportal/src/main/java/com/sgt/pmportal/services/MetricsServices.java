@@ -69,13 +69,13 @@ public class MetricsServices {
 	 */
 	public double calculateSprintSEA(Sprint sprint) throws IOException, ParseException{
 		System.out.print("Calculating SEA...");
-		//SEA=estimatedDuration/actualDuration
+		//SEA=actual/estimated
 		double completeDate=sprint.getCompleteDate().getTime();
 		double endDate=sprint.getEndDate().getTime();
 		double startDate=sprint.getStartDate().getTime();
 		double estimatedDuration=endDate-startDate;
 		double actualDuration=completeDate-startDate;
-		double sea=(estimatedDuration/actualDuration * 100);
+		double sea=(actualDuration/estimatedDuration * 100);
 		System.out.print("done: " + sea+"\n");
 		return sea;
 	}
