@@ -85,7 +85,7 @@ public class MetricTest {
 		//MetricsService test
 		System.out.println("SEA test will display the sea of a sprint as a\n"
 				+ "percentage.\n");
-			double sea=metricServices.calculateSprintSEA(sprint);
+			double sea=MetricsServices.calculateSprintSEA(sprint);
 			System.out.println("The SEA of sprint "+sprint.getName()+" is: " + sea+"\n");
 	}catch(NullPointerException noSprint){
 		System.err.println(noSprint);
@@ -99,7 +99,7 @@ public class MetricTest {
 	public void testAllDefects() throws IOException, ParseException{
 		System.out.println("All defects test will calculate all metrics and find defects for all projects");
 		ArrayList<Long> defectArray=metricServices.calculateDefectTotal();
-		System.out.println("Defects: ");
+		System.out.println("Defects");
 		System.out.println("Bugs: "+defectArray.get(1));
 		System.out.println("SEA Warnings: "+defectArray.get(1));
 		System.out.println("EEA Warnings: "+defectArray.get(1));

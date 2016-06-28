@@ -45,10 +45,10 @@ public class MetricsServices {
 		double progress;
 		double completedIssues = 0;
 		double total = 0;
-		
+
 		Iterable<BasicIssue> issueIterable=client.getSearchClient().searchJql("project="
 				+ projectKey,1000,0).claim().getIssues();
-	
+
 		for (BasicIssue ii: issueIterable){
 			total++;
 			String issueStatus=client.getIssueClient().getIssue(ii.getKey()).claim().getStatus().getName();
@@ -91,7 +91,7 @@ public class MetricsServices {
 		System.out.println("Getting sprints...");
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-	
+
 		double seaSum=0;
 		double length=sprintList.size();
 		System.out.println("Number of sprints: "+length);
@@ -100,8 +100,8 @@ public class MetricsServices {
 		//get sea values for every sprint
 		for (Sprint sprint:sprintList){
 			double sea=calculateSprintSEA(sprint);
-				seaSum=seaSum+sea;
-				seaList.add(sea);
+			seaSum=seaSum+sea;
+			seaList.add(sea);
 		}
 		//calculate the average
 		double averageSEA=(seaSum/length);
@@ -128,8 +128,8 @@ public class MetricsServices {
 		// EEA=actualEffort/estimatedEffort
 		double actualEffort=0;
 		double estimatedEffort=0;
-double eea=actualEffort/estimatedEffort;
-//TODO
+		double eea=actualEffort/estimatedEffort;
+		//TODO
 	}
 
 	/**
@@ -147,26 +147,26 @@ double eea=actualEffort/estimatedEffort;
 		long eeaDefect=0;
 		long bugNum=0;
 		long overDue=0;
-for (JiraProject project:projectList){
-	Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+project.getKey(),1000,0).claim().getIssues();
-	for (BasicIssue issue:issueList){
-	String issueType=GeneralServices.toJiraIssue(issue, client).getType();
-	if (Objects.equals(issueType, "Bug")){
-		bugNum++;
-	}
-	}
-	if (calculateProjectSEA(project).get(0)< 0.9 | calculateProjectSEA(project).get(0) > 1.1){
-		seaDefect++;
-	}
-	if (project.seeIfOverdue()){
-		overDue++;
-	}
-	}
-defectArray.add(bugNum);
-defectArray.add(seaDefect);
-defectArray.add(eeaDefect);
-defectArray.add(overDue);
-return defectArray;
+		for (JiraProject project:projectList){
+			Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+project.getKey(),1000,0).claim().getIssues();
+			for (BasicIssue issue:issueList){
+				String issueType=GeneralServices.toJiraIssue(issue, client).getType();
+				if (Objects.equals(issueType, "Bug")){
+					bugNum++;
+				}
+			}
+			if (calculateProjectSEA(project).get(0)< 0.9 | calculateProjectSEA(project).get(0) > 1.1){
+				seaDefect++;
+			}
+			if (project.seeIfOverdue()){
+				overDue++;
+			}
+		}
+		defectArray.add(bugNum);
+		defectArray.add(seaDefect);
+		defectArray.add(eeaDefect);
+		defectArray.add(overDue);
+		return defectArray;
 	}
 	/**
 	 * calculates trends of a specific project
