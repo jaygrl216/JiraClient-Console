@@ -136,8 +136,10 @@ double eea=actualEffort/estimatedEffort;
 	 * calculates defects in all projects
 	 * 
 	 * @param project
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
-	public void calculateDefectTotal (){
+	public ArrayList<Long> calculateDefectTotal () throws IOException, ParseException{
 		ProjectServices projectService=new ProjectServices(client);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
 		ArrayList<Long> defectArray=new ArrayList<Long>();
@@ -153,11 +155,18 @@ for (JiraProject project:projectList){
 		bugNum++;
 	}
 	}
-	
+	if (calculateProjectSEA(project).get(0)< 0.9 | calculateProjectSEA(project).get(0) > 1.1){
+		seaDefect++;
+	}
 	if (project.seeIfOverdue()){
 		overDue++;
 	}
 	}
+defectArray.add(bugNum);
+defectArray.add(seaDefect);
+defectArray.add(eeaDefect);
+defectArray.add(overDue);
+return defectArray;
 	}
 	/**
 	 * calculates trends of a specific project

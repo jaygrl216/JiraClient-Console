@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
  *
  */
 public class JiraIssue {
-	private enum IssueType {STORY, TASK, EPIC }
+	private enum IssueType {STORY, TASK, EPIC, BUG }
 	private enum Priority {LOW, MEDIUM, HIGH}
 	protected String key;
 	protected IssueType type;
@@ -48,6 +48,9 @@ public class JiraIssue {
 			break;
 		case "Task":
 			this.type = IssueType.TASK;
+			break;
+		case "Bug":
+			this.type=IssueType.BUG;
 			break;
 		default:
 			this.type = null;
@@ -90,6 +93,8 @@ try{
 			return "Epic";
 		case TASK:
 			return "Task";
+		case BUG:
+			return "Bug";
 		default:
 			return null;
 		}
