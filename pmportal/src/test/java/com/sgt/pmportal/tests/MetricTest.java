@@ -85,7 +85,7 @@ public class MetricTest {
 		//MetricsService test
 		System.out.println("SEA test will display the sea of a sprint as a\n"
 				+ "percentage.\n");
-			double sea=metricServices.calculateSprintSEA(sprint);
+			double sea=MetricsServices.calculateSprintSEA(sprint);
 			System.out.println("The SEA of sprint "+sprint.getName()+" is: " + sea+"\n");
 	}catch(NullPointerException noSprint){
 		System.err.println(noSprint);
