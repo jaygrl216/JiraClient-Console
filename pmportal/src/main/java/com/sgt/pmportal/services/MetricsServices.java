@@ -27,7 +27,9 @@ public class MetricsServices {
 	 * MetricsServices constructor gets initialized with 
 	 * a JiraRestclient
 	 * 
-	 * @param client, authorization, base URL
+	 * @param client, 
+	 * @param authorization
+	 * @param baseURL
 	 */
 	public MetricsServices(JiraRestClient client, String authorization, String baseURL){
 		this.client = client;
@@ -52,7 +54,7 @@ public class MetricsServices {
 		for (BasicIssue ii: issueIterable){
 			total++;
 			String issueStatus=client.getIssueClient().getIssue(ii.getKey()).claim().getStatus().getName();
-			if (Objects.equals(issueStatus, "Closed") | Objects.equals(issueStatus, "Done")|Objects.equals(issueStatus, "Resolved")){
+			if (Objects.equals(issueStatus, "Closed") || Objects.equals(issueStatus, "Done")|| Objects.equals(issueStatus, "Resolved")){
 				completedIssues++;
 			}
 		}
@@ -139,7 +141,7 @@ public class MetricsServices {
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public ArrayList<Long> calculateDefectTotal () throws IOException, ParseException{
+	public List<Long> calculateDefectTotal () throws IOException, ParseException{
 		ProjectServices projectService=new ProjectServices(client, authorization, baseURL);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
 		ArrayList<Long> defectArray=new ArrayList<Long>();
@@ -155,7 +157,7 @@ public class MetricsServices {
 					bugNum++;
 				}
 			}
-			if (calculateProjectSEA(project).get(0)< 0.9 | calculateProjectSEA(project).get(0) > 1.1){
+			if (calculateProjectSEA(project).get(0)< 0.9 || calculateProjectSEA(project).get(0) > 1.1){
 				seaDefect++;
 			}
 			if (project.seeIfOverdue()){

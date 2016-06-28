@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -98,7 +99,7 @@ public class MetricTest {
 	}
 	public void testAllDefects() throws IOException, ParseException{
 		System.out.println("All defects test will calculate all metrics and find defects for all projects");
-		ArrayList<Long> defectArray=metricServices.calculateDefectTotal();
+		List<Long> defectArray=metricServices.calculateDefectTotal();
 		System.out.println("Defects");
 		System.out.println("Bugs: "+defectArray.get(1));
 		System.out.println("SEA Warnings: "+defectArray.get(1));
