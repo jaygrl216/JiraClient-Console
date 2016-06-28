@@ -281,7 +281,7 @@ public class SprintServices {
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("Authorization", "Basic " + authorization);
 		connection.setRequestProperty("Content-type", "application/json");
-		
+		if (connection.getResponseCode()!=400){
 		BufferedReader rd = new BufferedReader(new InputStreamReader(
 				connection.getInputStream()));
 		String line;
@@ -290,5 +290,8 @@ public class SprintServices {
 		}
 		rd.close();
 		return response.toString();
+		}else{
+			System.err.println("Project is not setup properly for agile");
+		}return null;
 	}
 }
