@@ -19,10 +19,13 @@ import org.joda.time.DateTime;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.JiraRestClientFactory;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
+import com.atlassian.jira.rest.client.domain.BasicUser;
 import com.atlassian.jira.rest.client.domain.Issue;
+import com.atlassian.jira.rest.client.domain.User;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import com.atlassian.util.concurrent.Promise;
 import com.sgt.pmportal.domain.JiraIssue;
+import com.sgt.pmportal.domain.JiraUser;
 
 public class GeneralServices {
 	
@@ -88,6 +91,15 @@ public class GeneralServices {
 		} catch(NullPointerException exception){}		
 		return new JiraIssue (realIssue.getKey(), realIssue.getIssueType().getName(), 
 				priority,description, assigneeName, creationDate, dueDate);
+	}
+	
+	public static JiraUser toJiraUser(BasicUser user, JiraRestClient client) {
+		Promise<User> jiraUser = client.getUserClient().getUser(user.getName());
+		User realJiraUser = jiraUser.claim();
+		
+		return new JiraUser(realJiraUser.getName(), realJiraUser.getDisplayName(), 
+				realJiraUser.getEmailAddress(), realJiraUser.getTimezone(), 
+				realJiraUser.getAvatarUri());
 	}
       
 }

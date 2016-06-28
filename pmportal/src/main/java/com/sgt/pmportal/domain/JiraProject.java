@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.atlassian.jira.rest.client.domain.BasicUser;
 
 /**
  * This class represents a project from Jira. It contains information about the 
@@ -20,7 +19,7 @@ import com.atlassian.jira.rest.client.domain.BasicUser;
 public class JiraProject {
 	protected String name;
 	protected String key;
-	protected BasicUser lead;
+	protected JiraUser lead;
 	protected String description;
 	protected List<Release> releases;
 	protected URI uri;
@@ -39,7 +38,7 @@ public class JiraProject {
 	 * @param releases
 	 * @param uri
 	 */
-	public JiraProject(String name, String key, BasicUser lead, String description, 
+	public JiraProject(String name, String key, JiraUser lead, String description, 
 			List<Release> releases, URI uri) {
 		this.name = name;
 		this.key = key;
@@ -60,12 +59,12 @@ public class JiraProject {
 	 * @param key
 	 * @param lead
 	 * @param description
-	 * @param versionsToRelease
+	 * @param releases
 	 * @param uri
 	 * @param issueList
 	 */
-	public JiraProject(String name, String key, BasicUser lead, String description,
-			List<Release> versionsToRelease, URI uri, List<JiraIssue> issueList) {
+	public JiraProject(String name, String key, JiraUser lead, String description,
+			List<Release> releases, URI uri, List<JiraIssue> issueList) {
 		this.name = name;
 		this.key = key;
 		this.lead = lead;
@@ -74,7 +73,7 @@ public class JiraProject {
 		this.uri = uri;
 		isComplete = false;
 		isOverdue = false;
-		issues = new ArrayList<>();
+		issues = issueList;
 		due = setDefaultDueDate();
 	}
 	
@@ -87,7 +86,7 @@ public class JiraProject {
 	}
 	
 	public String getLead() {
-		return lead.getDisplayName();
+		return lead.getFullName();
 	}
 	
 	/**
@@ -189,7 +188,7 @@ public class JiraProject {
 	public String toString() {
 		return "Project Name: " + name + "\n" +
 				"Project Key: " + key + "\n" +
-				"Project Lead: " + lead.getDisplayName() + "\n";
+				"Project Lead: " + lead.getFullName() + "\n";
 	}
 	
 

@@ -17,6 +17,7 @@ import com.atlassian.jira.rest.client.domain.Version;
 import com.atlassian.util.concurrent.Promise;
 import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
+import com.sgt.pmportal.domain.JiraUser;
 import com.sgt.pmportal.domain.Release;
 
 /**
@@ -105,11 +106,12 @@ public class ProjectServices {
 	 * @return
 	 */
 	public JiraProject toJiraProject(Project p, List<JiraIssue> issueList) {
+		JiraUser user = GeneralServices.toJiraUser(p.getLead(), mainClient);
 		if(issueList == null) {
-			return new JiraProject(p.getName(), p.getKey(), p.getLead(), 
+			return new JiraProject(p.getName(), p.getKey(), user, 
 				p.getDescription(), versionsToRelease(p.getVersions()), p.getUri());
 		}
-		return new JiraProject(p.getName(), p.getKey(), p.getLead(), 
+		return new JiraProject(p.getName(), p.getKey(), user, 
 				p.getDescription(), versionsToRelease(p.getVersions()), p.getUri(), issueList);
 
 		

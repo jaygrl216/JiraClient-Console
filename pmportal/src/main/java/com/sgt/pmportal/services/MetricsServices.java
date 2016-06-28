@@ -21,14 +21,18 @@ import com.sgt.pmportal.domain.Sprint;
  *
  */
 public class MetricsServices {
+	
 	JiraRestClient client;
 	String authorization;
 	String baseURL;
+	
 	/**
-	 * MetricsServices constructor gets initilaized with 
+	 * MetricsServices constructor gets initialized with 
 	 * a JiraRestclient
 	 * 
-	 * @param client, authorization, base URL
+	 * @param client
+	 * @param authorization
+	 * @param baseURL
 	 */
 	public MetricsServices(JiraRestClient client, String authorization, String baseURL){
 		this.client = client;

@@ -6,7 +6,7 @@ import java.net.URI;
  * This class represents a user of Jira.
  * 
  * @author Aman Mital
- * @author Jada
+ * @author Jada Washington
  * 
  */
 public class JiraUser {
