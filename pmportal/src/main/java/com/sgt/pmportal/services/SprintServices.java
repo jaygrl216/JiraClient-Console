@@ -33,7 +33,7 @@ public class SprintServices {
 		this.baseURL = baseURL;
 	}
 	
-	public ArrayList<Sprint> getOpenSprintsByProject(JiraProject project) 
+	public  ArrayList<Sprint> getOpenSprintsByProject(JiraProject project) 
 			throws IOException, JSONException, ParseException{
 		String boardId = "0";
 		ArrayList<Sprint> sprintList = new ArrayList<Sprint>();

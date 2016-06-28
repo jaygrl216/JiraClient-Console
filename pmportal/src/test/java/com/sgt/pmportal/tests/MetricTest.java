@@ -25,7 +25,7 @@ public class MetricTest {
 	private static String authorization;
 	private static JiraRestClient client=login();
 	MetricsServices metricServices=new MetricsServices(client, authorization, JIRA_URL);
-	ProjectServices pService=new ProjectServices(client);
+	ProjectServices pService=new ProjectServices(client, authorization, JIRA_URL);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
 	JiraProject project=pService.toJiraProjectWithIssues(client.getProjectClient().getProject("PMPOR").claim());
 	ArrayList<Sprint> sprintList=new ArrayList<Sprint>();

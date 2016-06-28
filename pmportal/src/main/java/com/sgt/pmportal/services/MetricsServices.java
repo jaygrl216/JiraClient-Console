@@ -140,7 +140,7 @@ double eea=actualEffort/estimatedEffort;
 	 * @throws IOException 
 	 */
 	public ArrayList<Long> calculateDefectTotal () throws IOException, ParseException{
-		ProjectServices projectService=new ProjectServices(client);
+		ProjectServices projectService=new ProjectServices(client, authorization, baseURL);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
 		ArrayList<Long> defectArray=new ArrayList<Long>();
 		long seaDefect=0;

@@ -76,7 +76,7 @@ public class Tests {
 	public void testProjectInfo() {
 		System.out.println("Project Services Test");
 		JiraRestClient client = login();
-		ProjectServices pservices = new ProjectServices(client);
+		ProjectServices pservices = new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
 		//ArrayList<JiraProject> projectList = pservices.getAllJiraProjects();
 
 		//System.out.println("\nProjects retrieved: " + projectList.size()+"\n");
@@ -116,7 +116,7 @@ public class Tests {
 	public void versionTest(){
 		System.out.println("Release test");
 		JiraRestClient client=login();
-		ProjectServices pservice=new ProjectServices(client);
+		ProjectServices pservice=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
 		try{
 			JiraProject project=pservice.getProjectByKey("PA");
 			//ReleaseService test
@@ -189,7 +189,7 @@ public class Tests {
 	public void sprintServiceTest() throws IOException, JSONException, ParseException{
 		String authorization=Base64.getUrlEncoder().encodeToString((JIRA_ADMIN_USERNAME + ":" + JIRA_ADMIN_PASSWORD).getBytes());
 		JiraRestClient client=login();
-ProjectServices pService=new ProjectServices(client);
+ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
 		System.out.println("Sprint Services test. First, it will retrieve all open sprints from a project,\n"
 				+ "then closed sprints, and finally future sprints. Then all issues for one of these \nsprints will be displayed.\n");
 			JiraProject project=pService.getProjectByKey("PA");

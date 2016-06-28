@@ -1,9 +1,12 @@
 package com.sgt.pmportal.services;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.json.JSONException;
 
 import com.atlassian.jira.rest.client.IssueRestClient;
 import com.atlassian.jira.rest.client.JiraRestClient;
@@ -32,14 +35,18 @@ import com.sgt.pmportal.domain.Sprint;
 public class ProjectServices {
 	ProjectRestClient client;
 	JiraRestClient mainClient;
+	String baseURL;
+	String authorization;
 
 	/**
 	 * Constructor 
 	 * @param client
 	 */
-	public ProjectServices(JiraRestClient client) {
+	public ProjectServices(JiraRestClient client, String authorization, String baseURL) {
 		this.client = client.getProjectClient();
 		mainClient = client;
+		this.baseURL = baseURL;
+		this.authorization = authorization;
 	}
 
 	/**
@@ -172,14 +179,20 @@ public class ProjectServices {
 	
 	/**
 	 * Get the velocity of each project 
+	 * @return 
+	 * @throws ParseException 
+	 * @throws IOException 
+	 * @throws JSONException 
 	 */
-	public void getVelocityForProject(JiraProject project) {
+	public double getVelocityForProject(JiraProject project) throws IOException, ParseException {
+		SprintServices sprintServs = new SprintServices(mainClient, authorization, baseURL);
 		double totalSEA = 0;
-		for (Sprint s: project.getSprints()) {
+		ArrayList<Sprint> sprints = sprintServs.getClosedSprintsByProject(project);
+		for (Sprint s: sprints) {
 			double sea = MetricsServices.calculateSprintSEA(s);
 			totalSEA += sea;
 		}
-		return totalSEA/project.getSprints().size();
+		return totalSEA/sprints.size();
 	}
 	
 
