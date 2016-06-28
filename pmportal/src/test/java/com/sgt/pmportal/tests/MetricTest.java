@@ -102,10 +102,10 @@ public class MetricTest {
 		System.out.println("All defects test will calculate all metrics and find defects for all projects");
 		List<Long> defectArray=metricServices.calculateDefectTotal();
 		System.out.println("Defects");
-		System.out.println("Bugs: "+defectArray.get(1));
+		System.out.println("Bugs: "+defectArray.get(0));
 		System.out.println("SEA Warnings: "+defectArray.get(1));
-		System.out.println("EEA Warnings: "+defectArray.get(1));
-		System.out.println("Overdue projects: "+defectArray.get(1)+"\n");
+		System.out.println("EEA Warnings: "+defectArray.get(2));
+		System.out.println("Overdue projects: "+defectArray.get(3)+"\n");
 	}
 public void testSprintEEA() throws IOException, ParseException{
 }

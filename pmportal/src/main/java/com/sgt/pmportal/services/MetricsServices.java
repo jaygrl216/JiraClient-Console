@@ -72,7 +72,6 @@ public class MetricsServices {
 	 * @throws ParseException 
 	 */
 	public static double calculateSprintSEA(Sprint sprint) throws IOException, ParseException{
-		System.out.print("Calculating SEA...");
 		//SEA=actual/estimated
 		double completeDate=sprint.getCompleteDate().getTime();
 		double endDate=sprint.getEndDate().getTime();
@@ -80,7 +79,6 @@ public class MetricsServices {
 		double estimatedDuration=endDate-startDate;
 		double actualDuration=completeDate-startDate;
 		double sea=(actualDuration/estimatedDuration);
-		System.out.print("done: " + sea+"\n");
 		return sea;
 	}
 	/**
@@ -94,12 +92,11 @@ public class MetricsServices {
 		System.out.println("Getting sprints...");
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-
 		double seaSum=0;
 		double length=sprintList.size();
 		System.out.println("Number of sprints: "+length);
 		ArrayList<Double> seaList=new ArrayList<Double>();
-		System.out.print("Retrieving SEA values...\n");
+		System.out.print("Calculating SEA values...\n");
 		//get sea values for every sprint
 		for (Sprint sprint:sprintList){
 			double sea=calculateSprintSEA(sprint);
@@ -182,10 +179,10 @@ public class MetricsServices {
 				overDue++;
 			}
 		}
-		defectArray.add(bugNum);
-		defectArray.add(seaDefect);
-		defectArray.add(eeaDefect);
-		defectArray.add(overDue);
+		defectArray.add(new Long(bugNum));
+		defectArray.add(new Long(seaDefect));
+		defectArray.add(new Long(eeaDefect));
+		defectArray.add(new Long(overDue));
 		return defectArray;
 	}
 	/**
