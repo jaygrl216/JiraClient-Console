@@ -3,6 +3,7 @@ package com.sgt.pmportal.services;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
@@ -136,8 +137,27 @@ double eea=actualEffort/estimatedEffort;
 	 * 
 	 * @param project
 	 */
-	public void calculateDefectTotal (ArrayList<JiraProject> projectList){
-
+	public void calculateDefectTotal (){
+		ProjectServices projectService=new ProjectServices(client);
+		List<JiraProject> projectList=projectService.getAllJiraProjects();
+		ArrayList<Long> defectArray=new ArrayList<Long>();
+		long seaDefect=0;
+		long eeaDefect=0;
+		long bugNum=0;
+		long overDue=0;
+for (JiraProject project:projectList){
+	Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+project.getKey(),1000,0).claim().getIssues();
+	for (BasicIssue issue:issueList){
+	String issueType=GeneralServices.toJiraIssue(issue, client).getType();
+	if (Objects.equals(issueType, "Bug")){
+		bugNum++;
+	}
+	}
+	
+	if (project.seeIfOverdue()){
+		overDue++;
+	}
+	}
 	}
 	/**
 	 * calculates trends of a specific project
