@@ -27,7 +27,7 @@ public class JiraProject {
 	protected Date due;
 	protected boolean isComplete;
 	protected boolean isOverdue;
-	
+
 	/**
 	 * Constructor for the JiraProject
 	 * 
@@ -51,7 +51,7 @@ public class JiraProject {
 		issues = new ArrayList<>();
 		due = new Date(0);
 	}
-	
+
 	/**
 	 * Constructor for JiraProject with given issueList
 	 * 
@@ -76,19 +76,19 @@ public class JiraProject {
 		issues = issueList;
 		due = setDefaultDueDate();
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getKey() {
 		return key;
 	}
-	
+
 	public String getLead() {
 		return lead.getFullName();
 	}
-	
+
 	/**
 	 * The description of the project
 	 * 
@@ -97,7 +97,7 @@ public class JiraProject {
 	public String description() {
 		return description;
 	}
-	
+
 	/**
 	 * The URI of the project
 	 * @return URI
@@ -105,70 +105,70 @@ public class JiraProject {
 	public URI getURI() {
 		return uri;
 	}
-	
+
 	public void setCompleted (boolean b) {
 		isComplete = b;
 	}
-	
+
 	/**
 	 * completes the project
 	 */
 	public void complete() {
 		isComplete = true;
 	}
-	
+
 	public int getNumRelease() {
 		return releases.size();
 	}
-	
+
 	public Date getDueDate() {
 		return due;
 	}
-	
+
 	private Date setDefaultDueDate() {
 		Date latest = new Date(0);
-		
+
 		for (JiraIssue i: issues) {
-			try{
-			Date issueDate = i.getDueDate().toDate();
-			if (issueDate.compareTo(latest) > 0) {
-				latest = issueDate;
+			if(i.getDueDate() != null) {
+				Date issueDate = i.getDueDate().toDate();
+				if (issueDate.compareTo(latest) > 0) {
+					latest = issueDate;
+				}
 			}
-			}catch (NullPointerException noDueDate){}
 		}
-		
+
 		return latest;
 	}
-	
+
 	public void setDueDate(Date d) {
 		due = d;
 	}
-	
+
 	/**
 	 * Adds a JiraIssue to the list of issues for the project
 	 * @param jiraIssue
 	 */
 	public void addToIssues(JiraIssue jiraIssue) {
 		issues.add(jiraIssue);
-		
+
 	}
-	
+
 	public int getNumIssues() {
 		return issues.size();
 	}
-	
+
 	public List<JiraIssue> getIssues() {
 		return issues;
 	}
-	
+
 	public List<Release> getReleases() {
 		return releases;
 	}
-	
+
 	public boolean getIsOverdue() {
 		return isOverdue;
 	}
-	
+
 	/**
 	 * Changes and returns isOverdue based on if date is past due date
 	 * 
@@ -181,7 +181,7 @@ public class JiraProject {
 		}
 		return getIsOverdue();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -192,6 +192,6 @@ public class JiraProject {
 				"Project Key: " + key + "\n" +
 				"Project Lead: " + lead.getFullName() + "\n";
 	}
-	
+
 
 }
