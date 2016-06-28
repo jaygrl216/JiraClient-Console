@@ -23,7 +23,7 @@ public class MetricsServices {
 	String authorization;
 	String baseURL;
 	/**
-	 * MetricsServices constructor gets initilaized with 
+	 * MetricsServices constructor gets initialized with 
 	 * a JiraRestclient
 	 * 
 	 * @param client, authorization, base URL
@@ -50,8 +50,8 @@ public class MetricsServices {
 	
 		for (BasicIssue ii: issueIterable){
 			total++;
-			if (Objects.equals(client.getIssueClient().getIssue(
-					ii.getKey()).claim().getStatus().getName(), "Done")){
+			String issueStatus=client.getIssueClient().getIssue(ii.getKey()).claim().getStatus().getName();
+			if (Objects.equals(issueStatus, "Closed") | Objects.equals(issueStatus, "Done")|Objects.equals(issueStatus, "Resolved")){
 				completedIssues++;
 			}
 		}
@@ -128,6 +128,7 @@ public class MetricsServices {
 		double actualEffort=0;
 		double estimatedEffort=0;
 double eea=actualEffort/estimatedEffort;
+//TODO
 	}
 
 	/**
