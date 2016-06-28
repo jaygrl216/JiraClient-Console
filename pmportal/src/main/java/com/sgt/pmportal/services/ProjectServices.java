@@ -172,8 +172,8 @@ public class ProjectServices {
 	/**
 	 * Get the velocity of each project 
 	 */
-	public void getVelocityForProject() {
-		/* TODO figure out the velocity for project */
+	public void getVelocityForProject(JiraProject project) {
+		MetricsServices metrics = new MetricsServices()
 	}
 	
 
