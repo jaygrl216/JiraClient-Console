@@ -128,11 +128,11 @@ public class JiraProject {
 	private Date setDefaultDueDate() {
 		Date latest = new Date(0);
 
-		for (JiraIssue i: issues) {
-			if(i.getDueDate() != null) {
-				Date issueDate = i.getDueDate().toDate();
-				if (issueDate.compareTo(latest) > 0) {
-					latest = issueDate;
+		for (Release curRelease: releases) {
+			if(curRelease.getRelease() != null) {
+				Date curDate = curRelease.getRelease().toDate();
+				if (curDate.compareTo(latest) > 0) {
+					latest = curDate;
 				}
 			}
 		}
