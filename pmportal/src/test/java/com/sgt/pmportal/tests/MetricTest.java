@@ -57,6 +57,7 @@ public class MetricTest {
 
 		test.testSprintEEA();
 		test.testOverallEEA();
+		test.testBugs();
 		test.testAllDefects();
 		System.out.println("Finished");
 
@@ -84,16 +85,16 @@ public class MetricTest {
 	public void testSprintSEA() throws IOException, ParseException{
 		System.out.println("Getting sprints...");
 		try{
-		sprintList=sprintService.getClosedSprintsByProject(project);
-		Sprint sprint=sprintList.get(0);
-		//MetricsService test
-		System.out.println("SEA test will display the sea of a sprint as a\n"
-				+ "percentage.\n");
+			sprintList=sprintService.getClosedSprintsByProject(project);
+			Sprint sprint=sprintList.get(0);
+			//MetricsService test
+			System.out.println("SEA test will display the sea of a sprint as a\n"
+					+ "percentage.\n");
 			double sea=MetricsServices.calculateSprintSEA(sprint);
 			System.out.println("The SEA of sprint "+sprint.getName()+" is: " + sea+"\n");
-	}catch(NullPointerException noSprint){
-		System.err.println(noSprint);
-	}
+		}catch(NullPointerException noSprint){
+			System.err.println(noSprint);
+		}
 	}
 	public void testOverallSEA() throws IOException, ParseException{
 		System.out.println("Overall SEA test will display the SEA of a project and its standard deviation");
@@ -101,31 +102,37 @@ public class MetricTest {
 		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1)+"\n");
 	}
 
-public void testSprintEEA() throws IOException, ParseException{
-	System.out.println("Sprint EEA test will display the EEA of a sprint");
-	try{
-	sprintList=sprintService.getClosedSprintsByProject(project);
-	Sprint sprint=sprintList.get(0);
-	System.out.println("EEA: "+ metricService.calculateSprintEEA(sprint)+"\n");
-	}catch(IndexOutOfBoundsException noSprint){
-		System.err.println(noSprint);
+	public void testSprintEEA() throws IOException, ParseException{
+		System.out.println("Sprint EEA test will display the EEA of a sprint");
+		try{
+			sprintList=sprintService.getClosedSprintsByProject(project);
+			Sprint sprint=sprintList.get(0);
+			System.out.println("EEA: "+ metricService.calculateSprintEEA(sprint)+"\n");
+		}catch(IndexOutOfBoundsException noSprint){
+			System.err.println(noSprint);
+		}
 	}
-}
 
-public void testOverallEEA() throws IOException, ParseException{
-	System.out.println("Overall EEA test will display the EEA of a project and its standard deviation");
-	ArrayList<Double> eeaMetric=metricService.calculateProjectEEA(project, null);
-	System.out.println("EEA: "+ eeaMetric.get(0) + "+/- " + eeaMetric.get(1)+"\n");
-}
+	public void testOverallEEA() throws IOException, ParseException{
+		System.out.println("Overall EEA test will display the EEA of a project and its standard deviation");
+		ArrayList<Double> eeaMetric=metricService.calculateProjectEEA(project, null);
+		System.out.println("EEA: "+ eeaMetric.get(0) + "+/- " + eeaMetric.get(1)+"\n");
+	}
+
+	public void testBugs() {
+		System.out.println("Bug test will display number of bugs in a project");
+		double bugNum=metricService.calculateBugs(project.getKey());
+		System.out.println("Bugs: "+bugNum+"\n");
+	}
 
 
-public void testAllDefects() throws IOException, ParseException{
-	System.out.println("All defects test will calculate all metrics and find defects for a project");
-	List<Long> defectArray=metricService.calculateDefectTotal(project);
-	System.out.println("Defects");
-	System.out.println("Bugs: "+defectArray.get(0));
-	System.out.println("SEA Warning: "+defectArray.get(1));
-	System.out.println("EEA Warning: "+defectArray.get(2));
-	System.out.println("Overdue: "+defectArray.get(3)+"\n");
-}
+	public void testAllDefects() throws IOException, ParseException{
+		System.out.println("All defects test will calculate all metrics and find defects for a project");
+		List<Long> defectArray=metricService.calculateDefectTotal(project);
+		System.out.println("Defects");
+		System.out.println("Bugs: "+defectArray.get(0));
+		System.out.println("SEA Warning: "+defectArray.get(1));
+		System.out.println("EEA Warning: "+defectArray.get(2));
+		System.out.println("Overdue: "+defectArray.get(3)+"\n");
+	}
 }

@@ -255,8 +255,9 @@ public class ProjectServices {
 				ArrayList<Issue> issuesForSprint = SprintServices.getIssuesBySprint(s, 
 						mainClient);
 				for(Issue i: issuesForSprint) {
-					if (i.getStatus().getName().equals("Resolved") || 
-					i.getStatus().getName().equals("Closed")) {
+					
+					//Older Jiras use "Resolved" and "Closed", newer ones have the status "Done"
+					if (i.getStatus().getName().equals("Closed") || i.getStatus().getName().equals("Done")) {
 						completedIssues++;
 					}
 				}
