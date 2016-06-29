@@ -293,7 +293,7 @@ public class SprintServices {
 		}
 		return sprintList;	
 	}
-	public ArrayList<Issue> getIssuesBySprint(Sprint sprint){
+	public static ArrayList<Issue> getIssuesBySprint(Sprint sprint, JiraRestClient client){
 		ArrayList<Issue> issueList=new ArrayList<Issue>();
 		Iterable<BasicIssue> sprintIssueList=client.getSearchClient().searchJql(
 				"sprint= " + sprint.getId(),1000,0).claim().getIssues();

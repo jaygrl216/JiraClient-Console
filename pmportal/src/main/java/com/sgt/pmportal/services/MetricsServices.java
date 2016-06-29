@@ -131,8 +131,7 @@ public class MetricsServices {
 		// EEA=actualEffort/estimatedEffort
 		double actualEffort=0;
 		double estimatedEffort=0;
-		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
-		ArrayList<Issue> issueList=sprintService.getIssuesBySprint(sprint);
+		ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
 		for (Issue issue:issueList){
 			if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
 				estimatedEffort++;

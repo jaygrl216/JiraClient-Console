@@ -249,6 +249,9 @@ public class ProjectServices {
 			if(s.isClosed()) {
 				int durationDiff = SprintServices.sprintDifference(s);
 				totalDifference += durationDiff;
+			} else if (s.isOpen()) {
+				ArrayList<Issue> issuesForSprint = SprintServices.getIssuesBySprint(s, 
+						mainClient);
 			}
 		}
 		c.add(Calendar.DATE, totalDifference);

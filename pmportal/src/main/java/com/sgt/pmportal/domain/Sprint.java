@@ -35,22 +35,39 @@ public class Sprint {
 		this.endDate = endDate;
 		this.completeDate = completeDate;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public String getId() {
 		return id;
 	}
+	
 	public String getState() {
 		return state;
 	}
+	
 	public Date getStartDate() {
 		return startDate;
 	}
+	
 	public Date getEndDate() {
 		return endDate;
 	}
+	
 	public Date getCompleteDate() {
 		return completeDate;
 	}
+	
+	public boolean isClosed() {
+		return true;
+	}
+	
+	public boolean isOpen() {
+		return true;
+	}
+	
+	
+	
 }

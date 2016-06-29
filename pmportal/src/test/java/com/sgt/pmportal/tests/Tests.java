@@ -236,7 +236,7 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 			System.out.println("");
 			//get issues from sprint
 			if (sprint !=null){
-				ArrayList<Issue> issueList=sprintService.getIssuesBySprint(sprint);
+				ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
 				System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
 				for (Issue il:issueList){
 					System.out.println(il.getKey());
