@@ -9,6 +9,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -291,6 +292,38 @@ public class SprintServices {
 
 	}
 	
+	/**
+	 * returns all sprints in a project and adds those sprints to the project
+	 * 
+	 * @param project
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public List<Sprint> getAllSprintsForProject (JiraProject project) throws
+	IOException, ParseException {
+		ArrayList<Sprint> closed = getClosedSprintsByProject(project);
+		ArrayList<Sprint> open = getOpenSprintsByProject(project);
+		ArrayList<Sprint> future = getFutureSprintsByProject(project);
+		
+		ArrayList<Sprint> all = new ArrayList<>();
+		
+		for (Sprint s: closed) {
+			all.add(s);
+		}
+		
+		for (Sprint s: open) {
+			all.add(s);
+		}
+		
+		for (Sprint s: future) {
+			all.add(s);
+		}
+		
+		project.addSprints(all);
+		return all;
+	}
+	
 	public String getAgileData(String url) throws IOException{
 		StringBuffer response = new StringBuffer();
 		URL urlObj = new URL(baseURL + url);
@@ -313,4 +346,4 @@ public class SprintServices {
 		}return null;
 	}
 
-}
+} 

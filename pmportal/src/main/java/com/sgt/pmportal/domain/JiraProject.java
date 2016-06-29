@@ -21,8 +21,9 @@ public class JiraProject {
 	protected String key;
 	protected JiraUser lead;
 	protected String description;
-	protected List<Release> releases;
 	protected URI uri;
+	protected List<Release> releases;
+	protected List<Sprint> sprints;
 	protected List<JiraIssue> issues;
 	protected Date due;
 	protected double velocity;
@@ -50,6 +51,7 @@ public class JiraProject {
 		isComplete = false;
 		isOverdue = false;
 		issues = new ArrayList<>();
+		sprints = new ArrayList<>();
 		due = setDefaultDueDate();
 		velocity = 0;
 	}
@@ -76,6 +78,7 @@ public class JiraProject {
 		isComplete = false;
 		isOverdue = false;
 		issues = new ArrayList<>(issueList);
+		sprints = new ArrayList<>();
 		due = setDefaultDueDate();
 		velocity = 0;
 	}
@@ -167,9 +170,17 @@ public class JiraProject {
 	 */
 	public void addToIssues(JiraIssue jiraIssue) {
 		issues.add(jiraIssue);
-
 	}
-
+	
+	public void addSprints(ArrayList<Sprint> sprints) {
+		this.sprints = new ArrayList<Sprint>();
+	}
+	
+	
+	public List<Sprint> getSprints() {
+		return sprints;
+	}
+	
 	public int getNumIssues() {
 		return issues.size();
 	}

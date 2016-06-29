@@ -236,12 +236,23 @@ public class ProjectServices {
 	 * Predicts the due date of a project based of SEA and other metrics
 	 * 
 	 * @param project
-	 * @return
+	 * @return Date
 	 */
 	public Date projectedDueDate (JiraProject project) {
-		Date today = Calendar.getInstance().getTime();
+		Date dueDate = project.getDueDate();
+		Calendar c = Calendar.getInstance();
+		c.setTime(dueDate);
+		int totalDifference = 0;
 		
-		return today;
+		
+//		for (Sprint s: project.getSprints()) {
+//			if(s.isClosed()) {
+//				int durationDiff = SprintServices.sprintDifference(s);
+//				totalDifference += durationDiff;
+//			}
+//		}
+		c.add(Calendar.DATE, totalDifference);
+		return c.getTime();
 	}
 	
 
