@@ -231,8 +231,15 @@ public class MetricsServices {
 	 * calculates trends of a specific project
 	 * 
 	 * @param project
+	 * @throws ParseException 
+	 * @throws IOException 
+	 * @throws JSONException 
 	 */
-	public void predictTrend(JiraProject project){
-
+	public void predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
+SprintServices sprintService=new SprintServices(client, authorization, baseURL);
+List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+for (Sprint sprint:sprintList){
+	//TODO, find least squares method in linear algebra notebook when you get home
+}
 	}
 }
