@@ -245,12 +245,12 @@ public class ProjectServices {
 		int totalDifference = 0;
 		
 		
-//		for (Sprint s: project.getSprints()) {
-//			if(s.isClosed()) {
-//				int durationDiff = SprintServices.sprintDifference(s);
-//				totalDifference += durationDiff;
-//			}
-//		}
+		for (Sprint s: project.getSprints()) {
+			if(s.isClosed()) {
+				int durationDiff = SprintServices.sprintDifference(s);
+				totalDifference += durationDiff;
+			}
+		}
 		c.add(Calendar.DATE, totalDifference);
 		return c.getTime();
 	}
