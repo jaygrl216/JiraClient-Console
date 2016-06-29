@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.json.JSONException;
+
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
 import com.atlassian.jira.rest.client.domain.Issue;
@@ -123,30 +125,58 @@ public class MetricsServices {
 	 * 
 	 * @param sprint
 	 */
-	public void calculateSprintEEA(Sprint sprint){
+	public double calculateSprintEEA(Sprint sprint){
 		// EEA=actualEffort/estimatedEffort
 		double actualEffort=0;
 		double estimatedEffort=0;
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		ArrayList<Issue> issueList=sprintService.getIssuesBySprint(sprint);
 		for (Issue issue:issueList){
-			if (sprint.getStartDate().before(issue.getCreationDate().toDate())){
+			if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
+				estimatedEffort++;
 			}
+			actualEffort++;
 		}
 		double eea=actualEffort/estimatedEffort;
-		//TODO
+		return eea;
 	}
 	/**
 	 * calculates EEA
 	 * 
 	 * @param project
+	 * @throws ParseException 
+	 * @throws IOException 
+	 * @throws JSONException 
 	 */
-	public void calculateProjectEEA(JiraProject project){
+	public ArrayList<Double> calculateProjectEEA(JiraProject project) throws JSONException, IOException, ParseException{
 		// EEA=actualEffort/estimatedEffort
-		double actualEffort=0;
-		double estimatedEffort=0;
-		double eea=actualEffort/estimatedEffort;
-		//TODO
+		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
+		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		double eeaSum=0;
+		double length=sprintList.size();
+		System.out.println("Number of sprints: "+length);
+		ArrayList<Double> eeaList=new ArrayList<Double>();
+		System.out.print("Calculating EEA values...\n");
+		//get eea values for every sprint
+		for (Sprint sprint:sprintList){
+			double eea=calculateSprintSEA(sprint);
+			eeaSum=eeaSum+eea;
+			eeaList.add(eea);
+		}
+		//calculate the average
+		double averageEEA=(eeaSum/length);
+		//calculate standard deviation
+		double summand=0;
+		for (double sea:eeaList){
+			summand=summand + (sea-averageEEA) * (sea-averageEEA);
+		}
+		double eeaDev=Math.sqrt(summand/length);
+
+		//store values in an array list and return
+		ArrayList<Double> eeaMetric=new ArrayList<Double>();
+		eeaMetric.add(averageEEA);
+		eeaMetric.add(eeaDev);
+		return eeaMetric;
 	}
 
 	/**
