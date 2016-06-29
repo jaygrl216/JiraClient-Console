@@ -56,9 +56,9 @@ public class MetricTest {
 		//test.testOverallSEA();
 
 		test.testSprintEEA();
-		test.testOverallEEA();
-		test.testBugs();
-		test.testAllDefects();
+		//test.testOverallEEA();
+		//test.testBugs();
+		//test.testAllDefects();
 		System.out.println("Finished");
 
 	}

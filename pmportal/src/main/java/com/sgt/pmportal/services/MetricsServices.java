@@ -128,25 +128,9 @@ public class MetricsServices {
 	 * calculates EEA
 	 * 
 	 * @param sprint
+	 * @throws IOException 
 	 */
-	public double calculateSprintEEA(Sprint sprint){
-		// EEA=actualEffort/estimatedEffort
-		double actualEffort=0;
-		double estimatedEffort=0;
-		ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
-		for (Issue issue:issueList){
-			//if issue was added before the start date, that was in the estimation
-			if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
-				estimatedEffort++;
-			}
-			//the total issues present at the end represents the actual effort
-			actualEffort++;
-		}
-		double eea=actualEffort/estimatedEffort;
-		return eea;
-	}
-	
-	protected double getSprintEstimate(Sprint sprint) throws IOException{
+	public double calculateSprintEEA(Sprint sprint) throws IOException{
 		// EEA=actualEffort/estimatedEffort
 		double actualEffort=0;
 		double estimatedEffort=0;
