@@ -23,9 +23,9 @@ import com.sgt.pmportal.domain.Sprint;
  *
  */
 public class MetricsServices {
-	JiraRestClient client;
-	String authorization;
-	String baseURL;
+	static JiraRestClient client;
+	static String authorization;
+	static String baseURL;
 	/**
 	 * MetricsServices constructor gets initialized with 
 	 * a JiraRestclient
@@ -35,9 +35,9 @@ public class MetricsServices {
 	 * @param baseURL
 	 */
 	public MetricsServices(JiraRestClient client, String authorization, String baseURL){
-		this.client = client;
-		this.authorization=authorization;
-		this.baseURL=baseURL;
+		MetricsServices.client = client;
+		MetricsServices.authorization=authorization;
+		MetricsServices.baseURL=baseURL;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class MetricsServices {
 	 * @param projectKey
 	 * @return double
 	 */
-	public double calculateProgress(String projectKey){
+	public static double calculateProgress(String projectKey){
 		double progress;
 		double completedIssues = 0;
 		double total = 0;
@@ -90,7 +90,7 @@ public class MetricsServices {
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public ArrayList<Double> calculateProjectSEA(JiraProject project) throws IOException, ParseException{
+	public static ArrayList<Double> calculateProjectSEA(JiraProject project) throws IOException, ParseException{
 		System.out.println("Getting sprints...");
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
@@ -125,7 +125,7 @@ public class MetricsServices {
 	 * 
 	 * @param sprint
 	 */
-	public double calculateSprintEEA(Sprint sprint){
+	public static double calculateSprintEEA(Sprint sprint){
 		// EEA=actualEffort/estimatedEffort
 		double actualEffort=0;
 		double estimatedEffort=0;
@@ -148,7 +148,7 @@ public class MetricsServices {
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public ArrayList<Double> calculateProjectEEA(JiraProject project) throws JSONException, IOException, ParseException{
+	public static ArrayList<Double> calculateProjectEEA(JiraProject project) throws JSONException, IOException, ParseException{
 		// EEA=actualEffort/estimatedEffort
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
@@ -159,7 +159,7 @@ public class MetricsServices {
 		System.out.print("Calculating EEA values...\n");
 		//get eea values for every sprint
 		for (Sprint sprint:sprintList){
-			double eea=calculateSprintSEA(sprint);
+			double eea=calculateSprintEEA(sprint);
 			eeaSum=eeaSum+eea;
 			eeaList.add(eea);
 		}
@@ -167,8 +167,8 @@ public class MetricsServices {
 		double averageEEA=(eeaSum/length);
 		//calculate standard deviation
 		double summand=0;
-		for (double sea:eeaList){
-			summand=summand + (sea-averageEEA) * (sea-averageEEA);
+		for (double eea:eeaList){
+			summand=summand + (eea-averageEEA) * (eea-averageEEA);
 		}
 		double eeaDev=Math.sqrt(summand/length);
 
@@ -186,7 +186,7 @@ public class MetricsServices {
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public List<Long> calculateDefectTotal () throws IOException, ParseException{
+	public static List<Long> calculateDefectTotal () throws IOException, ParseException{
 		ProjectServices projectService=new ProjectServices(client, authorization, baseURL);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
 		ArrayList<Long> defectArray=new ArrayList<Long>();
@@ -220,7 +220,7 @@ public class MetricsServices {
 	 * 
 	 * @param project
 	 */
-	public void predictTrend(JiraProject project){
+	public static void predictTrend(JiraProject project){
 
 	}
 }

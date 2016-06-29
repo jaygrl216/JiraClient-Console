@@ -28,7 +28,7 @@ public class MetricTest {
 	MetricsServices metricServices=new MetricsServices(client, authorization, JIRA_URL);
 	ProjectServices pService=new ProjectServices(client, authorization, JIRA_URL);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PMPOR").claim(),null);
+	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PA").claim(),null);
 	ArrayList<Sprint> sprintList=new ArrayList<Sprint>();
 
 	/**
@@ -52,10 +52,12 @@ public class MetricTest {
 		//this runs a series of tests as a java application
 		test.printInfo();
 		//test.testProgress();
-		//test.testSEA();
-		test.testOverallSEA();
-		//test.testAllDefects();
+		//test.testSprintSEA();
+		//test.testOverallSEA();
+
 		test.testSprintEEA();
+		test.testOverallEEA();
+		//test.testAllDefects();
 		System.out.println("Finished");
 
 	}
@@ -79,7 +81,7 @@ public class MetricTest {
 		}
 	}
 
-	public void testSEA() throws IOException, ParseException{
+	public void testSprintSEA() throws IOException, ParseException{
 		System.out.println("Getting sprints...");
 		try{
 		sprintList=sprintService.getClosedSprintsByProject(project);
@@ -98,15 +100,7 @@ public class MetricTest {
 		ArrayList<Double> seaMetric=metricServices.calculateProjectSEA(project);
 		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1)+"\n");
 	}
-	public void testAllDefects() throws IOException, ParseException{
-		System.out.println("All defects test will calculate all metrics and find defects for all projects");
-		List<Long> defectArray=metricServices.calculateDefectTotal();
-		System.out.println("Defects");
-		System.out.println("Bugs: "+defectArray.get(0));
-		System.out.println("SEA Warnings: "+defectArray.get(1));
-		System.out.println("EEA Warnings: "+defectArray.get(2));
-		System.out.println("Overdue projects: "+defectArray.get(3)+"\n");
-	}
+
 public void testSprintEEA() throws IOException, ParseException{
 	System.out.println("Sprint EEA test will display the EEA of a sprint");
 	try{
@@ -116,5 +110,22 @@ public void testSprintEEA() throws IOException, ParseException{
 	}catch(NullPointerException noSprint){
 		System.err.println(noSprint);
 	}
+}
+
+public void testOverallEEA() throws IOException, ParseException{
+	System.out.println("Overall EEA test will display the EEA of a project and its standard deviation");
+	ArrayList<Double> eeaMetric=metricServices.calculateProjectEEA(project);
+	System.out.println("EEA: "+ eeaMetric.get(0) + "+/- " + eeaMetric.get(1)+"\n");
+}
+
+
+public void testAllDefects() throws IOException, ParseException{
+	System.out.println("All defects test will calculate all metrics and find defects for all projects");
+	List<Long> defectArray=metricServices.calculateDefectTotal();
+	System.out.println("Defects");
+	System.out.println("Bugs: "+defectArray.get(0));
+	System.out.println("SEA Warnings: "+defectArray.get(1));
+	System.out.println("EEA Warnings: "+defectArray.get(2));
+	System.out.println("Overdue projects: "+defectArray.get(3)+"\n");
 }
 }
