@@ -137,6 +137,7 @@ public class MetricsServices {
 		double estimatedEffort=0;
 		ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
+		//for a modern JIRA, get estimation as a property of issues
 		try{
 		for (Issue issue:issueList){
 			String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation";
@@ -149,11 +150,13 @@ public class MetricsServices {
 			//the total issues present at the end represents the actual effort
 			actualEffort++;
 		}
+		//for older JIRAs, can find estimation in sprint report
 		}catch (FileNotFoundException greenHopper){
 			System.err.println("Jira version is outdated! Attempting to fix with Greenhopper API...");
 			String getURL="/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId="+sprint.getBoardId()+"&sprintId="+sprint.getId();
 			String responseString=sprintService.getAgileData(getURL);
 			JSONObject responseObject=new JSONObject(responseString);
+			System.out.println(responseObject.toString());
 			
 		}
 		double eea=actualEffort/estimatedEffort;
