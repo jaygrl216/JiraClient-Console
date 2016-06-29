@@ -145,7 +145,7 @@ public class MetricsServices {
 		return eea;
 	}
 	/**
-	 * calculates EEA
+	 * calculates Project EEA and standard deviation
 	 * 
 	 * @param project
 	 * @throws ParseException 
@@ -247,15 +247,19 @@ public class MetricsServices {
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public void predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
+	public ArrayList<Double> predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
 SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 List<Double> seaList=null;
 List<Double> eeaList=null;
+ArrayList<Double> nextValues=new ArrayList<Double>();
 for (Sprint sprint:sprintList){
 	seaList.add(calculateSprintSEA(sprint));
 	eeaList.add(calculateSprintEEA(sprint));
-	//TODO, find least squares method in linear algebra notebook when you get home
 }
+for (Double sea:seaList){
+}
+//TODO, find least squares method in linear algebra notebook when you get home
+return nextValues;
 	}
 }
