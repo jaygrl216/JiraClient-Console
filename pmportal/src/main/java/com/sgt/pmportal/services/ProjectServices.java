@@ -3,9 +3,12 @@ package com.sgt.pmportal.services;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+
 import com.atlassian.jira.rest.client.IssueRestClient;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.ProjectRestClient;
@@ -227,6 +230,18 @@ public class ProjectServices {
 	public boolean projectPlanningStatus (JiraProject project) {
 		/*TODO figure out how to use SEA and EEA to calculate a planning varibale */
 		return false;
+	}
+	
+	/**
+	 * Predicts the due date of a project based of SEA and other metrics
+	 * 
+	 * @param project
+	 * @return
+	 */
+	public Date projectedDueDate (JiraProject project) {
+		Date today = Calendar.getInstance().getTime();
+		
+		return today;
 	}
 	
 
