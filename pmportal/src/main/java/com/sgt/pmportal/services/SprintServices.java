@@ -348,6 +348,11 @@ public class SprintServices {
 		return Days.daysBetween(new DateTime(s.getEndDate()), 
 				new DateTime(s.getCompleteDate())).getDays();
 	}
+	
+	public static int estimateDays (Sprint s) {
+		return Days.daysBetween(new DateTime(s.getStartDate()), 
+				new DateTime(s.getEndDate())).getDays();
+	}
 
 	public String getAgileData(String url) throws IOException{
 		StringBuffer response = new StringBuffer();
