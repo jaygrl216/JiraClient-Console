@@ -28,7 +28,7 @@ public class MetricTest {
 	ProjectServices pService=new ProjectServices(client, authorization, JIRA_URL);
 	MetricsServices  metricService=new MetricsServices(client, authorization, JIRA_URL);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PA").claim(),null);
+	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("RA").claim(),null);
 	ArrayList<Sprint> sprintList=new ArrayList<Sprint>();
 
 	/**
@@ -107,7 +107,7 @@ public void testSprintEEA() throws IOException, ParseException{
 	sprintList=sprintService.getClosedSprintsByProject(project);
 	Sprint sprint=sprintList.get(0);
 	System.out.println("EEA: "+ metricService.calculateSprintEEA(sprint)+"\n");
-	}catch(NullPointerException noSprint){
+	}catch(IndexOutOfBoundsException noSprint){
 		System.err.println(noSprint);
 	}
 }
@@ -120,12 +120,12 @@ public void testOverallEEA() throws IOException, ParseException{
 
 
 public void testAllDefects() throws IOException, ParseException{
-	System.out.println("All defects test will calculate all metrics and find defects for all projects");
+	System.out.println("All defects test will calculate all metrics and find defects for a project");
 	List<Long> defectArray=metricService.calculateDefectTotal(project);
 	System.out.println("Defects");
 	System.out.println("Bugs: "+defectArray.get(0));
-	System.out.println("SEA Warnings: "+defectArray.get(1));
-	System.out.println("EEA Warnings: "+defectArray.get(2));
+	System.out.println("SEA Warning: "+defectArray.get(1));
+	System.out.println("EEA Warning: "+defectArray.get(2));
 	System.out.println("Overdue: "+defectArray.get(3)+"\n");
 }
 }
