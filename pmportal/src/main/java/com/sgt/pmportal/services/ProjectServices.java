@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 import com.atlassian.jira.rest.client.IssueRestClient;
 import com.atlassian.jira.rest.client.JiraRestClient;
@@ -243,6 +244,7 @@ public class ProjectServices {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dueDate);
 		int totalDifference = 0;
+		int completedIssues = 0;
 		
 		
 		for (Sprint s: project.getSprints()) {
@@ -255,11 +257,18 @@ public class ProjectServices {
 				for(Issue i: issuesForSprint) {
 					
 					//Older Jiras use "Resolved" and "Closed", newer ones have the status "Done"
-					if (i.getStatus().getName().equals("Resolved") || 
-					i.getStatus().getName().equals("Closed") || i.getStatus().getName().equals("Done")) {
-						
+					if (i.getStatus().getName().equals("Closed") ||
+							i.getStatus().getName().equals("Resolved") ||
+							i.getStatus().getName().equals("Done")) {
+						completedIssues++;
 					}
 				}
+				int days = Days.daysBetween(new DateTime(s.getStartDate()), 
+						new DateTime(Calendar.getInstance().getTime())).getDays();
+				double openTotal = days / completedIssues;
+				int extraDays = (int) openTotal * SprintServices.estimateDays(s);
+				totalDifference += extraDays;
+				completedIssues = 0;
 			}
 		}
 		c.add(Calendar.DATE, totalDifference);
