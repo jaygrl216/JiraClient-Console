@@ -217,7 +217,7 @@ public class MetricsServices {
 				seaDefect++;
 			}
 			double eea=calculateProjectEEA(project, sprintList).get(0);
-			if (eea< 0.5 || eea > 2.0){
+			if (eea > 2.0){
 				eeaDefect++;
 			}
 			if (project.seeIfOverdue()){
