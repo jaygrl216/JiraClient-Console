@@ -161,9 +161,11 @@ public class MetricsServices {
 			JSONObject puntedIssueObject=contentObject.getJSONObject("puntedIssuesEstimateSum");
 			actualEffort=(Double.valueOf(allIssueObject.get("value").toString()).doubleValue());
 			estimatedEffort=actualEffort- (Double.valueOf(puntedIssueObject.get("value").toString()).doubleValue());
-			
 		}
 		double eea=actualEffort/estimatedEffort;
+		if (actualEffort==0){
+			eea=1;
+		}
 		return eea;
 	}
 	
