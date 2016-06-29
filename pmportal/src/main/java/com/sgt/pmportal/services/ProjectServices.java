@@ -257,7 +257,9 @@ public class ProjectServices {
 				for(Issue i: issuesForSprint) {
 					
 					//Older Jiras use "Resolved" and "Closed", newer ones have the status "Done"
-					if (i.getStatus().getName().equals("Closed") || i.getStatus().getName().equals("Done")) {
+					if (i.getStatus().getName().equals("Closed") ||
+							i.getStatus().getName().equals("Resolved") ||
+							i.getStatus().getName().equals("Done")) {
 						completedIssues++;
 					}
 				}
