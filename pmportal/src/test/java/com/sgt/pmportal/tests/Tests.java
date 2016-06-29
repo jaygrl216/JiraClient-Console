@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Objects;
 
 import org.json.JSONException;
@@ -199,7 +200,7 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 			//open
 			System.out.println("Open sprints for project \"" +project.getName()+"\":");
 
-			ArrayList<Sprint> sprintActiveList=sprintService.getOpenSprintsByProject(project);
+			List<Sprint> sprintActiveList=sprintService.getOpenSprintsByProject(project);
 			for (Sprint sl:sprintActiveList){
 				System.out.println(sl.getName());
 				System.out.println(sl.getState()+"\n");
