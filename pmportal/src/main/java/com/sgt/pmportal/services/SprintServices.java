@@ -98,7 +98,7 @@ public class SprintServices {
 					JSONObject iteratorObject=sprintArray.getJSONObject(i);
 					sprintList.add(new Sprint(iteratorObject.get("name").toString(), iteratorObject.get("id").toString(), 
 							iteratorObject.get("state").toString(), format.parse(iteratorObject.get("startDate").toString()), 
-							format.parse(iteratorObject.get("endDate").toString()), null));
+							format.parse(iteratorObject.get("endDate").toString()), null, boardId));
 				}
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			
@@ -129,7 +129,7 @@ public class SprintServices {
 				for (JSONObject sa:sprintArray){
 					sprintList.add(new Sprint(sa.get("name").toString(), sa.get("id").toString(), 
 							"active", oldFormat.parse(sa.get("startDate").toString()),
-							oldFormat.parse(sa.getString("endDate").toString()), null));
+							oldFormat.parse(sa.getString("endDate").toString()), null, boardId));
 				}
 
 			}		
@@ -178,7 +178,7 @@ public class SprintServices {
 					JSONObject iteratorObject=sprintArray.getJSONObject(i);
 					sprintList.add(new Sprint(iteratorObject.get("name").toString(), iteratorObject.get("id").toString(), 
 							iteratorObject.get("state").toString(), format.parse(iteratorObject.get("startDate").toString()), 
-							format.parse(iteratorObject.get("endDate").toString()), format.parse(iteratorObject.get("completeDate").toString())));
+							format.parse(iteratorObject.get("endDate").toString()), format.parse(iteratorObject.get("completeDate").toString()), boardId));
 				}
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			
@@ -209,7 +209,7 @@ public class SprintServices {
 				for (JSONObject sa:sprintArray){
 					sprintList.add(new Sprint(sa.get("name").toString(), sa.get("id").toString(), 
 							"closed", oldFormat.parse(sa.get("startDate").toString()),
-							oldFormat.parse(sa.get("endDate").toString()), oldFormat.parse(sa.get("completeDate").toString())));
+							oldFormat.parse(sa.get("endDate").toString()), oldFormat.parse(sa.get("completeDate").toString()), boardId));
 				}
 
 			}
@@ -256,7 +256,7 @@ public class SprintServices {
 				for (int i=0; i<sprintArray.length(); i++){
 					JSONObject iteratorObject=sprintArray.getJSONObject(i);
 					sprintList.add(new Sprint(iteratorObject.get("name").toString(), iteratorObject.get("id").toString(), 
-							iteratorObject.get("state").toString(), null, null, null));
+							iteratorObject.get("state").toString(), null, null, null, boardId));
 				}
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			
@@ -286,7 +286,7 @@ public class SprintServices {
 				for (JSONObject sa:sprintArray){
 					sprintList.add(new Sprint(sa.get("name").toString(), sa.get("id").toString(), 
 							"future", null,
-							null, null));
+							null, null, boardId));
 				}
 
 			}		

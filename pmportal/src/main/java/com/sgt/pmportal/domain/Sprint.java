@@ -16,6 +16,7 @@ public class Sprint {
 	protected Date startDate;
 	protected Date endDate;
 	protected Date completeDate;
+	protected String boardId;
 
 	/**
 	 * Constructor for Sprint object
@@ -27,13 +28,14 @@ public class Sprint {
 	 * @param endDate
 	 * @param completeDate
 	 */
-	public Sprint(String name, String id, String state, Date startDate, Date endDate, Date completeDate) {
+	public Sprint(String name, String id, String state, Date startDate, Date endDate, Date completeDate, String boardId) {
 		this.name = name;
 		this.id = id;
 		this.state = state;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.completeDate = completeDate;
+		this.boardId=boardId;
 	}
 	
 	public String getName() {
@@ -59,7 +61,9 @@ public class Sprint {
 	public Date getCompleteDate() {
 		return completeDate;
 	}
-	
+	public String getBoardId() {
+		return boardId;
+	}
 	public boolean isClosed() {
 		return true;
 	}
