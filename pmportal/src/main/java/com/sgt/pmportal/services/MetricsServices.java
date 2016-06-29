@@ -269,13 +269,18 @@ public class MetricsServices {
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		ArrayList<Double> seaList=new ArrayList<Double>();
 		ArrayList<Double> eeaList=new ArrayList<Double>();
+		double nextSea=0;
+		double nextEea=0;
 		ArrayList<Double> nextValues=new ArrayList<Double>();
+		//add all the values to their respective lists (create a vector out of them)
 		for (Sprint sprint:sprintList){
 			seaList.add(calculateSprintSEA(sprint));
 			eeaList.add(calculateSprintEEA(sprint));
 		}
 		for (Double sea:seaList){
 		}
+		nextValues.add(nextSea);
+		nextValues.add(nextEea);
 		//TODO, find least squares method in linear algebra notebook when you get home
 		return nextValues;
 	}
