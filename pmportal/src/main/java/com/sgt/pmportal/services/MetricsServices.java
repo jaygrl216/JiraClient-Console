@@ -137,7 +137,7 @@ public class MetricsServices {
 		ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
 		try{
 		for (Issue issue:issueList){
-			String getURL="/rest/agile/"+issue.getKey()+"/estimation";
+			String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation";
 			String responseObject=new SprintServices(client, authorization, baseURL).getAgileData(getURL);
 			System.out.println(responseObject);
 			//if issue was added before the start date, that was in the estimation
@@ -149,7 +149,7 @@ public class MetricsServices {
 		}
 		}catch (FileNotFoundException greenHopper){
 			System.err.println("Jira version is outdated! Attempting to fix with Greenhopper API...");
-			
+			String getURL="/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId="+sprint.getBoardId()+"&sprintId="+sprint.getId();
 		}
 		double eea=actualEffort/estimatedEffort;
 		return eea;
