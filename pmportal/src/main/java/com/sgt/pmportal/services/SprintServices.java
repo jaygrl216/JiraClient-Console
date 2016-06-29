@@ -35,15 +35,21 @@ public class SprintServices {
 	JiraRestClient client;
 	String authorization;
 	String baseURL;
-
+	
+	/**
+	 * Constructor 
+	 * @param client
+	 * @param authorization
+	 * @param baseURL
+	 */
 	public SprintServices(JiraRestClient client, String authorization, String baseURL){
 		this.client = client;
 		this.authorization = authorization;
 		this.baseURL = baseURL;
 	}
 
-	public ArrayList<Sprint> getOpenSprintsByProject(JiraProject project) 
-			throws IOException, JSONException, ParseException{
+	public List<Sprint> getOpenSprintsByProject(JiraProject project) 
+			throws IOException, ParseException{
 		String boardId = "0";
 		ArrayList<Sprint> sprintList = new ArrayList<Sprint>();
 		JSONArray boards = new JSONArray();
@@ -57,7 +63,7 @@ public class SprintServices {
 				if (Objects.equals(boards.getJSONObject(i).get(
 						"name").toString(), project.getKey()+" board")){
 					boardId = boards.getJSONObject(i).get("id").toString();
-					i = boards.length();
+					break;
 				}
 			}	
 
@@ -310,9 +316,9 @@ public class SprintServices {
 	 */
 	public List<Sprint> getAllSprintsForProject (JiraProject project) throws
 	IOException, ParseException {
-		ArrayList<Sprint> closed = getClosedSprintsByProject(project);
-		ArrayList<Sprint> open = getOpenSprintsByProject(project);
-		ArrayList<Sprint> future = getFutureSprintsByProject(project);
+		List<Sprint> closed = getClosedSprintsByProject(project);
+		List<Sprint> open = getOpenSprintsByProject(project);
+		List<Sprint> future = getFutureSprintsByProject(project);
 
 		ArrayList<Sprint> all = new ArrayList<>();
 
