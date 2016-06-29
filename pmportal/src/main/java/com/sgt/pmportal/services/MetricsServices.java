@@ -99,6 +99,7 @@ public class MetricsServices {
 		double seaSum=0;
 		double length=sprintList.size();
 		System.out.println("Number of sprints: "+length);
+		//this list stores individual values to calculate standard deviation
 		ArrayList<Double> seaList=new ArrayList<Double>();
 		System.out.print("Calculating SEA values...\n");
 		//get sea values for every sprint
@@ -133,9 +134,11 @@ public class MetricsServices {
 		double estimatedEffort=0;
 		ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
 		for (Issue issue:issueList){
+			//if issue was added before the start date, that was in the estimation
 			if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
 				estimatedEffort++;
 			}
+			//the total issues present at the end represents the actual effort
 			actualEffort++;
 		}
 		double eea=actualEffort/estimatedEffort;
@@ -150,7 +153,6 @@ public class MetricsServices {
 	 * @throws JSONException 
 	 */
 	public ArrayList<Double> calculateProjectEEA(JiraProject project, ArrayList<Sprint> sprintList) throws JSONException, IOException, ParseException{
-		// EEA=actualEffort/estimatedEffort
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		if (sprintList==null){
 		sprintList=sprintService.getClosedSprintsByProject(project);
@@ -158,6 +160,7 @@ public class MetricsServices {
 		double eeaSum=0;
 		double length=sprintList.size();
 		System.out.println("Number of sprints: "+length);
+		//this list stores individual values to calculate standard deviation
 		ArrayList<Double> eeaList=new ArrayList<Double>();
 		System.out.print("Calculating EEA values...\n");
 		//get eea values for every sprint
@@ -198,6 +201,8 @@ public class MetricsServices {
 		long bugNum=0;
 		long overDue=0;
 		for (JiraProject project:projectList){
+			
+			//find issues listed as bugs
 			Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+project.getKey(),1000,0).claim().getIssues();
 			for (BasicIssue issue:issueList){
 				String issueType=GeneralServices.toJiraIssue(issue, client).getType();
@@ -208,11 +213,11 @@ public class MetricsServices {
 			//get sprints here and pass them in to reduce repetitive load times
 			ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 			double sea=calculateProjectSEA(project, sprintList).get(0);
-			if (sea< 0.8 || sea > 1.2){
+			if (sea< 0.8 || sea > 1.25){
 				seaDefect++;
 			}
 			double eea=calculateProjectEEA(project, sprintList).get(0);
-			if (eea< 0.8 || eea > 1.2){
+			if (eea< 0.5 || eea > 2.0){
 				eeaDefect++;
 			}
 			if (project.seeIfOverdue()){
