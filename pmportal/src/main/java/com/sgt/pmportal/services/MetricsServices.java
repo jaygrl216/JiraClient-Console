@@ -156,7 +156,11 @@ public class MetricsServices {
 			String getURL="/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId="+sprint.getBoardId()+"&sprintId="+sprint.getId();
 			String responseString=sprintService.getAgileData(getURL);
 			JSONObject responseObject=new JSONObject(responseString);
-			System.out.println(responseObject.toString());
+			JSONObject contentObject=responseObject.getJSONObject("contents");
+			JSONObject allIssueObject=contentObject.getJSONObject("allIssuesEstimateSum");
+			JSONObject puntedIssueObject=contentObject.getJSONObject("puntedIssuesEstimateSum");
+			actualEffort=allIssueObject.getDouble("value");
+			estimatedEffort=actualEffort-puntedIssueObject.getDouble("value");
 			
 		}
 		double eea=actualEffort/estimatedEffort;
