@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
@@ -135,11 +136,12 @@ public class MetricsServices {
 		double actualEffort=0;
 		double estimatedEffort=0;
 		ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
+		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		try{
 		for (Issue issue:issueList){
 			String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation";
-			String responseObject=new SprintServices(client, authorization, baseURL).getAgileData(getURL);
-			System.out.println(responseObject);
+			String responseString=sprintService.getAgileData(getURL);
+			System.out.println(responseString);
 			//if issue was added before the start date, that was in the estimation
 			if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
 				estimatedEffort++;
@@ -150,6 +152,9 @@ public class MetricsServices {
 		}catch (FileNotFoundException greenHopper){
 			System.err.println("Jira version is outdated! Attempting to fix with Greenhopper API...");
 			String getURL="/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId="+sprint.getBoardId()+"&sprintId="+sprint.getId();
+			String responseString=sprintService.getAgileData(getURL);
+			JSONObject responseObject=new JSONObject(responseString);
+			
 		}
 		double eea=actualEffort/estimatedEffort;
 		return eea;
