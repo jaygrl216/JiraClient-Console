@@ -95,7 +95,7 @@ public class MetricsServices {
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		if (sprintList==null){
 			sprintList=sprintService.getClosedSprintsByProject(project);
-			}
+		}
 		double seaSum=0;
 		double length=sprintList.size();
 		System.out.println("Number of sprints: "+length);
@@ -155,7 +155,7 @@ public class MetricsServices {
 	public ArrayList<Double> calculateProjectEEA(JiraProject project, ArrayList<Sprint> sprintList) throws JSONException, IOException, ParseException{
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		if (sprintList==null){
-		sprintList=sprintService.getClosedSprintsByProject(project);
+			sprintList=sprintService.getClosedSprintsByProject(project);
 		}
 		double eeaSum=0;
 		double length=sprintList.size();
@@ -203,7 +203,7 @@ public class MetricsServices {
 		}
 		return bugNum;
 	}
-	
+
 	/**
 	 * calculates defects in a project by category
 	 * 
@@ -212,27 +212,27 @@ public class MetricsServices {
 	 * @throws IOException 
 	 */
 	public List<Long> calculateDefectTotal (JiraProject project) throws IOException, ParseException{
-	
+
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		ArrayList<Long> defectArray=new ArrayList<Long>();
 		long seaDefect=0;
 		long eeaDefect=0;
 		long bugNum=calculateBugs(project.getKey());
 		long overDue=0;
-			
-			//get sprints here and pass them in to reduce repetitive load times
-			ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-			double sea=calculateProjectSEA(project, sprintList).get(0);
-			if (sea< 0.8 || sea > 1.25){
-				seaDefect++;
-			}
-			double eea=calculateProjectEEA(project, sprintList).get(0);
-			if (eea > 2.0){
-				eeaDefect++;
-			}
-			if (project.seeIfOverdue()){
-				overDue++;
-			}
+
+		//get sprints here and pass them in to reduce repetitive load times
+		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		double sea=calculateProjectSEA(project, sprintList).get(0);
+		if (sea< 0.8 || sea > 1.25){
+			seaDefect++;
+		}
+		double eea=calculateProjectEEA(project, sprintList).get(0);
+		if (eea > 2.0){
+			eeaDefect++;
+		}
+		if (project.seeIfOverdue()){
+			overDue++;
+		}
 		defectArray.add(new Long(bugNum));
 		defectArray.add(new Long(seaDefect));
 		defectArray.add(new Long(eeaDefect));
@@ -248,18 +248,18 @@ public class MetricsServices {
 	 * @throws JSONException 
 	 */
 	public ArrayList<Double> predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
-SprintServices sprintService=new SprintServices(client, authorization, baseURL);
-List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-ArrayList<Double> seaList=new ArrayList<Double>();
-ArrayList<Double> eeaList=new ArrayList<Double>();
-ArrayList<Double> nextValues=new ArrayList<Double>();
-for (Sprint sprint:sprintList){
-	seaList.add(calculateSprintSEA(sprint));
-	eeaList.add(calculateSprintEEA(sprint));
-}
-for (Double sea:seaList){
-}
-//TODO, find least squares method in linear algebra notebook when you get home
-return nextValues;
+		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
+		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		ArrayList<Double> seaList=new ArrayList<Double>();
+		ArrayList<Double> eeaList=new ArrayList<Double>();
+		ArrayList<Double> nextValues=new ArrayList<Double>();
+		for (Sprint sprint:sprintList){
+			seaList.add(calculateSprintSEA(sprint));
+			eeaList.add(calculateSprintEEA(sprint));
+		}
+		for (Double sea:seaList){
+		}
+		//TODO, find least squares method in linear algebra notebook when you get home
+		return nextValues;
 	}
 }
