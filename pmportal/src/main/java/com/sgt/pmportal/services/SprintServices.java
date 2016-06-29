@@ -302,6 +302,7 @@ public class SprintServices {
 			System.out.print(".");
 			issueList.add(client.getIssueClient().getIssue(sil.getKey()).claim());
 		}
+		System.out.println();
 		return issueList;
 
 	}
@@ -366,7 +367,7 @@ public class SprintServices {
 			rd.close();
 			return response.toString();
 		}else{
-			System.err.println("Project is not setup properly for agile");
+			System.err.println("Project is not setup properly for Agile");
 		}return null;
 	}
 
