@@ -97,7 +97,7 @@ public class MetricTest {
 	}
 	public void testOverallSEA() throws IOException, ParseException{
 		System.out.println("Overall SEA test will display the SEA of a project and its standard deviation");
-		ArrayList<Double> seaMetric=metricService.calculateProjectSEA(project);
+		ArrayList<Double> seaMetric=metricService.calculateProjectSEA(project, null);
 		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1)+"\n");
 	}
 
@@ -114,7 +114,7 @@ public void testSprintEEA() throws IOException, ParseException{
 
 public void testOverallEEA() throws IOException, ParseException{
 	System.out.println("Overall EEA test will display the EEA of a project and its standard deviation");
-	ArrayList<Double> eeaMetric=metricService.calculateProjectEEA(project);
+	ArrayList<Double> eeaMetric=metricService.calculateProjectEEA(project, null);
 	System.out.println("EEA: "+ eeaMetric.get(0) + "+/- " + eeaMetric.get(1)+"\n");
 }
 

@@ -90,10 +90,12 @@ public class MetricsServices {
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public ArrayList<Double> calculateProjectSEA(JiraProject project) throws IOException, ParseException{
+	public ArrayList<Double> calculateProjectSEA(JiraProject project, ArrayList<Sprint> sprintList) throws IOException, ParseException{
 		System.out.println("Getting sprints...");
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
-		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		if (sprintList==null){
+			sprintList=sprintService.getClosedSprintsByProject(project);
+			}
 		double seaSum=0;
 		double length=sprintList.size();
 		System.out.println("Number of sprints: "+length);
@@ -148,10 +150,12 @@ public class MetricsServices {
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public ArrayList<Double> calculateProjectEEA(JiraProject project) throws JSONException, IOException, ParseException{
+	public ArrayList<Double> calculateProjectEEA(JiraProject project, ArrayList<Sprint> sprintList) throws JSONException, IOException, ParseException{
 		// EEA=actualEffort/estimatedEffort
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
-		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		if (sprintList==null){
+		sprintList=sprintService.getClosedSprintsByProject(project);
+		}
 		double eeaSum=0;
 		double length=sprintList.size();
 		System.out.println("Number of sprints: "+length);
@@ -188,6 +192,7 @@ public class MetricsServices {
 	public List<Long> calculateDefectTotal () throws IOException, ParseException{
 		ProjectServices projectService=new ProjectServices(client, authorization, baseURL);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
+		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		ArrayList<Long> defectArray=new ArrayList<Long>();
 		long seaDefect=0;
 		long eeaDefect=0;
@@ -201,11 +206,13 @@ public class MetricsServices {
 					bugNum++;
 				}
 			}
-			double sea=calculateProjectSEA(project).get(0);
+			//get sprints here and pass them in to reduce repetitive load times
+			ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+			double sea=calculateProjectSEA(project, sprintList).get(0);
 			if (sea< 0.8 || sea > 1.2){
 				seaDefect++;
 			}
-			double eea=calculateProjectEEA(project).get(0);
+			double eea=calculateProjectEEA(project, sprintList).get(0);
 			if (eea< 0.8 || eea > 1.2){
 				eeaDefect++;
 			}
