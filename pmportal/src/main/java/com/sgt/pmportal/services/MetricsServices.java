@@ -185,6 +185,26 @@ public class MetricsServices {
 	}
 
 	/**
+	 * calculates bugs in a project
+	 * 
+	 * @param project
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+	public long calculateBugs(String projectKey){
+		//find issues listed as bugs
+		long bugNum=0;
+		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey,1000,0).claim().getIssues();
+		for (BasicIssue issue:issueList){
+			String issueType=GeneralServices.toJiraIssue(issue, client).getType();
+			if (Objects.equals(issueType, "Bug")){
+				bugNum++;
+			}
+		}
+		return bugNum;
+	}
+	
+	/**
 	 * calculates defects in a project by category
 	 * 
 	 * @param project
@@ -197,17 +217,9 @@ public class MetricsServices {
 		ArrayList<Long> defectArray=new ArrayList<Long>();
 		long seaDefect=0;
 		long eeaDefect=0;
-		long bugNum=0;
+		long bugNum=calculateBugs(project.getKey());
 		long overDue=0;
 			
-			//find issues listed as bugs
-			Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+project.getKey(),1000,0).claim().getIssues();
-			for (BasicIssue issue:issueList){
-				String issueType=GeneralServices.toJiraIssue(issue, client).getType();
-				if (Objects.equals(issueType, "Bug")){
-					bugNum++;
-				}
-			}
 			//get sprints here and pass them in to reduce repetitive load times
 			ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 			double sea=calculateProjectSEA(project, sprintList).get(0);
@@ -238,7 +250,11 @@ public class MetricsServices {
 	public void predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
 SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+List<Double> seaList=null;
+List<Double> eeaList=null;
 for (Sprint sprint:sprintList){
+	seaList.add(calculateSprintSEA(sprint));
+	eeaList.add(calculateSprintEEA(sprint));
 	//TODO, find least squares method in linear algebra notebook when you get home
 }
 	}

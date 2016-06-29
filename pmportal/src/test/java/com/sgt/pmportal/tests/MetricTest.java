@@ -57,6 +57,7 @@ public class MetricTest {
 
 		test.testSprintEEA();
 		test.testOverallEEA();
+		test.testBugs();
 		test.testAllDefects();
 		System.out.println("Finished");
 
@@ -116,6 +117,12 @@ public void testOverallEEA() throws IOException, ParseException{
 	System.out.println("Overall EEA test will display the EEA of a project and its standard deviation");
 	ArrayList<Double> eeaMetric=metricService.calculateProjectEEA(project, null);
 	System.out.println("EEA: "+ eeaMetric.get(0) + "+/- " + eeaMetric.get(1)+"\n");
+}
+
+public void testBugs() {
+	System.out.println("Bug test will display number of bugs in a project");
+	double bugNum=metricService.calculateBugs(project.getKey());
+	System.out.println("Bugs: "+bugNum+"\n");
 }
 
 
