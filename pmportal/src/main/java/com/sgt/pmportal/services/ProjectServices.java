@@ -252,6 +252,12 @@ public class ProjectServices {
 			} else if (s.isOpen()) {
 				ArrayList<Issue> issuesForSprint = SprintServices.getIssuesBySprint(s, 
 						mainClient);
+				for(Issue i: issuesForSprint) {
+					if (i.getStatus().getName().equals("Resolved") || 
+					i.getStatus().getName().equals("Closed")) {
+						
+					}
+				}
 			}
 		}
 		c.add(Calendar.DATE, totalDifference);
