@@ -140,7 +140,7 @@ public class MetricsServices {
 		//for a modern JIRA, get estimation as a property of issues
 		try{
 		for (Issue issue:issueList){
-			String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation";
+			String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation?boardId="+sprint.getBoardId();
 			String responseString=sprintService.getAgileData(getURL);
 			System.out.println(responseString);
 			//if issue was added before the start date, that was in the estimation
