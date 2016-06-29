@@ -90,7 +90,7 @@ public class MetricsServices {
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public ArrayList<Double> calculateProjectSEA(JiraProject project, ArrayList<Sprint> sprintList) throws IOException, ParseException{
+	public ArrayList<Double> calculateProjectSEA(JiraProject project, List<Sprint> sprintList) throws IOException, ParseException{
 		System.out.println("Getting sprints...");
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		if (sprintList==null){
@@ -152,7 +152,7 @@ public class MetricsServices {
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public ArrayList<Double> calculateProjectEEA(JiraProject project, ArrayList<Sprint> sprintList) throws JSONException, IOException, ParseException{
+	public ArrayList<Double> calculateProjectEEA(JiraProject project, List<Sprint> sprintList) throws JSONException, IOException, ParseException{
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		if (sprintList==null){
 			sprintList=sprintService.getClosedSprintsByProject(project);

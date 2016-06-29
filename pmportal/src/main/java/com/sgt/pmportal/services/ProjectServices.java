@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-
 import com.atlassian.jira.rest.client.IssueRestClient;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.ProjectRestClient;
@@ -121,12 +120,12 @@ public class ProjectServices {
 		JiraUser user = GeneralServices.toJiraUser(p.getLead(), mainClient);
 		if(issueList == null) {
 			return new JiraProject(p.getName(), p.getKey(), user, 
-				p.getDescription(), versionsToRelease(p.getVersions()), p.getUri());
+					p.getDescription(), versionsToRelease(p.getVersions()), p.getUri());
 		}
 		return new JiraProject(p.getName(), p.getKey(), user, 
 				p.getDescription(), versionsToRelease(p.getVersions()), p.getUri(), issueList);
 
-		
+
 	}
 
 	/**
@@ -154,7 +153,7 @@ public class ProjectServices {
 		SearchResult issues = result.claim();
 
 		IssueRestClient issueClient = mainClient.getIssueClient();
-		
+
 		ArrayList<JiraIssue> issueList = new ArrayList<>();
 
 		for (BasicIssue i : issues.getIssues()) {
@@ -177,10 +176,14 @@ public class ProjectServices {
 
 			issueList.add(jiraIssue);
 		}
-		
+
 		return toJiraProject(p, issueList);
 	}
 	
+	/**
+	 * Adds issues to a JiraProject
+	 * @param jp
+	 */
 	public static void populateIssues(JiraProject jp) {
 		Promise<SearchResult> result = mainClient.getSearchClient().searchJql(
 				"project=" + jp.getKey(),1000,0);
@@ -209,7 +212,7 @@ public class ProjectServices {
 			jp.addToIssues(jiraIssue);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param project
@@ -228,13 +231,54 @@ public class ProjectServices {
 		return totalSEA/sprints.size();
 	}
 	
-	public boolean projectPlanningStatus (JiraProject project) {
-		/*TODO figure out how to use SEA and EEA to calculate a planning varibale */
-		return false;
-	}
-	
 	/**
-	 * Predicts the due date of a project based of SEA and other metrics
+	 * If EEA and/or SEA is not good then will return and arbitary number to 
+	 * reveal that planning needs to be improved.
+	 * 
+	 * If both are good then the number 100 will be return to signify planning 
+	 * has worked well for this project 
+	 * 
+	 * @param project
+	 * @return int
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public int projectPlanningStatus (JiraProject project) throws IOException, ParseException {
+		MetricsServices metrics = new MetricsServices(mainClient, baseURL, authorization);
+		ArrayList<Double> projectSEA = metrics.calculateProjectSEA(project, 
+				project.getSprints());
+		ArrayList<Double> projectEEA = metrics.calculateProjectEEA(project, 
+				project.getSprints());
+		
+		double total = 0;
+		double total2 = 0;
+		
+		for (Double d: projectSEA) {
+			total += d;
+		}
+		
+		double averageSEA = total / projectSEA.size();
+		
+		for (Double d: projectEEA) {
+			total2 += d;
+		}
+		
+		double averageEEA = total2 / projectSEA.size();
+		
+		if (averageSEA < 1 && averageEEA < 1) {
+			return 0;
+		} else if (averageSEA < 1 && averageEEA >= 1) {
+			return -1;
+		} else if (averageEEA < 1 && averageSEA >= 1) {
+			return 1;
+		}
+		
+		return 100;
+	}
+
+	/**
+	 * Predicts the due date of a project based off time spent on
+	 * comleted Sprints as well as time spent on open sprints so far
 	 * 
 	 * @param project
 	 * @return Date
@@ -245,27 +289,29 @@ public class ProjectServices {
 		c.setTime(dueDate);
 		int totalDifference = 0;
 		int completedIssues = 0;
-		
-		
+
+
 		for (Sprint s: project.getSprints()) {
 			if(s.isClosed()) {
 				int durationDiff = SprintServices.sprintDifference(s);
 				totalDifference += durationDiff;
-			} else if (s.isOpen()) {
+			} 
+			
+			if (s.isOpen()) {
 				ArrayList<Issue> issuesForSprint = SprintServices.getIssuesBySprint(s, 
 						mainClient);
 				for(Issue i: issuesForSprint) {
-					
+
 					//Older Jiras use "Resolved" and "Closed", newer ones have the status "Done"
-					if (i.getStatus().getName().equals("Closed") ||
-							i.getStatus().getName().equals("Resolved") ||
-							i.getStatus().getName().equals("Done")) {
+					if ("Closed".equals(i.getStatus().getName()) ||
+							"Resolved".equals(i.getStatus().getName()) ||
+							"Done".equals(i.getStatus().getName())) {
 						completedIssues++;
 					}
 				}
 				int days = Days.daysBetween(new DateTime(s.getStartDate()), 
 						new DateTime(Calendar.getInstance().getTime())).getDays();
-				double openTotal = days / completedIssues;
+				double openTotal = (double) (days / completedIssues);
 				int extraDays = (int) openTotal * SprintServices.estimateDays(s);
 				totalDifference += extraDays;
 				completedIssues = 0;
@@ -275,6 +321,7 @@ public class ProjectServices {
 		return c.getTime();
 	}
 	
+
 
 
 }
