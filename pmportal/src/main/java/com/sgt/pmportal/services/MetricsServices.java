@@ -185,22 +185,20 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates defects in all projects
+	 * calculates defects in a project by category
 	 * 
 	 * @param project
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public List<Long> calculateDefectTotal () throws IOException, ParseException{
-		ProjectServices projectService=new ProjectServices(client, authorization, baseURL);
-		List<JiraProject> projectList=projectService.getAllJiraProjects();
+	public List<Long> calculateDefectTotal (JiraProject project) throws IOException, ParseException{
+	
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		ArrayList<Long> defectArray=new ArrayList<Long>();
 		long seaDefect=0;
 		long eeaDefect=0;
 		long bugNum=0;
 		long overDue=0;
-		for (JiraProject project:projectList){
 			
 			//find issues listed as bugs
 			Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+project.getKey(),1000,0).claim().getIssues();
@@ -223,7 +221,6 @@ public class MetricsServices {
 			if (project.seeIfOverdue()){
 				overDue++;
 			}
-		}
 		defectArray.add(new Long(bugNum));
 		defectArray.add(new Long(seaDefect));
 		defectArray.add(new Long(eeaDefect));

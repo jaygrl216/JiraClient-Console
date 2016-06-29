@@ -121,11 +121,11 @@ public void testOverallEEA() throws IOException, ParseException{
 
 public void testAllDefects() throws IOException, ParseException{
 	System.out.println("All defects test will calculate all metrics and find defects for all projects");
-	List<Long> defectArray=metricService.calculateDefectTotal();
+	List<Long> defectArray=metricService.calculateDefectTotal(project);
 	System.out.println("Defects");
 	System.out.println("Bugs: "+defectArray.get(0));
 	System.out.println("SEA Warnings: "+defectArray.get(1));
 	System.out.println("EEA Warnings: "+defectArray.get(2));
-	System.out.println("Overdue projects: "+defectArray.get(3)+"\n");
+	System.out.println("Overdue: "+defectArray.get(3)+"\n");
 }
 }
