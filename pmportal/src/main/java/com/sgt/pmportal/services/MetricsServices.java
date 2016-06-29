@@ -142,13 +142,14 @@ public class MetricsServices {
 		for (Issue issue:issueList){
 			String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation?boardId="+sprint.getBoardId();
 			String responseString=sprintService.getAgileData(getURL);
-			System.out.println(responseString);
+			JSONObject responseObject=new JSONObject(responseString);
+			double estimation=(Double.valueOf(responseObject.get("value").toString())).doubleValue();
 			//if issue was added before the start date, that was in the estimation
 			if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
-				estimatedEffort++;
+				estimatedEffort=estimatedEffort+estimation;
 			}
 			//the total issues present at the end represents the actual effort
-			actualEffort++;
+			actualEffort=actualEffort+estimation;
 		}
 		//for older JIRAs, can find estimation in sprint report
 		}catch (FileNotFoundException greenHopper){
