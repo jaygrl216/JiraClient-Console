@@ -31,8 +31,8 @@ import com.sgt.pmportal.services.UserServices;
 public class Tests {
 
 	private static final String JIRA_URL = "http://54.152.100.242/jira";
-	private static final String JIRA_ADMIN_USERNAME = "admin";
-	private static final String JIRA_ADMIN_PASSWORD = "admin";
+	private static final String JIRA_ADMIN_USERNAME = "jwashington";
+	private static final String JIRA_ADMIN_PASSWORD = "Diamond2017";
 
 	/**
 	 * logins into JiraClient
@@ -62,6 +62,7 @@ public class Tests {
 		test.metricsServiceTest();
 		test.userServicesTest();
 		test.sprintServiceTest();
+		test.projectAnalysisTest();
 		System.out.println("Finished");
 		
 	}
@@ -246,8 +247,9 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 		System.out.println("");
 	}
 	
-	public void ProjectAnalysisTest() {
-		System.out.println("Project Services Test");
+	@Test
+	public void projectAnalysisTest() {
+		System.out.println("Project Analysis Test");
 		JiraRestClient client = login();
 		ProjectServices pservices = new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
 		SprintServices sprintServ = new SprintServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
