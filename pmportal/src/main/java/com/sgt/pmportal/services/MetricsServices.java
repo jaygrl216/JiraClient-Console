@@ -250,8 +250,8 @@ public class MetricsServices {
 	public ArrayList<Double> predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
 SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-List<Double> seaList=null;
-List<Double> eeaList=null;
+ArrayList<Double> seaList=new ArrayList<Double>();
+ArrayList<Double> eeaList=new ArrayList<Double>();
 ArrayList<Double> nextValues=new ArrayList<Double>();
 for (Sprint sprint:sprintList){
 	seaList.add(calculateSprintSEA(sprint));
