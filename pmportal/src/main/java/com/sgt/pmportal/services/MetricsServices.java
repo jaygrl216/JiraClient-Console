@@ -171,7 +171,6 @@ public class MetricsServices {
 			summand=summand + (eea-averageEEA) * (eea-averageEEA);
 		}
 		double eeaDev=Math.sqrt(summand/length);
-
 		//store values in an array list and return
 		ArrayList<Double> eeaMetric=new ArrayList<Double>();
 		eeaMetric.add(averageEEA);
@@ -204,6 +203,9 @@ public class MetricsServices {
 			}
 			if (calculateProjectSEA(project).get(0)< 0.8 || calculateProjectSEA(project).get(0) > 1.2){
 				seaDefect++;
+			}
+			if (calculateProjectEEA(project).get(0)< 0.8 || calculateProjectEEA(project).get(0) > 1.2){
+				eeaDefect++;
 			}
 			if (project.seeIfOverdue()){
 				overDue++;
