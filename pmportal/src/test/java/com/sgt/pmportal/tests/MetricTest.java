@@ -28,8 +28,8 @@ public class MetricTest {
 	ProjectServices pService=new ProjectServices(client, authorization, JIRA_URL);
 	MetricsServices  metricService=new MetricsServices(client, authorization, JIRA_URL);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PA").claim(),null);
-	ArrayList<Sprint> sprintList=new ArrayList<Sprint>();
+	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PMPOR").claim(),null);
+	List<Sprint> sprintList=new ArrayList<Sprint>();
 
 	/**
 	 * logins into JiraClient
