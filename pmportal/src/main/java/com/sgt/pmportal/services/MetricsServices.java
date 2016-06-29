@@ -1,5 +1,6 @@
 package com.sgt.pmportal.services;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -127,13 +128,18 @@ public class MetricsServices {
 	 * calculates EEA
 	 * 
 	 * @param sprint
+	 * @throws IOException 
 	 */
-	public double calculateSprintEEA(Sprint sprint){
+	public double calculateSprintEEA(Sprint sprint) throws IOException{
 		// EEA=actualEffort/estimatedEffort
 		double actualEffort=0;
 		double estimatedEffort=0;
 		ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
+		try{
 		for (Issue issue:issueList){
+			String getURL="/rest/agile/"+issue.getKey()+"/estimation";
+			String responseObject=new SprintServices(client, authorization, baseURL).getAgileData(getURL);
+			System.out.println(responseObject);
 			//if issue was added before the start date, that was in the estimation
 			if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
 				estimatedEffort++;
@@ -141,9 +147,15 @@ public class MetricsServices {
 			//the total issues present at the end represents the actual effort
 			actualEffort++;
 		}
+		}catch (FileNotFoundException greenHopper){
+			System.err.println("Jira version is outdated! Attempting to fix with Greenhopper API...");
+			
+		}
 		double eea=actualEffort/estimatedEffort;
 		return eea;
 	}
+	
+	
 	/**
 	 * calculates Project EEA and standard deviation
 	 * 
