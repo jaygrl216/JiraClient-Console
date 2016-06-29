@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -243,5 +244,30 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 				}
 			}
 		System.out.println("");
+	}
+	
+	public void ProjectAnalysisTest() {
+		System.out.println("Project Services Test");
+		JiraRestClient client = login();
+		ProjectServices pservices = new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
+		SprintServices sprintServ = new SprintServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
+		
+		JiraProject project = pservices.getProjectByKey("PMPOR");
+		try {
+			sprintServ.getAllSprintsForProject(project);
+			Date dueDate = project.getDueDate();
+			Date projectedDate = pservices.projectedDueDate(project);
+			
+			System.out.println("The project is supposed to be completed on " 
+			+ dueDate.toString());
+			System.out.println("The project is expected to be completed on " 
+					+ projectedDate.toString());
+		} catch (IOException | ParseException e) {
+			System.err.println("Error with Accessing Sprints");
+		}
+			
+
+		
+		
 	}
 }
