@@ -201,10 +201,12 @@ public class MetricsServices {
 					bugNum++;
 				}
 			}
-			if (calculateProjectSEA(project).get(0)< 0.8 || calculateProjectSEA(project).get(0) > 1.2){
+			double sea=calculateProjectSEA(project).get(0);
+			if (sea< 0.8 || sea > 1.2){
 				seaDefect++;
 			}
-			if (calculateProjectEEA(project).get(0)< 0.8 || calculateProjectEEA(project).get(0) > 1.2){
+			double eea=calculateProjectEEA(project).get(0);
+			if (eea< 0.8 || eea > 1.2){
 				eeaDefect++;
 			}
 			if (project.seeIfOverdue()){

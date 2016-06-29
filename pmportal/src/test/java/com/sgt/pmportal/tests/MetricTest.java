@@ -57,7 +57,7 @@ public class MetricTest {
 
 		test.testSprintEEA();
 		test.testOverallEEA();
-		//test.testAllDefects();
+		test.testAllDefects();
 		System.out.println("Finished");
 
 	}
