@@ -51,10 +51,10 @@ public class MetricTest {
 		MetricTest test=new MetricTest();
 		//this runs a series of tests as a java application
 		test.printInfo();
-		test.testProgress();
-		test.testSEA();
+		//test.testProgress();
+		//test.testSEA();
 		test.testOverallSEA();
-		test.testAllDefects();
+		//test.testAllDefects();
 		test.testSprintEEA();
 		System.out.println("Finished");
 
@@ -108,5 +108,13 @@ public class MetricTest {
 		System.out.println("Overdue projects: "+defectArray.get(3)+"\n");
 	}
 public void testSprintEEA() throws IOException, ParseException{
+	System.out.println("Sprint EEA test will display the EEA of a sprint");
+	try{
+	sprintList=sprintService.getClosedSprintsByProject(project);
+	Sprint sprint=sprintList.get(0);
+	System.out.println("EEA: "+ metricServices.calculateSprintEEA(sprint)+"\n");
+	}catch(NullPointerException noSprint){
+		System.err.println(noSprint);
+	}
 }
 }
