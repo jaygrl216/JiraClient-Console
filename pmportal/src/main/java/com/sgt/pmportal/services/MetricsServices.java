@@ -244,10 +244,10 @@ public class MetricsServices {
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public List<Long> calculateDefectTotal (JiraProject project) throws IOException, ParseException{
+	public List<Number> calculateDefectTotal (JiraProject project) throws IOException, ParseException{
 
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
-		ArrayList<Long> defectArray=new ArrayList<Long>();
+		ArrayList<Number> defectArray=new ArrayList<Number>();
 		long seaDefect=0;
 		long eeaDefect=0;
 		long bugNum=calculateBugs(project.getKey());
@@ -255,20 +255,15 @@ public class MetricsServices {
 		//get sprints here and pass them in to reduce repetitive load times
 		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		double sea=calculateProjectSEA(project, sprintList).get(0);
-		if (sea< 0.8 || sea > 1.25){
-			seaDefect++;
-		}
 		double eea=calculateProjectEEA(project, sprintList).get(0);
-		if (eea > 2.0){
-			eeaDefect++;
-		}
+
 		if (project.seeIfOverdue()){
 			overDue++;
 		}
 		//store all values in an array so we can return a single object, indices [0]=bugs, [1]=SEA, [2]=EEA, [3]=overdue
 		defectArray.add(new Long(bugNum));
-		defectArray.add(new Long(seaDefect));
-		defectArray.add(new Long(eeaDefect));
+		defectArray.add(new Double(sea));
+		defectArray.add(new Double(eea));
 		defectArray.add(new Long(overDue));
 		return defectArray;
 	}
