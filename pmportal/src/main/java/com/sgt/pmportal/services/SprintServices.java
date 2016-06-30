@@ -183,7 +183,6 @@ public class SprintServices {
 					sprintList.add(new Sprint(iteratorObject.get("name").toString(), iteratorObject.get("id").toString(), 
 							iteratorObject.get("state").toString(), format.parse(iteratorObject.get("startDate").toString()), 
 							format.parse(iteratorObject.get("endDate").toString()), format.parse(iteratorObject.get("completeDate").toString()), boardId));
-				System.out.println(iteratorObject.get("startDate"));
 				}
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			
