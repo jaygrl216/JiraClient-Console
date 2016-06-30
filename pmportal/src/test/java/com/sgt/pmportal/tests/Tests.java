@@ -265,7 +265,7 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 			System.out.println("The project is expected to be completed on " 
 					+ projectedDate.toString());
 		} catch (IOException | ParseException e) {
-			System.err.println("Error with Accessing Sprints");
+			System.err.println("Error with Accessing Sprints\n");
 		}
 			
 
