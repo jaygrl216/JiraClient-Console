@@ -294,6 +294,8 @@ public class ProjectServices {
 		for (Sprint s: project.getSprints()) {
 			if(s.isClosed()) {
 				int durationDiff = SprintServices.sprintDifference(s);
+				System.out.format("This sprint was completed %d day(s) after behind schedule.\n", 
+						durationDiff);
 				totalDifference += durationDiff;
 			} 
 			

@@ -71,11 +71,15 @@ public class Sprint {
 		return boardId;
 	}
 	public boolean isClosed() {
-		return true;
+		return status == CLOSED;
 	}
 	
 	public boolean isOpen() {
-		return true;
+		return status == OPEN;
+	}
+	
+	public boolean isFuture() {
+		return status == FUTURE;
 	}
 	
 	
