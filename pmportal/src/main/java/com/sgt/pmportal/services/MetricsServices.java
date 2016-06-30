@@ -90,8 +90,9 @@ public class MetricsServices {
 	 */
 	public ArrayList<Double> calculateProjectSEA(JiraProject project, List<Sprint> sprintList) throws IOException, ParseException{
 		System.out.println("Getting sprints...");
-		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
+		project.getSprints();
 		if (sprintList==null){
+			SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 			sprintList=sprintService.getClosedSprintsByProject(project);
 		}
 		double seaSum=0;
@@ -219,11 +220,16 @@ public class MetricsServices {
 	public long calculateBugs(String projectKey){
 		//find issues listed as bugs
 		long bugNum=0;
+		//Long JQL query, but better performance if we let the jira server handle the sorting than converting all these
+		//to issues and then filtering their statuses
 		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey + "&status=open"
 				+ "OR project="	+projectKey+"&status=\"In Progress\" "
 				+ "OR project=" + projectKey + "&status=\"To Do\" "
 				+ "OR project="+projectKey+"&status=\"Reopened\"",1000,0).claim().getIssues();
+
+		//iterate through search results to find those of type bug
 		for (BasicIssue issue:issueList){
+			//The class BasicIssue does not contain informatio about the issue type, convert to JiraIssue
 			String issueType=GeneralServices.toJiraIssue(issue, client).getType();
 			if (Objects.equals(issueType, "Bug")){
 				bugNum++;
@@ -259,6 +265,7 @@ public class MetricsServices {
 		if (project.seeIfOverdue()){
 			overDue++;
 		}
+		//store all values in an array so we can return a single object, indices [0]=bugs, [1]=SEA, [2]=EEA, [3]=overdue
 		defectArray.add(new Long(bugNum));
 		defectArray.add(new Long(seaDefect));
 		defectArray.add(new Long(eeaDefect));
