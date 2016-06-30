@@ -256,7 +256,7 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 		
 		JiraProject project = pService.toJiraProject(client.getProjectClient().getProject(
 				"PMPOR").claim(), null);
-			sprintServ.getClosedSprintsByProject(project);
+			sprintServ.getAllSprintsForProject(project);
 			Date dueDate = project.getDueDate();
 			Date projectedDate = pService.projectedDueDate(project);
 			
