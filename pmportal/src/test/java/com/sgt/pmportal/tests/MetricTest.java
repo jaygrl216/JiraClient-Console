@@ -26,7 +26,7 @@ public class MetricTest {
 	ProjectServices pService=new ProjectServices(client, authorization, JIRA_URL);
 	MetricsServices  metricService=new MetricsServices(client, authorization, JIRA_URL);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("SA").claim(),null);
+	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PA").claim(),null);
 	List<Sprint> sprintList=new ArrayList<Sprint>();
 	/**
 	 * logins into JiraClient
@@ -125,17 +125,21 @@ public class MetricTest {
 	public void testPredict() throws JSONException, IOException, ParseException {
 		System.out.println("Predict test will display SEA and EEA with last values a prediction");
 		ArrayList<List<Double>> dataList=metricService.predictTrend(project);
+if (dataList.size()>0){
 		List<Double >seaList=dataList.get(0);
 		List<Double> eeaList=dataList.get(1);
 		System.out.println("SEA values:");
 		for (Double sea:seaList){
 			System.out.println(sea);
 		}
-		System.out.println("\nEEA values:");
+		System.out.println("^Predicted value\n\nEEA values:");
 		for (Double eea:eeaList){
 			System.out.println(eea);
 		}
-		
+		System.out.println("^Predicted value");
+} else{
+	System.err.println("Not enough data available!");
+}
 	}
 	
 }

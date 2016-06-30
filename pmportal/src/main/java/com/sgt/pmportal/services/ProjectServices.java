@@ -299,7 +299,7 @@ public class ProjectServices {
 			} 
 			
 			if (s.isOpen()) {
-				ArrayList<Issue> issuesForSprint = SprintServices.getIssuesBySprint(s, 
+				List<Issue> issuesForSprint = SprintServices.getIssuesBySprint(s, 
 						mainClient);
 				for(Issue i: issuesForSprint) {
 
