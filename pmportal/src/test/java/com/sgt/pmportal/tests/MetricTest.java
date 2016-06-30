@@ -118,4 +118,10 @@ public class MetricTest {
 		System.out.println("EEA: "+defectArray.get(2));
 		System.out.println("Overdue: "+defectArray.get(3)+"\n");
 	}
+	public void testPredict() {
+		System.out.println("Predict test will display values of SEA and EEA and their predicted next value");
+		double bugNum=metricService.calculateBugs(project.getKey());
+		System.out.println("Bugs: "+bugNum+"\n");
+	}
+	
 }

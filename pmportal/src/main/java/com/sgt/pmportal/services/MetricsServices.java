@@ -278,8 +278,11 @@ public class MetricsServices {
 	public ArrayList<Double> predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		//begin the list with value of 1 (default) to work with single sprints (index out of bounds errors)
 		ArrayList<Double> seaList=new ArrayList<Double>();
+		seaList.add((double) 1);
 		ArrayList<Double> eeaList=new ArrayList<Double>();
+		eeaList.add((double) 1);
 		double nextSea=0;
 		double nextEea=0;
 		ArrayList<Double> nextValues=new ArrayList<Double>();
@@ -288,7 +291,7 @@ public class MetricsServices {
 			seaList.add(calculateSprintSEA(sprint));
 			eeaList.add(calculateSprintEEA(sprint));
 		}
-		//using Theil-Sen estimator, which finds the median of the slopes (change in x is i+1-i=1)
+		//using Theil-Sen estimator, which finds the median of the slopes (change in x is (i+1)-i=1)
 		List<Double> slopeList=new ArrayList<Double>();
 		for (int i=0; i+1 < seaList.size();i++){
 			slopeList.add(seaList.get(i+1)-seaList.get(i));
@@ -299,7 +302,6 @@ public class MetricsServices {
 		System.out.println(nextSea);
 		nextValues.add(nextSea);
 		nextValues.add(nextEea);
-		//TODO, find least squares method in linear algebra notebook when you get home
 		return nextValues;
 	}
 }
