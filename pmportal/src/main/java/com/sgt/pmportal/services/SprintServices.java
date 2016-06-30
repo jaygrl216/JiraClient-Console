@@ -322,15 +322,15 @@ public class SprintServices {
 	 */
 	public List<Sprint> getAllSprintsForProject (JiraProject project) throws
 	IOException, ParseException {
-		//List<Sprint> closed = getClosedSprintsByProject(project);
+		List<Sprint> closed = getClosedSprintsByProject(project);
 		List<Sprint> open = getOpenSprintsByProject(project);
 		List<Sprint> future = getFutureSprintsByProject(project);
 
 		ArrayList<Sprint> all = new ArrayList<>();
-//
-//		for (Sprint s: closed) {
-//			all.add(s);
-//		}
+
+		for (Sprint s: closed) {
+			all.add(s);
+		}
 
 		for (Sprint s: open) {
 			all.add(s);

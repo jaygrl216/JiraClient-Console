@@ -279,14 +279,14 @@ public class Tests {
 		System.out.format("Open Sprints for %s: %d\n", project.getKey(), open);
 		System.out.format("Future Sprints for %s: %d\n", project.getKey(), future);
 
-		//		sprintServ.getAllSprintsForProject(project);
-		//		Date dueDate = project.getDueDate();
-		//		Date projectedDate = pService.projectedDueDate(project);
-		//
-		//		System.out.println("The project is supposed to be completed on " 
-		//				+ dueDate.toString());
-		//		System.out.println("The project is expected to be completed on " 
-		//				+ projectedDate.toString());
+				sprintServ.getAllSprintsForProject(project);
+				Date dueDate = project.getDueDate();
+				Date projectedDate = pService.projectedDueDate(project);
+		
+				System.out.println("The project is supposed to be completed on " 
+						+ dueDate.toString());
+				System.out.println("The project is expected to be completed on " 
+						+ projectedDate.toString());
 
 
 

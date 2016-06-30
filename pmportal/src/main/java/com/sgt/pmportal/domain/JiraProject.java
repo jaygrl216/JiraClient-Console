@@ -173,7 +173,7 @@ public class JiraProject {
 	}
 	
 	public void addSprints(ArrayList<Sprint> sprints) {
-		this.sprints = new ArrayList<Sprint>();
+		this.sprints = new ArrayList<Sprint>(sprints);
 	}
 	
 	
