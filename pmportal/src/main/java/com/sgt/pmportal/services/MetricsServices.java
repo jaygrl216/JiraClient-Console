@@ -141,7 +141,7 @@ public class MetricsServices {
 				System.out.println(responseObject);
 				double estimation=0;
 				try{
-				estimation=(Double.valueOf(responseObject.get("value").toString())).doubleValue();
+					estimation=(Double.valueOf(responseObject.get("value").toString())).doubleValue();
 				} catch(JSONException noValue){
 					System.err.println("Issue does not contain an estimation!");
 				}
@@ -219,7 +219,10 @@ public class MetricsServices {
 	public long calculateBugs(String projectKey){
 		//find issues listed as bugs
 		long bugNum=0;
-		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey+"&status=unresolved",1000,0).claim().getIssues();
+		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey + "&status=open"
+				+ "OR project="	+projectKey+"&status=\"In Progress\" "
+				+ "OR project=" + projectKey + "&status=\"To Do\" "
+				+ "OR project="+projectKey+"&status=\"Reopened\"",1000,0).claim().getIssues();
 		for (BasicIssue issue:issueList){
 			String issueType=GeneralServices.toJiraIssue(issue, client).getType();
 			if (Objects.equals(issueType, "Bug")){
