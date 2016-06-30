@@ -56,12 +56,12 @@ public class Tests {
 		Tests test=new Tests();
 		//this runs a series of tests as a java application
 
-		test.printInfo();
-		test.testProjectInfo();
-		test.versionTest();
-		test.metricsServiceTest();
-		test.userServicesTest();
-		test.sprintServiceTest();
+//		test.printInfo();
+//		test.testProjectInfo();
+//		test.versionTest();
+//		test.metricsServiceTest();
+//		test.userServicesTest();
+//		test.sprintServiceTest();
 		test.projectAnalysisTest();
 		System.out.println("Finished");
 		
@@ -254,8 +254,7 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 		ProjectServices pService = new ProjectServices(client, GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWORD), JIRA_URL);
 		SprintServices sprintServ = new SprintServices(client, GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWORD), JIRA_URL);
 		
-		JiraProject project = pService.toJiraProject(client.getProjectClient().getProject(
-				"PMPOR").claim(), null);
+		JiraProject project = pService.getProjectByKey("PMPOR");
 			sprintServ.getAllSprintsForProject(project);
 			Date dueDate = project.getDueDate();
 			Date projectedDate = pService.projectedDueDate(project);
