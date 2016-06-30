@@ -235,27 +235,28 @@ public class Tests {
 			System.err.println("No future sprints.");
 		}
 
-<<<<<<< HEAD
+
 		System.out.println("");
 		//get issues from sprint
 		if (sprint !=null){
-			ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
+			List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
 			System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
 			for (Issue il:issueList){
 				System.out.println(il.getKey());
-=======
-			System.out.println("");
-			//get issues from sprint
-			if (sprint !=null){
-				List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
-				System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
-				for (Issue il:issueList){
-					System.out.println(il.getKey());
+
+				System.out.println("");
+				//get issues from sprint
+				if (sprint !=null){
+					issueList=SprintServices.getIssuesBySprint(sprint, client);
+					System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
+					for (Issue i:issueList){
+						System.out.println(i.getKey());
+					}
+
 				}
->>>>>>> branch 'master' of https://github.com/jaygrl216/PMPortal.git
 			}
+			System.out.println("");
 		}
-		System.out.println("");
 	}
 
 	@Test
@@ -273,19 +274,19 @@ public class Tests {
 		int closed = sprintServ.getClosedSprintsByProject(project).size();
 		int open = sprintServ.getOpenSprintsByProject(project).size();
 		int future = sprintServ.getFutureSprintsByProject(project).size();
-		
+
 		System.out.format("Closed Sprints for %s: %d\n", project.getKey(), closed);
 		System.out.format("Open Sprints for %s: %d\n", project.getKey(), open);
 		System.out.format("Future Sprints for %s: %d\n", project.getKey(), future);
-		
-//		sprintServ.getAllSprintsForProject(project);
-//		Date dueDate = project.getDueDate();
-//		Date projectedDate = pService.projectedDueDate(project);
-//
-//		System.out.println("The project is supposed to be completed on " 
-//				+ dueDate.toString());
-//		System.out.println("The project is expected to be completed on " 
-//				+ projectedDate.toString());
+
+		//		sprintServ.getAllSprintsForProject(project);
+		//		Date dueDate = project.getDueDate();
+		//		Date projectedDate = pService.projectedDueDate(project);
+		//
+		//		System.out.println("The project is supposed to be completed on " 
+		//				+ dueDate.toString());
+		//		System.out.println("The project is expected to be completed on " 
+		//				+ projectedDate.toString());
 
 
 
