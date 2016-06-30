@@ -251,8 +251,8 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 	public void projectAnalysisTest() throws IOException, ParseException{
 		System.out.println("Project Analysis Test");
 		JiraRestClient client = login();
-		ProjectServices pService = new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
-		SprintServices sprintServ = new SprintServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
+		ProjectServices pService = new ProjectServices(client, GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWORD), JIRA_URL);
+		SprintServices sprintServ = new SprintServices(client, GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWORD), JIRA_URL);
 		
 		JiraProject project = pService.toJiraProject(client.getProjectClient().getProject(
 				"PMPOR").claim(), null);
