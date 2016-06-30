@@ -135,14 +135,22 @@ public class MetricsServices {
 		//for a modern JIRA, get estimation as a property of issues
 		try{
 			for (Issue issue:issueList){
-				String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation?boardId="+sprint.getBoardId();
+				String getURL="/rest/agile/latest/issue/"+issue.getKey()+"/estimation?boardId="+sprint.getBoardId();
 				String responseString=sprintService.getAgileData(getURL);
 				JSONObject responseObject=new JSONObject(responseString);
-				double estimation=(Double.valueOf(responseObject.get("value").toString())).doubleValue();
+				System.out.println(responseObject);
+				double estimation=0;
+				try{
+				estimation=(Double.valueOf(responseObject.get("value").toString())).doubleValue();
+				} catch(JSONException noValue){
+					System.err.println("Issue does not contain an estimation!");
+				}
 				//if issue was added before the start date, that was in the estimation
-				if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
+				if (sprint.getStartDate().getTime()>(issue.getCreationDate().toDate().getTime())){
 					estimatedEffort=estimatedEffort+estimation;
 				}
+				System.out.println(sprint.getStartDate());
+				System.out.println(issue.getCreationDate());
 				//the total issues present at the end represents the actual effort
 				actualEffort=actualEffort+estimation;
 			}

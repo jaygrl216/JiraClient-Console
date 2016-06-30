@@ -91,7 +91,7 @@ public class SprintServices {
 				}
 				JSONObject sprintObject=new JSONObject(sprintResponse);
 				sprintArray=sprintObject.getJSONArray("values");
-				//The data comes in in different formats. To simplify, we will convert them both to simple date objects
+				//The data comes in different formats. To simplify, we will convert them both to simple date objects
 				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);	
 				//retrieve data
 				for (int i=0; i<sprintArray.length(); i++){
@@ -99,7 +99,9 @@ public class SprintServices {
 					sprintList.add(new Sprint(iteratorObject.get("name").toString(), iteratorObject.get("id").toString(), 
 							iteratorObject.get("state").toString(), format.parse(iteratorObject.get("startDate").toString()), 
 							format.parse(iteratorObject.get("endDate").toString()), null, boardId));
+				
 				}
+			
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			
 				String sprintGreenHopperResponse=getAgileData("/rest/greenhopper/latest/sprintquery/" + boardId);
