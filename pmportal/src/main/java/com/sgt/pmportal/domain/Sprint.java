@@ -10,6 +10,9 @@ import java.util.Date;
  *
  */
 public class Sprint {
+	private static int CLOSED = -1;
+	private static int OPEN = 0;
+	private static int FUTURE = 1;
 	protected String name;
 	protected String id;
 	protected String state;
@@ -17,6 +20,7 @@ public class Sprint {
 	protected Date endDate;
 	protected Date completeDate;
 	protected String boardId;
+	protected int status;
 
 	/**
 	 * Constructor for Sprint object
@@ -28,7 +32,8 @@ public class Sprint {
 	 * @param endDate
 	 * @param completeDate
 	 */
-	public Sprint(String name, String id, String state, Date startDate, Date endDate, Date completeDate, String boardId) {
+	public Sprint(String name, String id, String state, Date startDate, 
+			Date endDate, Date completeDate, String boardId, int status) {
 		this.name = name;
 		this.id = id;
 		this.state = state;
@@ -36,6 +41,7 @@ public class Sprint {
 		this.endDate = endDate;
 		this.completeDate = completeDate;
 		this.boardId=boardId;
+		this.status = status;
 	}
 	
 	public String getName() {

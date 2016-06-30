@@ -284,7 +284,6 @@ public class ProjectServices {
 	 * @return Date
 	 */
 	public Date projectedDueDate (JiraProject project) {
-		/* TODO this is wrong */
 		Date dueDate = project.getDueDate();
 		Calendar c = Calendar.getInstance();
 		c.setTime(dueDate);
