@@ -221,15 +221,15 @@ public class MetricsServices {
 		//find issues listed as bugs
 		long bugNum=0;
 		//Long JQL query, but better performance if we let the jira server handle the sorting than converting all these
-		//to issues and then filtering their statuses
-		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey + "&status=open"
+		//to issues and then filtering their statuses. Leave spaces before OR!
+		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey + "&status=open "
 				+ "OR project="	+projectKey+"&status=\"In Progress\" "
 				+ "OR project=" + projectKey + "&status=\"To Do\" "
 				+ "OR project="+projectKey+"&status=\"Reopened\"",1000,0).claim().getIssues();
 
 		//iterate through search results to find those of type bug
 		for (BasicIssue issue:issueList){
-			//The class BasicIssue does not contain informatio about the issue type, convert to JiraIssue
+			//The class BasicIssue does not contain information about the issue type, convert to JiraIssue
 			String issueType=GeneralServices.toJiraIssue(issue, client).getType();
 			if (Objects.equals(issueType, "Bug")){
 				bugNum++;

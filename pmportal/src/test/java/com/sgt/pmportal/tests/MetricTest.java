@@ -80,7 +80,7 @@ public class MetricTest {
 					+ "percentage.\n");
 			double sea=MetricsServices.calculateSprintSEA(sprint);
 			System.out.println("The SEA of sprint "+sprint.getName()+" is: " + sea+"\n");
-		}catch(NullPointerException noSprint){
+		}catch(IndexOutOfBoundsException noSprint){
 			System.err.println(noSprint);
 		}
 	}
@@ -114,8 +114,8 @@ public class MetricTest {
 		List<Number> defectArray=metricService.calculateDefectTotal(project);
 		System.out.println("Defects");
 		System.out.println("Bugs: "+defectArray.get(0));
-		System.out.println("SEA Warning: "+defectArray.get(1));
-		System.out.println("EEA Warning: "+defectArray.get(2));
+		System.out.println("SEA: "+defectArray.get(1));
+		System.out.println("EEA: "+defectArray.get(2));
 		System.out.println("Overdue: "+defectArray.get(3)+"\n");
 	}
 }
