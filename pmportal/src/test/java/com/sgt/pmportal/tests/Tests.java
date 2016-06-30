@@ -248,25 +248,23 @@ ProjectServices pService=new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_U
 	}
 	
 	@Test
-	public void projectAnalysisTest() {
+	public void projectAnalysisTest() throws IOException, ParseException{
 		System.out.println("Project Analysis Test");
 		JiraRestClient client = login();
-		ProjectServices pservices = new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
+		ProjectServices pService = new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
 		SprintServices sprintServ = new SprintServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
 		
-		JiraProject project = pservices.getProjectByKey("PMPOR");
-		try {
-			sprintServ.getAllSprintsForProject(project);
+		JiraProject project = pService.toJiraProject(client.getProjectClient().getProject(
+				"PMPOR").claim(), null);
+			sprintServ.getClosedSprintsByProject(project);
 			Date dueDate = project.getDueDate();
-			Date projectedDate = pservices.projectedDueDate(project);
+			Date projectedDate = pService.projectedDueDate(project);
 			
 			System.out.println("The project is supposed to be completed on " 
 			+ dueDate.toString());
 			System.out.println("The project is expected to be completed on " 
 					+ projectedDate.toString());
-		} catch (IOException | ParseException e) {
-			System.err.println("Error with Accessing Sprints\n");
-		}
+		
 			
 
 		
