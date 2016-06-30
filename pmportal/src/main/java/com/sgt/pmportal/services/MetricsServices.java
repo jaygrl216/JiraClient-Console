@@ -274,9 +274,11 @@ public class MetricsServices {
 	public ArrayList<List<Double>> predictAccuracy(JiraProject project) throws JSONException, IOException, ParseException{
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		//Datalist will hold seaList and eeaList to package them together
 		ArrayList<List<Double>> dataList=new ArrayList<List<Double>>();
 		List<Double> seaList=new ArrayList<Double>();
 		List<Double> eeaList=new ArrayList<Double>();
+		//check if the sprintList is empty
 		if (sprintList.size()>0){
 			double nextSea=0;
 			double nextEea=0;
@@ -312,6 +314,7 @@ public class MetricsServices {
 			eeaList.add(nextEea);
 			dataList.add(eeaList);
 		}
+		//indices [0]=seaList, [1]=eeaList
 		return dataList;
 	}
 
@@ -328,24 +331,25 @@ public class MetricsServices {
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		for (Sprint sprint:sprintList){
+			//get list of issues in a sprint (time consuming)
 			List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
 			long bugNum=0;
+			//go through issues to find bugs
 			for (Issue issue:issueList){
-
 				if (Objects.equals(issue.getIssueType().getName(), "Bug")){
 					bugNum++;
 				}
-
 			}
+			//add the number of bugs in the sprint to a list
 			bugList.add(bugNum);
 		}
+		//see if buglist is empty
 		if (bugList.size()>0){
 			//default value is the value of the last bug
 			long nextBug=bugList.get(bugList.size()-1);
-			//if there is sufficient data, use theil-sen to predict next value
+			//if there is sufficient data, use Theil-Sen to predict next value
 			if (bugList.size()>1){
-				//using Theil-Sen estimator, which finds the median of the slopes (change in x is (i+1)-i=1)
-
+				//using Theil-Sen Estimator
 				for (int i=0; i+1 < bugList.size();i++){
 					List<Long> bugSlopeList=new ArrayList<Long>();
 					bugSlopeList.add(bugList.get(i+1)-bugList.get(i));
