@@ -85,7 +85,7 @@ public class SprintServices {
 		if (boardId!= "0"){
 			try {
 				JSONArray sprintArray=new JSONArray();
-				String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=active");
+				String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=active ORDER BY createdDate");
 				if (sprintResponse==null){
 					return sprintList;
 				}
@@ -168,7 +168,7 @@ public class SprintServices {
 		if (boardId!="0"){
 			try{
 				JSONArray sprintArray=new JSONArray();
-				String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=closed");
+				String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=closed ORDER BY createdDate");
 				if (sprintResponse==null){
 					return sprintList;
 				}
@@ -250,7 +250,7 @@ public class SprintServices {
 		if (boardId!="0"){
 			try{
 				JSONArray sprintArray=new JSONArray();
-				String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=future");
+				String sprintResponse=getAgileData("/rest/agile/latest/board/" + boardId + "/sprint?state=future ORDER BY createdDate");
 				if (sprintResponse==null){
 					return sprintList;
 				}
@@ -301,7 +301,7 @@ public class SprintServices {
 	public static List<Issue> getIssuesBySprint(Sprint sprint, JiraRestClient client){
 		List<Issue> issueList=new ArrayList<Issue>();
 		Iterable<BasicIssue> sprintIssueList=client.getSearchClient().searchJql(
-				"sprint= " + sprint.getId(),1000,0).claim().getIssues();
+				"sprint= " + sprint.getId()+" ORDER BY createdDate",1000,0).claim().getIssues();
 		System.out.print("Gathering Issues");
 		for (BasicIssue sil:sprintIssueList){
 			System.out.print(".");
