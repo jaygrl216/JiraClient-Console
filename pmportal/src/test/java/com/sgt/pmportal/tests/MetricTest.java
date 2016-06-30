@@ -26,7 +26,7 @@ public class MetricTest {
 	ProjectServices pService=new ProjectServices(client, authorization, JIRA_URL);
 	MetricsServices  metricService=new MetricsServices(client, authorization, JIRA_URL);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PA").claim(),null);
+	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PMPOR").claim(),null);
 	List<Sprint> sprintList=new ArrayList<Sprint>();
 	/**
 	 * logins into JiraClient
@@ -46,14 +46,14 @@ public class MetricTest {
 	public static void main(String[] args) throws IOException, ParseException{
 		MetricTest test=new MetricTest();
 		//this runs a series of tests as a java application
-		//test.printInfo();
-		//test.testProgress();
-		//test.testSprintSEA();
-		//test.testOverallSEA();
-	//	test.testSprintEEA();
-		//test.testOverallEEA();
-		//test.testBugs();
-		//test.testAllDefects();
+		test.printInfo();
+		test.testProgress();
+		test.testSprintSEA();
+		test.testOverallSEA();
+		test.testSprintEEA();
+		test.testOverallEEA();
+		test.testBugs();
+		test.testAllDefects();
 		test.testPredict();
 		System.out.println("Finished");
 
@@ -123,7 +123,7 @@ public class MetricTest {
 		System.out.println("Overdue: "+defectArray.get(3)+"\n");
 	}
 	public void testPredict() throws JSONException, IOException, ParseException {
-		System.out.println("Predict test will display SEA and EEA with last values a prediction");
+		System.out.println("Predict test will display SEA and EEA with last values as a prediction");
 		ArrayList<List<Double>> dataList=metricService.predictTrend(project);
 if (dataList.size()>0){
 		List<Double >seaList=dataList.get(0);
