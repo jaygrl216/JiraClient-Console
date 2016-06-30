@@ -20,7 +20,7 @@ import com.sgt.pmportal.services.ProjectServices;
 import com.sgt.pmportal.services.SprintServices;
 
 public class MetricTest {
-	private static final String JIRA_URL = "http://54.152.100.242/jira";
+	private static final String JIRA_URL = "http://52.39.123.69:8080";
 	private static final String JIRA_ADMIN_USERNAME = "amital";
 	private static final String JIRA_ADMIN_PASSWORD = "ComPuteR90";
 	private static String authorization;
@@ -56,8 +56,8 @@ public class MetricTest {
 		//test.testOverallSEA();
 
 		test.testSprintEEA();
-		//test.testOverallEEA();
-		//test.testBugs();
+		test.testOverallEEA();
+		test.testBugs();
 		//test.testAllDefects();
 		System.out.println("Finished");
 

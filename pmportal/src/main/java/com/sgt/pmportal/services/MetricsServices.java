@@ -135,12 +135,18 @@ public class MetricsServices {
 		//for a modern JIRA, get estimation as a property of issues
 		try{
 			for (Issue issue:issueList){
-				String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation?boardId="+sprint.getBoardId();
+				String getURL="/rest/agile/latest/issue/"+issue.getKey()+"/estimation?boardId="+sprint.getBoardId();
 				String responseString=sprintService.getAgileData(getURL);
 				JSONObject responseObject=new JSONObject(responseString);
-				double estimation=(Double.valueOf(responseObject.get("value").toString())).doubleValue();
+				System.out.println(responseObject);
+				double estimation=0;
+				try{
+				estimation=(Double.valueOf(responseObject.get("value").toString())).doubleValue();
+				} catch(JSONException noValue){
+					System.err.println("Issue does not contain an estimation!");
+				}
 				//if issue was added before the start date, that was in the estimation
-				if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
+				if (sprint.getStartDate().getTime()>(issue.getCreationDate().toDate().getTime())){
 					estimatedEffort=estimatedEffort+estimation;
 				}
 				//the total issues present at the end represents the actual effort
@@ -213,7 +219,7 @@ public class MetricsServices {
 	public long calculateBugs(String projectKey){
 		//find issues listed as bugs
 		long bugNum=0;
-		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey,1000,0).claim().getIssues();
+		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey+"&status=unresolved",1000,0).claim().getIssues();
 		for (BasicIssue issue:issueList){
 			String issueType=GeneralServices.toJiraIssue(issue, client).getType();
 			if (Objects.equals(issueType, "Bug")){

@@ -91,15 +91,17 @@ public class SprintServices {
 				}
 				JSONObject sprintObject=new JSONObject(sprintResponse);
 				sprintArray=sprintObject.getJSONArray("values");
-				//The data comes in in different formats. To simplify, we will convert them both to simple date objects
-				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);	
+				//The data comes in different formats. To simplify, we will convert them both to simple date objects
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.ENGLISH);	
 				//retrieve data
 				for (int i=0; i<sprintArray.length(); i++){
 					JSONObject iteratorObject=sprintArray.getJSONObject(i);
 					sprintList.add(new Sprint(iteratorObject.get("name").toString(), iteratorObject.get("id").toString(), 
 							iteratorObject.get("state").toString(), format.parse(iteratorObject.get("startDate").toString()), 
 							format.parse(iteratorObject.get("endDate").toString()), null, boardId));
+				
 				}
+			
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			
 				String sprintGreenHopperResponse=getAgileData("/rest/greenhopper/latest/sprintquery/" + boardId);
@@ -145,7 +147,8 @@ public class SprintServices {
 			JSONObject boardObject=new JSONObject(boardResponse);
 			boards=boardObject.getJSONArray("values");
 			for (int i=0; i<boards.length(); i++){
-				if (Objects.equals(boards.getJSONObject(i).get("name").toString(), project.getKey()+" board")){
+				if (Objects.equals(boards.getJSONObject(i).get("name").toString(), project.getName())|| Objects.equals(boards.getJSONObject(i).get(
+						"name").toString(), project.getKey()+" board")){
 					boardId=boards.getJSONObject(i).get("id").toString();
 					i=boards.length();
 				}
@@ -172,7 +175,8 @@ public class SprintServices {
 				JSONObject sprintObject=new JSONObject(sprintResponse);
 				sprintArray=sprintObject.getJSONArray("values");
 				//format date
-				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.ENGLISH);
+	
 				//retrieve data
 				for (int i=0; i<sprintArray.length(); i++){
 					JSONObject iteratorObject=sprintArray.getJSONObject(i);
@@ -236,7 +240,8 @@ public class SprintServices {
 			JSONObject boardObject=new JSONObject(boardResponse);
 			boards=boardObject.getJSONArray("views");
 			for (int i=0; i<boards.length(); i++){
-				if (Objects.equals(boards.getJSONObject(i).get("name").toString(), project.getName())){
+				if (Objects.equals(boards.getJSONObject(i).get("name").toString(), project.getName())|| Objects.equals(boards.getJSONObject(i).get(
+						"name").toString(), project.getKey()+" board")){
 					boardId=boards.getJSONObject(i).get("id").toString();
 					i=boards.length();
 				}
