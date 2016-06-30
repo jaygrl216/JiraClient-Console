@@ -363,4 +363,8 @@ public class MetricsServices {
 		}
 		return bugList;
 	}
+	
+	public void getForecastInterval(List<Double> data, double regressionSlope){
+		
+	}
 }
