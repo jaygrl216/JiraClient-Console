@@ -41,9 +41,8 @@ public class MetricsServices {
 		this.authorization=authorization;
 		this.baseURL=baseURL;
 	}
-
 	/**
-	 * Calculates the progress on a specific project
+	 * Calculates the progress on a specific project as completed issues out of total issues
 	 * 
 	 * @param projectKey
 	 * @return double
@@ -52,10 +51,8 @@ public class MetricsServices {
 		double progress;
 		double completedIssues = 0;
 		double total = 0;
-
 		Iterable<BasicIssue> issueIterable=client.getSearchClient().searchJql("project="
 				+ projectKey,1000,0).claim().getIssues();
-
 		for (BasicIssue ii: issueIterable){
 			total++;
 			String issueStatus=client.getIssueClient().getIssue(ii.getKey()).claim().getStatus().getName();
@@ -66,7 +63,6 @@ public class MetricsServices {
 		progress = (completedIssues / total * 100);
 		return progress;
 	}
-
 	/**
 	 * calculates SEA of a specific project using Sprints
 	 * 
@@ -118,7 +114,6 @@ public class MetricsServices {
 			summand=summand + (sea-averageSEA) * (sea-averageSEA);
 		}
 		double seaDev=Math.sqrt(summand/length);
-
 		//store values in an array list and return
 		ArrayList<Double> seaMetric=new ArrayList<Double>();
 		seaMetric.add(averageSEA);
@@ -126,7 +121,7 @@ public class MetricsServices {
 		return seaMetric;
 	}
 	/**
-	 * calculates EEA
+	 * calculates EEA for a single sprint, based on actual effort/estimated effort
 	 * 
 	 * @param sprint
 	 * @throws IOException 
@@ -139,18 +134,19 @@ public class MetricsServices {
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		//for a modern JIRA, get estimation as a property of issues
 		try{
-		for (Issue issue:issueList){
-			String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation";
-			String responseString=sprintService.getAgileData(getURL);
-			System.out.println(responseString);
-			//if issue was added before the start date, that was in the estimation
-			if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
-				estimatedEffort++;
+			for (Issue issue:issueList){
+				String getURL="/rest/agile/latest/"+issue.getKey()+"/estimation?boardId="+sprint.getBoardId();
+				String responseString=sprintService.getAgileData(getURL);
+				JSONObject responseObject=new JSONObject(responseString);
+				double estimation=(Double.valueOf(responseObject.get("value").toString())).doubleValue();
+				//if issue was added before the start date, that was in the estimation
+				if (sprint.getStartDate().after(issue.getCreationDate().toDate())){
+					estimatedEffort=estimatedEffort+estimation;
+				}
+				//the total issues present at the end represents the actual effort
+				actualEffort=actualEffort+estimation;
 			}
-			//the total issues present at the end represents the actual effort
-			actualEffort++;
-		}
-		//for older JIRAs, can find estimation in sprint report
+			//for older JIRAs, can find estimation in sprint report
 		}catch (FileNotFoundException greenHopper){
 			System.err.println("Warning: Version of Jira is outdated! Attempting to fix with Greenhopper API");
 			String getURL="/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId="+sprint.getBoardId()+"&sprintId="+sprint.getId();
@@ -168,8 +164,6 @@ public class MetricsServices {
 		}
 		return eea;
 	}
-	
-	
 	/**
 	 * calculates Project EEA and standard deviation
 	 * 
@@ -209,7 +203,6 @@ public class MetricsServices {
 		eeaMetric.add(eeaDev);
 		return eeaMetric;
 	}
-
 	/**
 	 * calculates bugs in a project
 	 * 
@@ -229,7 +222,6 @@ public class MetricsServices {
 		}
 		return bugNum;
 	}
-
 	/**
 	 * calculates defects in a project by category
 	 * 
@@ -245,7 +237,6 @@ public class MetricsServices {
 		long eeaDefect=0;
 		long bugNum=calculateBugs(project.getKey());
 		long overDue=0;
-
 		//get sprints here and pass them in to reduce repetitive load times
 		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		double sea=calculateProjectSEA(project, sprintList).get(0);
@@ -278,13 +269,18 @@ public class MetricsServices {
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		ArrayList<Double> seaList=new ArrayList<Double>();
 		ArrayList<Double> eeaList=new ArrayList<Double>();
+		double nextSea=0;
+		double nextEea=0;
 		ArrayList<Double> nextValues=new ArrayList<Double>();
+		//add all the values to their respective lists (create a vector out of them)
 		for (Sprint sprint:sprintList){
 			seaList.add(calculateSprintSEA(sprint));
 			eeaList.add(calculateSprintEEA(sprint));
 		}
 		for (Double sea:seaList){
 		}
+		nextValues.add(nextSea);
+		nextValues.add(nextEea);
 		//TODO, find least squares method in linear algebra notebook when you get home
 		return nextValues;
 	}

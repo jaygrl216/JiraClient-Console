@@ -60,7 +60,7 @@ public class SprintServices {
 			boards = boardObject.getJSONArray("values");
 
 			for (int i = 0; i < boards.length(); i++){
-				if (Objects.equals(boards.getJSONObject(i).get(
+				if (Objects.equals(boards.getJSONObject(i).get("name").toString(), project.getName())|| Objects.equals(boards.getJSONObject(i).get(
 						"name").toString(), project.getKey()+" board")){
 					boardId = boards.getJSONObject(i).get("id").toString();
 					break;
