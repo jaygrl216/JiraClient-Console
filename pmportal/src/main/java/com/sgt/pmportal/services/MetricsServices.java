@@ -221,7 +221,7 @@ public class MetricsServices {
 	public long calculateBugs(String projectKey){
 		//find issues listed as bugs
 		long bugNum=0;
-		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey,1000,0).claim().getIssues();
+		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey+"&state=unresolved",1000,0).claim().getIssues();
 		for (BasicIssue issue:issueList){
 			String issueType=GeneralServices.toJiraIssue(issue, client).getType();
 			if (Objects.equals(issueType, "Bug")){
