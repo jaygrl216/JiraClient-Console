@@ -238,5 +238,27 @@ public class JiraProject {
 				"Project Lead: " + lead.getFullName() + "\n";
 	}
 
+	public int sprintsWorked() {
+		int sprintsWorked = 0;
+		for (Sprint s: getSprints()) {
+			if(s.isClosed() || s.isOpen()){
+				sprintsWorked++;
+			}
+		}
+		
+		return sprintsWorked;
+	}
+	
+	public int sprintsNotWorked() {
+		int sprintsNotWorked = 0;
+		for (Sprint s: getSprints()) {
+			if(s.isFuture()){
+				sprintsNotWorked++;
+			}
+		}
+		
+		return sprintsNotWorked;
+	}
+
 
 }
