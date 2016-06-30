@@ -122,8 +122,9 @@ public class MetricsServices {
 		return seaMetric;
 	}
 	/**
-	 * calculates EEA for a single sprint, based on actual effort/estimated effort
-	 * 
+	 * calculates EEA for a single sprint, based on actual effort/estimated effort.
+	 * A sprint's effort is determined for a modern JIRA instance by adding up the estimations of
+	 * All its issues
 	 * @param sprint
 	 * @throws IOException 
 	 */
@@ -226,7 +227,6 @@ public class MetricsServices {
 				+ "OR project="	+projectKey+"&status=\"In Progress\" "
 				+ "OR project=" + projectKey + "&status=\"To Do\" "
 				+ "OR project="+projectKey+"&status=\"Reopened\"",1000,0).claim().getIssues();
-
 		//iterate through search results to find those of type bug
 		for (BasicIssue issue:issueList){
 			//The class BasicIssue does not contain information about the issue type, convert to JiraIssue
@@ -245,7 +245,6 @@ public class MetricsServices {
 	 * @throws IOException 
 	 */
 	public List<Number> calculateDefectTotal (JiraProject project) throws IOException, ParseException{
-
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Number> defectArray=new ArrayList<Number>();
 		long bugNum=calculateBugs(project.getKey());
@@ -254,7 +253,6 @@ public class MetricsServices {
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		double sea=calculateProjectSEA(project, sprintList).get(0);
 		double eea=calculateProjectEEA(project, sprintList).get(0);
-
 		if (project.seeIfOverdue()){
 			overDue++;
 		}
@@ -266,14 +264,14 @@ public class MetricsServices {
 		return defectArray;
 	}
 	/**
-	 * calculates trends of a specific project
+	 * calculates accuracy trends of a specific project
 	 * 
 	 * @param project
 	 * @throws ParseException 
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public ArrayList<List<Double>> predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
+	public ArrayList<List<Double>> predictAccuracy(JiraProject project) throws JSONException, IOException, ParseException{
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		ArrayList<List<Double>> dataList=new ArrayList<List<Double>>();
@@ -283,7 +281,6 @@ public class MetricsServices {
 			double nextSea=0;
 			double nextEea=0;
 			//add all the values to their respective lists (create a vector out of them)
-
 			for (Sprint sprint:sprintList){
 				seaList.add(calculateSprintSEA(sprint));
 				eeaList.add(calculateSprintEEA(sprint));
@@ -316,5 +313,50 @@ public class MetricsServices {
 			dataList.add(eeaList);
 		}
 		return dataList;
+	}
+
+	/**
+	 * calculates bug trends of a specific project
+	 * 
+	 * @param project
+	 * @throws ParseException 
+	 * @throws IOException 
+	 * @throws JSONException 
+	 */
+	public List<Long> predictBugs(JiraProject project) throws JSONException, IOException, ParseException{
+		List<Long> bugList=new ArrayList<Long>();
+		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
+		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		for (Sprint sprint:sprintList){
+			List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
+			long bugNum=0;
+			for (Issue issue:issueList){
+
+				if (Objects.equals(issue.getIssueType().getName(), "Bug")){
+					bugNum++;
+				}
+
+			}
+			bugList.add(bugNum);
+		}
+		if (bugList.size()>0){
+			//default value is the value of the last bug
+			long nextBug=bugList.get(bugList.size()-1);
+			//if there is sufficient data, use theil-sen to predict next value
+			if (bugList.size()>1){
+				//using Theil-Sen estimator, which finds the median of the slopes (change in x is (i+1)-i=1)
+
+				for (int i=0; i+1 < bugList.size();i++){
+					List<Long> bugSlopeList=new ArrayList<Long>();
+					bugSlopeList.add(bugList.get(i+1)-bugList.get(i));
+					bugSlopeList.sort(null);
+					//find the median by getting the index at the halfway point, and add that change to the last SEA value
+					//Note, the size of a list is always 1 bigger than the highest index
+					nextBug=bugList.get(bugList.size()-1)+bugSlopeList.get(Math.round((bugSlopeList.size()-1)/2));
+				}
+			}
+			bugList.add(nextBug);
+		}
+		return bugList;
 	}
 }
