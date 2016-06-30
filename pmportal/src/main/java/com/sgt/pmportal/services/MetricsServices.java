@@ -288,8 +288,15 @@ public class MetricsServices {
 			seaList.add(calculateSprintSEA(sprint));
 			eeaList.add(calculateSprintEEA(sprint));
 		}
-		for (Double sea:seaList){
+		//using Theil-Sen estimator, which finds the median of the slopes (change in x is i+1-i=1)
+		List<Double> slopeList=new ArrayList<Double>();
+		for (int i=0; i+1 < seaList.size();i++){
+			slopeList.add(seaList.get(i+1)-seaList.get(i));
 		}
+		slopeList.sort(null);
+		//find the median by getting the index at the halfway point
+		nextSea=slopeList.get(Math.round(slopeList.size()/2));
+		System.out.println(nextSea);
 		nextValues.add(nextSea);
 		nextValues.add(nextEea);
 		//TODO, find least squares method in linear algebra notebook when you get home
