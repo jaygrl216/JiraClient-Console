@@ -5,6 +5,9 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONException;
+
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.RestClientException;
 import com.sgt.pmportal.domain.JiraProject;
@@ -43,14 +46,15 @@ public class MetricTest {
 	public static void main(String[] args) throws IOException, ParseException{
 		MetricTest test=new MetricTest();
 		//this runs a series of tests as a java application
-		test.printInfo();
-		test.testProgress();
-		test.testSprintSEA();
-		test.testOverallSEA();
-		test.testSprintEEA();
-		test.testOverallEEA();
-		test.testBugs();
-		test.testAllDefects();
+		//test.printInfo();
+		//test.testProgress();
+		//test.testSprintSEA();
+		//test.testOverallSEA();
+	//	test.testSprintEEA();
+		//test.testOverallEEA();
+		//test.testBugs();
+		//test.testAllDefects();
+		test.testPredict();
 		System.out.println("Finished");
 
 	}
@@ -118,10 +122,20 @@ public class MetricTest {
 		System.out.println("EEA: "+defectArray.get(2));
 		System.out.println("Overdue: "+defectArray.get(3)+"\n");
 	}
-	public void testPredict() {
-		System.out.println("Predict test will display values of SEA and EEA and their predicted next value");
-		double bugNum=metricService.calculateBugs(project.getKey());
-		System.out.println("Bugs: "+bugNum+"\n");
+	public void testPredict() throws JSONException, IOException, ParseException {
+		System.out.println("Predict test will display SEA and EEA with last values a prediction");
+		ArrayList<List<Double>> dataList=metricService.predictTrend(project);
+		List<Double >seaList=dataList.get(0);
+		List<Double> eeaList=dataList.get(1);
+		System.out.println("SEA values:");
+		for (Double sea:seaList){
+			System.out.println(sea);
+		}
+		System.out.println("\nEEA values:");
+		for (Double eea:eeaList){
+			System.out.println(eea);
+		}
+		
 	}
 	
 }

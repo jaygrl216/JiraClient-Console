@@ -275,33 +275,41 @@ public class MetricsServices {
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public ArrayList<Double> predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
+	public ArrayList<List<Double>> predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		//begin the list with value of 1 (default) to work with single sprints (index out of bounds errors)
-		ArrayList<Double> seaList=new ArrayList<Double>();
+		List<Double> seaList=new ArrayList<Double>();
 		seaList.add((double) 1);
-		ArrayList<Double> eeaList=new ArrayList<Double>();
+		List<Double> eeaList=new ArrayList<Double>();
 		eeaList.add((double) 1);
 		double nextSea=0;
 		double nextEea=0;
-		ArrayList<Double> nextValues=new ArrayList<Double>();
+		ArrayList<List<Double>> dataList=new ArrayList<List<Double>>();
 		//add all the values to their respective lists (create a vector out of them)
 		for (Sprint sprint:sprintList){
 			seaList.add(calculateSprintSEA(sprint));
 			eeaList.add(calculateSprintEEA(sprint));
 		}
 		//using Theil-Sen estimator, which finds the median of the slopes (change in x is (i+1)-i=1)
-		List<Double> slopeList=new ArrayList<Double>();
 		for (int i=0; i+1 < seaList.size();i++){
-			slopeList.add(seaList.get(i+1)-seaList.get(i));
+			List<Double> seaSlopeList=new ArrayList<Double>();
+			seaSlopeList.add(seaList.get(i+1)-seaList.get(i));
+			seaSlopeList.sort(null);
+			//find the median by getting the index at the halfway point
+			nextSea=seaSlopeList.get(Math.round(seaSlopeList.size()/2));
 		}
-		slopeList.sort(null);
-		//find the median by getting the index at the halfway point
-		nextSea=slopeList.get(Math.round(slopeList.size()/2));
-		System.out.println(nextSea);
-		nextValues.add(nextSea);
-		nextValues.add(nextEea);
-		return nextValues;
+		for (int i=0; i+1 < seaList.size();i++){
+			List<Double> eeaSlopeList=new ArrayList<Double>();
+			eeaSlopeList.add(seaList.get(i+1)-seaList.get(i));
+			eeaSlopeList.sort(null);
+			//find the median by getting the index at the halfway point
+			nextSea=eeaSlopeList.get(Math.round(eeaSlopeList.size()/2));
+		}
+		seaList.add(nextSea);
+		dataList.add(seaList);
+		eeaList.add(nextEea);
+		dataList.add(eeaList);
+		return dataList;
 	}
 }
