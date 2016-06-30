@@ -143,14 +143,12 @@ public class MetricTest {
 		}
 	}
 	public void testBugPredict() throws JSONException, IOException, ParseException {
-		System.out.println("Accuracy predict test will display SEA and EEA with last values as a prediction");
+		System.out.println("Bug predict test will display bugs per sprint with last value as a prediction");
 		List<Long> bugList=metricService.predictBugs(project);
 		if (bugList.size()>0){
-			System.out.println("SEA values:");
 			for (int i=0; i<bugList.size(); i++){
 				System.out.print("\nSprint: "+i+", Bugs: "+bugList.get(i));
 			}
-
 			System.out.print(" <--- Predicted value\n");
 		} else{
 			System.err.println("No data available!");
