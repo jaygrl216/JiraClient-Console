@@ -235,6 +235,7 @@ public class Tests {
 			System.err.println("No future sprints.");
 		}
 
+<<<<<<< HEAD
 		System.out.println("");
 		//get issues from sprint
 		if (sprint !=null){
@@ -242,6 +243,16 @@ public class Tests {
 			System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
 			for (Issue il:issueList){
 				System.out.println(il.getKey());
+=======
+			System.out.println("");
+			//get issues from sprint
+			if (sprint !=null){
+				List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
+				System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
+				for (Issue il:issueList){
+					System.out.println(il.getKey());
+				}
+>>>>>>> branch 'master' of https://github.com/jaygrl216/PMPortal.git
 			}
 		}
 		System.out.println("");

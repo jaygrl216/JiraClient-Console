@@ -5,6 +5,9 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONException;
+
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.RestClientException;
 import com.sgt.pmportal.domain.JiraProject;
@@ -23,7 +26,7 @@ public class MetricTest {
 	ProjectServices pService=new ProjectServices(client, authorization, JIRA_URL);
 	MetricsServices  metricService=new MetricsServices(client, authorization, JIRA_URL);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("SA").claim(),null);
+	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PMPOR").claim(),null);
 	List<Sprint> sprintList=new ArrayList<Sprint>();
 	/**
 	 * logins into JiraClient
@@ -44,13 +47,14 @@ public class MetricTest {
 		MetricTest test=new MetricTest();
 		//this runs a series of tests as a java application
 		test.printInfo();
-		test.testProgress();
-		test.testSprintSEA();
-		test.testOverallSEA();
-		test.testSprintEEA();
-		test.testOverallEEA();
-		test.testBugs();
-		test.testAllDefects();
+		//test.testProgress();
+		//test.testSprintSEA();
+		//test.testOverallSEA();
+		//test.testSprintEEA();
+		//test.testOverallEEA();
+		//test.testBugs();
+		//test.testAllDefects();
+		test.testPredict();
 		System.out.println("Finished");
 
 	}
@@ -118,4 +122,24 @@ public class MetricTest {
 		System.out.println("EEA: "+defectArray.get(2));
 		System.out.println("Overdue: "+defectArray.get(3)+"\n");
 	}
+	public void testPredict() throws JSONException, IOException, ParseException {
+		System.out.println("Predict test will display SEA and EEA with last values as a prediction");
+		ArrayList<List<Double>> dataList=metricService.predictTrend(project);
+		if (dataList.size()>0){
+			List<Double >seaList=dataList.get(0);
+			List<Double> eeaList=dataList.get(1);
+			System.out.println("SEA values:");
+			for (Double sea:seaList){
+				System.out.print("\n"+sea);
+			}
+			System.out.print(" <--- Predicted value\n\nEEA values:\n");
+			for (Double eea:eeaList){
+				System.out.print("\n"+eea);
+			}
+			System.out.print(" <--- Predicted value\n");
+		} else{
+			System.err.println("No data available!");
+		}
+	}
+
 }

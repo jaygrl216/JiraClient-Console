@@ -131,7 +131,7 @@ public class MetricsServices {
 		// EEA=actualEffort/estimatedEffort
 		double actualEffort=0;
 		double estimatedEffort=0;
-		ArrayList<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
+		List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		//for a modern JIRA, get estimation as a property of issues
 		try{
@@ -247,13 +247,11 @@ public class MetricsServices {
 	public List<Number> calculateDefectTotal (JiraProject project) throws IOException, ParseException{
 
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
-		ArrayList<Number> defectArray=new ArrayList<Number>();
-		long seaDefect=0;
-		long eeaDefect=0;
+		List<Number> defectArray=new ArrayList<Number>();
 		long bugNum=calculateBugs(project.getKey());
 		long overDue=0;
 		//get sprints here and pass them in to reduce repetitive load times
-		ArrayList<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		double sea=calculateProjectSEA(project, sprintList).get(0);
 		double eea=calculateProjectEEA(project, sprintList).get(0);
 
@@ -275,24 +273,48 @@ public class MetricsServices {
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public ArrayList<Double> predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
+	public ArrayList<List<Double>> predictTrend(JiraProject project) throws JSONException, IOException, ParseException{
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-		ArrayList<Double> seaList=new ArrayList<Double>();
-		ArrayList<Double> eeaList=new ArrayList<Double>();
-		double nextSea=0;
-		double nextEea=0;
-		ArrayList<Double> nextValues=new ArrayList<Double>();
-		//add all the values to their respective lists (create a vector out of them)
-		for (Sprint sprint:sprintList){
-			seaList.add(calculateSprintSEA(sprint));
-			eeaList.add(calculateSprintEEA(sprint));
+		ArrayList<List<Double>> dataList=new ArrayList<List<Double>>();
+		List<Double> seaList=new ArrayList<Double>();
+		List<Double> eeaList=new ArrayList<Double>();
+		if (sprintList.size()>0){
+			double nextSea=0;
+			double nextEea=0;
+			//add all the values to their respective lists (create a vector out of them)
+
+			for (Sprint sprint:sprintList){
+				seaList.add(calculateSprintSEA(sprint));
+				eeaList.add(calculateSprintEEA(sprint));
+			}
+			if (sprintList.size()>1){
+				//using Theil-Sen estimator, which finds the median of the slopes (change in x is (i+1)-i=1)
+				for (int i=0; i+1 < seaList.size();i++){
+					List<Double> seaSlopeList=new ArrayList<Double>();
+					seaSlopeList.add(seaList.get(i+1)-seaList.get(i));
+					seaSlopeList.sort(null);
+					//find the median by getting the index at the halfway point, and add that change to the last SEA value
+					//Note, the size of a list is always 1 bigger than the highest index
+					nextSea=seaList.get(seaList.size()-1)+seaSlopeList.get(Math.round((seaSlopeList.size()-1)/2));
+				}
+				for (int i=0; i+1 < eeaList.size();i++){
+					List<Double> eeaSlopeList=new ArrayList<Double>();
+					eeaSlopeList.add(eeaList.get(i+1)-eeaList.get(i));
+					eeaSlopeList.sort(null);
+					//find the median by getting the index at the halfway point, and add that change to the last EEA value
+					nextEea=eeaList.get(eeaList.size()-1)+eeaSlopeList.get(Math.round((eeaSlopeList.size()-1)/2));
+				}
+			}else {
+				//this is if there is only one sprint, in which case the prediction is that there will be no change
+				nextSea=seaList.get(0);
+				nextEea=eeaList.get(0);
+			}
+			seaList.add(nextSea);
+			dataList.add(seaList);
+			eeaList.add(nextEea);
+			dataList.add(eeaList);
 		}
-		for (Double sea:seaList){
-		}
-		nextValues.add(nextSea);
-		nextValues.add(nextEea);
-		//TODO, find least squares method in linear algebra notebook when you get home
-		return nextValues;
+		return dataList;
 	}
 }
