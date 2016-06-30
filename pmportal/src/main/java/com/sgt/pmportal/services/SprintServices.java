@@ -145,7 +145,8 @@ public class SprintServices {
 			JSONObject boardObject=new JSONObject(boardResponse);
 			boards=boardObject.getJSONArray("values");
 			for (int i=0; i<boards.length(); i++){
-				if (Objects.equals(boards.getJSONObject(i).get("name").toString(), project.getKey()+" board")){
+				if (Objects.equals(boards.getJSONObject(i).get("name").toString(), project.getName())|| Objects.equals(boards.getJSONObject(i).get(
+						"name").toString(), project.getKey()+" board")){
 					boardId=boards.getJSONObject(i).get("id").toString();
 					i=boards.length();
 				}
@@ -236,7 +237,8 @@ public class SprintServices {
 			JSONObject boardObject=new JSONObject(boardResponse);
 			boards=boardObject.getJSONArray("views");
 			for (int i=0; i<boards.length(); i++){
-				if (Objects.equals(boards.getJSONObject(i).get("name").toString(), project.getName())){
+				if (Objects.equals(boards.getJSONObject(i).get("name").toString(), project.getName())|| Objects.equals(boards.getJSONObject(i).get(
+						"name").toString(), project.getKey()+" board")){
 					boardId=boards.getJSONObject(i).get("id").toString();
 					i=boards.length();
 				}
