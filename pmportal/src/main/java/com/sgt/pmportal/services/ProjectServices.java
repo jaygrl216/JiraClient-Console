@@ -302,7 +302,7 @@ SprintServices sprintService=new SprintServices(mainClient, authorization, baseU
 				System.out.println("Completed: " + s.getCompleteDate());
 				totalDifference += durationDiff;
 			} else if (s.isOpen()) {
-				System.out.print("Open: " + s.getName());
+				System.out.println("Open: " + s.getName());
 				System.out.println("End: " + s.getEndDate());
 				List<JiraIssue> issueList = sprintService.getIssuesBySprint(s, mainClient);
 				for (JiraIssue i: issueList) {
