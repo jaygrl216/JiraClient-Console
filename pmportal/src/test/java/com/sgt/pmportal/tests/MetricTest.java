@@ -144,7 +144,7 @@ public class MetricTest {
 	}
 	public void testBugPredict() throws JSONException, IOException, ParseException {
 		System.out.println("Bug predict test will display bugs per sprint with last value as a prediction");
-		List<Long> bugList=metricService.predictBugs(project);
+		List<Double> bugList=metricService.predictBugs(project);
 		if (bugList.size()>0){
 			for (int i=0; i<bugList.size(); i++){
 				System.out.print("\nSprint: "+i+", Bugs: "+bugList.get(i));
@@ -154,5 +154,32 @@ public class MetricTest {
 			System.err.println("No data available!");
 		}
 	}
-
+	public void testForecast() throws JSONException, IOException, ParseException {
+		ArrayList<List<Double>> dataList=metricService.predictAccuracy(project);
+		if (dataList.size()>0){
+			List<Double >seaList=dataList.get(0);
+			List<Double> eeaList=dataList.get(1);
+			List<Double> bugList=metricService.predictBugs(project);
+			double seaForecast=metricService.getForecastInterval(seaList, metricService.getRegressionSlope(seaList));
+			double eeaForecast=metricService.getForecastInterval(eeaList, metricService.getRegressionSlope(eeaList));
+			double bugForecast=metricService.getForecastInterval(bugList, metricService.getRegressionSlope(bugList));
+			System.out.println("SEA values:");
+			for (Double sea:seaList){
+				System.out.print("\n"+sea);
+			}
+			System.out.print("+- "+seaForecast+"<--- Predicted value\n\nEEA values:\n");
+			for (Double eea:eeaList){
+				System.out.print("\n"+eea);
+			}
+			System.out.print("+-"+eeaForecast+ "<--- Predicted value\n\nBug values:\n");
+			
+			for (Double bug:bugList){
+				System.out.print("\n"+bug);
+			}
+			System.out.print("+-"+bugForecast+ "<--- Predicted value\n");
+			
+		} else{
+			System.err.println("No data available!");
+		}
+	}
 }
