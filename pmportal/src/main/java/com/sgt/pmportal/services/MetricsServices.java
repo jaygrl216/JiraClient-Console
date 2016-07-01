@@ -18,7 +18,7 @@ import com.sgt.pmportal.domain.Sprint;
 
 /**
  * The Metrics class is used to calculate information about the project
- * such as progress, SEA and EEA
+ * such as progress, SEA, EEA, bug number, and predictions for these
  * 
  * @author Aman Mital
  * @author Jada Washington
@@ -263,28 +263,41 @@ public class MetricsServices {
 		return defectArray;
 	}
 	/**
-	 * calculates accuracy trends of a specific project
+	 * calculates next metric values in a specific project
 	 * 
 	 * @param project
 	 * @throws ParseException 
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public ArrayList<List<Double>> predictAccuracy(JiraProject project) throws JSONException, IOException, ParseException{
+	public ArrayList<List<Double>> predictNext(JiraProject project) throws JSONException, IOException, ParseException{
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+	
 		//Datalist will hold seaList and eeaList to package them together
 		ArrayList<List<Double>> dataList=new ArrayList<List<Double>>();
 		List<Double> seaList=new ArrayList<Double>();
 		List<Double> eeaList=new ArrayList<Double>();
+		List<Double> bugList=new ArrayList<Double>();
 		//check if the sprintList is empty
 		if (sprintList.size()>0){
 			double nextSea=0;
 			double nextEea=0;
+			double nextBug=0;
 			//add all the values to their respective lists (create a vector out of them)
 			for (Sprint sprint:sprintList){
 				seaList.add(calculateSprintSEA(sprint));
 				eeaList.add(calculateSprintEEA(sprint));
+				List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
+				double bugNum=0;
+				//go through issues to find bugs
+				for (Issue issue:issueList){
+					if (Objects.equals(issue.getIssueType().getName(), "Bug")){
+						bugNum++;
+					}
+				}
+				//add the number of bugs in the sprint to a list
+				bugList.add(bugNum);
 			}
 			if (sprintList.size()>1){
 				//using Theil-Sen estimator, which finds the median of the slopes (change in x is (i+1)-i=1)
@@ -297,12 +310,24 @@ public class MetricsServices {
 				nextSea=seaList.get(0);
 				nextEea=eeaList.get(0);
 			}
+			if (bugList.size()>0){
+				//default value is the value of the last bug
+				nextBug=bugList.get(bugList.size()-1);
+				//if there is sufficient data, use Theil-Sen to predict next value
+				if (bugList.size()>1){
+					double bugSlope=getRegressionSlope(bugList);
+					nextBug=bugList.get(bugList.size()-1)+Math.round(bugSlope);
+				}
+			}
+			
 			seaList.add(nextSea);
 			dataList.add(seaList);
 			eeaList.add(nextEea);
 			dataList.add(eeaList);
+			bugList.add(nextBug);
+			dataList.add(bugList);
 		}
-		//indices [0]=seaList, [1]=eeaList
+		//indices [0]=seaList, [1]=eeaList, [2]=bugList
 		return dataList;
 	}
 	public double getRegressionSlope(List<Double> data){
@@ -317,45 +342,7 @@ public class MetricsServices {
 		slope=slopeList.get(Math.round((slopeList.size()-1)/2));
 		return slope;
 	}
-	/**
-	 * calculates bug trends of a specific project
-	 * 
-	 * @param project
-	 * @throws ParseException 
-	 * @throws IOException 
-	 * @throws JSONException 
-	 */
-	public List<Double> predictBugs(JiraProject project) throws JSONException, IOException, ParseException{
-		List<Double> bugList=new ArrayList<Double>();
-		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
-		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-		for (Sprint sprint:sprintList){
-			//get list of issues in a sprint (time consuming)
-			List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
-			double bugNum=0;
-			//go through issues to find bugs
-			for (Issue issue:issueList){
-				if (Objects.equals(issue.getIssueType().getName(), "Bug")){
-					bugNum++;
-				}
-			}
-			//add the number of bugs in the sprint to a list
-			bugList.add(bugNum);
-		}
-		//see if buglist is empty
-		if (bugList.size()>0){
-			//default value is the value of the last bug
-			double nextBug=bugList.get(bugList.size()-1);
-			//if there is sufficient data, use Theil-Sen to predict next value
-			if (bugList.size()>1){
-				double bugSlope=getRegressionSlope(bugList);
-				nextBug=bugList.get(bugList.size()-1)+Math.round(bugSlope);
 
-			}
-			bugList.add(nextBug);
-		}
-		return bugList;
-	}
 	/**
 	 * calculates the forecast interval and error of a regression equation, returns List<Double>
 	 * This assumes that x starts at 0 and is in increments of 1 and y (data) is a one dimensional set of data points
@@ -372,8 +359,8 @@ public class MetricsServices {
 		if (data.size()>4){
 			double xAv=0;
 			double sumE=0;
-			//N=x because the number of observed values is 1 greater than the last index of that value; x=size-1 because the last number in data sets
-			//(in this case) will be an estimation (see predictAccuracy(), predictBugs())
+			//N=x because the number of observed values is 1 greater than the last index of that value; x=size-1 because the
+			//last number in data sets (in this case) will be an estimation (see predictAccuracy(), predictBugs())
 			//[observed value1 ] index:0
 			//[observed value2 ] index:1
 			//[       ...      ] index:2...N-1
