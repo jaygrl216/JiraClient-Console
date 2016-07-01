@@ -363,8 +363,52 @@ public class MetricsServices {
 		}
 		return bugList;
 	}
+	/**
+	 * calculates the forecast interval on a set of data given a linear regression slope
+	 * This assumes that x starts at 0 and is in increments of 1 and y (data) is a one dimensional set of data points
+	 * @param data,regressionLineSlope
+	 * @throws ParseException 
+	 * @throws IOException 
+	 * @throws JSONException 
+	 */
 	
-	public void getForecastInterval(List<Double> data, double regressionSlope){
-		
+	
+	public double getForecastInterval(List<Double> data, double regressionSlope){
+		//to make it easier to use
+		double xAv=0;
+		double sumE=0;
+		//N=length-1, x=length because size is 1 greater than the last index
+		double length=data.size();
+		double interval=0;
+		//variance of x
+		double vX=0;
+		//standard deviation on the error of the regression line
+		double s=0;
+		//think y=mx+b
+		double b=data.get(0);
+		//sum of observed x values (in our case, luckily, 0+1+2+3+...N
+		double sumX=0;
+		double sumSquared=0;
+		for (int i=0; i<length; i++){
+			sumX=sumX+i; //since x values are just increments of 1
+			//error of a data point
+			double e=data.get(i)-(regressionSlope*i+b); //mx+b, substitute i for x
+			//sum of the squares of the error
+			sumE=sumE + e*e; 
+		}
+		//variance 'v' of the error
+		double v=sumE/(length-3); //N-2, two degrees of freedom (slope and point)
+		s=Math.sqrt(v);
+		//find the variance of x sum(i=0,N,(x(i)-xAv)^2)/(N-1)
+		xAv=sumX/(length-1); //N, total observed values of x
+		for (int i=0; i<length; i++){
+			sumSquared=sumSquared+(i-xAv)*(i-xAv);
+		}
+		vX=sumSquared/(length-2); //N-1, one degree of freedom
+		//this is the actual calculation of the interval y^+/- 1.96*s*{1+1/N + [x-xAv]^2/[(N-1)vX]}^1/2
+		//inside is everything inside the square root
+		double inside=1+1/(length-1) + (length-xAv) * (length-xAv)/((length-2)*vX);
+		interval=1.96*s*Math.sqrt(inside);
+		return interval;
 	}
 }
