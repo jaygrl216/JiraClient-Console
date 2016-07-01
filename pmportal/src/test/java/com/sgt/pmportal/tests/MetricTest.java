@@ -53,7 +53,6 @@ public class MetricTest {
 		test.testOverallEEA();
 		test.testBugs();
 		test.testAllDefects();
-		test.testPredict();
 		test.testForecast();
 		System.out.println("Finished");
 	}
@@ -120,26 +119,8 @@ public class MetricTest {
 		System.out.println("EEA: "+defectArray.get(2));
 		System.out.println("Overdue: "+defectArray.get(3)+"\n");
 	}
-	public void testPredict() throws JSONException, IOException, ParseException {
-		System.out.println("Accuracy predict test will display SEA and EEA with last values as a prediction");
-		ArrayList<List<Double>> dataList=metricService.predictNext(project);
-		if (dataList.size()>0){
-			List<Double >seaList=dataList.get(0);
-			List<Double> eeaList=dataList.get(1);
-			System.out.println("SEA values:");
-			for (Double sea:seaList){
-				System.out.print("\n"+sea);
-			}
-			System.out.print(" <--- Predicted value\n\nEEA values:\n");
-			for (Double eea:eeaList){
-				System.out.print("\n"+eea);
-			}
-			System.out.print(" <--- Predicted value\n");
-		} else{
-			System.err.println("No data available!");
-		}
-	}
 	public void testForecast() throws JSONException, IOException, ParseException {
+		System.out.println("Forecast test will display SEA, EEA, and bug values per sprint with predicted next values");
 		ArrayList<List<Double>> dataList=metricService.predictNext(project);
 		if (dataList.size()>0){
 			List<Double >seaList=dataList.get(0);
