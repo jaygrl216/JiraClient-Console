@@ -299,6 +299,14 @@ public class SprintServices {
 		}
 		return sprintList;	
 	}
+	/**
+	 * returns all issues in a sprint as a list of JiraIssues
+	 * 
+	 * @param project
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public List<JiraIssue> getIssuesBySprint(Sprint sprint, JiraRestClient client) throws IOException{
 		List<JiraIssue> issueList=new ArrayList<JiraIssue>();
 		String response=getAgileData("/rest/api/latest/search?jql=sprint="+sprint.getId());
@@ -337,7 +345,6 @@ public class SprintServices {
 		System.out.println();
 		return issueList;
 	}
-
 	/**
 	 * returns all sprints in a project and adds those sprints to the project
 	 * 
