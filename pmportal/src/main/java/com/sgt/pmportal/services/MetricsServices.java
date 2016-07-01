@@ -290,7 +290,7 @@ public class MetricsServices {
 			if (sprintList.size()>1){
 				//using Theil-Sen estimator, which finds the median of the slopes (change in x is (i+1)-i=1)
 				double seaSlope=getRegressionSlope(seaList);
-					nextSea=seaList.get(seaList.size()-1)+seaSlope;
+				nextSea=seaList.get(seaList.size()-1)+seaSlope;
 				double eeaSlope=getRegressionSlope(eeaList);
 				nextEea=eeaList.get(eeaList.size()-1)+eeaSlope;
 
@@ -310,6 +310,7 @@ public class MetricsServices {
 	public double getRegressionSlope(List<Double> data){
 		List<Double> slopeList=new ArrayList<Double>();
 		double slope=0;
+		//Theil-Sen estimator
 		for (int i=0; i+1 < data.size();i++){
 			slopeList.add(data.get(i+1)-data.get(i));
 			slopeList.sort(null);
@@ -349,71 +350,72 @@ public class MetricsServices {
 			double nextBug=bugList.get(bugList.size()-1);
 			//if there is sufficient data, use Theil-Sen to predict next value
 			if (bugList.size()>1){
-				//using Theil-Sen Estimator
-		double bugSlope=getRegressionSlope(bugList);
-					nextBug=bugList.get(bugList.size()-1)+Math.round(bugSlope);
-				
+				double bugSlope=getRegressionSlope(bugList);
+				nextBug=bugList.get(bugList.size()-1)+Math.round(bugSlope);
+
 			}
 			bugList.add(nextBug);
 		}
 		return bugList;
 	}
 	/**
-	 * calculates the forecast interval on a set of data given a linear regression slope
+	 * calculates the forecast interval and error of a regression equation, returns List<Double>
 	 * This assumes that x starts at 0 and is in increments of 1 and y (data) is a one dimensional set of data points
 	 * @param data,regressionLineSlope
 	 * @throws ParseException 
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	
-	
-	public double getForecastInterval(List<Double> data, double regressionSlope){
+	public List<Double> getForecastInterval(List<Double> data, double regressionSlope){
 		double interval=0;
-		//this calculation will only work if there are at least four observed data points
-		if (data.size()>5){
-		double xAv=0;
-		double sumE=0;
-		//N=x-1 because size is 1 greater than the last index; length=size-1 because the last number in data sets
-		//(in this case) will be an estimation (see predictAccuracy(), predictBugs()), and we want only observed values
-		//[observed value1 ] index:0
-		//[observed value2 ] index:1
-		//[       ...      ] index:2...N-1
-		//[observed valueN ] index:N size x
-		//[estimated valueX] index:X (not used in this calculation)
-		double x=data.size()-1;
-		//number of observed data points
-		double N=x-1;
-		//variance of x
-		double vX=0;
 		//standard deviation on the error of the regression line
 		double s=0;
-		//think y=mx+b
-		double b=data.get(0);
-		//sum of observed x values (in our case, luckily, 0+1+2+3+...N
-		double sumX=0;
-		double sumSquared=0;
-		for (int i=0; i<x; i++){
-			sumX=sumX+i; //since x values are just increments of 1
-			//error of a data point
-			double e=data.get(i)-(regressionSlope*i+b); //mx+b, substitute i for x
-			//sum of the squares of the error
-			sumE=sumE + e*e; 
+		//this calculation will only work if there are at least four observed data points
+		if (data.size()>5){
+			double xAv=0;
+			double sumE=0;
+			//N=x-1 because size is 1 greater than the last index; length=size-1 because the last number in data sets
+			//(in this case) will be an estimation (see predictAccuracy(), predictBugs()), and we want only observed values
+			//[observed value1 ] index:0
+			//[observed value2 ] index:1
+			//[       ...      ] index:2...N-1
+			//[observed valueN ] index:N size x
+			//[estimated valueX] index:X (not used in this calculation)
+			double x=data.size()-1;
+			//number of observed data points
+			double N=x-1;
+			//variance of x
+			double vX=0;
+			//'y-intercept'
+			double b=data.get(0);
+			//sum of observed x values (in our case, luckily, 0+1+2+3+...N
+			double sumX=0;
+			double sumSquared=0;
+			for (int i=0; i<x; i++){
+				sumX=sumX+i; //since x values are just increments of 1
+				//error of a data point
+				double e=data.get(i)-(regressionSlope*i+b); //mx+b, substitute i for x
+				//sum of the squares of the error
+				sumE=sumE + e*e; 
+			}
+			//variance 'v' of the error
+			double v=sumE/(N-2); //N-2, two degrees of freedom (slope and point)
+			s=Math.sqrt(v);
+			//find the variance of x sum(i=0,N,(x(i)-xAv)^2)/(N-1)
+			xAv=sumX/(N); //N, total observed values of x
+			for (int i=0; i<x; i++){
+				sumSquared=sumSquared+(i-xAv)*(i-xAv);
+			}
+			vX=sumSquared/(x-2); //N-1, one degree of freedom
+			//this is the actual calculation of the interval y^+/- 1.96*s*{1+1/N + [x-xAv]^2/[(N-1)vX]}^1/2
+			//inside is everything inside the square root
+			double inside=1+1/(x-1) + (x-xAv) * (x-xAv)/((N-1)*vX);
+			interval=1.96*s*Math.sqrt(inside);
 		}
-		//variance 'v' of the error
-		double v=sumE/(N-2); //N-2, two degrees of freedom (slope and point)
-		s=Math.sqrt(v);
-		//find the variance of x sum(i=0,N,(x(i)-xAv)^2)/(N-1)
-		xAv=sumX/(N); //N, total observed values of x
-		for (int i=0; i<x; i++){
-			sumSquared=sumSquared+(i-xAv)*(i-xAv);
-		}
-		vX=sumSquared/(x-2); //N-1, one degree of freedom
-		//this is the actual calculation of the interval y^+/- 1.96*s*{1+1/N + [x-xAv]^2/[(N-1)vX]}^1/2
-		//inside is everything inside the square root
-		double inside=1+1/(x-1) + (x-xAv) * (x-xAv)/((N-1)*vX);
-		interval=1.96*s*Math.sqrt(inside);
-		}
-		return interval;
+		List<Double> forecastList=new ArrayList<Double>();
+		forecastList.add(interval);
+		forecastList.add(s);
+		//[0] is the forecast interval, [1] is the error of the regression
+		return forecastList;
 	}
 }
