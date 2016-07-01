@@ -15,13 +15,14 @@ import java.util.Objects;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
-import com.atlassian.jira.rest.client.domain.BasicIssue;
-import com.atlassian.jira.rest.client.domain.Issue;
+import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.Sprint;
 
@@ -298,18 +299,36 @@ public class SprintServices {
 		}
 		return sprintList;	
 	}
-	public static List<Issue> getIssuesBySprint(Sprint sprint, JiraRestClient client){
-		List<Issue> issueList=new ArrayList<Issue>();
-		Iterable<BasicIssue> sprintIssueList=client.getSearchClient().searchJql(
-				"sprint= " + sprint.getId()+" ORDER BY createdDate",1000,0).claim().getIssues();
+	public List<JiraIssue> getIssuesBySprint(Sprint sprint, JiraRestClient client) throws IOException{
+		List<JiraIssue> issueList=new ArrayList<JiraIssue>();
+		String response=getAgileData("/rest/api/latest/search?jql=sprint="+sprint.getId());
+		JSONObject responseObject=new JSONObject(response);
+		JSONArray issueArray=responseObject.getJSONArray("issues");
+		DateTimeFormatter format=DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 		System.out.print("Gathering Issues");
-		for (BasicIssue sil:sprintIssueList){
-			System.out.print(".");
-			issueList.add(client.getIssueClient().getIssue(sil.getKey()).claim());
+		for (int i=0; i<issueArray.length(); i++){
+			JSONObject issueObject=issueArray.getJSONObject(i);
+			JSONObject fields=issueObject.getJSONObject("fields");
+			String assignee=null;
+			DateTime created=null;
+			DateTime due=null;
+			try{
+				assignee=fields.getJSONObject("assignee").get("name").toString();
+			} catch(NullPointerException noAssignee){
+			}
+			created=format.parseDateTime((fields.get("created").toString()));
+			due=format.parseDateTime(fields.get("duedate").toString());
+			
+			JiraIssue issue=new JiraIssue(issueObject.get("key").toString(),
+					fields.getJSONObject("issuetype").get("name").toString(),
+					fields.getJSONObject("priority").get("name").toString(),
+					fields.get("description").toString(),
+					assignee, 
+					created, due, fields.getJSONObject("status").get("name").toString());
+			issueList.add(issue);
 		}
 		System.out.println();
 		return issueList;
-
 	}
 
 	/**

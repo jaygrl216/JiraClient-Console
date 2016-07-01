@@ -133,18 +133,18 @@ public class MetricTest {
 			List<Double> eeaForecast=metricService.getForecastInterval(eeaList, eeaSlope);
 			List<Double> bugForecast=metricService.getForecastInterval(bugList, bugSlope);
 			System.out.println("SEA values:");
-			for (Double sea:seaList){
-				System.out.print("\n"+sea);
+			for (int i=0; i<seaList.size(); i++){
+				System.out.print("\nSprint: " +(i+1)+", SEA: "+seaList.get(i));
 			}
 			System.out.print("+- "+seaForecast.get(0)+" <--- Predicted value with forecast interval\n");
 			System.out.println("Error of regression: " + seaForecast.get(1)+"\n\nEEA values:");
-			for (Double eea:eeaList){
-				System.out.print("\n"+eea);
+			for (int i=0; i<eeaList.size(); i++){
+				System.out.print("\nSprint: " +(i+1)+", EEA: "+eeaList.get(i));
 			}
 			System.out.print("+- "+eeaForecast.get(0)+ " <--- Predicted value with forecast interval\n");
 			System.out.println("Error of regression: "+eeaForecast.get(1)+"\n\nBug values:");
-			for (Double bug:bugList){
-				System.out.print("\n"+bug);
+			for (int i=0; i<bugList.size(); i++){
+				System.out.print("\nSprint: " +(i+1)+", Bugs: "+bugList.get(i));
 			}
 			System.out.print("+- "+bugForecast.get(0)+ " <--- Predicted value with forecast interval\n");
 			System.out.println("Error of regression: "+bugForecast.get(1));

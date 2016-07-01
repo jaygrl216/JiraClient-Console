@@ -19,6 +19,7 @@ public class JiraIssue {
 	protected String user;
 	protected DateTime create;
 	protected DateTime due;
+	protected String status;
 	
 	/**
 	 * Constructor for JiraIssue
@@ -32,13 +33,13 @@ public class JiraIssue {
 	 * @param due
 	 */
 	public JiraIssue(String key, String type, String p, String desc, 
-			String user, DateTime create, DateTime due) {
+			String user, DateTime create, DateTime due, String status) {
 		this.key = key;
 		this.desc = desc;
 		this.user = user;
 		this.create = create;
 		this.due = due;
-
+this.status=status;
 		switch (type) {
 		case "Story":
 			this.type = IssueType.STORY;
@@ -122,6 +123,9 @@ try{
 
 	public DateTime getDueDate() {
 		return due;
+	}
+	public String getStatus() {
+		return status;
 	}
 	
 	/*

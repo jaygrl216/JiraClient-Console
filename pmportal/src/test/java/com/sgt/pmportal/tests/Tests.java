@@ -16,7 +16,6 @@ import org.junit.Test;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.RestClientException;
-import com.atlassian.jira.rest.client.domain.Issue;
 import com.atlassian.jira.rest.client.domain.Project;
 import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
@@ -239,17 +238,17 @@ public class Tests {
 		System.out.println("");
 		//get issues from sprint
 		if (sprint !=null){
-			List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
+			List<JiraIssue> issueList=sprintService.getIssuesBySprint(sprint, client);
 			System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
-			for (Issue il:issueList){
+			for (JiraIssue il:issueList){
 				System.out.println(il.getKey());
 
 				System.out.println("");
 				//get issues from sprint
 				if (sprint !=null){
-					issueList=SprintServices.getIssuesBySprint(sprint, client);
+					issueList=sprintService.getIssuesBySprint(sprint, client);
 					System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
-					for (Issue i:issueList){
+					for (JiraIssue i:issueList){
 						System.out.println(i.getKey());
 					}
 

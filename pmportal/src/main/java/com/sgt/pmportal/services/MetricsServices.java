@@ -5,14 +5,12 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
-import com.atlassian.jira.rest.client.domain.Issue;
+import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.Sprint;
 
@@ -51,14 +49,16 @@ public class MetricsServices {
 		double progress;
 		double completedIssues = 0;
 		double total = 0;
-		Iterable<BasicIssue> issueIterable=client.getSearchClient().searchJql("project="
-				+ projectKey,1000,0).claim().getIssues();
-		for (BasicIssue ii: issueIterable){
+		Iterable<BasicIssue> issueComplete=client.getSearchClient().searchJql("project="+projectKey + "&status=closed "
+				+ "OR project="	+projectKey+"&status=done "
+				+ "OR project=" + projectKey + "&status=resolved ", 1000, 0).claim().getIssues();
+		for (BasicIssue i:issueComplete){
+			completedIssues++;
+		
+		}
+		Iterable<BasicIssue> issueAll=client.getSearchClient().searchJql("project="+projectKey, 1000, 0).claim().getIssues();
+		for (BasicIssue issue:issueAll){
 			total++;
-			String issueStatus=client.getIssueClient().getIssue(ii.getKey()).claim().getStatus().getName();
-			if (Objects.equals(issueStatus, "Closed") || Objects.equals(issueStatus, "Done")|| Objects.equals(issueStatus, "Resolved")){
-				completedIssues++;
-			}
 		}
 		progress = (completedIssues / total * 100);
 		return progress;
@@ -132,11 +132,12 @@ public class MetricsServices {
 		// EEA=actualEffort/estimatedEffort
 		double actualEffort=0;
 		double estimatedEffort=0;
-		List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
+		List<JiraIssue> issueList=sprintService.getIssuesBySprint(sprint, client);
+
 		//for a modern JIRA, get estimation as a property of issues
 		try{
-			for (Issue issue:issueList){
+			for (JiraIssue issue:issueList){
 				String getURL="/rest/agile/latest/issue/"+issue.getKey()+"/estimation?boardId="+sprint.getBoardId();
 				String responseString=sprintService.getAgileData(getURL);
 				JSONObject responseObject=new JSONObject(responseString);
@@ -222,17 +223,13 @@ public class MetricsServices {
 		long bugNum=0;
 		//Long JQL query, but better performance if we let the jira server handle the sorting than converting all these
 		//to issues and then filtering their statuses. Leave spaces before OR!
-		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey + "&status=open "
-				+ "OR project="	+projectKey+"&status=\"In Progress\" "
-				+ "OR project=" + projectKey + "&status=\"To Do\" "
-				+ "OR project="+projectKey+"&status=\"Reopened\"",1000,0).claim().getIssues();
+		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("project="+projectKey + "&status=open&type=Bug "
+				+ "OR project="	+projectKey+"&status=\"In Progress\"&type=bug "
+				+ "OR project=" + projectKey + "&status=\"To Do\"&type=bug "
+				+ "OR project="+projectKey+"&status=\"Reopened\"&type=bug",1000,0).claim().getIssues();
 		//iterate through search results to find those of type bug
 		for (BasicIssue issue:issueList){
-			//The class BasicIssue does not contain information about the issue type, convert to JiraIssue
-			String issueType=GeneralServices.toJiraIssue(issue, client).getType();
-			if (Objects.equals(issueType, "Bug")){
-				bugNum++;
-			}
+			bugNum++;
 		}
 		return bugNum;
 	}
@@ -288,13 +285,12 @@ public class MetricsServices {
 			for (Sprint sprint:sprintList){
 				seaList.add(calculateSprintSEA(sprint));
 				eeaList.add(calculateSprintEEA(sprint));
-				List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
+				Iterable<BasicIssue> issueList=client.getSearchClient().searchJql(
+						"sprint= " + sprint.getId()+"&type=Bug ORDER BY createdDate",1000,0).claim().getIssues();
 				double bugNum=0;
 				//go through issues to find bugs
-				for (Issue issue:issueList){
-					if (Objects.equals(issue.getIssueType().getName(), "Bug")){
-						bugNum++;
-					}
+				for (BasicIssue issue:issueList){
+					bugNum++;
 				}
 				//add the number of bugs in the sprint to a list
 				bugList.add(bugNum);
@@ -344,14 +340,17 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates the forecast interval and error of a regression equation, returns List<Double>
-	 * This assumes that x starts at 0 and is in increments of 1 and y (data) is a one dimensional set of data points
+	 * calculates the forecast interval and regression error of a set of data points, returns List<Double>
+	 * This assumes that x starts at 0 and is in increments of 1 and y (data) is a one dimensional vector
 	 * @param data,regressionLineSlope
 	 * @throws ParseException 
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public List<Double> getForecastInterval(List<Double> data, double regressionSlope){
+	public List<Double> getForecastInterval(List<Double> data, Double regressionSlope){
+		if (regressionSlope==null){
+			regressionSlope=getRegressionSlope(data);
+		}
 		double interval=0;
 		//standard deviation on the error of the regression line
 		double s=0;
