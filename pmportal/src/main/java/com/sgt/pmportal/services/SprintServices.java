@@ -302,10 +302,9 @@ public class SprintServices {
 	/**
 	 * returns all issues in a sprint as a list of JiraIssues
 	 * 
-	 * @param project
+	 * @param sprint, client
 	 * @return
 	 * @throws IOException
-	 * @throws ParseException
 	 */
 	public List<JiraIssue> getIssuesBySprint(Sprint sprint, JiraRestClient client) throws IOException{
 		List<JiraIssue> issueList=new ArrayList<JiraIssue>();
