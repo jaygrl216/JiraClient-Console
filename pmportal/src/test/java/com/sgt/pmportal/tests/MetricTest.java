@@ -26,7 +26,7 @@ public class MetricTest {
 	ProjectServices pService=new ProjectServices(client, authorization, JIRA_URL);
 	MetricsServices  metricService=new MetricsServices(client, authorization, JIRA_URL);
 	SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PA").claim(),null);
+	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PMPOR").claim(),null);
 	List<Sprint> sprintList=new ArrayList<Sprint>();
 	/**
 	 * logins into JiraClient
@@ -164,7 +164,6 @@ public class MetricTest {
 			double seaSlope=metricService.getRegressionSlope(seaList);
 			double eeaSlope=metricService.getRegressionSlope(eeaList);
 			double bugSlope=metricService.getRegressionSlope(bugList);
-			System.out.println(seaSlope + " " + eeaSlope + " " + bugSlope);
 			List<Double> seaForecast=metricService.getForecastInterval(seaList, seaSlope);
 			List<Double> eeaForecast=metricService.getForecastInterval(eeaList, eeaSlope);
 			List<Double> bugForecast=metricService.getForecastInterval(bugList, bugSlope);
@@ -173,12 +172,12 @@ public class MetricTest {
 				System.out.print("\n"+sea);
 			}
 			System.out.print("+- "+seaForecast.get(0)+" <--- Predicted value\n");
-			System.out.println("Error of regression: " + seaForecast.get(1)+"\nEEA values:\n");
+			System.out.println("Error of regression: " + seaForecast.get(1)+"\n\nEEA values:");
 			for (Double eea:eeaList){
 				System.out.print("\n"+eea);
 			}
 			System.out.print("+- "+eeaForecast.get(0)+ " <--- Predicted value\n");
-			System.out.println("Error of regression: "+eeaForecast.get(1)+"\nBug values:\n");
+			System.out.println("Error of regression: "+eeaForecast.get(1)+"\n\nBug values:");
 			for (Double bug:bugList){
 				System.out.print("\n"+bug);
 			}

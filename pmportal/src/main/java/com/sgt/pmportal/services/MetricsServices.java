@@ -140,7 +140,6 @@ public class MetricsServices {
 				String getURL="/rest/agile/latest/issue/"+issue.getKey()+"/estimation?boardId="+sprint.getBoardId();
 				String responseString=sprintService.getAgileData(getURL);
 				JSONObject responseObject=new JSONObject(responseString);
-				System.out.println(responseObject);
 				double estimation=0;
 				try{
 					estimation=(Double.valueOf(responseObject.get("value").toString())).doubleValue();
