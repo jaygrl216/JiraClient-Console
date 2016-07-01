@@ -369,19 +369,20 @@ public class MetricsServices {
 		//standard deviation on the error of the regression line
 		double s=0;
 		//this calculation will only work if there are at least four observed data points
-		if (data.size()>5){
+		if (data.size()>4){
 			double xAv=0;
 			double sumE=0;
-			//N=x-1 because size is 1 greater than the last index; length=size-1 because the last number in data sets
-			//(in this case) will be an estimation (see predictAccuracy(), predictBugs()), and we want only observed values
+			//N=x because the number of observed values is 1 greater than the last index of that value; x=size-1 because the last number in data sets
+			//(in this case) will be an estimation (see predictAccuracy(), predictBugs())
 			//[observed value1 ] index:0
 			//[observed value2 ] index:1
 			//[       ...      ] index:2...N-1
 			//[observed valueN ] index:N size x
 			//[estimated valueX] index:X (not used in this calculation)
+			//x is the x value (same as index) for the estimated data point
 			double x=data.size()-1;
 			//number of observed data points
-			double N=x-1;
+			double N=x;
 			//variance of x
 			double vX=0;
 			//'y-intercept'
