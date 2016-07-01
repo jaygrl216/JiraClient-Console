@@ -289,21 +289,11 @@ public class MetricsServices {
 			}
 			if (sprintList.size()>1){
 				//using Theil-Sen estimator, which finds the median of the slopes (change in x is (i+1)-i=1)
-				for (int i=0; i+1 < seaList.size();i++){
-					List<Double> seaSlopeList=new ArrayList<Double>();
-					seaSlopeList.add(seaList.get(i+1)-seaList.get(i));
-					seaSlopeList.sort(null);
-					//find the median by getting the index at the halfway point, and add that change to the last SEA value
-					//Note, the size of a list is always 1 bigger than the highest index
-					nextSea=seaList.get(seaList.size()-1)+seaSlopeList.get(Math.round((seaSlopeList.size()-1)/2));
-				}
-				for (int i=0; i+1 < eeaList.size();i++){
-					List<Double> eeaSlopeList=new ArrayList<Double>();
-					eeaSlopeList.add(eeaList.get(i+1)-eeaList.get(i));
-					eeaSlopeList.sort(null);
-					//find the median by getting the index at the halfway point, and add that change to the last EEA value
-					nextEea=eeaList.get(eeaList.size()-1)+eeaSlopeList.get(Math.round((eeaSlopeList.size()-1)/2));
-				}
+				double seaSlope=getRegressionSlope(seaList);
+					nextSea=seaList.get(seaList.size()-1)+seaSlope;
+				double eeaSlope=getRegressionSlope(eeaList);
+				nextEea=eeaList.get(eeaList.size()-1)+eeaSlope;
+
 			}else {
 				//this is if there is only one sprint, in which case the prediction is that there will be no change
 				nextSea=seaList.get(0);
@@ -317,7 +307,17 @@ public class MetricsServices {
 		//indices [0]=seaList, [1]=eeaList
 		return dataList;
 	}
-
+	public double getRegressionSlope(List<Double> data){
+		List<Double> slopeList=new ArrayList<Double>();
+		double slope=0;
+		for (int i=0; i+1 < data.size();i++){
+			slopeList.add(data.get(i+1)-data.get(i));
+			slopeList.sort(null);
+			//find the median slope by getting the index at the halfway point, and add that to the last value
+		}
+		slope=slopeList.get(Math.round((slopeList.size()-1)/2));
+		return slope;
+	}
 	/**
 	 * calculates bug trends of a specific project
 	 * 
@@ -326,14 +326,14 @@ public class MetricsServices {
 	 * @throws IOException 
 	 * @throws JSONException 
 	 */
-	public List<Long> predictBugs(JiraProject project) throws JSONException, IOException, ParseException{
-		List<Long> bugList=new ArrayList<Long>();
+	public List<Double> predictBugs(JiraProject project) throws JSONException, IOException, ParseException{
+		List<Double> bugList=new ArrayList<Double>();
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
 		for (Sprint sprint:sprintList){
 			//get list of issues in a sprint (time consuming)
 			List<Issue> issueList=SprintServices.getIssuesBySprint(sprint, client);
-			long bugNum=0;
+			double bugNum=0;
 			//go through issues to find bugs
 			for (Issue issue:issueList){
 				if (Objects.equals(issue.getIssueType().getName(), "Bug")){
@@ -346,18 +346,13 @@ public class MetricsServices {
 		//see if buglist is empty
 		if (bugList.size()>0){
 			//default value is the value of the last bug
-			long nextBug=bugList.get(bugList.size()-1);
+			double nextBug=bugList.get(bugList.size()-1);
 			//if there is sufficient data, use Theil-Sen to predict next value
 			if (bugList.size()>1){
 				//using Theil-Sen Estimator
-				for (int i=0; i+1 < bugList.size();i++){
-					List<Long> bugSlopeList=new ArrayList<Long>();
-					bugSlopeList.add(bugList.get(i+1)-bugList.get(i));
-					bugSlopeList.sort(null);
-					//find the median by getting the index at the halfway point, and add that change to the last SEA value
-					//Note, the size of a list is always 1 bigger than the highest index
-					nextBug=bugList.get(bugList.size()-1)+bugSlopeList.get(Math.round((bugSlopeList.size()-1)/2));
-				}
+		double bugSlope=getRegressionSlope(bugList);
+					nextBug=bugList.get(bugList.size()-1)+Math.round(bugSlope);
+				
 			}
 			bugList.add(nextBug);
 		}
@@ -374,12 +369,21 @@ public class MetricsServices {
 	
 	
 	public double getForecastInterval(List<Double> data, double regressionSlope){
-		//to make it easier to use
+		double interval=0;
+		//this calculation will only work if there are at least four observed data points
+		if (data.size()>5){
 		double xAv=0;
 		double sumE=0;
-		//N=length-1, x=length because size is 1 greater than the last index
-		double length=data.size();
-		double interval=0;
+		//N=x-1 because size is 1 greater than the last index; length=size-1 because the last number in data sets
+		//(in this case) will be an estimation (see predictAccuracy(), predictBugs()), and we want only observed values
+		//[observed value1 ] index:0
+		//[observed value2 ] index:1
+		//[       ...      ] index:2...N-1
+		//[observed valueN ] index:N size x
+		//[estimated valueX] index:X (not used in this calculation)
+		double x=data.size()-1;
+		//number of observed data points
+		double N=x-1;
 		//variance of x
 		double vX=0;
 		//standard deviation on the error of the regression line
@@ -389,7 +393,7 @@ public class MetricsServices {
 		//sum of observed x values (in our case, luckily, 0+1+2+3+...N
 		double sumX=0;
 		double sumSquared=0;
-		for (int i=0; i<length; i++){
+		for (int i=0; i<x; i++){
 			sumX=sumX+i; //since x values are just increments of 1
 			//error of a data point
 			double e=data.get(i)-(regressionSlope*i+b); //mx+b, substitute i for x
@@ -397,18 +401,19 @@ public class MetricsServices {
 			sumE=sumE + e*e; 
 		}
 		//variance 'v' of the error
-		double v=sumE/(length-3); //N-2, two degrees of freedom (slope and point)
+		double v=sumE/(N-2); //N-2, two degrees of freedom (slope and point)
 		s=Math.sqrt(v);
 		//find the variance of x sum(i=0,N,(x(i)-xAv)^2)/(N-1)
-		xAv=sumX/(length-1); //N, total observed values of x
-		for (int i=0; i<length; i++){
+		xAv=sumX/(N); //N, total observed values of x
+		for (int i=0; i<x; i++){
 			sumSquared=sumSquared+(i-xAv)*(i-xAv);
 		}
-		vX=sumSquared/(length-2); //N-1, one degree of freedom
+		vX=sumSquared/(x-2); //N-1, one degree of freedom
 		//this is the actual calculation of the interval y^+/- 1.96*s*{1+1/N + [x-xAv]^2/[(N-1)vX]}^1/2
 		//inside is everything inside the square root
-		double inside=1+1/(length-1) + (length-xAv) * (length-xAv)/((length-2)*vX);
+		double inside=1+1/(x-1) + (x-xAv) * (x-xAv)/((N-1)*vX);
 		interval=1.96*s*Math.sqrt(inside);
+		}
 		return interval;
 	}
 }
