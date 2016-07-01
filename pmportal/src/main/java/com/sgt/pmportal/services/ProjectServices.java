@@ -179,7 +179,7 @@ public class ProjectServices {
 
 		return toJiraProject(p, issueList);
 	}
-	
+
 	/**
 	 * Adds issues to a JiraProject
 	 * @param jp
@@ -230,7 +230,7 @@ public class ProjectServices {
 		}
 		return totalSEA/sprints.size();
 	}
-	
+
 	/**
 	 * If EEA and/or SEA is not good then will return and arbitary number to 
 	 * reveal that planning needs to be improved.
@@ -249,22 +249,22 @@ public class ProjectServices {
 				project.getSprints());
 		ArrayList<Double> projectEEA = metrics.calculateProjectEEA(project, 
 				project.getSprints());
-		
+
 		double total = 0;
 		double total2 = 0;
-		
+
 		for (Double d: projectSEA) {
 			total += d;
 		}
-		
+
 		double averageSEA = total / projectSEA.size();
-		
+
 		for (Double d: projectEEA) {
 			total2 += d;
 		}
-		
+
 		double averageEEA = total2 / projectSEA.size();
-		
+
 		if (averageSEA < 1 && averageEEA < 1) {
 			return 0;
 		} else if (averageSEA < 1 && averageEEA >= 1) {
@@ -272,7 +272,7 @@ public class ProjectServices {
 		} else if (averageEEA < 1 && averageSEA >= 1) {
 			return 1;
 		}
-		
+
 		return 100;
 	}
 
@@ -284,15 +284,24 @@ public class ProjectServices {
 	 * @return Date
 	 */
 	public Date projectedDueDate (JiraProject project) {
+		Date dueDate = project.getDueDate();
 		Calendar c = Calendar.getInstance();
+		c.setTime(dueDate);
+
+
 		int totalDifference = 0;
 		int completedIssues = 0;
-		
+
 		for (Sprint s: project.getSprints()) {
 			if (s.isClosed()) {
+				System.out.println("Closed");
 				int durationDiff = SprintServices.sprintDifference(s);
+				System.out.println("End: " + s.getEndDate());
+				System.out.println("Completed: " + s.getCompleteDate());
 				totalDifference += durationDiff;
 			} else if (s.isOpen()) {
+				System.out.print("Open Sprints");
+				System.out.println("End: " + s.getEndDate());
 				List<Issue> issueList = SprintServices.getIssuesBySprint(s, mainClient);
 				for (Issue i: issueList) {
 					if ("Closed".equals(i.getStatus().getName()) ||
@@ -310,51 +319,51 @@ public class ProjectServices {
 				completedIssues = 0;
 			}
 		}
-		
+
 		double overUnder = totalDifference / (project.sprintsWorked());
 		double extraEstimate = overUnder * project.sprintsNotWorked();
 		totalDifference = (int) Math.round(totalDifference + extraEstimate);
 		c.add(Calendar.DATE, totalDifference);
 		return c.getTime();
-//		Date dueDate = project.getDueDate();
-//		Calendar c = Calendar.getInstance();
-//		c.setTime(dueDate);
-//		int totalDifference = 0;
-//		int completedIssues = 0;
-//
-//
-//		for (Sprint s: project.getSprints()) {
-//			if(s.isClosed()) {
-//				int durationDiff = SprintServices.sprintDifference(s);
-//				System.out.format("This sprint was completed %d day(s) after behind schedule.\n", 
-//						durationDiff);
-//				totalDifference += durationDiff;
-//			} 
-//			
-//			if (s.isOpen()) {
-//				List<Issue> issuesForSprint = SprintServices.getIssuesBySprint(s, 
-//						mainClient);
-//				for(Issue i: issuesForSprint) {
-//
-//					//Older Jiras use "Resolved" and "Closed", newer ones have the status "Done"
-//					if ("Closed".equals(i.getStatus().getName()) ||
-//							"Resolved".equals(i.getStatus().getName()) ||
-//							"Done".equals(i.getStatus().getName())) {
-//						completedIssues++;
-//					}
-//				}
-//				int days = Days.daysBetween(new DateTime(s.getStartDate()), 
-//						new DateTime(Calendar.getInstance().getTime())).getDays();
-//				double openTotal = (double) (days / completedIssues);
-//				int extraDays = (int) openTotal * SprintServices.estimateDays(s);
-//				totalDifference += extraDays;
-//				completedIssues = 0;
-//			}
-//		}
-//		c.add(Calendar.DATE, totalDifference);
-//		return c.getTime();
+		//		Date dueDate = project.getDueDate();
+		//		Calendar c = Calendar.getInstance();
+		//		c.setTime(dueDate);
+		//		int totalDifference = 0;
+		//		int completedIssues = 0;
+		//
+		//
+		//		for (Sprint s: project.getSprints()) {
+		//			if(s.isClosed()) {
+		//				int durationDiff = SprintServices.sprintDifference(s);
+		//				System.out.format("This sprint was completed %d day(s) after behind schedule.\n", 
+		//						durationDiff);
+		//				totalDifference += durationDiff;
+		//			} 
+		//			
+		//			if (s.isOpen()) {
+		//				List<Issue> issuesForSprint = SprintServices.getIssuesBySprint(s, 
+		//						mainClient);
+		//				for(Issue i: issuesForSprint) {
+		//
+		//					//Older Jiras use "Resolved" and "Closed", newer ones have the status "Done"
+		//					if ("Closed".equals(i.getStatus().getName()) ||
+		//							"Resolved".equals(i.getStatus().getName()) ||
+		//							"Done".equals(i.getStatus().getName())) {
+		//						completedIssues++;
+		//					}
+		//				}
+		//				int days = Days.daysBetween(new DateTime(s.getStartDate()), 
+		//						new DateTime(Calendar.getInstance().getTime())).getDays();
+		//				double openTotal = (double) (days / completedIssues);
+		//				int extraDays = (int) openTotal * SprintServices.estimateDays(s);
+		//				totalDifference += extraDays;
+		//				completedIssues = 0;
+		//			}
+		//		}
+		//		c.add(Calendar.DATE, totalDifference);
+		//		return c.getTime();
 	}
-	
+
 
 
 
