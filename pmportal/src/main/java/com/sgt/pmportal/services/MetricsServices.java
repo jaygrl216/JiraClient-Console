@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
 import com.sgt.pmportal.domain.JiraIssue;
@@ -52,12 +51,12 @@ public class MetricsServices {
 		Iterable<BasicIssue> issueComplete=client.getSearchClient().searchJql("project="+projectKey + "&status=closed "
 				+ "OR project="	+projectKey+"&status=done "
 				+ "OR project=" + projectKey + "&status=resolved ", 1000, 0).claim().getIssues();
-		for (BasicIssue i:issueComplete){
+		for (@SuppressWarnings("unused") BasicIssue i:issueComplete){
 			completedIssues++;
-		
+
 		}
 		Iterable<BasicIssue> issueAll=client.getSearchClient().searchJql("project="+projectKey, 1000, 0).claim().getIssues();
-		for (BasicIssue issue:issueAll){
+		for (@SuppressWarnings("unused") BasicIssue issue:issueAll){
 			total++;
 		}
 		progress = (completedIssues / total * 100);
@@ -228,7 +227,7 @@ public class MetricsServices {
 				+ "OR project=" + projectKey + "&status=\"To Do\"&type=bug "
 				+ "OR project="+projectKey+"&status=\"Reopened\"&type=bug",1000,0).claim().getIssues();
 		//iterate through search results to find those of type bug
-		for (BasicIssue issue:issueList){
+		for (@SuppressWarnings("unused") BasicIssue issue:issueList){
 			bugNum++;
 		}
 		return bugNum;
@@ -270,7 +269,7 @@ public class MetricsServices {
 	public ArrayList<List<Double>> predictNext(JiraProject project) throws JSONException, IOException, ParseException{
 		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-	
+
 		//Datalist will hold seaList and eeaList to package them together
 		ArrayList<List<Double>> dataList=new ArrayList<List<Double>>();
 		List<Double> seaList=new ArrayList<Double>();
@@ -289,7 +288,7 @@ public class MetricsServices {
 						"sprint= " + sprint.getId()+"&type=Bug ORDER BY createdDate",1000,0).claim().getIssues();
 				double bugNum=0;
 				//go through issues to find bugs
-				for (BasicIssue issue:issueList){
+				for (@SuppressWarnings("unused") BasicIssue issue:issueList){
 					bugNum++;
 				}
 				//add the number of bugs in the sprint to a list
@@ -315,7 +314,7 @@ public class MetricsServices {
 					nextBug=bugList.get(bugList.size()-1)+Math.round(bugSlope);
 				}
 			}
-			
+
 			seaList.add(nextSea);
 			dataList.add(seaList);
 			eeaList.add(nextEea);
