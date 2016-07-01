@@ -131,7 +131,7 @@ public class SprintServices {
 				for (JSONObject sa:sprintArray){
 					sprintList.add(new Sprint(sa.get("name").toString(), sa.get("id").toString(), 
 							"active", oldFormat.parse(sa.get("startDate").toString()),
-							oldFormat.parse(sa.getString("endDate").toString()), null, boardId, -1));
+							oldFormat.parse(sa.getString("endDate").toString()), null, boardId, 0));
 				}
 
 			}		
@@ -182,7 +182,7 @@ public class SprintServices {
 					JSONObject iteratorObject=sprintArray.getJSONObject(i);
 					sprintList.add(new Sprint(iteratorObject.get("name").toString(), iteratorObject.get("id").toString(), 
 							iteratorObject.get("state").toString(), format.parse(iteratorObject.get("startDate").toString()), 
-							format.parse(iteratorObject.get("endDate").toString()), format.parse(iteratorObject.get("completeDate").toString()), boardId, 0));
+							format.parse(iteratorObject.get("endDate").toString()), format.parse(iteratorObject.get("completeDate").toString()), boardId, -1));
 				}
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			

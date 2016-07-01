@@ -294,13 +294,13 @@ public class ProjectServices {
 
 		for (Sprint s: project.getSprints()) {
 			if (s.isClosed()) {
-				System.out.println("Closed");
+				System.out.println("Closed: " + s.getName());
 				int durationDiff = SprintServices.sprintDifference(s);
 				System.out.println("End: " + s.getEndDate());
 				System.out.println("Completed: " + s.getCompleteDate());
 				totalDifference += durationDiff;
 			} else if (s.isOpen()) {
-				System.out.print("Open Sprints");
+				System.out.print("Open: " + s.getName());
 				System.out.println("End: " + s.getEndDate());
 				List<Issue> issueList = SprintServices.getIssuesBySprint(s, mainClient);
 				for (Issue i: issueList) {
