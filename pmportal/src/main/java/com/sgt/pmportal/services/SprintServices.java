@@ -317,8 +317,10 @@ public class SprintServices {
 			} catch(NullPointerException noAssignee){
 			}
 			created=format.parseDateTime((fields.get("created").toString()));
+			try{
 			due=format.parseDateTime(fields.get("duedate").toString());
-			
+			}catch (IllegalArgumentException noDate){
+			}
 			JiraIssue issue=new JiraIssue(issueObject.get("key").toString(),
 					fields.getJSONObject("issuetype").get("name").toString(),
 					fields.getJSONObject("priority").get("name").toString(),
