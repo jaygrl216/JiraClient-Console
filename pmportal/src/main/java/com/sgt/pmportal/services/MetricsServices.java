@@ -292,7 +292,6 @@ public class MetricsServices {
 				nextSea=seaList.get(seaList.size()-1)+seaSlope;
 				double eeaSlope=getRegressionSlope(eeaList);
 				nextEea=eeaList.get(eeaList.size()-1)+eeaSlope;
-
 			}else {
 				//this is if there is only one sprint, in which case the prediction is that there will be no change
 				nextSea=seaList.get(0);
@@ -414,7 +413,7 @@ public class MetricsServices {
 		List<Double> forecastList=new ArrayList<Double>();
 		forecastList.add(interval);
 		forecastList.add(s);
-		//[0] is the forecast interval, [1] is the error of the regression
+		//[0]=forecast interval, [1]=error of the regression
 		return forecastList;
 	}
 }
