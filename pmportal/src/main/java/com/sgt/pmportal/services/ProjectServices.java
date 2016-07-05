@@ -243,60 +243,7 @@ public class ProjectServices {
 		}
 	}
 
-	/**
-	 * If EEA and/or SEA is not good then will return an arbitrary number to 
-	 * reveal that planning needs to be improved.
-	 * 
-	 * If both are good then the number 100 will be returned to signify planning 
-	 * has worked well for this project 
-	 * 
-	 * @param project
-	 * @return int
-	 * @throws ServicesErrorException 
-	 * @throws IOException
-	 * @throws ParseException
-	 */
-	public int projectPlanningStatus (JiraProject project) throws ServicesErrorException  {
-		MetricsServices metrics = new MetricsServices(mainClient, baseURL, authorization);
-		List<Double> projectSEA;
-		try {
-			projectSEA = metrics.calculateProjectSEA(project, 
-					project.getSprints());
-			List<Double> projectEEA = metrics.calculateProjectEEA(project, 
-					project.getSprints());
-			double total = 0;
-			double total2 = 0;
-
-			for (Double d: projectSEA) {
-				total += d;
-			}
-
-			double averageSEA = total / projectSEA.size();
-
-			for (Double d: projectEEA) {
-				total2 += d;
-			}
-
-			double averageEEA = total2 / projectSEA.size();
-
-			if (averageSEA < 1 && averageEEA < 1) {
-				return 0;
-			} else if (averageSEA < 1 && averageEEA >= 1) {
-				return -1;
-			} else if (averageEEA < 1 && averageSEA >= 1) {
-				return 1;
-			}
-
-			return 100;
-		} catch (IOException | ParseException e) {
-			Logger logger = Logger.getAnonymousLogger();
-			logger.log(Level.SEVERE, "Error with input or parsing", e);
-				throw new ServicesErrorException();
-		}
-		
-
-		
-	}
+	
 
 	/**
 	 * Predicts the due date of a project based off time spent on
