@@ -28,7 +28,7 @@ public class UserServices {
 	}
 	
 	/**
-	 * Gets the lead of the project
+	 * Gets the lead of a project
 	 * 
 	 * @param projectKey
 	 * @return
@@ -39,7 +39,7 @@ public class UserServices {
 	}
 	
 	/**
-	 * Gets who is assigned to the issue
+	 * Gets who is assigned to an issue
 	 * @param issueKey
 	 * @return
 	 */
@@ -49,7 +49,7 @@ public class UserServices {
 	}
 	
 	/**
-	 * Returns JiraIssues associated with this user
+	 * Returns JiraIssues associated with a user
 	 * 
 	 * @param username
 	 * @return
@@ -69,7 +69,7 @@ public class UserServices {
 	}
 	
 	/**
-	 * Returns a JiraUser representation of the User
+	 * Returns a JiraUser representation of a User
 	 * @param user
 	 * @return
 	 */
