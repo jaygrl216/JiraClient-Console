@@ -56,7 +56,7 @@ public class ProjectServices {
 	}
 
 	/**
-	 * converts projects of the JRJC Project type to a JiraProject
+	 * Converts projects of the JRJC Project type to a JiraProject
 	 * 
 	 * @return ArrayList<JiraProject>
 	 */
@@ -70,7 +70,7 @@ public class ProjectServices {
 	}
 
 	/**
-	 * returns a list of the projects on the client
+	 * Returns a list of the projects on the client
 	 * 
 	 * @return ArrayList<Project>
 	 */
@@ -132,7 +132,7 @@ public class ProjectServices {
 	}
 
 	/**
-	 * Returns a release array from an iterable object of versions
+	 * Returns a release array from an iterable object of type Version
 	 * @param versions
 	 * @return
 	 */
@@ -146,7 +146,7 @@ public class ProjectServices {
 
 	/**
 	 * Converts BasicIssues to Issues and then adds them to the
-	 * JiraProject it belongs too.
+	 * JiraProject it belongs to
 	 * @param p
 	 * @return JiraProject
 	 */
@@ -218,9 +218,9 @@ public class ProjectServices {
 	}
 
 	/**
-	 * 
+	 * Projects the velocity of a project
 	 * @param project
-	 * @return
+	 * @return double
 	 * @throws ServicesErrorException 
 	 * @throws IOException
 	 * @throws ParseException
@@ -244,10 +244,10 @@ public class ProjectServices {
 	}
 
 	/**
-	 * If EEA and/or SEA is not good then will return and arbitary number to 
+	 * If EEA and/or SEA is not good then will return an arbitrary number to 
 	 * reveal that planning needs to be improved.
 	 * 
-	 * If both are good then the number 100 will be return to signify planning 
+	 * If both are good then the number 100 will be returned to signify planning 
 	 * has worked well for this project 
 	 * 
 	 * @param project
@@ -300,7 +300,7 @@ public class ProjectServices {
 
 	/**
 	 * Predicts the due date of a project based off time spent on
-	 * comleted Sprints as well as time spent on open sprints so far
+	 * completed Sprints as well as time spent on open sprints so far
 	 * 
 	 * @param project
 	 * @return Date
