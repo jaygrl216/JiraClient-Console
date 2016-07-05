@@ -57,7 +57,7 @@ public class JiraProject {
 	}
 
 	/**
-	 * Constructor for JiraProject with given issueList
+	 * Constructor for JiraProject with a given issueList
 	 * 
 	 * @param name
 	 * @param key
@@ -133,7 +133,7 @@ public class JiraProject {
 	}
 	
 	/**
-	 * returns the due Date of the project
+	 * Returns the due date of the project
 	 * @return
 	 */
 	public Date getDueDate() {
@@ -141,7 +141,7 @@ public class JiraProject {
 	}
 	
 	/**
-	 * sets the default project due date based of the latest release due date
+	 * Sets the default project due date based off the latest release due date
 	 * 
 	 * @return Date
 	 */
@@ -203,7 +203,7 @@ public class JiraProject {
 	}
 
 	/**
-	 * Changes and returns isOverdue based on if date is past due date
+	 * Changes and returns isOverdue based on if date is past the due date
 	 * 
 	 * @return boolean
 	 */
