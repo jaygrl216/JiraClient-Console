@@ -87,7 +87,7 @@ public class MetricTest {
 	}
 	public void testOverallSEA() throws IOException, ParseException{
 		System.out.println("Overall SEA test will display the SEA of a project and its standard deviation");
-		ArrayList<Double> seaMetric=metricService.calculateProjectSEA(project, null);
+		List<Double> seaMetric=metricService.calculateProjectSEA(project, null);
 		System.out.println("SEA: "+ seaMetric.get(0) + "+/- " + seaMetric.get(1)+"\n");
 	}
 	public void testSprintEEA() throws IOException, ParseException{
@@ -102,7 +102,7 @@ public class MetricTest {
 	}
 	public void testOverallEEA() throws IOException, ParseException{
 		System.out.println("Overall EEA test will display the EEA of a project and its standard deviation");
-		ArrayList<Double> eeaMetric=metricService.calculateProjectEEA(project, null);
+		List<Double> eeaMetric=metricService.calculateProjectEEA(project, null);
 		System.out.println("EEA: "+ eeaMetric.get(0) + "+/- " + eeaMetric.get(1)+"\n");
 	}
 	public void testBugs() {
@@ -121,7 +121,7 @@ public class MetricTest {
 	}
 	public void testForecast() throws JSONException, IOException, ParseException {
 		System.out.println("Forecast test will display SEA, EEA, and bug values per sprint with predicted next values");
-		ArrayList<List<Double>> dataList=metricService.predictNext(project);
+		List<List<Double>> dataList=metricService.predictNext(project);
 		if (dataList.size()>0){
 			List<Double >seaList=dataList.get(0);
 			List<Double> eeaList=dataList.get(1);

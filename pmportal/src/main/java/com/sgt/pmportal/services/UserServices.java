@@ -8,23 +8,43 @@ import com.atlassian.jira.rest.client.domain.User;
 import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraUser;
 
+/**
+ * A class that works with Jira Users
+ * 
+ * @author Jada Washington
+ * @author Aman Mital
+ *
+ */
 public class UserServices {
 	JiraRestClient client;
-
+	
+	/**
+	 * Constructor for UserServices
+	 * @param client
+	 */
 	public UserServices(JiraRestClient client) {
 		this.client = client;
 	}
-
+	
+	/**
+	 * Gets the lead of the project
+	 * 
+	 * @param projectKey
+	 * @return
+	 */
 	public JiraUser getProjectLead(String projectKey){
-		User lead = client.getUserClient().getUser(client.getProjectClient().getProject(projectKey).claim().getLead().getName()).claim();
-		JiraUser projectLead = toJiraUser(lead);
-		return projectLead;
+		return toJiraUser(client.getUserClient().getUser
+				(client.getProjectClient().getProject(projectKey).claim().getLead().getName()).claim());
 	}
-
+	
+	/**
+	 * Gets who is assigned to the issue
+	 * @param issueKey
+	 * @return
+	 */
 	public JiraUser getAssignee(String issueKey){
-		User assignee = client.getUserClient().getUser(client.getIssueClient().getIssue(issueKey).claim().getAssignee().getName()).claim();
-		JiraUser issueUser = toJiraUser(assignee);
-		return issueUser;
+		return toJiraUser(client.getUserClient().getUser
+				(client.getIssueClient().getIssue(issueKey).claim().getAssignee().getName()).claim());
 	}
 	
 	/**

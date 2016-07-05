@@ -51,7 +51,8 @@ public class MetricsServices {
 		double completedIssues = 0;
 		double total = 0;
 		Iterable<BasicIssue> issueComplete = client
-				.getSearchClient().searchJql("project=" + projectKey + "&status=closed " + "OR project=" + projectKey
+				.getSearchClient().searchJql("project=" + projectKey + "&status=closed " 
+		+ "OR project=" + projectKey
 						+ "&status=done " + "OR project=" + projectKey + "&status=resolved ", 1000, 0)
 				.claim().getIssues();
 		for (@SuppressWarnings("unused")
@@ -59,8 +60,8 @@ public class MetricsServices {
 			completedIssues++;
 
 		}
-		Iterable<BasicIssue> issueAll = client.getSearchClient().searchJql("project=" + projectKey, 1000, 0).claim()
-				.getIssues();
+		Iterable<BasicIssue> issueAll = client.getSearchClient().searchJql("project=" 
+		+ projectKey, 1000, 0).claim().getIssues();
 		for (@SuppressWarnings("unused")
 		BasicIssue issue : issueAll) {
 			total++;
@@ -95,7 +96,7 @@ public class MetricsServices {
 	 * @throws ParseException
 	 * @throws IOException
 	 */
-	public ArrayList<Double> calculateProjectSEA(JiraProject project, List<Sprint> sprintList)
+	public List<Double> calculateProjectSEA(JiraProject project, List<Sprint> sprintList)
 			throws IOException, ParseException {
 		System.out.println("Getting sprints...");
 		project.getSprints();
@@ -195,8 +196,8 @@ public class MetricsServices {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	public ArrayList<Double> calculateProjectEEA(JiraProject project, List<Sprint> sprintList)
-			throws JSONException, IOException, ParseException {
+	public List<Double> calculateProjectEEA(JiraProject project, List<Sprint> sprintList)
+			throws IOException, ParseException {
 		SprintServices sprintService = new SprintServices(client, authorization, baseURL);
 		if (sprintList == null) {
 			sprintList = sprintService.getClosedSprintsByProject(project);
@@ -291,7 +292,7 @@ public class MetricsServices {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	public ArrayList<List<Double>> predictNext(JiraProject project) throws JSONException, IOException, ParseException {
+	public List<List<Double>> predictNext(JiraProject project) throws IOException, ParseException {
 		SprintServices sprintService = new SprintServices(client, authorization, baseURL);
 		List<Sprint> sprintList = sprintService.getClosedSprintsByProject(project);
 
@@ -356,9 +357,15 @@ public class MetricsServices {
 		// indices [0]=seaList, [1]=eeaList, [2]=bugList
 		return dataList;
 	}
-
+	
+	/**
+	 * Gets the RegressionSlope
+	 * 
+	 * @param data
+	 * @return
+	 */
 	public double getRegressionSlope(List<Double> data) {
-		List<Double> slopeList = new ArrayList<Double>();
+		List<Double> slopeList = new ArrayList<>();
 		double slope = 0;
 		// Theil-Sen estimator
 		for (int i = 0; i + 1 < data.size(); i++) {
@@ -438,7 +445,7 @@ public class MetricsServices {
 			double inside = 1 + 1 / (x - 1) + (x - xAv) * (x - xAv) / ((N - 1) * vX);
 			interval = 1.96 * s * Math.sqrt(inside);
 		}
-		List<Double> forecastList = new ArrayList<Double>();
+		List<Double> forecastList = new ArrayList<>();
 		forecastList.add(interval);
 		forecastList.add(s);
 		// [0]=forecast interval, [1]=error of the regression

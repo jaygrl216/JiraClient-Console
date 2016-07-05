@@ -246,9 +246,9 @@ public class ProjectServices {
 	 */
 	public int projectPlanningStatus (JiraProject project) throws IOException, ParseException {
 		MetricsServices metrics = new MetricsServices(mainClient, baseURL, authorization);
-		ArrayList<Double> projectSEA = metrics.calculateProjectSEA(project, 
+		List<Double> projectSEA = metrics.calculateProjectSEA(project, 
 				project.getSprints());
-		ArrayList<Double> projectEEA = metrics.calculateProjectEEA(project, 
+		List<Double> projectEEA = metrics.calculateProjectEEA(project, 
 				project.getSprints());
 
 		double total = 0;
