@@ -31,6 +31,8 @@ public class Sprint {
 	 * @param startDate
 	 * @param endDate
 	 * @param completeDate
+	 * @param boardId
+	 * @param status
 	 */
 	public Sprint(String name, String id, String state, Date startDate, 
 			Date endDate, Date completeDate, String boardId, int status) {

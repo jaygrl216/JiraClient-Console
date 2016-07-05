@@ -3,7 +3,7 @@ package com.sgt.pmportal.domain;
 import java.net.URI;
 
 /**
- * This class represents a user of Jira.
+ * This class represents a user for Jira
  * 
  * @author Aman Mital
  * @author Jada Washington
