@@ -1,6 +1,7 @@
 package com.sgt.pmportal.services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
@@ -49,11 +50,12 @@ public class UserServices {
 	
 	/**
 	 * Returns JiraIssues associated with this user
-	 * @param name ArrayList<JiraIssue>
+	 * 
+	 * @param username
 	 * @return
 	 */
-	public ArrayList<JiraIssue> assignedTo(String username) {
-		ArrayList<JiraIssue> issues = new ArrayList<JiraIssue>();
+	public List<JiraIssue> assignedTo(String username) {
+		ArrayList<JiraIssue> issues = new ArrayList<>();
 		Iterable<BasicIssue> issueList = client.getSearchClient().searchJql(
 				"assignee=" + username,1000,0).claim().getIssues();
 		System.out.print("Loading Issues for User: " + username + " ...");
@@ -65,10 +67,15 @@ public class UserServices {
 		System.out.println();
 		return issues;
 	}
+	
+	/**
+	 * Returns a JiraUser representation of the User
+	 * @param user
+	 * @return
+	 */
 	public JiraUser toJiraUser(User user){
-		JiraUser jUser=new JiraUser(
-				user.getName(), user.getDisplayName(), user.getEmailAddress(), user.getTimezone(), user.getAvatarUri());
-		return jUser;
+		return new JiraUser(user.getName(), user.getDisplayName(), 
+				user.getEmailAddress(), user.getTimezone(), user.getAvatarUri());
 	}
 
 }
