@@ -85,11 +85,11 @@ public class Tests {
 		
 		System.out.format("This Jira instance has %s project(s) associated with it.\n", numProjects);
 		
-		JiraProject testProject = pservices.getProjectByKey("TEST");
+		JiraProject testProject = pservices.getProjectByKey("TP");
 		assertTrue(testProject != null);
 		
-		System.out.format("We will be working with the the project: %s for this test.\n", 
-				testProject.getName());
+		System.out.format("We will be working with the the project: %s(%s) for this test.\n", 
+				testProject.getName(), testProject.getKey());
 
 
 		try {
@@ -278,27 +278,33 @@ public class Tests {
 				GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWORD), 
 				JIRA_URL);
 
-		JiraProject project = pService.getProjectByKey("PMPOR");
+		JiraProject project = pService.getProjectByKey("TP");
 		int closed = sprintServ.getClosedSprintsByProject(project).size();
 		int open = sprintServ.getOpenSprintsByProject(project).size();
 		int future = sprintServ.getFutureSprintsByProject(project).size();
-
-		System.out.format("Closed Sprints for %s: %d\n", project.getKey(), closed);
-		System.out.format("Open Sprints for %s: %d\n", project.getKey(), open);
-		System.out.format("Future Sprints for %s: %d\n", project.getKey(), future);
-
-				sprintServ.getAllSprintsForProject(project);
-				Date dueDate = project.getDueDate();
-				Date projectedDate = pService.projectedDueDate(project);
 		
-				System.out.println("The project is supposed to be completed on " 
-						+ dueDate.toString());
-				System.out.println("The project is expected to be completed on " 
-						+ projectedDate.toString());
-
-
-
-
+		assertEquals(0, closed);
+		assertEquals(1, open);
+		assertEquals(0, future);
+		
+		
+//		JiraProject project = pService.getProjectByKey("PMPOR");
+//		int closed = sprintServ.getClosedSprintsByProject(project).size();
+//		int open = sprintServ.getOpenSprintsByProject(project).size();
+//		int future = sprintServ.getFutureSprintsByProject(project).size();
+//
+//		System.out.format("Closed Sprints for %s: %d\n", project.getKey(), closed);
+//		System.out.format("Open Sprints for %s: %d\n", project.getKey(), open);
+//		System.out.format("Future Sprints for %s: %d\n", project.getKey(), future);
+//
+//				sprintServ.getAllSprintsForProject(project);
+//				Date dueDate = project.getDueDate();
+//				Date projectedDate = pService.projectedDueDate(project);
+//		
+//				System.out.println("The project is supposed to be completed on " 
+//						+ dueDate.toString());
+//				System.out.println("The project is expected to be completed on " 
+//						+ projectedDate.toString());
 
 	}
 }
