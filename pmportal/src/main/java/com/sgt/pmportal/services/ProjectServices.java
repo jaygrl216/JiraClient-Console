@@ -224,7 +224,7 @@ public class ProjectServices {
 	public double getVelocityForProject(JiraProject project) throws IOException, ParseException {
 		SprintServices sprintServs = new SprintServices(mainClient, authorization, baseURL);
 		double totalSEA = 0;
-		ArrayList<Sprint> sprints = sprintServs.getClosedSprintsByProject(project);
+		List<Sprint> sprints = sprintServs.getClosedSprintsByProject(project);
 		for (Sprint s: sprints) {
 			double sea = MetricsServices.calculateSprintSEA(s);
 			totalSEA += sea;

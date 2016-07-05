@@ -212,7 +212,7 @@ public class Tests {
 		System.out.println("");
 		//closed
 		System.out.println("Closed sprints for project \"" +project.getName()+"\":");
-		ArrayList<Sprint> sprintClosedList=sprintService.getClosedSprintsByProject(project);
+		List<Sprint> sprintClosedList=sprintService.getClosedSprintsByProject(project);
 		for (Sprint sl:sprintClosedList){
 			System.out.println(sl.getName());
 			System.out.println(sl.getState()+"\n");

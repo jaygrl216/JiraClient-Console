@@ -27,6 +27,7 @@ import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.Sprint;
 
 /**
+ * Service class associated with Sprints from Jira
  * 
  * @author Aman Mital
  * @author Jada Washington
@@ -47,6 +48,7 @@ public class SprintServices {
 		this.authorization = authorization;
 		this.baseURL = baseURL;
 	}
+	
 	public List<Sprint> getOpenSprintsByProject(JiraProject project) 
 			throws IOException, ParseException{
 		String boardId = "0";
@@ -134,7 +136,8 @@ public class SprintServices {
 		}
 		return sprintList;
 	}
-	public ArrayList<Sprint> getClosedSprintsByProject(JiraProject project) throws IOException, JSONException, ParseException{
+	
+	public List<Sprint> getClosedSprintsByProject(JiraProject project) throws IOException, ParseException{
 		String boardId="0";
 		ArrayList<Sprint> sprintList=new ArrayList<Sprint>();
 		JSONArray boards=new JSONArray();
@@ -185,8 +188,8 @@ public class SprintServices {
 				String sprintGreenHopperResponse=getAgileData("/rest/greenhopper/latest/sprintquery/" + boardId);
 				JSONObject sprintGreenHopperObject=new JSONObject(sprintGreenHopperResponse);
 				JSONArray sprintGreenHopperArray=sprintGreenHopperObject.getJSONArray("sprints");
-				ArrayList<String> idArray=new ArrayList<String>();
-				ArrayList<JSONObject> sprintArray=new ArrayList<JSONObject>();
+				ArrayList<String> idArray=new ArrayList<>();
+				ArrayList<JSONObject> sprintArray=new ArrayList<>();
 				//format date
 				SimpleDateFormat oldFormat=new SimpleDateFormat("dd/MMM/yy hh:mm a", Locale.ENGLISH);
 				//filter out closed and future sprints
@@ -297,7 +300,8 @@ public class SprintServices {
 	/**
 	 * returns all issues in a sprint as a list of JiraIssues
 	 * 
-	 * @param sprint, client
+	 * @param sprint
+	 * @param client
 	 * @return List<JiraIssue>
 	 * @throws IOException
 	 */
@@ -379,11 +383,24 @@ public class SprintServices {
 		return Days.daysBetween(new DateTime(s.getEndDate()), 
 				new DateTime(s.getCompleteDate())).getDays();
 	}
-
+	
+	/**
+	 * Estimated days between start and end date
+	 * 
+	 * @param s
+	 * @return int
+	 */
 	public static int estimateDays (Sprint s) {
 		return Days.daysBetween(new DateTime(s.getStartDate()), 
 				new DateTime(s.getEndDate())).getDays();
 	}
+	
+	/**
+	 * Gets agile date of a Jira instance
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
 	public String getAgileData(String url) throws IOException{
 		StringBuffer response = new StringBuffer();
 		URL urlObj = new URL(baseURL + url);
@@ -403,7 +420,8 @@ public class SprintServices {
 			return response.toString();
 		}else{
 			System.err.println("Project is not setup properly for Agile");
-		}return null;
+		}
+		return null;
 	}
 
 } 
