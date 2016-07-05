@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+
 import com.atlassian.jira.rest.client.IssueRestClient;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.ProjectRestClient;
@@ -218,18 +221,26 @@ public class ProjectServices {
 	 * 
 	 * @param project
 	 * @return
+	 * @throws ServicesErrorException 
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public double getVelocityForProject(JiraProject project) throws IOException, ParseException {
+	public double getVelocityForProject(JiraProject project) throws ServicesErrorException {
 		SprintServices sprintServs = new SprintServices(mainClient, authorization, baseURL);
 		double totalSEA = 0;
-		List<Sprint> sprints = sprintServs.getClosedSprintsByProject(project);
-		for (Sprint s: sprints) {
-			double sea = MetricsServices.calculateSprintSEA(s);
-			totalSEA += sea;
+		List<Sprint> sprints;
+		try {
+			sprints = sprintServs.getClosedSprintsByProject(project);
+			for (Sprint s: sprints) {
+				double sea = MetricsServices.calculateSprintSEA(s);
+				totalSEA += sea;
+			}
+				return totalSEA/sprints.size();
+		} catch (IOException | ParseException e) {
+			Logger logger = Logger.getAnonymousLogger();
+			logger.log(Level.SEVERE, "Error with input or parsing", e);
+				throw new ServicesErrorException();
 		}
-		return totalSEA/sprints.size();
 	}
 
 	/**
@@ -241,40 +252,50 @@ public class ProjectServices {
 	 * 
 	 * @param project
 	 * @return int
+	 * @throws ServicesErrorException 
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public int projectPlanningStatus (JiraProject project) throws IOException, ParseException {
+	public int projectPlanningStatus (JiraProject project) throws ServicesErrorException  {
 		MetricsServices metrics = new MetricsServices(mainClient, baseURL, authorization);
-		List<Double> projectSEA = metrics.calculateProjectSEA(project, 
-				project.getSprints());
-		List<Double> projectEEA = metrics.calculateProjectEEA(project, 
-				project.getSprints());
+		List<Double> projectSEA;
+		try {
+			projectSEA = metrics.calculateProjectSEA(project, 
+					project.getSprints());
+			List<Double> projectEEA = metrics.calculateProjectEEA(project, 
+					project.getSprints());
+			double total = 0;
+			double total2 = 0;
 
-		double total = 0;
-		double total2 = 0;
+			for (Double d: projectSEA) {
+				total += d;
+			}
 
-		for (Double d: projectSEA) {
-			total += d;
+			double averageSEA = total / projectSEA.size();
+
+			for (Double d: projectEEA) {
+				total2 += d;
+			}
+
+			double averageEEA = total2 / projectSEA.size();
+
+			if (averageSEA < 1 && averageEEA < 1) {
+				return 0;
+			} else if (averageSEA < 1 && averageEEA >= 1) {
+				return -1;
+			} else if (averageEEA < 1 && averageSEA >= 1) {
+				return 1;
+			}
+
+			return 100;
+		} catch (IOException | ParseException e) {
+			Logger logger = Logger.getAnonymousLogger();
+			logger.log(Level.SEVERE, "Error with input or parsing", e);
+				throw new ServicesErrorException();
 		}
+		
 
-		double averageSEA = total / projectSEA.size();
-
-		for (Double d: projectEEA) {
-			total2 += d;
-		}
-
-		double averageEEA = total2 / projectSEA.size();
-
-		if (averageSEA < 1 && averageEEA < 1) {
-			return 0;
-		} else if (averageSEA < 1 && averageEEA >= 1) {
-			return -1;
-		} else if (averageEEA < 1 && averageSEA >= 1) {
-			return 1;
-		}
-
-		return 100;
+		
 	}
 
 	/**
@@ -289,7 +310,7 @@ public class ProjectServices {
 		Date dueDate = project.getDueDate();
 		Calendar c = Calendar.getInstance();
 		c.setTime(dueDate);
-SprintServices sprintService=new SprintServices(mainClient, authorization, baseURL);
+		SprintServices sprintService=new SprintServices(mainClient, authorization, baseURL);
 
 		int totalDifference = 0;
 		int completedIssues = 0;
@@ -329,43 +350,6 @@ SprintServices sprintService=new SprintServices(mainClient, authorization, baseU
 		totalDifference = (int) Math.round(totalDifference + extraEstimate);
 		c.add(Calendar.DATE, totalDifference);
 		return c.getTime();
-		//		Date dueDate = project.getDueDate();
-		//		Calendar c = Calendar.getInstance();
-		//		c.setTime(dueDate);
-		//		int totalDifference = 0;
-		//		int completedIssues = 0;
-		//
-		//
-		//		for (Sprint s: project.getSprints()) {
-		//			if(s.isClosed()) {
-		//				int durationDiff = SprintServices.sprintDifference(s);
-		//				System.out.format("This sprint was completed %d day(s) after behind schedule.\n", 
-		//						durationDiff);
-		//				totalDifference += durationDiff;
-		//			} 
-		//			
-		//			if (s.isOpen()) {
-		//				List<Issue> issuesForSprint = SprintServices.getIssuesBySprint(s, 
-		//						mainClient);
-		//				for(Issue i: issuesForSprint) {
-		//
-		//					//Older Jiras use "Resolved" and "Closed", newer ones have the status "Done"
-		//					if ("Closed".equals(i.getStatus().getName()) ||
-		//							"Resolved".equals(i.getStatus().getName()) ||
-		//							"Done".equals(i.getStatus().getName())) {
-		//						completedIssues++;
-		//					}
-		//				}
-		//				int days = Days.daysBetween(new DateTime(s.getStartDate()), 
-		//						new DateTime(Calendar.getInstance().getTime())).getDays();
-		//				double openTotal = (double) (days / completedIssues);
-		//				int extraDays = (int) openTotal * SprintServices.estimateDays(s);
-		//				totalDifference += extraDays;
-		//				completedIssues = 0;
-		//			}
-		//		}
-		//		c.add(Calendar.DATE, totalDifference);
-		//		return c.getTime();
 	}
 
 
