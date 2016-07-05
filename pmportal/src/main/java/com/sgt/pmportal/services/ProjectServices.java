@@ -345,7 +345,7 @@ public class ProjectServices {
 			}
 		}
 
-		double overUnder = totalDifference / (project.sprintsWorked());
+		double overUnder = (double) totalDifference / (project.sprintsWorked());
 		double extraEstimate = overUnder * project.sprintsNotWorked();
 		totalDifference = (int) Math.round(totalDifference + extraEstimate);
 		c.add(Calendar.DATE, totalDifference);
