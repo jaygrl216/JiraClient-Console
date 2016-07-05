@@ -3,7 +3,7 @@ package com.sgt.pmportal.domain;
 import org.joda.time.DateTime;
 
 /**
- * This class represents a issue on Jira.
+ * This class represents an issue in Jira.
  * 
  * @author Jada Washington
  * @author Aman Mital
@@ -31,6 +31,7 @@ public class JiraIssue {
 	 * @param user
 	 * @param create
 	 * @param due
+	 * @param status
 	 */
 	public JiraIssue(String key, String type, String p, String desc, 
 			String user, DateTime create, DateTime due, String status) {
