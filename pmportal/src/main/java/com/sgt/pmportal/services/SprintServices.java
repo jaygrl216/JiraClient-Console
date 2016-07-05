@@ -298,7 +298,7 @@ public class SprintServices {
 		return sprintList;	
 	}
 	/**
-	 * Returns all issues in a sprint as a list of JiraIssues
+	 * Returns all issues in a sprint as a list of JiraIssues. This avoids the JRJC to reduce unnecessary workload.
 	 * 
 	 * @param sprint
 	 * @param client
