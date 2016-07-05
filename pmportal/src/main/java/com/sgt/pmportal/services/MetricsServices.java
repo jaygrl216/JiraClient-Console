@@ -71,10 +71,10 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates SEA of a specific project using Sprints
+	 * Calculates the SEA of a sprint
 	 * 
 	 * @param project
-	 * @return
+	 * @return double
 	 * @throws IOException
 	 * @throws ParseException
 	 */
@@ -90,11 +90,12 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates overall SEA (for all projects) by averaging with STD deviation
+	 * Calculates overall SEA (for a project) by averaging the SEA of sprints with STD deviation
 	 * 
 	 * @param issue
 	 * @throws ParseException
 	 * @throws IOException
+	 * @return List<Double>
 	 */
 	public List<Double> calculateProjectSEA(JiraProject project, List<Sprint> sprintList)
 			throws IOException, ParseException {
@@ -132,12 +133,13 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates EEA for a single sprint, based on actual effort/estimated
+	 * Calculates the EEA for a single sprint, based on actual effort/estimated
 	 * effort. A sprint's effort is determined for a modern JIRA instance by
-	 * adding up the estimations of All its issues
+	 * adding up the estimations of all its issues
 	 * 
 	 * @param sprint
 	 * @throws IOException
+	 * @return double
 	 */
 	public double calculateSprintEEA(Sprint sprint) throws IOException {
 		// EEA=actualEffort/estimatedEffort
@@ -189,7 +191,7 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates Project EEA and standard deviation
+	 * Calculates Project EEA and standard deviation
 	 * 
 	 * @param project
 	 * @throws ParseException
@@ -230,7 +232,7 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates bugs in a project
+	 * Calculates the number of open bugs in a project
 	 * 
 	 * @param project
 	 * @throws ParseException
@@ -257,11 +259,12 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates defects in a project by category
+	 * Calculates defects in a project by category
 	 * 
 	 * @param project
 	 * @throws ParseException
 	 * @throws IOException
+	 * @return List<Number>
 	 */
 	public List<Number> calculateDefectTotal(JiraProject project) throws IOException, ParseException {
 		SprintServices sprintService = new SprintServices(client, authorization, baseURL);
@@ -285,12 +288,13 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates next metric values in a specific project
+	 * Calculates next metric values in a specific project
 	 * 
 	 * @param project
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws JSONException
+	 * @return List<List<Double>>
 	 */
 	public List<List<Double>> predictNext(JiraProject project) throws IOException, ParseException {
 		SprintServices sprintService = new SprintServices(client, authorization, baseURL);
@@ -359,7 +363,7 @@ public class MetricsServices {
 	}
 	
 	/**
-	 * Gets the RegressionSlope
+	 * Gets the regression slope from a list of data (assumes that the independent variable is from 0...N in increments of 1
 	 * 
 	 * @param data
 	 * @return
@@ -379,7 +383,7 @@ public class MetricsServices {
 	}
 
 	/**
-	 * calculates the forecast interval and regression error of a set of data
+	 * Calculates the forecast interval and regression error of a set of data
 	 * points, returns List<Double> This assumes that x starts at 0 and is in
 	 * increments of 1 and y (data) is a one dimensional vector
 	 * 
@@ -387,6 +391,7 @@ public class MetricsServices {
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws JSONException
+	 * @return List<Double>
 	 */
 	public List<Double> getForecastInterval(List<Double> data, Double regressionSlope) {
 		if (regressionSlope == null) {
