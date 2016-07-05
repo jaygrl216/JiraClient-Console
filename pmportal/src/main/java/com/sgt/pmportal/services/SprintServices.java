@@ -298,7 +298,7 @@ public class SprintServices {
 		return sprintList;	
 	}
 	/**
-	 * returns all issues in a sprint as a list of JiraIssues
+	 * Returns all issues in a sprint as a list of JiraIssues
 	 * 
 	 * @param sprint
 	 * @param client
@@ -344,7 +344,7 @@ public class SprintServices {
 		return issueList;
 	}
 	/**
-	 * returns all sprints in a project and adds those sprints to the project
+	 * Returns all sprints in a project and adds those sprints to the project
 	 * 
 	 * @param project
 	 * @return List<Sprint>
@@ -396,9 +396,9 @@ public class SprintServices {
 	}
 	
 	/**
-	 * Gets agile date of a Jira instance
+	 * HTTP GET request used to retrieve Agile data
 	 * @param url
-	 * @return
+	 * @return response
 	 * @throws IOException
 	 */
 	public String getAgileData(String url) throws IOException{
