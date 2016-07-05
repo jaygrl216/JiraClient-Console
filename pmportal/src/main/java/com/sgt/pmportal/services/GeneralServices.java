@@ -30,7 +30,7 @@ import com.sgt.pmportal.domain.JiraUser;
 public class GeneralServices {
 
 	/**
-	 * Logins into a Jira instance
+	 * Logs in to a Jira instance
 	 * 
 	 * @param url
 	 * @param username
@@ -46,22 +46,22 @@ public class GeneralServices {
 	}
 
 	/**
-	 * Encodes username and password for viewing
+	 * Encodes username and password as a Base64 String (used for requests independent of the JRJC)
 	 * 
 	 * @param username
 	 * @param pass
-	 * @return
+	 * @return String
 	 */
 	public static String encodeAuth(String username, String pass) {
 		return Base64.getUrlEncoder().encodeToString((username + ":" + pass).getBytes());
 	}
 
 	/**
-	 * Converts a BasicIssue of the JRJC to JiraIssue
+	 * Converts a BasicIssue of the JRJC to a JiraIssue
 	 * 
 	 * @param basicIssue
 	 * @param client
-	 * @return
+	 * @return JiraIssue
 	 */
 	public static JiraIssue toJiraIssue(BasicIssue basicIssue, JiraRestClient client) {
 		Promise<Issue> issue = client.getIssueClient().getIssue(basicIssue.getKey());
@@ -79,7 +79,7 @@ public class GeneralServices {
 	}
 
 	/**
-	 * Converts Basic User to JiraUser
+	 * Converts a BasicUser of the JRJC to a JiraUser
 	 * @param user
 	 * @param client
 	 * @return JiraUser
