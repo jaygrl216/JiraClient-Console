@@ -279,6 +279,8 @@ public class Tests {
 				JIRA_URL);
 
 		JiraProject project = pService.getProjectByKey("TP");
+		assertTrue(project != null);
+		
 		int closed = sprintServ.getClosedSprintsByProject(project).size();
 		int open = sprintServ.getOpenSprintsByProject(project).size();
 		int future = sprintServ.getFutureSprintsByProject(project).size();
