@@ -90,7 +90,7 @@ public class GeneralServices {
 			dueDate=realIssue.getDueDate();
 		} catch(NullPointerException exception){}		
 		return new JiraIssue (realIssue.getKey(), realIssue.getIssueType().getName(), 
-				priority,description, assigneeName, creationDate, dueDate);
+				priority,description, assigneeName, creationDate, dueDate, realIssue.getStatus().getName());
 	}
 	
 	/**

@@ -168,11 +168,11 @@ public class ProjectServices {
 				curIssue.getPriority().getName();
 			DateTime creationDate = curIssue.getCreationDate();
 			DateTime dueDate = curIssue.getDueDate();
-
+			String status=curIssue.getStatus().getName();
 
 			JiraIssue jiraIssue = new JiraIssue(curIssue.getKey(), 
 					curIssue.getIssueType().getName(), priority,
-					description, assigneeName, creationDate, dueDate);
+					description, assigneeName, creationDate, dueDate, status);
 
 			issueList.add(jiraIssue);
 		}
@@ -203,11 +203,12 @@ public class ProjectServices {
 				curIssue.getPriority().getName();
 			DateTime creationDate = curIssue.getCreationDate();
 			DateTime dueDate = curIssue.getDueDate();
+			String status=curIssue.getStatus().getName();
 
 
 			JiraIssue jiraIssue = new JiraIssue(curIssue.getKey(), 
 					curIssue.getIssueType().getName(), priority,
-					description, assigneeName, creationDate, dueDate);
+					description, assigneeName, creationDate, dueDate, status);
 
 			jp.addToIssues(jiraIssue);
 		}
@@ -282,12 +283,13 @@ public class ProjectServices {
 	 * 
 	 * @param project
 	 * @return Date
+	 * @throws IOException 
 	 */
-	public Date projectedDueDate (JiraProject project) {
+	public Date projectedDueDate (JiraProject project) throws IOException {
 		Date dueDate = project.getDueDate();
 		Calendar c = Calendar.getInstance();
 		c.setTime(dueDate);
-
+SprintServices sprintService=new SprintServices(mainClient, authorization, baseURL);
 
 		int totalDifference = 0;
 		int completedIssues = 0;
@@ -303,11 +305,11 @@ public class ProjectServices {
 			} else if (s.isOpen()) {
 				System.out.println("Open: " + s.getName());
 				System.out.println("End: " + s.getEndDate());
-				List<Issue> issueList = SprintServices.getIssuesBySprint(s, mainClient);
-				for (Issue i: issueList) {
-					if ("Closed".equals(i.getStatus().getName()) ||
-							"Resolved".equals(i.getStatus().getName()) ||
-							"Done".equals(i.getStatus().getName())) {
+				List<JiraIssue> issueList = sprintService.getIssuesBySprint(s, mainClient);
+				for (JiraIssue i: issueList) {
+					if ("Closed".equals(i.getStatus()) ||
+							"Resolved".equals(i.getStatus()) ||
+							"Done".equals(i.getStatus())) {
 						completedIssues++;
 					}
 				}

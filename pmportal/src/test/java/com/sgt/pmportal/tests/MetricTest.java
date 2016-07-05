@@ -29,7 +29,7 @@ public class MetricTest {
 	JiraProject project=pService.toJiraProject(client.getProjectClient().getProject("PA").claim(),null);
 	List<Sprint> sprintList=new ArrayList<Sprint>();
 	/**
-	 * logins into JiraClient
+	 * logs in to JiraClient
 	 * @return JiraRestClient
 	 */
 	private static JiraRestClient login() {
@@ -45,20 +45,16 @@ public class MetricTest {
 	}
 	public static void main(String[] args) throws IOException, ParseException{
 		MetricTest test=new MetricTest();
-		//this runs a series of tests as a java application
 		test.printInfo();
-		//test.testProgress();
-		//test.testSprintSEA();
-		//test.testOverallSEA();
-		//test.testSprintEEA();
-		//test.testOverallEEA();
-		//test.testBugs();
-		//test.testAllDefects();
-		//test.testAccuracyPredict();
-		//test.testBugPredict();
+		test.testProgress();
+		test.testSprintSEA();
+		test.testOverallSEA();
+		test.testSprintEEA();
+		test.testOverallEEA();
+		test.testBugs();
+		test.testAllDefects();
 		test.testForecast();
 		System.out.println("Finished");
-
 	}
 	public void printInfo() {
 		System.out.println("******PM-Portal Metric test********\n");
@@ -66,7 +62,6 @@ public class MetricTest {
 		System.out.println("Using login for: " + JIRA_ADMIN_USERNAME+"\n");
 	}
 	public void testProgress(){
-		//MetricsService test
 		System.out.println("Progress test will display the progress of a project as a\n"
 				+ "percentage.\n");
 		try{
@@ -124,65 +119,35 @@ public class MetricTest {
 		System.out.println("EEA: "+defectArray.get(2));
 		System.out.println("Overdue: "+defectArray.get(3)+"\n");
 	}
-	public void testAccuracyPredict() throws JSONException, IOException, ParseException {
-		System.out.println("Accuracy predict test will display SEA and EEA with last values as a prediction");
-		ArrayList<List<Double>> dataList=metricService.predictAccuracy(project);
-		if (dataList.size()>0){
-			List<Double >seaList=dataList.get(0);
-			List<Double> eeaList=dataList.get(1);
-			System.out.println("SEA values:");
-			for (Double sea:seaList){
-				System.out.print("\n"+sea);
-			}
-			System.out.print(" <--- Predicted value\n\nEEA values:\n");
-			for (Double eea:eeaList){
-				System.out.print("\n"+eea);
-			}
-			System.out.print(" <--- Predicted value\n");
-		} else{
-			System.err.println("No data available!");
-		}
-	}
-	public void testBugPredict() throws JSONException, IOException, ParseException {
-		System.out.println("Bug predict test will display bugs per sprint with last value as a prediction");
-		List<Double> bugList=metricService.predictBugs(project);
-		if (bugList.size()>0){
-			for (int i=0; i<bugList.size(); i++){
-				System.out.print("\nSprint: "+i+", Bugs: "+bugList.get(i));
-			}
-			System.out.print(" <--- Predicted value\n");
-		} else{
-			System.err.println("No data available!");
-		}
-	}
 	public void testForecast() throws JSONException, IOException, ParseException {
-		ArrayList<List<Double>> dataList=metricService.predictAccuracy(project);
+		System.out.println("Forecast test will display SEA, EEA, and bug values per sprint with predicted next values");
+		ArrayList<List<Double>> dataList=metricService.predictNext(project);
 		if (dataList.size()>0){
 			List<Double >seaList=dataList.get(0);
 			List<Double> eeaList=dataList.get(1);
-			List<Double> bugList=metricService.predictBugs(project);
+			List<Double> bugList=dataList.get(2);
 			double seaSlope=metricService.getRegressionSlope(seaList);
 			double eeaSlope=metricService.getRegressionSlope(eeaList);
 			double bugSlope=metricService.getRegressionSlope(bugList);
-			System.out.println(seaSlope + " " + eeaSlope + " " + bugSlope);
-			double seaForecast=metricService.getForecastInterval(seaList, seaSlope);
-			double eeaForecast=metricService.getForecastInterval(eeaList, eeaSlope);
-			double bugForecast=metricService.getForecastInterval(bugList, bugSlope);
+			List<Double> seaForecast=metricService.getForecastInterval(seaList, seaSlope);
+			List<Double> eeaForecast=metricService.getForecastInterval(eeaList, eeaSlope);
+			List<Double> bugForecast=metricService.getForecastInterval(bugList, bugSlope);
 			System.out.println("SEA values:");
-			for (Double sea:seaList){
-				System.out.print("\n"+sea);
+			for (int i=0; i<seaList.size(); i++){
+				System.out.print("\nSprint: " +(i+1)+", SEA: "+seaList.get(i));
 			}
-			System.out.print("+- "+seaForecast+" <--- Predicted value\n\nEEA values:\n");
-			for (Double eea:eeaList){
-				System.out.print("\n"+eea);
+			System.out.print("+- "+seaForecast.get(0)+" <--- Predicted value with forecast interval\n");
+			System.out.println("Error on regression: " + seaForecast.get(1)+"\n\nEEA values:");
+			for (int i=0; i<eeaList.size(); i++){
+				System.out.print("\nSprint: " +(i+1)+", EEA: "+eeaList.get(i));
 			}
-			System.out.print("+- "+eeaForecast+ " <--- Predicted value\n\nBug values:\n");
-
-			for (Double bug:bugList){
-				System.out.print("\n"+bug);
+			System.out.print("+- "+eeaForecast.get(0)+ " <--- Predicted value with forecast interval\n");
+			System.out.println("Error on regression: "+eeaForecast.get(1)+"\n\nBug values:");
+			for (int i=0; i<bugList.size(); i++){
+				System.out.print("\nSprint: " +(i+1)+", Bugs: "+bugList.get(i));
 			}
-			System.out.print("+- "+bugForecast+ " <--- Predicted value\n");
-
+			System.out.print("+- "+bugForecast.get(0)+ " <--- Predicted value with forecast interval\n");
+			System.out.println("Error on regression: "+bugForecast.get(1));
 		} else{
 			System.err.println("No data available!");
 		}

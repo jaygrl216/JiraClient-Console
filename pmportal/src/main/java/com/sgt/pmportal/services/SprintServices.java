@@ -15,13 +15,14 @@ import java.util.Objects;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
-import com.atlassian.jira.rest.client.domain.BasicIssue;
-import com.atlassian.jira.rest.client.domain.Issue;
+import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.Sprint;
 
@@ -35,7 +36,6 @@ public class SprintServices {
 	JiraRestClient client;
 	String authorization;
 	String baseURL;
-	
 	/**
 	 * Constructor 
 	 * @param client
@@ -47,13 +47,11 @@ public class SprintServices {
 		this.authorization = authorization;
 		this.baseURL = baseURL;
 	}
-
 	public List<Sprint> getOpenSprintsByProject(JiraProject project) 
 			throws IOException, ParseException{
 		String boardId = "0";
 		ArrayList<Sprint> sprintList = new ArrayList<Sprint>();
 		JSONArray boards = new JSONArray();
-
 		try{
 			String boardResponse = getAgileData("/rest/agile/latest/board");
 			JSONObject boardObject = new JSONObject(boardResponse);
@@ -66,7 +64,6 @@ public class SprintServices {
 					break;
 				}
 			}	
-
 		} catch (FileNotFoundException fileException){
 			System.err.println("Warning: Version of Jira is outdated! "
 					+ "Attempting to fix with Greenhopper API");
@@ -99,9 +96,8 @@ public class SprintServices {
 					sprintList.add(new Sprint(iteratorObject.get("name").toString(), iteratorObject.get("id").toString(), 
 							iteratorObject.get("state").toString(), format.parse(iteratorObject.get("startDate").toString()), 
 							format.parse(iteratorObject.get("endDate").toString()), null, boardId, 0));
-				
+
 				}
-			
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			
 				String sprintGreenHopperResponse=getAgileData("/rest/greenhopper/latest/sprintquery/" + boardId);
@@ -176,7 +172,7 @@ public class SprintServices {
 				sprintArray=sprintObject.getJSONArray("values");
 				//format date
 				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.ENGLISH);
-	
+
 				//retrieve data
 				for (int i=0; i<sprintArray.length(); i++){
 					JSONObject iteratorObject=sprintArray.getJSONObject(i);
@@ -298,25 +294,56 @@ public class SprintServices {
 		}
 		return sprintList;	
 	}
-	public static List<Issue> getIssuesBySprint(Sprint sprint, JiraRestClient client){
-		List<Issue> issueList=new ArrayList<Issue>();
-		Iterable<BasicIssue> sprintIssueList=client.getSearchClient().searchJql(
-				"sprint= " + sprint.getId()+" ORDER BY createdDate",1000,0).claim().getIssues();
+	/**
+	 * returns all issues in a sprint as a list of JiraIssues
+	 * 
+	 * @param sprint, client
+	 * @return List<JiraIssue>
+	 * @throws IOException
+	 */
+	public List<JiraIssue> getIssuesBySprint(Sprint sprint, JiraRestClient client) throws IOException{
+		List<JiraIssue> issueList=new ArrayList<JiraIssue>();
+		String response=getAgileData("/rest/api/latest/search?jql=sprint="+sprint.getId());
+		JSONObject responseObject=new JSONObject(response);
+		JSONArray issueArray=responseObject.getJSONArray("issues");
+		DateTimeFormatter format=DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 		System.out.print("Gathering Issues");
-		for (BasicIssue sil:sprintIssueList){
-			System.out.print(".");
-			issueList.add(client.getIssueClient().getIssue(sil.getKey()).claim());
+		for (int i=0; i<issueArray.length(); i++){
+			JSONObject issueObject=issueArray.getJSONObject(i);
+			JSONObject fields=issueObject.getJSONObject("fields");
+			String assignee=null;
+			DateTime created=null;
+			DateTime due=null;
+			String priority=null;
+			try{
+				assignee=fields.getJSONObject("assignee").get("name").toString();
+			} catch(NullPointerException noAssignee){
+			}
+			created=format.parseDateTime((fields.get("created").toString()));
+			try{
+				due=format.parseDateTime(fields.get("duedate").toString());
+			}catch (IllegalArgumentException|JSONException noDate){
+			}
+			try{
+				priority=fields.getJSONObject("priority").get("name").toString();
+			}catch(JSONException noPriority){
+			}
+			JiraIssue issue=new JiraIssue(issueObject.get("key").toString(),
+					fields.getJSONObject("issuetype").get("name").toString(),
+					priority,
+					fields.get("description").toString(),
+					assignee, 
+					created, due, fields.getJSONObject("status").get("name").toString());
+			issueList.add(issue);
 		}
 		System.out.println();
 		return issueList;
-
 	}
-
 	/**
 	 * returns all sprints in a project and adds those sprints to the project
 	 * 
 	 * @param project
-	 * @return
+	 * @return List<Sprint>
 	 * @throws IOException
 	 * @throws ParseException
 	 */
@@ -343,7 +370,6 @@ public class SprintServices {
 		project.addSprints(all);
 		return all;
 	}
-
 	/**
 	 * Days between completed date and end date
 	 * @param s
@@ -353,12 +379,11 @@ public class SprintServices {
 		return Days.daysBetween(new DateTime(s.getEndDate()), 
 				new DateTime(s.getCompleteDate())).getDays();
 	}
-	
+
 	public static int estimateDays (Sprint s) {
 		return Days.daysBetween(new DateTime(s.getStartDate()), 
 				new DateTime(s.getEndDate())).getDays();
 	}
-
 	public String getAgileData(String url) throws IOException{
 		StringBuffer response = new StringBuffer();
 		URL urlObj = new URL(baseURL + url);
