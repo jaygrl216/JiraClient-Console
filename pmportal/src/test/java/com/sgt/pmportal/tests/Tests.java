@@ -1,6 +1,6 @@
 package com.sgt.pmportal.tests;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -52,16 +52,16 @@ public class Tests {
 
 
 	public static void main(String[] args) throws IOException, JSONException, ParseException{
-		Tests test=new Tests();
+		Tests test = new Tests();
 		//this runs a series of tests as a java application
 
-		//		test.printInfo();
-		//		test.testProjectInfo();
+			test.printInfo();
+			test.testProjectInfo();
 		//		test.versionTest();
 		//		test.metricsServiceTest();
 		//		test.userServicesTest();
 		//		test.sprintServiceTest();
-		test.projectAnalysisTest();
+		//test.projectAnalysisTest();
 		System.out.println("Finished");
 
 	}
@@ -79,9 +79,11 @@ public class Tests {
 		System.out.println("Project Services Test");
 		JiraRestClient client = login();
 		ProjectServices pservices = new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
-		//ArrayList<JiraProject> projectList = pservices.getAllJiraProjects();
+		int numProjects = pservices.getAllJiraProjects().size();
+		assertEquals(2, numProjects);
+		
+		System.out.format("This Jira instance has %s project(s) associated with it.\n", numProjects);
 
-		//System.out.println("\nProjects retrieved: " + projectList.size()+"\n");
 
 		try {
 			JiraProject pm = pservices.getProjectByName("PM-Portal");
