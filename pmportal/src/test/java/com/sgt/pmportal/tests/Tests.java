@@ -80,9 +80,16 @@ public class Tests {
 		JiraRestClient client = login();
 		ProjectServices pservices = new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
 		int numProjects = pservices.getAllJiraProjects().size();
+		
 		assertEquals(2, numProjects);
 		
 		System.out.format("This Jira instance has %s project(s) associated with it.\n", numProjects);
+		
+		JiraProject testProject = pservices.getProjectByKey("TEST");
+		assertTrue(testProject != null);
+		
+		System.out.format("We will be working with the the project: %s for this test.\n", 
+				testProject.getName());
 
 
 		try {
