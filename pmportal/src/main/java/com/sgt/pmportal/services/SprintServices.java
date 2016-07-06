@@ -152,7 +152,7 @@ public class SprintServices {
 					i=boards.length();
 				}
 			}		
-		}catch (FileNotFoundException fileException){
+		}catch(FileNotFoundException fileException){
 			System.err.println("Warning: Version of Jira is outdated! Attempting to fix with Greenhopper API");
 			String boardResponse=getAgileData("/rest/greenhopper/latest/rapidview");
 			JSONObject boardObject=new JSONObject(boardResponse);
