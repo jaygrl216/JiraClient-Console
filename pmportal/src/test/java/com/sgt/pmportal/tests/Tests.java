@@ -164,10 +164,9 @@ public class Tests {
 		//UserServices test
 		System.out.println("User Services test will first: retrieve the assignee to an issue and retrieve their other issues\n"
 				+ "and second: retrieve the lead of a project\n");
-		UserServices userService=new UserServices(client);
 		String issueKey="PA-1";
 		try{
-			JiraUser assignee=userService.getAssignee(issueKey);
+			JiraUser assignee=UserServices.getAssignee(issueKey, client);
 			System.out.println("The user assigned to issue " + issueKey + " is:");
 			System.out.println("User name:" + assignee.getUserName());
 			System.out.println("Display name:" +assignee.getFullName());
@@ -175,7 +174,7 @@ public class Tests {
 			System.out.println("Time zone:" +assignee.getTimeZone());
 
 			System.out.println();
-			for (JiraIssue j: userService.assignedTo(assignee.getUserName())) {
+			for (JiraIssue j: UserServices.assignedTo(assignee.getUserName(), client)) {
 				System.out.println(j);
 			}
 
@@ -187,7 +186,7 @@ public class Tests {
 		try{
 			String projectKey="PA";
 			System.out.println("The project lead of \"" + projectKey + "\" is:");
-			JiraUser lead=userService.getProjectLead(projectKey);
+			JiraUser lead=UserServices.getProjectLead(projectKey, client);
 			System.out.println("User name: " +lead.getUserName());
 			System.out.println("Display name:"+lead.getFullName());
 			System.out.println("Email:"+lead.getEmailAddress());

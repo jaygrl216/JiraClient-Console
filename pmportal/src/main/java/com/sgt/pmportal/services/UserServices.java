@@ -17,15 +17,6 @@ import com.sgt.pmportal.domain.JiraUser;
  *
  */
 public class UserServices {
-	JiraRestClient client;
-	
-	/**
-	 * Constructor for UserServices
-	 * @param client
-	 */
-	public UserServices(JiraRestClient client) {
-		this.client = client;
-	}
 	
 	/**
 	 * Gets the lead of a project
@@ -33,7 +24,7 @@ public class UserServices {
 	 * @param projectKey
 	 * @return
 	 */
-	public JiraUser getProjectLead(String projectKey){
+	public static JiraUser getProjectLead(String projectKey, JiraRestClient client){
 		return toJiraUser(client.getUserClient().getUser
 				(client.getProjectClient().getProject(projectKey).claim().getLead().getName()).claim());
 	}
@@ -43,7 +34,7 @@ public class UserServices {
 	 * @param issueKey
 	 * @return
 	 */
-	public JiraUser getAssignee(String issueKey){
+	public static JiraUser getAssignee(String issueKey, JiraRestClient client){
 		return toJiraUser(client.getUserClient().getUser
 				(client.getIssueClient().getIssue(issueKey).claim().getAssignee().getName()).claim());
 	}
@@ -54,7 +45,7 @@ public class UserServices {
 	 * @param username
 	 * @return
 	 */
-	public List<JiraIssue> assignedTo(String username) {
+	public static List<JiraIssue> assignedTo(String username, JiraRestClient client) {
 		ArrayList<JiraIssue> issues = new ArrayList<>();
 		Iterable<BasicIssue> issueList = client.getSearchClient().searchJql(
 				"assignee=" + username,1000,0).claim().getIssues();
@@ -73,7 +64,7 @@ public class UserServices {
 	 * @param user
 	 * @return
 	 */
-	public JiraUser toJiraUser(User user){
+	public static JiraUser toJiraUser(User user){
 		return new JiraUser(user.getName(), user.getDisplayName(), 
 				user.getEmailAddress(), user.getTimezone(), user.getAvatarUri());
 	}

@@ -70,12 +70,19 @@ public class Demo {
 		}
 		
 		System.out.format("This project is due on %s\n", portal.getDueDate().toString());
+		
+		ProjectServices.populateIssues(portal);
+		
+		System.out.format("There are %d issues associated with this project", portal.getNumIssues());
 	
 
 	}
 	public void userDemo(){
 		System.out.println("User Services Demo");
 		System.out.println("------------------\n");
+		
+		System.out.println("Attempting to get project lead for Radar Analytics");
+		
 	}
 	public void sprintDemo(){
 		System.out.println("Sprint Services Demo");
