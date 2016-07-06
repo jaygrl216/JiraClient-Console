@@ -289,6 +289,9 @@ public class Tests {
 		assertEquals(1, open);
 		assertEquals(0, future);
 		
+		System.out.format("There are %d closed sprints.\n" , closed);
+		System.out.format("There are %d closed sprints.\n" , open);
+		System.out.format("There are %d closed sprints.\n" , future);
 		
 //		JiraProject project = pService.getProjectByKey("PMPOR");
 //		int closed = sprintServ.getClosedSprintsByProject(project).size();
