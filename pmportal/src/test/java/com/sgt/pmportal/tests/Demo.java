@@ -26,9 +26,9 @@ import com.sgt.pmportal.services.ProjectServices;
 import com.sgt.pmportal.services.SprintServices;
 import com.sgt.pmportal.services.UserServices;
 public class Demo {
-	private static final String JIRA_URL = "http://52.204.130.7:8081/";
-	private static final String JIRA_ADMIN_USERNAME = "JWashington@sgt-inc.com";
-	private static final String JIRA_ADMIN_PASSWORD = "Diamond2017";
+	private static final String JIRA_URL = "http://54.152.100.242/jira";
+	private static final String JIRA_ADMIN_USERNAME = "amital";
+	private static final String JIRA_ADMIN_PASSWORD = "ComPuteR90";
 	private static String authorization;
 	private static JiraRestClient client=login();
 	/**
@@ -50,7 +50,10 @@ public class Demo {
 	public static void main(String[] args) {
 		Demo demo=new Demo();
 		demo.printInfo();
-
+		demo.projectDemo();
+		demo.userDemo();
+		demo.sprintDemo();
+		demo.metricDemo();
 	}
 	public void printInfo() {
 		System.out.println("*******PM-Portal Demonstration********\n");
@@ -58,5 +61,25 @@ public class Demo {
 		System.out.println("******Aman Mital/Jada Washington******\n");
 		System.out.println("Jira server: " + JIRA_URL);
 		System.out.println("Using login for: " + JIRA_ADMIN_USERNAME+"\n");
+	}
+	public void projectDemo(){
+		System.out.println("Project Services Demo");
+		System.out.println("---------------------\n");
+		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
+
+	}
+	public void userDemo(){
+		System.out.println("User Services Demo");
+		System.out.println("------------------\n");
+	}
+	public void sprintDemo(){
+		System.out.println("Sprint Services Demo");
+		System.out.println("--------------------\n");
+		SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
+	}
+	public void metricDemo(){
+		System.out.println("Sprint Services Demo");
+		System.out.println("--------------------\n");
+		MetricsServices metricService=new MetricsServices(client, authorization, JIRA_URL);
 	}
 }
