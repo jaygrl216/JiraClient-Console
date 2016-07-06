@@ -73,6 +73,12 @@ public class Demo {
 		}
 		
 		System.out.format("This project is due on %s\n", portal.getDueDate().toString());
+		try {
+			System.out.format("Based on the velocity of this project, this project is estimated to"
+					+ " be due %s.\n", projectService.projectedDueDate(portal).toString());
+		} catch (IOException e) {
+			System.err.println("Error with Input/Output");
+		}
 		
 		ProjectServices.populateIssues(portal);
 		
