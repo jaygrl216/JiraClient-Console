@@ -152,7 +152,7 @@ public class SprintServices {
 					i=boards.length();
 				}
 			}		
-		}catch(FileNotFoundException fileException){
+		}catch (FileNotFoundException fileException){
 			System.err.println("Warning: Version of Jira is outdated! Attempting to fix with Greenhopper API");
 			String boardResponse=getAgileData("/rest/greenhopper/latest/rapidview");
 			JSONObject boardObject=new JSONObject(boardResponse);
@@ -409,7 +409,7 @@ public class SprintServices {
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("Authorization", "Basic " + authorization);
 		connection.setRequestProperty("Content-type", "application/json");
-		try{
+		if (connection.getResponseCode()!=400){
 			BufferedReader rd = new BufferedReader(new InputStreamReader(
 					connection.getInputStream()));
 			String line;
@@ -418,8 +418,8 @@ public class SprintServices {
 			}
 			rd.close();
 			return response.toString();
-		}catch (IOException serverError){
-			System.err.println(serverError);
+		}else{
+			System.err.println("Project is not setup properly for Agile");
 		}
 		return null;
 	}
