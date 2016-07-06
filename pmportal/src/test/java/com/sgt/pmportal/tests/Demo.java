@@ -38,7 +38,7 @@ public class Demo {
 		try {
 			client = GeneralServices.login(JIRA_URL, JIRA_ADMIN_USERNAME, 
 					JIRA_ADMIN_PASSWORD);
-authorization=GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWORD);
+
 		} catch (URISyntaxException e) {
 			fail("Cannot login");
 		}
@@ -52,7 +52,6 @@ authorization=GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWOR
 		demo.userDemo();
 		demo.sprintDemo();
 		demo.metricDemo();
-		System.out.println("Finished");
 	}
 	public void printInfo() {
 		System.out.println("*******PM-Portal Demonstration********\n");
@@ -65,28 +64,20 @@ authorization=GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWOR
 		System.out.println("Project Services Demo");
 		System.out.println("---------------------\n");
 		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
-		System.out.println();
+		
+		List<JiraProjects> projects = projectService.getAllJiraProjects();
+		System.out.format("This Jira instance has %d projects associated with it."\n, projects.size);
+
 	}
 	public void userDemo(){
 		System.out.println("User Services Demo");
 		System.out.println("------------------\n");
-		System.out.println();
 	}
-	
-	public void sprintDemo() throws IOException, ParseException{
+	public void sprintDemo(){
 		System.out.println("Sprint Services Demo");
 		System.out.println("--------------------\n");
 		SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
-		JiraProject project=projectService.getProjectByKey("DEV");
-		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-		System.out.println("Closed sprints in project '" + project.getName() +"'\n" );
-		for (Sprint sprint:sprintList){
-			System.out.println(sprint.getName() + ", ID: " + sprint.getId() + ", Board: " + sprint.getBoardId() + ", State: " + sprint.getState());
-		}
-		System.out.println();
 	}
-	
 	public void metricDemo() throws IOException, ParseException{
 		System.out.println("Metric Services Demo");
 		System.out.println("--------------------\n");
