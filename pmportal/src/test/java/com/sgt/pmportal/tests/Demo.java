@@ -54,14 +54,23 @@ public class Demo {
 	public void projectDemo(){
 		System.out.println("Project Services Demo");
 		System.out.println("---------------------\n");
-		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
+		ProjectServices projectService = new ProjectServices(client, authorization, JIRA_URL);
 		
 		List<JiraProject> projects = projectService.getAllJiraProjects();
 		System.out.format("This Jira instance has %d projects associated with it.\n", projects.size());
 		
-		System.out.println("Now attemping to access this Project through Jira.");
+		System.out.println("Now attemping to access this Project through Jira.\n");
 		JiraProject portal = projectService.getProjectByKey("PMPOR");
-		System.out.println(portal.toString());
+		
+		if(portal != null) {
+			System.out.println("Project was found.......");
+			System.out.println(portal.toString());
+		} else {
+			System.out.println("Could not access with provided key");
+		}
+		
+		System.out.format("This project is due on %s\n", portal.getDueDate().toString());
+	
 
 	}
 	public void userDemo(){
