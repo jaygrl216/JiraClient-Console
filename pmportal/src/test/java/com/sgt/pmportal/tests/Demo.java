@@ -50,28 +50,28 @@ public class Demo {
 	public void printInfo() {
 		System.out.println("*******PM-Portal Demonstration********");
 		System.out.println("**************************************");
-		System.out.println("******Aman Mital/Jada Washington******\n");
+		System.out.println("*****Aman Mital & Jada Washington*****\n");
 		System.out.println("Jira server: " + JIRA_URL);
 		System.out.println("Using login for: " + JIRA_ADMIN_USERNAME+"\n");
 	}
 	public void projectDemo(){
 		System.out.println("Project Services Demo");
-		System.out.println("---------------------\n");
+		System.out.println("------------------------------------\n");
 		ProjectServices projectService = new ProjectServices(client, authorization, JIRA_URL);
-		
+
 		List<JiraProject> projects = projectService.getAllJiraProjects();
 		System.out.format("This Jira instance has %d projects associated with it.\n", projects.size());
-		
+
 		System.out.println("Now attemping to access this Project through Jira.\n");
 		JiraProject portal = projectService.getProjectByKey("PMPOR");
-		
+
 		if(portal != null) {
 			System.out.println("Project was found.......");
 			System.out.println(portal.toString());
 		} else {
 			System.out.println("Could not access with provided key");
 		}
-		
+
 		System.out.format("This project is due on %s\n", portal.getDueDate().toString());
 		try {
 			System.out.format("Based on the velocity of this project, this project is estimated to"
@@ -79,20 +79,20 @@ public class Demo {
 		} catch (IOException e) {
 			System.err.println("Error with Input/Output");
 		}
-		
+
 		ProjectServices.populateIssues(portal);
-		
+
 		System.out.format("There are %d issues associated with this project\n\n", portal.getNumIssues());
-	
+
 
 	}
 	public void userDemo(){
 		System.out.println("User Services Demo");
-		System.out.println("------------------\n");
-		
+		System.out.println("------------------------------------\n");
+
 		System.out.println("Attempting to get project lead for Radar Analytics");
 		JiraUser user = UserServices.getProjectLead("RA", client);
-		
+
 		if(user != null) {
 			System.out.println("Found a lead for this project");
 			System.out.format("The lead for Radar Analytics is %s.\n\n", user.getFullName());
@@ -102,7 +102,7 @@ public class Demo {
 	}
 	public void sprintDemo() throws IOException, ParseException{
 		System.out.println("Sprint Services Demo");
-		System.out.println("--------------------\n");
+		System.out.println("------------------------------------\n");
 		SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
 		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
 		JiraProject project=projectService.getProjectByKey("DEV");
@@ -111,15 +111,16 @@ public class Demo {
 		for (Sprint sprint:sprintList){
 			System.out.println(sprint.getName() + ", ID: " + sprint.getId() + ", Board ID: " + sprint.getBoardId() + ", State: " + sprint.getState());
 		}
+		System.out.println();
 	}
 	public void metricDemo() throws IOException, ParseException{
 		System.out.println("Metric Services Demo");
-		System.out.println("--------------------\n");
+		System.out.println("------------------------------------\n");
 		MetricsServices metricService=new MetricsServices(client, authorization, JIRA_URL);
 		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
 		JiraProject project=projectService.getProjectByKey("DEV");
 		System.out.println("This method will display schedule estimation accuracy (SEA),");
-				System.out.println("effort estimation accuracy (EEA), and bug count per sprint with predicted next values");
+		System.out.println("effort estimation accuracy (EEA), and bug count per sprint with predicted next values");
 		List<List<Double>> dataList=metricService.predictNext(project);
 		if (dataList.size()>0){
 			List<Double >seaList=dataList.get(0);
