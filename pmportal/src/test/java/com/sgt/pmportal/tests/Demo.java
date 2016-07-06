@@ -48,8 +48,8 @@ public class Demo {
 		demo.metricDemo();
 	}
 	public void printInfo() {
-		System.out.println("*******PM-Portal Demonstration********\n");
-		System.out.println("**************************************\n");
+		System.out.println("*******PM-Portal Demonstration********");
+		System.out.println("**************************************");
 		System.out.println("******Aman Mital/Jada Washington******\n");
 		System.out.println("Jira server: " + JIRA_URL);
 		System.out.println("Using login for: " + JIRA_ADMIN_USERNAME+"\n");
@@ -82,7 +82,7 @@ public class Demo {
 		
 		ProjectServices.populateIssues(portal);
 		
-		System.out.format("There are %d issues associated with this project\n", portal.getNumIssues());
+		System.out.format("There are %d issues associated with this project\n\n", portal.getNumIssues());
 	
 
 	}
@@ -95,7 +95,7 @@ public class Demo {
 		
 		if(user != null) {
 			System.out.println("Found a lead for this project");
-			System.out.format("The lead for Radar Analytics is %s.\n", user.getFullName());
+			System.out.format("The lead for Radar Analytics is %s.\n\n", user.getFullName());
 		} else {
 			System.out.println("Either project does not exist or there is no lead");
 		}
@@ -107,9 +107,9 @@ public class Demo {
 		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
 		JiraProject project=projectService.getProjectByKey("DEV");
 		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
-		System.out.println("Closed sprints for project '" + project.getName() + "'");
+		System.out.println("Closed sprints for project '" + project.getName() + "':");
 		for (Sprint sprint:sprintList){
-			System.out.println(sprint.getName() + ", ID: " + sprint.getId() + ", Board ID: " + sprint.getBoardId() + ", state:" + sprint.getState());
+			System.out.println(sprint.getName() + ", ID: " + sprint.getId() + ", Board ID: " + sprint.getBoardId() + ", State: " + sprint.getState());
 		}
 	}
 	public void metricDemo() throws IOException, ParseException{
@@ -118,8 +118,8 @@ public class Demo {
 		MetricsServices metricService=new MetricsServices(client, authorization, JIRA_URL);
 		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
 		JiraProject project=projectService.getProjectByKey("DEV");
-		System.out.println("This method will display schedule estimation accuracy (SEA), "
-				+ "effort estimation accuracy (EEA), and bug count per sprint with predicted next values");
+		System.out.println("This method will display schedule estimation accuracy (SEA),");
+				System.out.println("effort estimation accuracy (EEA), and bug count per sprint with predicted next values");
 		List<List<Double>> dataList=metricService.predictNext(project);
 		if (dataList.size()>0){
 			List<Double >seaList=dataList.get(0);
