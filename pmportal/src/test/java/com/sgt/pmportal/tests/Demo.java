@@ -21,7 +21,7 @@ public class Demo {
 	private static final String JIRA_URL = "http://54.152.100.242/jira";
 	private static final String JIRA_ADMIN_USERNAME = "amital";
 	private static final String JIRA_ADMIN_PASSWORD = "ComPuteR90";
-	private static String authorization;
+	private static String authorization=GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWORD);
 	private static JiraRestClient client = login();
 	/**
 	 * logins into JiraClient
@@ -82,7 +82,7 @@ public class Demo {
 		
 		ProjectServices.populateIssues(portal);
 		
-		System.out.format("There are %d issues associated with this project", portal.getNumIssues());
+		System.out.format("There are %d issues associated with this project\n", portal.getNumIssues());
 	
 
 	}
