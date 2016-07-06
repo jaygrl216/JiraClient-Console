@@ -2,17 +2,19 @@ package com.sgt.pmportal.tests;
 
 import static org.junit.Assert.fail;
 
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.List;
+
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
+import com.sgt.pmportal.domain.JiraUser;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.MetricsServices;
 import com.sgt.pmportal.services.ProjectServices;
 import com.sgt.pmportal.services.SprintServices;
+import com.sgt.pmportal.services.UserServices;
 
 public class Demo {
 	private static final String JIRA_URL = "http://54.152.100.242/jira";
@@ -82,7 +84,14 @@ public class Demo {
 		System.out.println("------------------\n");
 		
 		System.out.println("Attempting to get project lead for Radar Analytics");
+		JiraUser user = UserServices.getProjectLead("RA", client);
 		
+		if(user != null) {
+			System.out.println("Found a lead for this project");
+			System.out.format("The lead for Radar Analytics is %s.\n", user.getFullName());
+		} else {
+			System.out.println("Either project does not exist or there is no lead");
+		}
 	}
 	public void sprintDemo(){
 		System.out.println("Sprint Services Demo");
