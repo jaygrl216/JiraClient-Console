@@ -1,34 +1,25 @@
 package com.sgt.pmportal.tests;
+
 import static org.junit.Assert.fail;
+
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-
-import org.json.JSONException;
-
 import com.atlassian.jira.rest.client.JiraRestClient;
-import com.atlassian.jira.rest.client.RestClientException;
-import com.atlassian.jira.rest.client.domain.Project;
-import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
-import com.sgt.pmportal.domain.JiraUser;
-import com.sgt.pmportal.domain.Sprint;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.MetricsServices;
 import com.sgt.pmportal.services.ProjectServices;
 import com.sgt.pmportal.services.SprintServices;
-import com.sgt.pmportal.services.UserServices;
+
 public class Demo {
 	private static final String JIRA_URL = "http://54.152.100.242/jira";
 	private static final String JIRA_ADMIN_USERNAME = "amital";
 	private static final String JIRA_ADMIN_PASSWORD = "ComPuteR90";
 	private static String authorization;
-	private static JiraRestClient client=login();
+	private static JiraRestClient client = login();
 	/**
 	 * logins into JiraClient
 	 * @return JiraRestClient
@@ -46,7 +37,7 @@ public class Demo {
 
 	}
 	public static void main(String[] args) throws IOException, ParseException {
-		Demo demo=new Demo();
+		Demo demo = new Demo();
 		demo.printInfo();
 		demo.projectDemo();
 		demo.userDemo();
@@ -65,8 +56,12 @@ public class Demo {
 		System.out.println("---------------------\n");
 		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
 		
-		List<JiraProjects> projects = projectService.getAllJiraProjects();
-		System.out.format("This Jira instance has %d projects associated with it."\n, projects.size);
+		List<JiraProject> projects = projectService.getAllJiraProjects();
+		System.out.format("This Jira instance has %d projects associated with it.\n", projects.size());
+		
+		System.out.println("Now attemping to access this Project through Jira.");
+		JiraProject portal = projectService.getProjectByKey("PMPOR");
+		System.out.println(portal.toString());
 
 	}
 	public void userDemo(){
