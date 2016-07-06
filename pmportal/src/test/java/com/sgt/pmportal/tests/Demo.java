@@ -75,7 +75,7 @@ public class Demo {
 		System.out.format("This project is due on %s\n", portal.getDueDate().toString());
 		try {
 			System.out.format("Based on the velocity of this project, this project is estimated to"
-					+ " be due %s.\n", projectService.projectedDueDate(portal).toString());
+					+ " be done %s.\n", projectService.projectedDueDate(portal).toString());
 		} catch (IOException e) {
 			System.err.println("Error with Input/Output");
 		}
@@ -133,17 +133,17 @@ public class Demo {
 			List<Double> bugForecast=metricService.getForecastInterval(bugList, bugSlope);
 			System.out.println("SEA values:");
 			for (int i=0; i<seaList.size(); i++){
-				System.out.print("\nSprint: " +(i+1)+", SEA: "+seaList.get(i));
+				System.out.print("\nSprint " +(i+1)+", SEA: "+seaList.get(i));
 			}
 			System.out.print("+- "+seaForecast.get(0)+" <--- Predicted value with forecast interval\n");
 			System.out.println("Error on regression: " + seaForecast.get(1)+"\n\nEEA values:");
 			for (int i=0; i<eeaList.size(); i++){
-				System.out.print("\nSprint: " +(i+1)+", EEA: "+eeaList.get(i));
+				System.out.print("\nSprint " +(i+1)+", EEA: "+eeaList.get(i));
 			}
 			System.out.print("+- "+eeaForecast.get(0)+ " <--- Predicted value with forecast interval\n");
 			System.out.println("Error on regression: "+eeaForecast.get(1)+"\n\nBug values:");
 			for (int i=0; i<bugList.size(); i++){
-				System.out.print("\nSprint: " +(i+1)+", Bugs: "+bugList.get(i));
+				System.out.print("\nSprint " +(i+1)+", Bugs: "+bugList.get(i));
 			}
 			System.out.print("+- "+bugForecast.get(0)+ " <--- Predicted value with forecast interval\n");
 			System.out.println("Error on regression: "+bugForecast.get(1));
