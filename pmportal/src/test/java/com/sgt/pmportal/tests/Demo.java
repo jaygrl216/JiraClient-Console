@@ -10,6 +10,7 @@ import java.util.List;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.JiraUser;
+import com.sgt.pmportal.domain.Sprint;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.MetricsServices;
 import com.sgt.pmportal.services.ProjectServices;
@@ -93,10 +94,17 @@ public class Demo {
 			System.out.println("Either project does not exist or there is no lead");
 		}
 	}
-	public void sprintDemo(){
+	public void sprintDemo() throws IOException, ParseException{
 		System.out.println("Sprint Services Demo");
 		System.out.println("--------------------\n");
 		SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
+		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
+		JiraProject project=projectService.getProjectByKey("DEV");
+		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		System.out.println("Closed sprints for project '" + project.getName() + "'");
+		for (Sprint sprint:sprintList){
+			System.out.println(sprint.getName() + ", ID: " + sprint.getId() + ", Board ID: " + sprint.getBoardId() + ", state:" + sprint.getState());
+		}
 	}
 	public void metricDemo() throws IOException, ParseException{
 		System.out.println("Metric Services Demo");
