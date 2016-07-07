@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONObject;
+
 
 /**
  * This class represents a project from Jira. It contains information about the 
@@ -230,6 +232,8 @@ public class JiraProject {
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
+	 * 
+	 * This method is used for testing purposes
 	 */
 	@Override
 	public String toString() {
@@ -237,7 +241,26 @@ public class JiraProject {
 				"Project Key: " + key + "\n" +
 				"Project Lead: " + lead.getFullName() + "\n";
 	}
+	
+	/**
+	 * This method can be used for the services
+	 * @return
+	 */
+	public String JSONString() {
+		JSONObject obj = new JSONObject();
+		obj.put("name", name);
+		obj.put("key", key);
+		obj.put("lead", lead);
+		obj.put("description", description);
+		obj.put("URI", uri);
+		
+		return obj.toString();
+	}
 
+	/**
+	 * returns the number of closed and open sprints
+	 * @return
+	 */
 	public int sprintsWorked() {
 		int sprintsWorked = 0;
 		for (Sprint s: getSprints()) {
@@ -249,6 +272,10 @@ public class JiraProject {
 		return sprintsWorked;
 	}
 	
+	/**
+	 * returns the future sprints
+	 * @return
+	 */
 	public int sprintsNotWorked() {
 		int sprintsNotWorked = 0;
 		for (Sprint s: getSprints()) {
