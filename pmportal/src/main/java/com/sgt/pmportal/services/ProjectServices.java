@@ -267,8 +267,7 @@ public class ProjectServices {
 				System.out.println("Closed: " + s.getName());
 				double durationDiff = SprintServices.sprintDifference(s);
 				System.out.println("End: " + s.getEndDate());
-				System.out.println("Completed: " + s.getCompleteDate());
-				System.out.println(durationDiff);
+				System.out.println("Completed: " + s.getCompleteDate() + "\n");
 				totalDifference += durationDiff;
 			} else if (s.isOpen()) {
 				System.out.println("Open: " + s.getName());
@@ -284,7 +283,6 @@ public class ProjectServices {
 				int days = Days.daysBetween(new DateTime(s.getStartDate()), 
 						new DateTime(Calendar.getInstance().getTime())).getDays();
 				double openTotal = (double) days / (double) completedIssues;
-				System.out.println(openTotal);
 				double extraDays = openTotal * SprintServices.estimateDays(s);
 				double dayDiff = extraDays - days;
 				totalDifference += dayDiff;

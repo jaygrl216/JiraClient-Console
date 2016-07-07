@@ -15,6 +15,7 @@ import com.sgt.pmportal.domain.Sprint;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.MetricsServices;
 import com.sgt.pmportal.services.ProjectServices;
+import com.sgt.pmportal.services.ServicesErrorException;
 import com.sgt.pmportal.services.SprintServices;
 import com.sgt.pmportal.services.UserServices;
 
@@ -40,7 +41,7 @@ public class Demo {
 		return client;
 
 	}
-	public static void main(String[] args) throws IOException, ParseException {
+	public static void main(String[] args) throws IOException, ParseException, ServicesErrorException {
 		Demo demo = new Demo();
 		demo.printInfo();
 		demo.projectDemo();
@@ -55,7 +56,7 @@ public class Demo {
 		System.out.println("Jira server: " + JIRA_URL);
 		System.out.println("Using login for: " + JIRA_ADMIN_USERNAME+"\n");
 	}
-	public void projectDemo() throws IOException, ParseException{
+	public void projectDemo() throws IOException, ParseException, ServicesErrorException{
 		System.out.println("Project Services Demo");
 		System.out.println("------------------------------------\n");
 		ProjectServices projectService = new ProjectServices(client, authorization, JIRA_URL);
@@ -71,22 +72,26 @@ public class Demo {
 			System.out.println("Project was found.......");
 			System.out.println(portal.toString());
 			sprintService.getAllSprintsForProject(portal);
+			
+			double velocity = projectService.getVelocityForProject(portal);
+			System.out.format("\nThis project is due on %s\n\n", portal.getDueDate().toString());
+			try {
+				System.out.format("\nBased on the velocity (%f) "
+						+ "of this project, this project is estimated to"
+						+ " be done %s.\n", velocity, projectService.projectedDueDate(portal).toString());
+			} catch (IOException e) {
+				System.err.println("Error with Input/Output\n");
+			}
+
+			ProjectServices.populateIssues(portal);
+
+			System.out.format("There are %d issues associated with this project\n\n", 
+					portal.getNumIssues());
 		} else {
 			System.out.println("Could not access with provided key\n");
 		}
 
-		System.out.format("This project is due on %s\n", portal.getDueDate().toString());
-		try {
-			System.out.format("Based on the velocity of this project, this project is estimated to"
-					+ " be done %s.\n", projectService.projectedDueDate(portal).toString());
-		} catch (IOException e) {
-			System.err.println("Error with Input/Output\n");
-		}
-
-		ProjectServices.populateIssues(portal);
-
-		System.out.format("There are %d issues associated with this project\n\n", 
-				portal.getNumIssues());
+		
 
 
 	}
