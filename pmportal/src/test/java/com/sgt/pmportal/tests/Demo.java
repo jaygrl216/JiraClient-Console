@@ -116,17 +116,22 @@ public class Demo {
 		}
 		System.out.println("");
 	}
+	
 	public void sprintDemo() throws IOException, ParseException{
 		System.out.println("Sprint Services Demo");
 		System.out.println("------------------------------------\n");
-		SprintServices sprintService=new SprintServices(client, authorization, JIRA_URL);
-		ProjectServices projectService=new ProjectServices(client, authorization, JIRA_URL);
-		JiraProject project=projectService.getProjectByKey("DEV");
-		List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+		
+		SprintServices sprintService = new SprintServices(client, authorization, JIRA_URL);
+		ProjectServices projectService = new ProjectServices(client, authorization, JIRA_URL);
+		JiraProject project = projectService.getProjectByKey("DEV");
+		List<Sprint> sprintList = sprintService.getClosedSprintsByProject(project);
+		
 		System.out.println("Closed sprints for project '" + project.getName() + "':");
 		for (Sprint sprint:sprintList){
-			System.out.println(sprint.getName() + ", ID: " + sprint.getId() + ", Board ID: " + sprint.getBoardId() + ", State: " + sprint.getState());
+			System.out.println(sprint.getName() + ", ID: " + sprint.getId() + ", Board ID: " 
+		+ sprint.getBoardId() + ", State: " + sprint.getState());
 		}
+		
 		System.out.println();
 	}
 	public void metricDemo() throws IOException, ParseException{
