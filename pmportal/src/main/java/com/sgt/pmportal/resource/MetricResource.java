@@ -34,12 +34,15 @@ public class MetricResource {
 		JiraProject project=projectService.getProjectByKey(key);
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		List<Number> defectList=metricService.calculateDefectTotal(project);
-		String responseString="{bugs:\"" + defectList.get(0).toString() 
+		Double progress=metricService.calculateProgress(key);
+		String responseString="{progress:\"" + progress.toString() 
+				+ "\", bugs:\"" + defectList.get(0).toString() 
 				+ "\", sea:\"" + defectList.get(1).toString() 
 				+ "\", eea:\"" + defectList.get(2).toString() 
 				+ "\", overdue:\"" 	+ defectList.get(3).toString() + "\"}";
 		return responseString;
 	}
+	
 	@Path("/project/detail/{projectKey}/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -52,6 +55,7 @@ public class MetricResource {
 		ProjectServices projectService=new ProjectServices(client, authorization, url);
 		JiraProject project=projectService.getProjectByKey(key);
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
+		List<List<Double>> dataList=metricService.predictNext(project);
 		String responseString="";
 		return responseString;
 	}
