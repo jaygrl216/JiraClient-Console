@@ -55,10 +55,11 @@ public class Demo {
 		System.out.println("Jira server: " + JIRA_URL);
 		System.out.println("Using login for: " + JIRA_ADMIN_USERNAME+"\n");
 	}
-	public void projectDemo(){
+	public void projectDemo() throws IOException, ParseException{
 		System.out.println("Project Services Demo");
 		System.out.println("------------------------------------\n");
 		ProjectServices projectService = new ProjectServices(client, authorization, JIRA_URL);
+		SprintServices sprintService = new SprintServices(client, authorization, JIRA_URL);
 
 		List<JiraProject> projects = projectService.getAllJiraProjects();
 		System.out.format("This Jira instance has %d projects associated with it.\n", projects.size());
@@ -69,6 +70,7 @@ public class Demo {
 		if(portal != null) {
 			System.out.println("Project was found.......");
 			System.out.println(portal.toString());
+			sprintService.getAllSprintsForProject(portal);
 		} else {
 			System.out.println("Could not access with provided key\n");
 		}
