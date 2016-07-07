@@ -247,14 +247,16 @@ public class JiraProject {
 	 * @return
 	 */
 	public String JSONString() {
-		JSONObject obj = new JSONObject();
-		obj.put("name", name);
-		obj.put("key", key);
-		obj.put("lead", lead);
-		obj.put("description", description);
-		obj.put("URI", uri);
-		
-		return obj.toString();
+			StringBuilder projectString=new StringBuilder();
+			projectString.append("{name:\"" + name + "\", key:\"" + key + "\", uri:\"" 
+			+ uri + "\", description:\"" + description 
+			+ "\", lead:{name:\"" + lead.getUserName() + "\", displayName:\"" + lead.getFullName() + "\", email:\"" + lead.getEmailAddress() 
+			+ "\"}, release:[");
+			for (Release release:getReleases()){
+			projectString.append(release.toJSONString());
+			}
+			projectString.append("]}");
+			return projectString.toString();
 	}
 
 	/**
