@@ -259,13 +259,13 @@ public class ProjectServices {
 		c.setTime(dueDate);
 		SprintServices sprintService=new SprintServices(mainClient, authorization, baseURL);
 
-		int totalDifference = 0;
+		double totalDifference = 0;
 		int completedIssues = 0;
 
 		for (Sprint s: project.getSprints()) {
 			if (s.isClosed()) {
 				System.out.println("Closed: " + s.getName());
-				int durationDiff = SprintServices.sprintDifference(s);
+				double durationDiff = SprintServices.sprintDifference(s);
 				System.out.println("End: " + s.getEndDate());
 				System.out.println("Completed: " + s.getCompleteDate());
 				System.out.println(durationDiff);
@@ -283,7 +283,7 @@ public class ProjectServices {
 				}
 				int days = Days.daysBetween(new DateTime(s.getStartDate()), 
 						new DateTime(Calendar.getInstance().getTime())).getDays();
-				double openTotal = (double) (days / completedIssues);
+				double openTotal = (double) days / (double) completedIssues;
 				System.out.println(openTotal);
 				double extraDays = openTotal * SprintServices.estimateDays(s);
 				double dayDiff = extraDays - days;
@@ -293,9 +293,9 @@ public class ProjectServices {
 		}
 
 		double overUnder = (double) totalDifference / (project.sprintsWorked());
-		double extraEstimate = overUnder * project.sprintsNotWorked();
-		totalDifference = (int) Math.round(totalDifference + extraEstimate);
-		c.add(Calendar.DATE, totalDifference);
+		double extraEstimate = (double) overUnder * project.sprintsNotWorked();
+		int total = (int) Math.round(totalDifference + extraEstimate);
+		c.add(Calendar.DATE, total);
 		return c.getTime();
 	}
 
