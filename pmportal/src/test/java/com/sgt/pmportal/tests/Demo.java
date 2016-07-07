@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
+import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.JiraUser;
 import com.sgt.pmportal.domain.Sprint;
@@ -69,7 +70,7 @@ public class Demo {
 			System.out.println("Project was found.......");
 			System.out.println(portal.toString());
 		} else {
-			System.out.println("Could not access with provided key");
+			System.out.println("Could not access with provided key\n");
 		}
 
 		System.out.format("This project is due on %s\n", portal.getDueDate().toString());
@@ -77,12 +78,13 @@ public class Demo {
 			System.out.format("Based on the velocity of this project, this project is estimated to"
 					+ " be done %s.\n", projectService.projectedDueDate(portal).toString());
 		} catch (IOException e) {
-			System.err.println("Error with Input/Output");
+			System.err.println("Error with Input/Output\n");
 		}
 
 		ProjectServices.populateIssues(portal);
 
-		System.out.format("There are %d issues associated with this project\n\n", portal.getNumIssues());
+		System.out.format("There are %d issues associated with this project\n\n", 
+				portal.getNumIssues());
 
 
 	}
@@ -97,8 +99,22 @@ public class Demo {
 			System.out.println("Found a lead for this project");
 			System.out.format("The lead for Radar Analytics is %s.\n\n", user.getFullName());
 		} else {
-			System.out.println("Either project does not exist or there is no lead");
+			System.out.println("Either project does not exist or there is no lead\n");
 		}
+		
+		JiraUser assignee = UserServices.getAssignee("RA-3", client);
+		if (assignee != null) {
+			System.out.format("RA-3 is assigned to %s.\n", assignee.getFullName());
+			List<JiraIssue> issuesAssigned = UserServices.assignedTo(assignee.getUserName(), client);
+			System.out.format("%s(%s) is also assigneed to:\n", assignee.getFullName(), 
+					assignee.getUserName());
+			for (JiraIssue i: issuesAssigned) {
+				System.out.format("%s - %s\n", i.getKey(), i.getStatus());
+			}
+		} else {
+			System.out.println("RA-3 is unassigned\n");
+		}
+		System.out.println("");
 	}
 	public void sprintDemo() throws IOException, ParseException{
 		System.out.println("Sprint Services Demo");
