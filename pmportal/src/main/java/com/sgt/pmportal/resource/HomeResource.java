@@ -22,7 +22,6 @@ public class HomeResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	//@Produces("text/plain")
 	public String getProjects(@PathParam ("username") String username, @PathParam ("password")	String password) throws URISyntaxException{
 		String url="http://54.152.100.242/jira";
 		JiraRestClient client=GeneralServices.login(url, username, password);
