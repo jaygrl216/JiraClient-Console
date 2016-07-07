@@ -56,7 +56,9 @@ public class MetricResource {
 		JiraProject project=projectService.getProjectByKey(key);
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		List<List<Double>> dataList=metricService.predictNext(project);
-		String responseString="";
+		String responseString="{seaList:" + dataList.get(0).toString() 
+				+ ", eeaList:" + dataList.get(1).toString() 
+				+ ", bugList:" + dataList.get(2).toString()+"}";
 		return responseString;
 	}
 	
