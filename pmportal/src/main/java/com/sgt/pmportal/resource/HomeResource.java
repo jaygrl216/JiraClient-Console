@@ -21,7 +21,8 @@ import com.sgt.pmportal.services.ProjectServices;
 @Path ("/home/{username}/{password}/{url:.+}")
 
 public class HomeResource {
-	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	public String getProjects(@PathParam ("username") String username, 
 			@PathParam ("password")	String password, 
 			@PathParam ("url") String url) throws URISyntaxException, IOException, ParseException{
