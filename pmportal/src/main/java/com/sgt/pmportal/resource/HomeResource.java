@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
+import com.sgt.pmportal.domain.Release;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.ProjectServices;
 
@@ -30,4 +31,6 @@ public class HomeResource {
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
 		return projectList.toString();
 	}
+	
 }
+
