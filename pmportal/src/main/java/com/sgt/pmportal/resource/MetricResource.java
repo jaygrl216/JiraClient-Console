@@ -1,6 +1,9 @@
 package com.sgt.pmportal.resource;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,19 +20,23 @@ import com.sgt.pmportal.services.ProjectServices;
 @Path ("/metrics")
 public class MetricResource {
 	
-	@Path("/project/{projectKey}/{username}/{password}/{url:.+}")
+	@Path("/project/basic/{projectKey}/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getBasicMetrics(@PathParam ("projectKey") String key, 
 			@PathParam ("username") String username, 
 			@PathParam ("password") String password, 
-			@PathParam("url") String url) throws URISyntaxException{
+			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
 		JiraRestClient client=GeneralServices.login(url, username, password);
 		String authorization=GeneralServices.encodeAuth(username, password);
 		ProjectServices projectService=new ProjectServices(client, authorization, url);
 		JiraProject project=projectService.getProjectByKey(key);
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
-		String responseString="";
+		List<Number> defectList=metricService.calculateDefectTotal(project);
+		String responseString="{bugs:\"" + defectList.get(0).toString() 
+				+ "\", sea:\"" + defectList.get(1).toString() 
+				+ "\", eea:\"" + defectList.get(2).toString() 
+				+ "\", overdue:\"" 	+ defectList.get(3).toString() + "\"}";
 		return responseString;
 	}
 
