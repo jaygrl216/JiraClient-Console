@@ -1,6 +1,10 @@
 package com.sgt.pmportal.domain;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONObject;
 
 /**
  * This class represents a user for Jira
@@ -16,6 +20,7 @@ public class JiraUser {
 	protected String emailAddress;
 	protected String timeZone;
 	protected URI avatarURI;
+	protected List<JiraIssue> issuesAssigned;
 	
 	/**
 	 * Constructor for a JiraUser
@@ -31,6 +36,7 @@ public class JiraUser {
 		emailAddress=email;
 		timeZone=tZone;
 		avatarURI=aURI;
+		issuesAssigned = new ArrayList<>();
 	}
 	
 	public String getUserName() {
@@ -47,6 +53,15 @@ public class JiraUser {
 	
 	public String getTimeZone() {
 		return timeZone;
+	}
+	
+	public String JSONString() {
+		JSONObject obj = new JSONObject();
+		obj.put("name", fullName);
+		obj.put("username", userName);
+		obj.put("email", emailAddress);
+		obj.put("issues", issuesAssigned);
+		return obj.toString();
 	}
 
 }
