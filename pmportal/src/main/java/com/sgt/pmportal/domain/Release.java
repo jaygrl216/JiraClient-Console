@@ -49,9 +49,9 @@ public class Release{
 	 * @return JSONObject String
 	 */
 	public String toJSONString(){
-		String releaseString="{name:" + name.toString() + ", releaseDate:" 
-	+ releaseDate.toString() + ", id:" + id.toString() 
-	+ ", uri:" + uri.toString() + "}";
+		String releaseString="{name:\"" + name.toString() + "\", releaseDate:\"" 
+	+ releaseDate.toString() + "\", id:\"" + id.toString() 
+	+ "\", uri:\"" + uri.toString() + "\"}";
 	return releaseString;	
 	}
 	
