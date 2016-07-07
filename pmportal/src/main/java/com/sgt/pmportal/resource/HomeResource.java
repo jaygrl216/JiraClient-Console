@@ -15,15 +15,17 @@ import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.ProjectServices;
 
+
 @Path ("/home/{username}/{password}/{url}")
 @WebService
+@Path ("/home")
 public class HomeResource {
-
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getProjects(@PathParam ("username") String username,
-			@PathParam ("password") String password,
-			@PathParam ("url") String url) throws URISyntaxException{
+	//@Produces(MediaType.APPLICATION_JSON)
+	public String getProjects() throws URISyntaxException{
+		String username="amital";
+		String password="ComPuteR90";
+		String url="http://54.152.100.242/jira";
 		JiraRestClient client=GeneralServices.login(url, username, password);
 		String authorization=GeneralServices.encodeAuth(username, password);
 		ProjectServices projectService=new ProjectServices(client, authorization, url);
