@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONObject;
-
 
 /**
  * This class represents a project from Jira. It contains information about the 
