@@ -18,6 +18,8 @@ import com.sgt.pmportal.services.ProjectServices;
 @WebService
 
 public class HomeResource {
+	
+	
 	@GET
 	//@Produces(MediaType.APPLICATION_JSON)
 	@Produces("text/plain")
