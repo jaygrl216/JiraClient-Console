@@ -3,6 +3,7 @@ package com.sgt.pmportal.resource;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.jws.WebService;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,6 +16,7 @@ import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.ProjectServices;
 
 @Path ("/home/{username}/{password}/{url}")
+@WebService
 public class HomeResource {
 
 	@GET
