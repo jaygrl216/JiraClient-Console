@@ -6,6 +6,8 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.services.GeneralServices;
@@ -14,9 +16,11 @@ import com.sgt.pmportal.services.ProjectServices;
 
 @Path ("/home/{username}/{password}/{url}")
 @WebService
+
 public class HomeResource {
 	@GET
 	//@Produces(MediaType.APPLICATION_JSON)
+	@Produces("text/plain")
 	public String getProjects() throws URISyntaxException{
 		String username="amital";
 		String password="ComPuteR90";
