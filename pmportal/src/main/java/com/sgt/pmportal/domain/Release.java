@@ -43,4 +43,17 @@ public class Release{
 	public URI getURI(){
 		return uri;
 	}
+	/**
+	 * This returns a string encoded as a JSONObject with field:value pairs. 
+	 * 
+	 * @return JSONObject String
+	 */
+	public String toJSONString(){
+		String releaseString="{name:" + name.toString() + ", releaseDate:" 
+	+ releaseDate.toString() + ", id:" + id.toString() 
+	+ ", uri:" + uri.toString() + "}";
+	return releaseString;	
+	}
+	
+	
 }
