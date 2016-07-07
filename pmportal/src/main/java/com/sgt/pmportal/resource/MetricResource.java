@@ -21,6 +21,7 @@ import com.sgt.pmportal.services.ProjectServices;
 public class MetricResource {
 	
 	@Path("/project/basic/{projectKey}/{username}/{password}/{url:.+}")
+	//serverURL/pmportal/rest/metrics/project/basic...
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getBasicMetrics(@PathParam ("projectKey") String key, 
@@ -39,5 +40,20 @@ public class MetricResource {
 				+ "\", overdue:\"" 	+ defectList.get(3).toString() + "\"}";
 		return responseString;
 	}
-
+	@Path("/project/detail/{projectKey}/{username}/{password}/{url:.+}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getDetailMetrics(@PathParam ("projectKey") String key, 
+			@PathParam ("username") String username, 
+			@PathParam ("password") String password, 
+			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+		JiraRestClient client=GeneralServices.login(url, username, password);
+		String authorization=GeneralServices.encodeAuth(username, password);
+		ProjectServices projectService=new ProjectServices(client, authorization, url);
+		JiraProject project=projectService.getProjectByKey(key);
+		MetricsServices metricService=new MetricsServices(client, authorization, url);
+		String responseString="";
+		return responseString;
+	}
+	
 }
