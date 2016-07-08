@@ -253,6 +253,13 @@ public class JiraProject {
 		obj.put("lead", lead);
 		obj.put("description", description);
 		obj.put("URI", uri);
+		obj.put("release", releases);
+		obj.put("sprints", sprints);
+		obj.put("issues", issues);
+		obj.put("Due Date", due);
+		obj.put("velocity", velocity);
+		obj.put("Complete", isComplete);
+		obj.put("Overdue", isOverdue);
 		
 		return obj.toString();
 	}
