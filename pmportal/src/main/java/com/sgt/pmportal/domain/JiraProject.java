@@ -249,7 +249,7 @@ public class JiraProject {
 		projectString.append("{name:\"" + name + "\", key:\"" + key + "\", uri:\"" 
 				+ uri + "\", description:\"" + description 
 				+ "\", lead:{name:\"" + lead.getUserName() + "\", displayName:\"" + lead.getFullName() + "\", email:\"" + lead.getEmailAddress() 
-				+ "\"}, release:[");
+				+ "\"}, release:{[");
 		for (Release release:getReleases()){
 			projectString.append(release.toJSONString());
 		}
