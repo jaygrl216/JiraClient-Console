@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONObject;
-
 
 /**
  * This class represents a project from Jira. It contains information about the 
@@ -124,7 +122,7 @@ public class JiraProject {
 	public void complete() {
 		isComplete = true;
 	}
-	
+
 	/**
 	 * Gets the number of versions this project has
 	 * 
@@ -133,7 +131,7 @@ public class JiraProject {
 	public int getNumRelease() {
 		return releases.size();
 	}
-	
+
 	/**
 	 * Returns the due date of the project
 	 * @return
@@ -141,7 +139,7 @@ public class JiraProject {
 	public Date getDueDate() {
 		return due;
 	}
-	
+
 	/**
 	 * Sets the default project due date based off the latest release due date
 	 * 
@@ -173,16 +171,16 @@ public class JiraProject {
 	public void addToIssues(JiraIssue jiraIssue) {
 		issues.add(jiraIssue);
 	}
-	
+
 	public void addSprints(ArrayList<Sprint> sprints) {
 		this.sprints = new ArrayList<Sprint>(sprints);
 	}
-	
-	
+
+
 	public List<Sprint> getSprints() {
 		return sprints;
 	}
-	
+
 	public int getNumIssues() {
 		return issues.size();
 	}
@@ -194,7 +192,7 @@ public class JiraProject {
 	public List<Release> getReleases() {
 		return releases;
 	}
-	
+
 	/**
 	 * Gets whether a project is overdue or not
 	 * 
@@ -216,7 +214,7 @@ public class JiraProject {
 		}
 		return getIsOverdue();
 	}
-	
+
 	/* The following two methods are the velocity of the project. 
 	 * Velocity is calculated by totalSEA for closed sprints divided by number
 	 * of closed sprints
@@ -224,7 +222,7 @@ public class JiraProject {
 	public void setVelocity(double velocity) {
 		this.velocity = velocity;
 	}
-	
+
 	public double getVelocity() {
 		return velocity;
 	}
@@ -241,27 +239,23 @@ public class JiraProject {
 				"Project Key: " + key + "\n" +
 				"Project Lead: " + lead.getFullName() + "\n";
 	}
-	
+
 	/**
 	 * This method can be used for the services
 	 * @return
 	 */
 	public String JSONString() {
-		JSONObject obj = new JSONObject();
-		obj.put("name", name);
-		obj.put("key", key);
-		obj.put("lead", lead);
-		obj.put("description", description);
-		obj.put("URI", uri);
-		obj.put("release", releases);
-		obj.put("sprints", sprints);
-		obj.put("issues", issues);
-		obj.put("Due Date", due);
-		obj.put("velocity", velocity);
-		obj.put("Complete", isComplete);
-		obj.put("Overdue", isOverdue);
-		
-		return obj.toString();
+		StringBuilder projectString=new StringBuilder();
+		projectString.append("{name:\"" + name + "\", key:\"" + key + "\", uri:\"" 
+				+ uri + "\", description:\"" + description 
+				+ "\", lead:{name:\"" + lead.getUserName() + "\", displayName:\"" + lead.getFullName() + "\", email:\"" + lead.getEmailAddress() 
+				+ "\"}, release:[");
+		for (Release release:getReleases()){
+			projectString.append(release.toJSONString());
+		}
+		projectString.append("]}");
+		return projectString.toString();
+
 	}
 
 	/**
@@ -275,10 +269,10 @@ public class JiraProject {
 				sprintsWorked++;
 			}
 		}
-		
+
 		return sprintsWorked;
 	}
-	
+
 	/**
 	 * returns the future sprints
 	 * @return
@@ -290,7 +284,7 @@ public class JiraProject {
 				sprintsNotWorked++;
 			}
 		}
-		
+
 		return sprintsNotWorked;
 	}
 

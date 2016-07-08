@@ -1,6 +1,8 @@
 package com.sgt.pmportal.resource;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -11,25 +13,29 @@ import javax.ws.rs.core.MediaType;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
-import com.sgt.pmportal.domain.Release;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.ProjectServices;
 
 
-@Path ("/home/{username}/{password}")
+@Path ("/home/{username}/{password}/{url:.+}")
 
 public class HomeResource {
-	
-	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getProjects(@PathParam ("username") String username, @PathParam ("password")	String password) throws URISyntaxException{
-		String url="http://54.152.100.242/jira";
+	public String getProjects(@PathParam ("username") String username, 
+			@PathParam ("password")	String password, 
+			@PathParam ("url") String url) throws URISyntaxException, IOException, ParseException{
 		JiraRestClient client=GeneralServices.login(url, username, password);
 		String authorization=GeneralServices.encodeAuth(username, password);
 		ProjectServices projectService=new ProjectServices(client, authorization, url);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
-		return projectList.toString();
+		StringBuilder responseString=new StringBuilder();
+		responseString.append("{project:[");
+		for (JiraProject project:projectList){
+		responseString.append(project.JSONString());
+		}
+		responseString.append("]}");
+		return responseString.toString();
 	}
 	
 }

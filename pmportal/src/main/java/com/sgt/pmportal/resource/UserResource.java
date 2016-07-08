@@ -14,7 +14,7 @@ import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.ProjectServices;
 
-@Path ("/user/{username}/{password}")
+@Path ("/user/{username}/{password}/{url:.+}")
 public class UserResource {
 
 	
@@ -30,7 +30,7 @@ public class UserResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getProjects(@PathParam ("username") String username, 
-			@PathParam ("password")	String password) throws URISyntaxException{
+			@PathParam ("password")	String password, @PathParam ("url") String url) throws URISyntaxException{
 		return "";
 	}
 }
