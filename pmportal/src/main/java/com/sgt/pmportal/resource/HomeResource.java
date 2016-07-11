@@ -32,15 +32,17 @@ public class HomeResource {
 		String authorization=GeneralServices.encodeAuth(username, password);
 		ProjectServices projectService=new ProjectServices(client, authorization, url);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
-		JSONObject response=new JSONObject();
 
+StringBuilder responseString=new StringBuilder();
+responseString.append("{\"projects\":");
 		JSONArray projectArray=new JSONArray();
 		for (JiraProject project:projectList){
 			JSONObject projectObject=new JSONObject(project.JSONString());
 			projectArray.put(projectObject);
 		}
-		response.put("project", projectArray);
-		return response.toString();
+		responseString.append(projectArray.toString());
+responseString.append("}");
+		return responseString.toString();
 	}
 
 }

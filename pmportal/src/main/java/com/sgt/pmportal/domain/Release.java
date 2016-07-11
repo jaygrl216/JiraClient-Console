@@ -49,13 +49,13 @@ public class Release{
 	 * 
 	 * @return JSONObject String
 	 */
-	public JSONObject toJSONString(){
+	public String toJSONString(){
 		JSONObject release=new JSONObject();
 		release.put("name", name.toString());
 		release.put("releaseDate", releaseDate.toString());
 		release.put("id", id.toString());
 		release.put("uri", uri.toString());
-		return release;	
+		return release.toString();	
 	}
 
 

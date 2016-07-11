@@ -247,7 +247,7 @@ public class JiraProject {
 	 * This method can be used for the services
 	 * @return
 	 */
-	public JSONObject JSONString() {
+	public String JSONString() {
 		JSONObject project=new JSONObject();
 		project.put("name", name);
 		project.put("key", key);
@@ -266,10 +266,9 @@ public class JiraProject {
 		for (Release release:getReleases()){
 			releaseArray.put(release.toJSONString());
 		}
-		
-		
 		project.put("releases", releaseArray);
-		return project;
+		String projectString=project.toString();
+		return projectString;
 
 	}
 
