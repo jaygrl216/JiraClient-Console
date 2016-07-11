@@ -17,18 +17,20 @@ dataType:"json"
 });
 	//graphics
 $(document).ajaxStop(function(){
+	var seaArray=JSON.parse(responseObject.sea);
+	var labelArray;
+	for (var i=0; i<seaArray.length(); i++){
+		labelArray[i]="Sprint " + i;
+	}
 	var ctx = document.getElementById("chart");
 	var chartData = {
-			labels:["Sprint 1", "Sprint 2", "Sprint3"
-			        ],
+			labels:labelArray,
 				datasets: [
 	        {
 	        	label:"SEA",
-	            data: responseObject.sea,
-	            backgroundColor: [
-	                "#FF6384",
-	                "#36A2EB",
-	            ]
+	            data:seaArray,
+	            fill:false,
+	            backgroundColor:"#FF6384"
 	        }]
 	};
 	var myLineChart = new Chart(ctx,{
