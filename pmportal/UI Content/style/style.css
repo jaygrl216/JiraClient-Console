@@ -1,5 +1,8 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
+
 body {
-    background: linear-gradient(to right, #303030, #000);
+    background: linear-gradient(to right, #3B3A3A, #7D7A7A);
+    font-family: 'Raleway', sans-serif;
 }
 
 
@@ -23,7 +26,11 @@ nav li {
 #info {
     float: right;
     width: 80%;
-    background-color: #E8DFDF;
+    background-color: #F7F2F2;
     height: 500px;
-     box-shadow: 2px 3px #454343;
+     box-shadow: 5px 5px #454343;
+}
+
+#text {
+    padding-left: 5px;
 }
