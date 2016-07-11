@@ -1,0 +1,29 @@
+body {
+    background: linear-gradient(to right, #303030, #000);
+}
+
+
+
+header h1{
+    color: #FFF;
+    text-align: center;
+    text-shadow: 2px 2px #454343;
+}
+
+nav ul {
+    list-style-type: none;
+    font-size: 20px;
+    color: #303030;
+}
+
+nav li {
+    margin-bottom: 20px;
+}
+
+#info {
+    float: right;
+    width: 80%;
+    background-color: #E8DFDF;
+    height: 500px;
+     box-shadow: 2px 3px #454343;
+}
