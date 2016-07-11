@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 /**
  * This class represents a project from Jira. It contains information about the 
@@ -244,17 +247,29 @@ public class JiraProject {
 	 * This method can be used for the services
 	 * @return
 	 */
-	public String JSONString() {
-		StringBuilder projectString=new StringBuilder();
-		projectString.append("{name:\"" + name + "\", key:\"" + key + "\", uri:\"" 
-				+ uri + "\", description:\"" + description 
-				+ "\", lead:{name:\"" + lead.getUserName() + "\", displayName:\"" + lead.getFullName() + "\", email:\"" + lead.getEmailAddress() 
-				+ "\"}, release:{[");
+	public JSONObject JSONString() {
+		JSONObject project=new JSONObject();
+		project.put("name", name);
+		project.put("key", key);
+		project.put("uri", uri);
+		project.put("description", description);
+		
+		JSONObject leadUser=new JSONObject();
+		leadUser.put("name", lead.getUserName());
+		leadUser.put("displayName", lead.getFullName());
+		leadUser.put("email", lead.getEmailAddress());
+		leadUser.put("timezone", lead.getTimeZone());
+		
+		project.put("lead", leadUser);
+
+		JSONArray releaseArray=new JSONArray();
 		for (Release release:getReleases()){
-			projectString.append(release.toJSONString());
+			releaseArray.put(release.toJSONString());
 		}
-		projectString.append("]}");
-		return projectString.toString();
+		
+		
+		project.put("releases", releaseArray);
+		return project;
 
 	}
 
