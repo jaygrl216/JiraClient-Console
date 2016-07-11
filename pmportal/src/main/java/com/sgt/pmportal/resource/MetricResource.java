@@ -11,6 +11,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.services.GeneralServices;
@@ -56,8 +59,11 @@ public class MetricResource {
 		JiraProject project=projectService.getProjectByKey(key);
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		List<List<Double>> dataList=metricService.predictNext(project);
-		String responseString="";
-		return responseString;
+		JSONObject responseObject=new JSONObject();
+		responseObject.put("sea", dataList.get(0).toString());
+		responseObject.put("eea", dataList.get(1).toString());
+		responseObject.put("bugs", dataList.get(2).toString());
+		return responseObject.toString();
 	}
 	
 }
