@@ -2,6 +2,7 @@ package com.sgt.pmportal.domain;
 
 import java.net.URI;
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 
 /**
  * A release or version of a Jira project
@@ -49,11 +50,13 @@ public class Release{
 	 * @return JSONObject String
 	 */
 	public String toJSONString(){
-		String releaseString="{name:\"" + name.toString() + "\", releaseDate:\"" 
-	+ releaseDate.toString() + "\", id:\"" + id.toString() 
-	+ "\", uri:\"" + uri.toString() + "\"}";
-	return releaseString;	
+		JSONObject release=new JSONObject();
+		release.put("name", name.toString());
+		release.put("releaseDate", releaseDate.toString());
+		release.put("id", id.toString());
+		release.put("uri", uri.toString());
+		return release.toString();	
 	}
-	
-	
+
+
 }

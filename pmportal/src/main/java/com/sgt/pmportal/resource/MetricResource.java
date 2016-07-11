@@ -35,11 +35,7 @@ public class MetricResource {
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		List<Number> defectList=metricService.calculateDefectTotal(project);
 		Double progress=metricService.calculateProgress(key);
-		String responseString="{progress:\"" + progress.toString() 
-				+ "\", bugs:\"" + defectList.get(0).toString() 
-				+ "\", sea:\"" + defectList.get(1).toString() 
-				+ "\", eea:\"" + defectList.get(2).toString() 
-				+ "\", overdue:\"" 	+ defectList.get(3).toString() + "\"}";
+		String responseString="";
 		return responseString;
 	}
 	
@@ -56,9 +52,7 @@ public class MetricResource {
 		JiraProject project=projectService.getProjectByKey(key);
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		List<List<Double>> dataList=metricService.predictNext(project);
-		String responseString="{seaList:" + dataList.get(0).toString() 
-				+ ", eeaList:" + dataList.get(1).toString() 
-				+ ", bugList:" + dataList.get(2).toString()+"}";
+		String responseString="";
 		return responseString;
 	}
 	
