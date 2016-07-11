@@ -35,7 +35,11 @@ public class MetricResource {
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		List<Number> defectList=metricService.calculateDefectTotal(project);
 		Double progress=metricService.calculateProgress(key);
-		String responseString="";
+		String responseString="{\"bugs\":\"" + defectList.get(0) +
+				"\", \"sea\":\"" + defectList.get(1) + 
+				"\", \"eea\":\"" + defectList.get(2) + 
+				"\", \"overdue\":\"" + defectList.get(3) +
+				"\", \"progress\":\"" + progress.toString()	+ "\"}";
 		return responseString;
 	}
 	
