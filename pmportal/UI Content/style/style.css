@@ -13,6 +13,13 @@ header h1{
     text-shadow: 2px 2px #454343;
 }
 
+nav {
+    width: 20%;
+    background-color:#E3DADA;
+    height: 500px;
+    float: left;
+}
+
 nav ul {
     list-style-type: none;
     font-size: 20px;
