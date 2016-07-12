@@ -3,39 +3,87 @@ var password="ComPuteR90";
 var projectKey="PMPOR";
 var baseURL="http://54.152.100.242/jira";
 var metricResource="http://localhost:8080/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
+var projectResource="http://localhost:8080/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
 var responseObject;
+var projectObject;
+var id="sea";
+var loaded=false;
 
 $.ajax({
-url:metricResource,
-dataType:"json"
+	url:metricResource,
+	dataType:"json"
 }).fail(function( xhr, status, errorThrown ) {
-    console.log( "Error: " + errorThrown );
-    console.log( "Status: " + status );
-    console.dir( xhr );
+	console.log( "Error: " + errorThrown );
+	console.log( "Status: " + status );
+	console.dir( xhr );
 }).done(function(jsonObject){
 	responseObject=jsonObject;
+	loaded=true;
+	drawGraph();
+
 });
-	//after ajax stops, or else responseObject is undefined (asynchronicity)
-$(document).ajaxStop(function(){
-	//if it's not parsed, the chart won't see it as an array
-	var dataArray=JSON.parse(responseObject.sea);
+//functions
+function selectResource(whichId){
+	id=whichId;
+	if (loaded){
+		drawGraph();
+	};
+};
+
+function drawGraph(){
+	if (id=="projects"){
+		//for defects by project
+		drawProjectGraphics();
+	}else{
+		drawLineGraphics();
+	};
+}
+
+function drawLineGraphics(){
+	//for most metrics
+	var chartLabel;
+	var dataArray;
+	if (id=="sea"){
+		chartLabel="SEA";
+		dataArray=JSON.parse(responseObject.sea);
+	}else if(id=="eea"){
+		chartLabel="EEA";
+		dataArray=JSON.parse(responseObject.eea);
+	}else if (id=="bug"){
+		chartLabel="Bugs";
+		dataArray=JSON.parse(responseObject.bug);
+	};
 	var labelArray;
-	for (var i=0; i<dataArray.length(); i++){
+	for (var i=0; i<dataArray.length()-1; i++){
 		labelArray[i]="Sprint " + i;
 	}
+	labelArray[dataArray.length-1]="Next Sprint";
 	var ctx = document.getElementById("chart");
 	var chartData = {
 			labels:labelArray,
-				datasets: [
-	        {
-	        	label:"SEA",
-	            data:dataArray,
-	            fill:false,
-	            backgroundColor:"#FF6384"
-	        }]
+			datasets: [
+			           {
+			        	   label:chartLabel,
+			        	   data:dataArray,
+			        	   fill:false,
+			        	   backgroundColor:"#FF6384"
+			           }]
 	};
 	var myLineChart = new Chart(ctx,{
-	    type: 'line',
-	    data: chartData,
+		type: 'line',
+		data: chartData,
 	});
-});
+};
+
+function drawProjectGraphics(){
+	$.ajax({
+		url:projectResource,
+		dataType:"json"
+	}).fail(function( xhr, status, errorThrown ) {
+		console.log( "Error: " + errorThrown );
+		console.log( "Status: " + status );
+		console.dir( xhr );
+	}).done(function(jsonObject){
+		projectObject=jsonObject;
+	});
+};
