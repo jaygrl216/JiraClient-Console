@@ -5,7 +5,6 @@ var baseURL="http://54.152.100.242/jira";
 var metricResource="http://localhost:8080/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
 var projectResource="http://localhost:8080/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
 var responseObject;
-var projectObject;
 var id="sea";
 var loaded=false;
 	var ctx = document.getElementById("chart").getContext("2d");
@@ -43,10 +42,10 @@ function selectResource(whichId){
 
 function drawGraph(){
 
-	if (id=="projects"){
-		//for defects by project
-		drawProjectGraphics();
-	}else if (id=="dataTable"){
+	if (id=="report"){
+		generateReport();
+	}else if (id=="dataList"){
+		generateTable();
 	}else{
 		drawLineGraphics();
 	};
@@ -91,15 +90,21 @@ ctx.canvas.height = ctx.canvas.originalheight;
 	});
 };
 
-function drawProjectGraphics(){
-	$.ajax({
-		url:projectResource,
-		dataType:"json"
-	}).fail(function( xhr, status, errorThrown ) {
-		console.log( "Error: " + errorThrown );
-		console.log( "Status: " + status );
-		console.dir( xhr );
-	}).done(function(jsonObject){
-		projectObject=jsonObject;
-	});
+function generateReport(){
+	var seaArray=JSON.parse(responseObject.sea);
+	var eeaArray=JSON.parse(responseObject.eea);
+	var bugArray=JSON.parse(responseObject.bug);
+	var predictedSea=seaArray[seaArray.length-1];
+	var seaAnalysis="Your predicted SEA value for the next sprint is " + predictedSea + ".";
+	var seaAnalysis2="This means that the next sprint is estimated to take roughly " + predictedSea.round + " times as long to finish than estimated.";
+	var predictedEea=eeaArray[eeaArray.length-1];
+	var eeaAnalysis="Your predicted EEA value for the next sprint is " + predictedEea + ".";
+	var eeaAnalysis2="This means that the next sprint is estimated to take roughly " + predictedEea.round + " times as much effort to finish than estimated.";
+	var predictedBug=beaArray[beaArray.length-1];
+	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
+	
+	
 };
+function generateTable(){
+	
+}
