@@ -33,8 +33,12 @@ function selectResource(whichId){
 function drawGraph(){
 	if (id=="projects"){
 		//for defects by project
+		document.getElementById("dataTable").style.visibility="collapse";
 		drawProjectGraphics();
+	}else if (id=="dataList"){
+		generateTable();
 	}else{
+		document.getElementById("dataTable").style.visibility="collapse";
 		drawLineGraphics();
 	};
 }
@@ -87,4 +91,10 @@ function drawProjectGraphics(){
 	}).done(function(jsonObject){
 		projectObject=jsonObject;
 	});
+};
+
+function generateTable(){
+	dataTable=document.getElementById("dataTable");
+	dataTable.style.visibility="visible";
+	
 };
