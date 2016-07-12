@@ -1,13 +1,12 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
+
 body {
     background: linear-gradient(to right, #3B3A3A, #7D7A7A);
     font-family: 'Raleway', sans-serif;
 }
 
-header {
-    margin: auto;
-}
-
-h1{
-    color:#FFF;
+header h1{
+    color: #FFF;
     text-align: center;
+    text-shadow: 2px 2px #454343;
 }
