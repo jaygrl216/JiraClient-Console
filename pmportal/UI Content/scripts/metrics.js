@@ -54,8 +54,8 @@ function drawLineGraphics(){
 		dataArray=JSON.parse(responseObject.bug);
 	};
 	var labelArray;
-	for (var i=0; i<dataArray.length-1; i++){
-		labelArray[i]="Sprint " + i;
+	for (var i=0; i<dataArray.length; i++){
+		labelArray[i]="Sprint " + (i+1);
 	}
 	labelArray[dataArray.length-1]="Next Sprint";
 	var ctx = document.getElementById("chart");
