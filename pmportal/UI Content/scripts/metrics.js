@@ -57,7 +57,7 @@ function drawLineGraphics(){
 	for (var i=0; i<dataArray.length()-1; i++){
 		labelArray[i]="Sprint " + i;
 	}
-	labelArray[dataArray.length-1]="Next Sprint";
+	labelArray[dataArray.length()-1]="Next Sprint";
 	var ctx = document.getElementById("chart");
 	var chartData = {
 			labels:labelArray,
