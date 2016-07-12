@@ -61,7 +61,8 @@ function drawLineGraphics(){
 	}
 	labelArray[dataArray.length-1]="Next Sprint";
 	var ctx = document.getElementById("chart");
-	ctx.clearRect(0, 0, 100, 150);
+	var context=ctx.getContext("2d")
+	context.clearRect(0, 0, 100, 150);
 	var chartData = {
 			labels:labelArray,
 			datasets: [
