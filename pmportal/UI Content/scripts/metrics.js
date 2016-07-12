@@ -15,7 +15,7 @@ dataType:"json"
 }).done(function(jsonObject){
 	responseObject=jsonObject;
 });
-	//graphics
+	//after ajax stops, or else responseObject is undefined (asynchronicity)
 $(document).ajaxStop(function(){
 	var seaArray=JSON.parse(responseObject.sea);
 	var labelArray;
