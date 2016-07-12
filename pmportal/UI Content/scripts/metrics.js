@@ -18,9 +18,9 @@ dataType:"json"
 	//after ajax stops, or else responseObject is undefined (asynchronicity)
 $(document).ajaxStop(function(){
 	//if it's not parsed, the chart won't see it as an array
-	var seaArray=JSON.parse(responseObject.sea);
+	var dataArray=JSON.parse(responseObject.sea);
 	var labelArray;
-	for (var i=0; i<seaArray.length(); i++){
+	for (var i=0; i<dataArray.length(); i++){
 		labelArray[i]="Sprint " + i;
 	}
 	var ctx = document.getElementById("chart");
@@ -29,7 +29,7 @@ $(document).ajaxStop(function(){
 				datasets: [
 	        {
 	        	label:"SEA",
-	            data:seaArray,
+	            data:dataArray,
 	            fill:false,
 	            backgroundColor:"#FF6384"
 	        }]
