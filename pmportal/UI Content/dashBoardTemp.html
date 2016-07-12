@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="style/dash.css">
         <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
         <script type="text/javascript" src="scripts/Chart.js"></script>
+        <script type="text/javascript" src="scripts/dash.js"></script>
  
     </head>
     <body>
@@ -23,6 +24,18 @@
                 
             </div>
             <div class="col-lg-10">
+                <div class="row">
+                    <div class="col-lg-4 projInfo">Start Date</div>
+                    <div class="col-lg-4 projInfo">End Date</div>
+                    <div class="col-lg-4 projInfo">Days Worked</div>
+                </div>
+                    
+                <div class="row">
+                    <div class="col-lg-6 projInfo">Issue Activity<br>
+                        <canvas id="chart" height="150px" width="100px"></canvas>
+                    </div>
+                    <div class="col-lg-6 projInfo">Completed Activity</div>
+                </div>
             </div>
         </div>
         
