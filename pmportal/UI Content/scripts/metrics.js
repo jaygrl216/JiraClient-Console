@@ -8,7 +8,11 @@ var responseObject;
 var projectObject;
 var id="sea";
 var loaded=false;
+	var ctx = document.getElementById("chart").getContext("2d");
+ctx.canvas.originalwidth = ctx.canvas.width;
+ctx.canvas.originalheight = ctx.canvas.height;
 
+//retrieve data
 $.ajax({
 	url:metricResource,
 	dataType:"json"
@@ -22,6 +26,13 @@ $.ajax({
 	drawGraph();
 
 });
+
+
+//styling for window resize
+$( window ).resize(function() {
+	drawGraph();
+});
+
 //functions
 function selectResource(whichId){
 	id=whichId;
@@ -31,16 +42,15 @@ function selectResource(whichId){
 };
 
 function drawGraph(){
+
 	if (id=="projects"){
 		//for defects by project
-		document.getElementById("dataTable").style.visibility="collapse";
 		drawProjectGraphics();
-	}else if (id=="dataList"){
-		generateTable();
+	}else if (id=="dataTable"){
 	}else{
-		document.getElementById("dataTable").style.visibility="collapse";
 		drawLineGraphics();
 	};
+	$(".chartjs-hidden-iframe").remove();
 }
 
 function drawLineGraphics(){
@@ -63,7 +73,8 @@ function drawLineGraphics(){
 		labelArray[i]="Sprint " + (i+1);
 	}
 	labelArray[dataArray.length-1]="Next Sprint";
-	var ctx = document.getElementById("chart");
+ctx.canvas.width = ctx.canvas.originalwidth;
+ctx.canvas.height = ctx.canvas.originalheight;
 	var chartData = {
 			labels:labelArray,
 			datasets: [
@@ -91,10 +102,4 @@ function drawProjectGraphics(){
 	}).done(function(jsonObject){
 		projectObject=jsonObject;
 	});
-};
-
-function generateTable(){
-	dataTable=document.getElementById("dataTable");
-	dataTable.style.visibility="visible";
-	
 };
