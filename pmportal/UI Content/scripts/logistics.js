@@ -16,11 +16,12 @@ dataType:"json"
 	responseObject = jsonObject;
 });
 
-// creating list of elements
+var projectArray;
 $(document).ajaxStop(function(){
-	var projectArray = JSON.parse(responseObject.project);
-	var labelArray;
-	for (var i=0; i<seaArray.length(); i++){
-		labelArray[i]="Sprint " + i;
-	}
+	projectArray = JSON.parse(responseObject.project);
+});
+
+var projectList = $(document).getElementById("projectList");
+$.each(projectArray, function(index, proj) {
+    projectList.append("<li> Project " + index + "</li>");
 });
