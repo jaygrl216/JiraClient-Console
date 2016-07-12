@@ -1,42 +1,45 @@
 <!DOCTYPE HTML>
 <html lang="en">
-     <head>
-        <title>Metrics Dashboard</title>
-        <link rel="stylesheet" type="text/css" href="style/style.css">
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
-        <script type="text/javascript" src="scripts/Chart.js"></script>
- 
-    </head>
-    <body>
-        <header><h1>Metrics Dashboard</h1></header>
-        
-        <nav>
-            <ul>
-                <li id="sea" onclick="selectResource(this.id)">SEA Trends</li>
-                <li id="eea" onclick="selectResource(this.id)">EEA Trends</li>
-                <li id="bug" onclick="selectResource(this.id)">Bug Trends</li>
-                <li id="projects" onclick="selectResource(this.id)">Defects by Project</li>
-            </ul>
-        </nav>
-        
-        <section>
-        <div id="info">
-            <div id="text">
-                <h3>Project Name: </h3>                
-            </div>
-            
-            <div id="graphics">
-            <p id="test"></p>
-                <canvas id="chart" height="150px" width="100px"></canvas>
-            </div>
-        </div>
-            </section>
-        
-        
-        <footer></footer>
-        
-        <script src="scripts/metrics.js"></script>
-    </body>
+<head>
+<title>Metrics Dashboard</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
+<script type="text/javascript" src="scripts/Chart.js"></script>
+
+</head>
+<body>
+	<header>
+		<h1>Metrics Dashboard</h1>
+	</header>
+
+	<nav>
+		<ul>
+			<li id="sea" onclick="selectResource(this.id)">SEA Trends</li>
+			<li id="eea" onclick="selectResource(this.id)">EEA Trends</li>
+			<li id="bugs" onclick="selectResource(this.id)">Bug Trends</li>
+			<li id="projects" onclick="selectResource(this.id)">Defects by
+				Project</li>
+		</ul>
+	</nav>
+
+	<section>
+		<div id="info">
+			<div id="text">
+				<h3>Project Name:</h3>
+			</div>
+
+			<div id="graphics">
+				<p id="test"></p>
+				<canvas id="chart" height="150px" width="100px"></canvas>
+			</div>
+		</div>
+	</section>
+
+
+	<footer></footer>
+
+	<script src="scripts/metrics.js"></script>
+</body>
 
 </html>

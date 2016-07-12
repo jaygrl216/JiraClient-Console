@@ -43,19 +43,20 @@ function drawLineGraphics(){
 	//for most metrics
 	var chartLabel;
 	var dataArray;
+	var labelArray=[];
 	if (id=="sea"){
 		chartLabel="SEA";
 		dataArray=JSON.parse(responseObject.sea);
 	}else if(id=="eea"){
 		chartLabel="EEA";
 		dataArray=JSON.parse(responseObject.eea);
-	}else if (id=="bug"){
+	}else if (id=="bugs"){
 		chartLabel="Bugs";
-		dataArray=JSON.parse(responseObject.bug);
+		dataArray=JSON.parse(responseObject.bugs);
 	};
-	var labelArray;
-	for (var i=0; i<dataArray.length-1; i++){
-		labelArray[i]="Sprint " + i;
+
+	for (var i=0; i<dataArray.length; i++){
+		labelArray[i]="Sprint " + (i+1);
 	}
 	labelArray[dataArray.length-1]="Next Sprint";
 	var ctx = document.getElementById("chart");
