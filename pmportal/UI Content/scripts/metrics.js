@@ -50,11 +50,11 @@ function drawLineGraphics(){
 	}else if(id=="eea"){
 		chartLabel="EEA";
 		dataArray=JSON.parse(responseObject.eea);
-	}else if (id=="bug"){
+	}else if (id=="bugs"){
 		chartLabel="Bugs";
-		dataArray=JSON.parse(responseObject.bug);
+		dataArray=JSON.parse(responseObject.bugs);
 	};
-	
+
 	for (var i=0; i<dataArray.length; i++){
 		labelArray[i]="Sprint " + (i+1);
 	}
