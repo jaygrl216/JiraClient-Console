@@ -13,16 +13,17 @@ dataType:"json"
     console.log( "Status: " + status );
     console.dir( xhr );
 }).done(function(jsonObject){
+    console.log("SUCCESS");
 	responseObject = jsonObject;
 });
 
-// Gathering projects
 var projectArray;
 $(document).ajaxStop(function(){
-	projectArray = JSON.parse(responseObject.project);
-});
-
-var projectList = $(document).getElementById("projectList");
-$.each(projectArray, function(index, proj) {
-    projectList.append("<li> Project " + index + "</li>");
+	projectArray = responseObject.projects;
+    console.log(projectArray.length);
+    
+         $.each(projectArray, function(index, proj) {
+        var num = index + 1;
+        $("#projectList").append("<li> Project " + num + "</li>");
+    });
 });
