@@ -34,6 +34,7 @@ function drawGraph(){
 	if (id=="projects"){
 		//for defects by project
 		drawProjectGraphics();
+	}else if (id=="dataTable"){
 	}else{
 		drawLineGraphics();
 	};
