@@ -43,6 +43,7 @@ function drawLineGraphics(){
 	//for most metrics
 	var chartLabel;
 	var dataArray;
+	var labelArray=[];
 	if (id=="sea"){
 		chartLabel="SEA";
 		dataArray=JSON.parse(responseObject.sea);
@@ -53,7 +54,7 @@ function drawLineGraphics(){
 		chartLabel="Bugs";
 		dataArray=JSON.parse(responseObject.bug);
 	};
-	var labelArray;
+	
 	for (var i=0; i<dataArray.length; i++){
 		labelArray[i]="Sprint " + (i+1);
 	}
