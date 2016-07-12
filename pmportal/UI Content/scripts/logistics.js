@@ -16,6 +16,7 @@ dataType:"json"
 	responseObject = jsonObject;
 });
 
+// Gathering projects
 var projectArray;
 $(document).ajaxStop(function(){
 	projectArray = JSON.parse(responseObject.project);
