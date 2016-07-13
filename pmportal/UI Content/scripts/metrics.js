@@ -128,7 +128,7 @@ function generateReport(){
 	}
 	var predictedBug=bugArray[bugArray.length-1];
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
-	$("#report").append("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
+	$("#report").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
 	$("#dataTable").css("visibility", "collapse");
 	$("#report").css("display", "initial");
 };
@@ -139,7 +139,7 @@ function generateTable(){
 	bugArray=JSON.parse(responseObject.bugs);
 //	arrays have same length, subtract 1 to neglect prediction
 	for (var i=0;i<seaArray.length-1; i++){
-		$("#dataTable").html("<tr><td> Sprint: "+ (i+1)+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
+		$("#dataTable").append("<tr><td> Sprint: "+ (i+1)+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
 	};
 
 };
