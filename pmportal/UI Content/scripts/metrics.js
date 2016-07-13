@@ -102,7 +102,7 @@ function drawLineGraphics(){
 			        	   label:chartLabel,
 			        	   data:dataArray,
 			        	   fill:false,
-			        	   backgroundColor:"#FF6384"
+			        	   backgroundColor:"#FF0000"
 			           }]
 	};
 	var myLineChart = new Chart(ctx,{
