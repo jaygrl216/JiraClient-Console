@@ -4,17 +4,19 @@ var baseURL = "http://54.152.100.242/jira";
 var homeResource = "http://localhost:8080/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 
- var barData = {
+ var lineData = {
     labels: ['Italy', 'UK', 'USA', 'Germany', 'France', 'Japan'],
     datasets: [
         {
             label: '2010 customers #',
-            fillColor: '#382765',
+            backgroundColor: "rgba(250, 62, 116, 0.5)",
+            borderColor: "rgba(250, 62, 116, 0.86)",
             data: [2500, 1902, 1041, 610, 1245, 952]
         },
         {
             label: '2014 customers #',
-            fillColor: '#7BC225',
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
             data: [3104, 1689, 1318, 589, 1199, 1436]
         }
     ]
@@ -52,9 +54,9 @@ $(document).ajaxStop(function () {
 
 $(document).ready(function() {
     var ctx = document.getElementById('clients').getContext('2d');
-    var myBarChart = new Chart(ctx, {
+    var lineChart = new Chart(ctx, {
     type: 'line',
-    data: barData,
+    data: lineData,
     options: {
         maintainAspectRatio: false,
         responsive: true

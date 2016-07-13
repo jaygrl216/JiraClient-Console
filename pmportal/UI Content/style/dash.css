@@ -36,7 +36,7 @@ a:hover {
     margin-left: 30px;
     margin-right: 5px;
     margin-bottom: 20px;
-    height:250px;
+    height:300px;
     color:#FFF;
 }
 
@@ -50,17 +50,19 @@ a:hover {
 }
 
 #graph2 {
-    background-color: #89B7D6;
+/*    background-color: #89B7D6;*/
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    height:250px;
+    height:300px;
     margin-bottom: 20px;
-    color:#FFF;
+    color:#69CEDB;
     text-align: center;
 }
 
+/*
 #graph2:hover {
     background-color: #96C9EB;
 }
+*/
 
 #graph3 {
     background-color: #47728F;
@@ -93,7 +95,7 @@ a:hover {
 #progress {
     background-color: #6FB543;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    height: 250px;
+    height: 300px;
     margin-left: 5px;
     color:#FFF;
     text-align: center;
