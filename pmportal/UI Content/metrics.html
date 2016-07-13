@@ -13,21 +13,27 @@
 		<h1>Metrics Dashboard</h1>
 	</header>
 
-	<nav>
+	<nav style="text-align:center">
 		<ul>
 			<li id="sea" onclick="selectResource(this.id)">SEA Trends</li>
 			<li id="eea" onclick="selectResource(this.id)">EEA Trends</li>
 			<li id="bugs" onclick="selectResource(this.id)">Bug Trends</li>
-			<li id="dataList" onclick="selectResource(this.id)">Quantitative Data</li>
 			<li id="getReport" onclick="selectResource(this.id)">Generate Report</li>
 		</ul>
+		<button id="dataList" onclick="toggleTable()" style="margin: 0 auto">Toggle Data Table</button>
 	</nav>
 
 	<section>
 		<div id="info">
 			<div id="text">
-				<h3>Project Name:</h3>
+				<h3>Project: </h3>
 				<img src="images/loading.png" id="loadImage"/> 
+			</div>
+
+			<div id="graphics">
+				<canvas id="chart" height="150px" width="300px"></canvas>
+			</div>
+		
 				<table id="dataTable">
 				<tr>
 				<th>Sprint</th>
@@ -36,12 +42,9 @@
 				<th>Bugs</th>
 				</tr>
 				</table>
-			</div>
-
-			<div id="graphics">
-				<canvas id="chart" height="150px" width="300px"></canvas>
-				
-			</div>
+			<div id="report"></div>
+			
+			
 		</div>
 	</section>
 

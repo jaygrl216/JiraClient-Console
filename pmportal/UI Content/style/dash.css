@@ -5,6 +5,10 @@ body {
     font-family: 'Raleway', sans-serif;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 #menu {
     margin-top: 50%;
 }
@@ -19,6 +23,7 @@ body {
     color:#FFF !important;
     background-color: #658FAB;
 }
+
 
 #board {
     background-color: #FFF;
@@ -38,6 +43,11 @@ body {
 
 #graph1:hover {
     background-color: #FC3A3A;
+}
+
+.active {
+    background-color: #FFF;
+    color:#000 !important;
 }
 
 #graph2 {
@@ -94,14 +104,11 @@ body {
     background-color: #569130;
 }
 
-.active {
-    background-color: #FFF;
-    color:#000 !important;
-}
-
 header .dropdown {
     float:right;
     margin-top: 15px;
+    position: absolute;
+    right: 80px;
 }
 
 header h3 {
