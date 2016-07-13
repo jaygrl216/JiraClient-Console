@@ -26,29 +26,85 @@ body {
 }
 
 #graph1 {
-    background-color: #89B7D6;
+    background-color: #F54747;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    margin-left: 30px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+    height:200px;
+    color:#FFF;
+    text-align: center;
+}
+
+#graph1:hover {
+    background-color: #FC3A3A;
 }
 
 #graph2 {
-    background-color: #46C76F;
+    background-color: #89B7D6;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    margin-left: 15px;
+    height:200px;
+    margin-bottom: 20px;
+    color:#FFF;
+    text-align: center;
+}
+
+#graph2:hover {
+    background-color: #96C9EB;
 }
 
 #graph3 {
-    background-color: #ED344D;
+    background-color: #47728F;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    margin-left: 15px;
+    margin-left: 32px;
+    margin-bottom: 10px;
+    height:100px;
+    color:#FFF;
+    text-align: center;
+}
+
+#graph3:hover {
+    background-color: #32546B;
+}
+
+#graph4 {
+    background-color: #8EC4E8;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    height:100px;
+    color:#FFF;
+    text-align: center;
+}
+
+#graph4:hover {
+    background-color: #96D2FA;
 }
 
 #progress {
-    background-color: #F79E54;
+    background-color: #6FB543;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    height: 200px;
+    margin-left: 5px;
+    color:#FFF;
+    text-align: center;
+}
+
+#progress:hover {
+    background-color: #569130;
 }
 
 .active {
     background-color: #FFF;
     color:#000 !important;
+}
+
+h3 {
+    color:#69CEDB
+}
+
+h3 small {
+    color:#189AAB;
+    font-weight: bold;
 }
 
