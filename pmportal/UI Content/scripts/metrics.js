@@ -8,10 +8,10 @@ var projectResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+p
 var responseObject;
 var id="sea";
 var loaded=false;
-	var ctx = document.getElementById("chart").getContext("2d");
+var ctx = document.getElementById("chart").getContext("2d");
 ctx.canvas.originalwidth = ctx.canvas.width;
 ctx.canvas.originalheight = ctx.canvas.height;
-
+$("h3").append(projectKey);
 //retrieve data
 $.ajax({
 	url:metricResource,
@@ -23,6 +23,7 @@ $.ajax({
 }).done(function(jsonObject){
 	responseObject=jsonObject;
 	loaded=true;
+	generateTable();
 	drawGraph();
 
 });
@@ -46,6 +47,15 @@ function selectResource(whichId){
 	id=whichId;
 	if (loaded){
 		drawGraph();
+	};
+};
+
+
+function toggleTable(){
+	if(	$("#dataTable").css("visibility")=="collapse"){
+			$("#dataTable").css("visibility", "visible");
+	}else{
+			$("#dataTable").css("visibility", "collapse");
 	};
 };
 
@@ -109,9 +119,8 @@ function generateReport(){
 	var predictedEea=eeaArray[eeaArray.length-1];
 	var eeaAnalysis="Your predicted EEA value for the next sprint is " + predictedEea + ".";
 	var eeaAnalysis2="This means that the next sprint is estimated to take roughly " + predictedEea.round + " times as much effort to finish than estimated.";
-	var predictedBug=beaArray[beaArray.length-1];
+	var predictedBug=bugArray[bugArray.length-1];
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
-	
 	
 };
 function generateTable(){
@@ -119,10 +128,9 @@ function generateTable(){
 	seaArray=JSON.parse(responseObject.sea);
 	eeaArray=JSON.parse(responseObject.eea);
 	bugArray=JSON.parse(responseObject.bugs);
-	$("#dataTable").css("visibility", "visible");
 //arrays have same length, subtract 1 to neglect prediction
 for (var i=0;i<seaArray.length-1; i++){
-	$("#dataTable").append("<tr><td> Sprint: "+ i+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
+	$("#dataTable").append("<tr><td> Sprint: "+ (i+1)+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
 };
 	
 }
