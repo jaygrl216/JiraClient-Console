@@ -23,7 +23,8 @@ $(document).ajaxStop(function () {
     
          $.each(projectArray, function (index, proj) {
         var num = index + 1;
-        $("#projectList").append("<li> Project " + num + "</li>");
+        $("#projectList").append("<li>" + proj.name +  "</li>");
+        console.log(proj);
     });
 });
 
