@@ -34,10 +34,11 @@ $( window ).resize(function() {
 });
 
 //loading icon
-$("document").ajaxStart(function(){
-ctx.drawImage(document.getElementById("loadImage"),0,0);
-}).ajaxStop(function(){
-	ctx.clearRect(0,0,ctx.canvas.width, ctx.canvas.height);
+$(document).ajaxStart(function(){
+$("#loadImage").show();
+});
+$(document).ajaxStop(function(){
+$("#loadImage").hide();
 });
 
 //functions
