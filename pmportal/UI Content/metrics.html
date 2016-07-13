@@ -19,7 +19,7 @@
 			<li id="eea" onclick="selectResource(this.id)">EEA Trends</li>
 			<li id="bugs" onclick="selectResource(this.id)">Bug Trends</li>
 			<li id="dataList" onclick="selectResource(this.id)">Quantitative Data</li>
-			<li id="report" onclick="selectResource(this.id)">Generate Report</li>
+			<li id="getReport" onclick="selectResource(this.id)">Generate Report</li>
 		</ul>
 	</nav>
 
@@ -32,6 +32,7 @@
 			<div id="graphics">
 				<canvas id="chart" height="150px" width="300px"></canvas>
 				<table id="dataTable"></table>
+				<img src="images/loading.png" id="loadImage" style="display:none"/> 
 			</div>
 		</div>
 	</section>

@@ -33,6 +33,13 @@ $( window ).resize(function() {
 	drawGraph();
 });
 
+//loading icon
+$("document").ajaxStart(function(){
+ctx.drawImage(document.getElementById("loadImage"),0,0);
+}).ajaxStop(function(){
+	ctx.clearRect(0,0,ctx.canvas.width, ctx.canvas.height);
+});
+
 //functions
 function selectResource(whichId){
 	id=whichId;
@@ -43,7 +50,7 @@ function selectResource(whichId){
 
 function drawGraph(){
 
-	if (id=="report"){
+	if (id=="getReport"){
 		generateReport();
 	}else if (id=="dataList"){
 		generateTable();
