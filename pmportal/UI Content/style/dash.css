@@ -16,7 +16,7 @@ body {
 
 #menu li:hover{
     height:50px;
-    color:#000;
+    color:#FFF !important;
     background-color: #658FAB;
 }
 
@@ -99,6 +99,20 @@ body {
     color:#000 !important;
 }
 
+header .dropdown {
+    float:right;
+    margin-top: 15px;
+}
+
+header h3 {
+    float:left;
+}
+
+header li:hover {
+    background-color: #658FAB;
+    color:#FFF;
+}
+
 h3 {
     color:#69CEDB
 }
@@ -106,4 +120,8 @@ h3 {
 h3 small {
     color:#189AAB;
     font-weight: bold;
+}
+
+#information {
+    clear: both;
 }
