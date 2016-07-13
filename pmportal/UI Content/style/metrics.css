@@ -24,7 +24,21 @@ body {
     background-color: #FFF;
     margin-left: -15px;
 }
+#graphics {
+    background-color: #F54747;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    margin-left: 30px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+    height:200px;
+    color:#FFF;
+    text-align: center;
+}
 
+
+#graphics:hover {
+    background-color: #FC3A3A;
+}
 
 .active {
     background-color: #FFF;
@@ -56,4 +70,8 @@ h3 small {
 
 #information {
     clear: both;
+}
+
+th, td{
+	padding:10px;
 }
