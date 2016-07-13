@@ -115,5 +115,14 @@ function generateReport(){
 	
 };
 function generateTable(){
+	ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+	seaArray=JSON.parse(responseObject.sea);
+	eeaArray=JSON.parse(responseObject.eea);
+	bugArray=JSON.parse(responseObject.bugs);
+	$("#dataTable").css("visibility", "visible");
+//arrays have same length, subtract 1 to neglect prediction
+for (var i=0;i<seaArray.length-1; i++){
+	$("#dataTable").append("<tr><td> Sprint: "+ i+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
+};
 	
 }
