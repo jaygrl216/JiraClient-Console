@@ -2,8 +2,9 @@
 var password="ComPuteR90";
 var projectKey="PMPOR";
 var baseURL="http://54.152.100.242/jira";
-var metricResource="http://localhost:8080/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
-var projectResource="http://localhost:8080/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
+var hostURL=window.location.host;
+var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
+var projectResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
 var responseObject;
 var id="sea";
 var loaded=false;
@@ -93,7 +94,7 @@ ctx.canvas.height = ctx.canvas.originalheight;
 function generateReport(){
 	var seaArray=JSON.parse(responseObject.sea);
 	var eeaArray=JSON.parse(responseObject.eea);
-	var bugArray=JSON.parse(responseObject.bug);
+	var bugArray=JSON.parse(responseObject.bugs);
 	var predictedSea=seaArray[seaArray.length-1];
 	var seaAnalysis="Your predicted SEA value for the next sprint is " + predictedSea + ".";
 	var seaAnalysis2="This means that the next sprint is estimated to take roughly " + predictedSea.round + " times as long to finish than estimated.";
