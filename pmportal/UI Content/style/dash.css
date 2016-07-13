@@ -36,9 +36,8 @@ a:hover {
     margin-left: 30px;
     margin-right: 5px;
     margin-bottom: 20px;
-    height:200px;
+    height:250px;
     color:#FFF;
-    text-align: center;
 }
 
 #graph1:hover {
@@ -53,7 +52,7 @@ a:hover {
 #graph2 {
     background-color: #89B7D6;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    height:200px;
+    height:250px;
     margin-bottom: 20px;
     color:#FFF;
     text-align: center;
@@ -68,7 +67,7 @@ a:hover {
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     margin-left: 32px;
     margin-bottom: 10px;
-    height:100px;
+    height:200px;
     color:#FFF;
     text-align: center;
 }
@@ -82,7 +81,7 @@ a:hover {
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     margin-left: 5px;
     margin-bottom: 10px;
-    height:100px;
+    height:200px;
     color:#FFF;
     text-align: center;
 }
@@ -94,7 +93,7 @@ a:hover {
 #progress {
     background-color: #6FB543;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    height: 200px;
+    height: 250px;
     margin-left: 5px;
     color:#FFF;
     text-align: center;
@@ -129,6 +128,14 @@ h3 small {
     font-weight: bold;
 }
 
+h4 {
+    text-align: center;
+}
+
 #information {
     clear: both;
+}
+
+canvas {
+    margin-top: -15px;
 }
