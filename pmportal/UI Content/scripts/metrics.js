@@ -36,6 +36,7 @@ $(document).ajaxStop(function(){
 });
 
 //functions
+
 function selectResource(whichId){
 	id=whichId;
 	if (loaded){
@@ -60,9 +61,9 @@ function drawGraph(){
 	}else if (id=="dataList"){
 		generateTable();
 	}else{
+		$(".chartjs-hidden-iframe").remove();
 		drawLineGraphics();
 	};
-	$(".chartjs-hidden-iframe").remove();
 }
 
 function drawLineGraphics(){
@@ -100,7 +101,7 @@ function drawLineGraphics(){
 		type: 'line',
 		data: chartData,
 		options:{
-					   maintainAspectRatio:false,
+					   maintainAspectRatio:true,
 					   responsive:true
 				   }
 	});
@@ -128,7 +129,6 @@ function generateReport(){
 	$("#report").css("display", "initial");
 };
 function generateTable(){
-	ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
 	seaArray=JSON.parse(responseObject.sea);
 	eeaArray=JSON.parse(responseObject.eea);
 	bugArray=JSON.parse(responseObject.bugs);
@@ -136,5 +136,4 @@ function generateTable(){
 	for (var i=0;i<seaArray.length-1; i++){
 		$("#dataTable").append("<tr><td> Sprint: "+ (i+1)+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
 	};
-
 };

@@ -30,7 +30,8 @@ body {
     margin-left: 30px;
     margin-right: 5px;
     margin-bottom: 20px;
-    width:auto;
+    width:90%;
+	height:30%;
     color:#FFF;
     text-align: center;
 }
@@ -71,9 +72,13 @@ h3 small {
 #information {
     clear: both;
 }
-
+table{
+	margin-left:10px;
+	visibility:collapse;
+}
 
 
 th, td{
 	padding:10px;
+	border:1px solid black;
 }
