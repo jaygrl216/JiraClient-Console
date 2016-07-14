@@ -87,15 +87,10 @@ $(document).ajaxStop(function () {
     $.each(issueArray, function (index, issue) {
         if(issue.status == "Resolved" || issue.status == "Closed") {
             completed = completed + 1;
-        } else {
-            toDo = toDo + 1;
         }
     });
-    console.log(completed);
-    barData.datasets[0].data[0] = completed;
-    console.log(barData.datasets[0].data[0]);
-    barData.datasets[1].data[0] = toDo;
-    console.log(barData.datasets[1].data[0]);
+    barData.datasets[0].data[0] = issueArray.length;
+    barData.datasets[1].data[0] = completed;
     
 });
 
@@ -106,6 +101,8 @@ $(document).ready(function() {
     type: 'bar',
     data: barData,
     options: {
+        scaleOverride : true,
+        scaleSteps : 2,
         maintainAspectRatio: false,
         responsive: true
         }
