@@ -74,52 +74,55 @@ h3 small {
 #information {
 	clear: both;
 }
-#reportContainer{
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+
+#reportContainer {
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
 	margin-left: 30px;
 	margin-right: 5px;
 	margin-bottom: 20px;
-	width:auto;
-		background-color: #FF0000;
-		color: #FFFFFF;
+	width: auto;
+	background-color: #FF0000;
+	color: #FFFFFF;
 }
-#reportContainer:hover{
+
+#reportContainer:hover {
 	background-color: #FF5050;
 }
 
-#data{
-		text-align: center;
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+#data {
+	text-align: center;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
 	margin-left: 30px;
 	margin-right: 5px;
 	margin-bottom: 20px;
-	width:auto;
-		background-color: #00AFAF;
-		color: #FFFFFF;
+	width: auto;
+	background-color: #00AFAF;
+	color: #FFFFFF;
 }
-#data:hover{
+
+#data:hover {
 	background-color: #00E1E1;
 }
 
-#about{
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+#about {
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
 	margin-left: 30px;
 	margin-right: 5px;
 	margin-bottom: 20px;
-	width:auto;
-		background-color: #0000FF;
-		color: #FFFFFF;
+	width: auto;
+	background-color: #0000FF;
+	color: #FFFFFF;
 }
-#about:hover{
+
+#about:hover {
 	background-color: #5050FF;
 }
 
 table {
 	color: #000000;
-	margin-bottom: 10px;
 	margin-left: 10px;
 	background-color: #FCFCFC;
 	visibility: collapse;

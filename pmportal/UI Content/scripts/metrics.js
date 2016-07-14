@@ -60,14 +60,14 @@ function showReport(){
 		$("#report").html("<p>Please try again after data is loaded.<p>");
 	}; 
 };
- function toggleAbout(){
-		$("#aboutInfo").toggle();
- };
+function toggleAbout(){
+	$("#aboutInfo").toggle();
+};
 
 
 function drawGraph(){
-		$(".chartjs-hidden-iframe").remove();
-		drawLineGraphics();
+	$(".chartjs-hidden-iframe").remove();
+	drawLineGraphics();
 };
 
 function drawLineGraphics(){
@@ -92,6 +92,7 @@ function drawLineGraphics(){
 	labelArray[dataArray.length-1]="Next Sprint";
 	var chartData = {
 			labels:labelArray,
+			backgroundColor:'rgba(0, 0, 0, 1)',
 			datasets: [
 			           {
 			        	   label:chartLabel,
@@ -116,15 +117,15 @@ function generateReport(){
 	var eeaArray=JSON.parse(responseObject.eea);
 	var bugArray=JSON.parse(responseObject.bugs);
 	var predictedSea=seaArray[seaArray.length-1];
-	var seaAnalysis="Your predicted SEA value for the next sprint is " + predictedSea + ".";
-	var seaAnalysis2="This means that the next sprint is estimated to take roughly " + Math.round(predictedSea *10)/10 + " times as long to finish than estimated.";
+	var seaAnalysis="The next sprint's predicted SEA value is " + predictedSea + ".";
+	var seaAnalysis2="This means the next sprint may take " + Math.round(predictedSea *10)/10 + " times <br>as long than estimated.";
 	var predictedEea=eeaArray[eeaArray.length-1];
 	var eeaAnalysis="Your predicted EEA value for the next sprint is " + predictedEea + ".";
 	var eeaAnalysis2="";
 	if (predictedEea==1){
-		eeaAnalysis2="This means that effort estimation planning is going as it should.";
+		eeaAnalysis2="This means effort estimation planning is going as it should.";
 	}else{
-		eeaAnalysis2="This means that the next sprint is estimated to take roughly " + Math.round(predictedEea *10)/10 + " times as much effort to finish than estimated.";
+		eeaAnalysis2="The next sprint may take " + Math.round(predictedEea *10)/10 + " times <br>as much effort than estimated.";
 	}
 	var predictedBug=bugArray[bugArray.length-1];
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
