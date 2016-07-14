@@ -24,7 +24,6 @@ $.ajax({
 	loaded=true;
 	generateTable();
 	drawGraph();
-
 });
 
 //loading icon
@@ -48,23 +47,24 @@ function selectResource(whichId){
 function toggleTable(){
 	if(	$("#dataTable").css("visibility")=="collapse"){
 		$("#dataTable").css("visibility", "visible");
-		$("#report").css("display", "none");
+	//$("#report").css("display", "none");
 	}else{
 		$("#dataTable").css("visibility", "collapse");
 	};
 };
 
-function drawGraph(){
-
-	if (id=="getReport"){
+function showReport(){
+	if (loaded){
 		generateReport();
-	}else if (id=="dataList"){
-		generateTable();
-	}else{
+	} else{
+		$("#report").html("<p>Please wait until the data is finished loading.<p>");
+	}; 
+};
+
+function drawGraph(){
 		$(".chartjs-hidden-iframe").remove();
 		drawLineGraphics();
-	};
-}
+};
 
 function drawLineGraphics(){
 	//for most metrics
@@ -124,9 +124,8 @@ function generateReport(){
 	}
 	var predictedBug=bugArray[bugArray.length-1];
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
-	$("#report").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
-	$("#dataTable").css("visibility", "collapse");
-	$("#report").css("display", "initial");
+	$("#reportContainer").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
+	$("#reportContainer").css("background-color", "#FFFFFF");
 };
 function generateTable(){
 	seaArray=JSON.parse(responseObject.sea);

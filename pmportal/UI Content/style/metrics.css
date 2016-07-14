@@ -74,9 +74,42 @@ h3 small {
 #information {
 	clear: both;
 }
+#reportContainer{
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+		inset;
+	margin-left: 30px;
+	margin-right: 5px;
+	margin-bottom: 20px;
+	width:auto;
+		background-color: #FF0000;
+}
+
+#data{
+		text-align: center;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+		inset;
+	margin-left: 30px;
+	margin-right: 5px;
+	margin-bottom: 20px;
+	width:auto;
+		background-color: #00FFFF;
+}
+
+
+#about{
+	text-align: center;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+		inset;
+	margin-left: 30px;
+	margin-right: 5px;
+	margin-bottom: 20px;
+	width:auto;
+		background-color: #0000FF;
+}
 
 table {
 	margin-left: 10px;
+	background-color: #FCFCFC;
 	visibility: collapse;
 }
 
