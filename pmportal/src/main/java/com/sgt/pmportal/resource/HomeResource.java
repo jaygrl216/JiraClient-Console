@@ -33,15 +33,15 @@ public class HomeResource {
 		ProjectServices projectService=new ProjectServices(client, authorization, url);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
 
-StringBuilder responseString=new StringBuilder();
-responseString.append("{\"projects\":");
+		StringBuilder responseString=new StringBuilder();
+		responseString.append("{\"projects\":");
 		JSONArray projectArray=new JSONArray();
 		for (JiraProject project:projectList){
 			JSONObject projectObject=new JSONObject(project.JSONString());
 			projectArray.put(projectObject);
 		}
 		responseString.append(projectArray.toString());
-responseString.append("}");
+		responseString.append("}");
 		return responseString.toString();
 	}
 

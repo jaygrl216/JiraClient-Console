@@ -1,6 +1,7 @@
 package com.sgt.pmportal.domain;
 
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 
 /**
  * This class represents an issue in Jira.
@@ -142,6 +143,19 @@ try{
 			str.append(" Type: None");
 		}
 		return str.toString();
+	}
+	
+	public String JSONString() {
+		JSONObject issue = new JSONObject();
+		issue.put("key", key);
+		issue.put("type", getType());
+		issue.put("description", desc);
+		issue.put("priority", getPriority());
+		issue.put("assignee", user);
+		issue.put("created", create);
+		issue.put("due", due);
+		issue.put("status", status);
+		return issue.toString();	
 	}
 
 }
