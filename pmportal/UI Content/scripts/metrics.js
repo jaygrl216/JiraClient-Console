@@ -9,8 +9,6 @@ var responseObject;
 var id="sea";
 var loaded=false;
 var ctx = document.getElementById("chart").getContext("2d");
-ctx.canvas.originalwidth = ctx.canvas.width;
-ctx.canvas.originalheight = ctx.canvas.height;
 $("h3").append(projectKey);
 //retrieve data
 $.ajax({
@@ -29,16 +27,9 @@ $.ajax({
 
 });
 
-
-//styling for window resize
-$( window ).resize(function() {
-	drawGraph();
-});
-
 //loading icon
 $(document).ajaxStart(function(){
 	$("#loadImage").show();
-	
 });
 $(document).ajaxStop(function(){
 	$("#loadImage").hide();
@@ -95,8 +86,6 @@ function drawLineGraphics(){
 		labelArray[i]="Sprint " + (i+1);
 	}
 	labelArray[dataArray.length-1]="Next Sprint";
-	ctx.canvas.width = ctx.canvas.originalwidth;
-	ctx.canvas.height = ctx.canvas.originalheight;
 	var chartData = {
 			labels:labelArray,
 			datasets: [
@@ -106,10 +95,15 @@ function drawLineGraphics(){
 			        	   fill:false,
 			        	   backgroundColor:"#FF0000"
 			           }]
+			
 	};
 	var myLineChart = new Chart(ctx,{
 		type: 'line',
 		data: chartData,
+		options:{
+					   maintainAspectRatio:false,
+					   responsive:true
+				   }
 	});
 };
 

@@ -30,8 +30,7 @@ body {
     margin-left: 30px;
     margin-right: 5px;
     margin-bottom: 20px;
-    height:400px;
-	width:800px;
+    width:auto;
     color:#FFF;
     text-align: center;
 }
