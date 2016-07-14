@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 
+import javax.jws.WebService;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -26,10 +27,13 @@ import com.sgt.pmportal.services.ProjectServices;
  * @author Jada
  * @author Aman Mital
  */
+@WebService
 public class IssueResource {
+
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+
 	public String getIssue(@PathParam ("username") String username, 
 			@PathParam ("password")	String password, @PathParam ("projectKey") String key, 
 			@PathParam ("url") String url) throws URISyntaxException, IOException,
@@ -41,13 +45,14 @@ public class IssueResource {
 		JiraProject project = projectService.getProjectByKey(key);
 		ProjectServices.populateIssues(project);
 		
-		StringBuilder responseString=new StringBuilder();
+		StringBuilder responseString = new StringBuilder();
 		responseString.append("{\"issues\":");
 		JSONArray issueArray = new JSONArray();
 		for (JiraIssue issue: project.getIssues()){
 			JSONObject issueObject = new JSONObject(issue.JSONString());
 			issueArray.put(issueObject);
 		}
+
 		responseString.append(issueArray.toString());
 		responseString.append("}");
 		return responseString.toString();
