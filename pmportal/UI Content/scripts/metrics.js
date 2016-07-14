@@ -95,15 +95,15 @@ function drawLineGraphics(){
 			        	   fill:false,
 			        	   backgroundColor:"#FF0000"
 			           }]
-			
+
 	};
 	var myLineChart = new Chart(ctx,{
 		type: 'line',
 		data: chartData,
 		options:{
-					   maintainAspectRatio:true,
-					   responsive:true
-				   }
+			maintainAspectRatio:true,
+			responsive:true
+		}
 	});
 };
 
