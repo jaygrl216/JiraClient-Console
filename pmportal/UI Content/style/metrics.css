@@ -119,6 +119,7 @@ h3 small {
 
 table {
 	color: #000000;
+	margin-bottom: 10px;
 	margin-left: 10px;
 	background-color: #FCFCFC;
 	visibility: collapse;
