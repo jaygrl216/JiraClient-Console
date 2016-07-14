@@ -22,6 +22,26 @@ var responseObject;
     ]
 };
 
+ var pieData = {
+     labels: [
+        "Completed",
+        "To Do",
+    ],
+     
+    datasets: [
+        {
+            data: [80, 20],
+            backgroundColor: [
+                "#F54747",
+                "#36A2EB",
+            ],
+            hoverBackgroundColor: [
+                "#FC3A3A",
+                "#36A2EB",
+            ]
+        }]
+};
+
 $.ajax({
 url: homeResource,
 dataType: "json"
@@ -53,12 +73,22 @@ $(document).ajaxStop(function () {
 });
 
 $(document).ready(function() {
-    var ctx = document.getElementById('clients').getContext('2d');
+    var ctx = document.getElementById('issues').getContext('2d');
     var lineChart = new Chart(ctx, {
     type: 'line',
     data: lineData,
     options: {
         maintainAspectRatio: false,
+        responsive: true
+        }
+    });
+    
+    var ctx = document.getElementById('progressGraph').getContext('2d');
+    var pieChart = new Chart(ctx, {
+    type: 'pie',
+    data: pieData,
+    options: {
+        maintainAspectRatio: true,
         responsive: true
         }
     });

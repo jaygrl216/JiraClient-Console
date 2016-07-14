@@ -93,7 +93,7 @@ a:hover {
 }
 
 #progress {
-    background-color: #6FB543;
+    background: linear-gradient(to right, rgba(255,197,120,1) 0%,rgba(249,168,69,1) 100%);
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     height: 300px;
     margin-left: 5px;
@@ -140,4 +140,8 @@ h4 {
 
 canvas {
     margin-top: -15px;
+}
+
+#progressGraph {
+    margin-top: 10px;
 }
