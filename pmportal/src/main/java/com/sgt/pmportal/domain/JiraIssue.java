@@ -11,17 +11,15 @@ import org.json.JSONObject;
  *
  */
 public class JiraIssue {
-	private enum IssueType {STORY, TASK, EPIC, BUG }
-	private enum Priority {LOW, MEDIUM, HIGH}
+	protected String type;
+	protected String priority;
 	protected String key;
-	protected IssueType type;
-	protected Priority p;
 	protected String desc;
 	protected String user;
 	protected DateTime create;
 	protected DateTime due;
 	protected String status;
-	
+
 	/**
 	 * Constructor for JiraIssue
 	 * 
@@ -41,40 +39,12 @@ public class JiraIssue {
 		this.user = user;
 		this.create = create;
 		this.due = due;
-this.status=status;
-		switch (type) {
-		case "Story":
-			this.type = IssueType.STORY;
-			break;
-		case "Epic":
-			this.type = IssueType.EPIC;
-			break;
-		case "Task":
-			this.type = IssueType.TASK;
-			break;
-		case "Bug":
-			this.type=IssueType.BUG;
-			break;
-		default:
-			this.type = null;
-			break;
-		}
-try{
-		switch (p) {
-		case "Low":
-			this.p = Priority.LOW;
-			break;
-		case "Medium":
-			this.p = Priority.MEDIUM;
-			break;
-		case "High":
-			this.p = Priority.HIGH;
-			break;
-		}
-}catch (NullPointerException noPriority){
-	this.p=null;
-}
+		this.status = status;
+		this.type = type;
+		this.priority = p;
+
 	}
+
 
 	public String getKey() {
 		return key;
@@ -89,34 +59,11 @@ try{
 	}
 
 	public String getType() {
-		try{
-		switch (type) {
-		case STORY:
-			return "Story";
-		case EPIC:
-			return "Epic";
-		case TASK:
-			return "Task";
-		case BUG:
-			return "Bug";
-		default:
-			return null;
-		}
-		}catch(NullPointerException noType){
-		}return null;
+		return type;
 	}
 
 	public String getPriority() {
-		switch (p) {
-		case LOW:
-			return "Low";
-		case MEDIUM:
-			return "Medium";
-		case HIGH:
-			return "High";
-		default:
-			return null;
-		}
+		return priority;
 	}
 
 	public DateTime getCreationDate() {
@@ -129,7 +76,7 @@ try{
 	public String getStatus() {
 		return status;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -144,7 +91,7 @@ try{
 		}
 		return str.toString();
 	}
-	
+
 	public String JSONString() {
 		JSONObject issue = new JSONObject();
 		issue.put("key", key);

@@ -2,22 +2,23 @@ var username = "jwashington";
 var password = "Diamond2017";
 var baseURL = "http://54.152.100.242/jira";
 var homeResource = "http://localhost:8080/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
+var issueResource = "http://localhost:8080/pmportal/rest/issues" + projKey + "/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 
- var lineData = {
-    labels: ['Italy', 'UK', 'USA', 'Germany', 'France', 'Japan'],
+ var barData = {
+    labels: [],
     datasets: [
         {
-            label: '2010 customers #',
+            label: 'Isscues Created',
             backgroundColor: "rgba(250, 62, 116, 0.5)",
             borderColor: "rgba(250, 62, 116, 0.86)",
-            data: [2500, 1902, 1041, 610, 1245, 952]
+            data: []
         },
         {
-            label: '2014 customers #',
+            label: 'Issues Completed',
             backgroundColor: "rgba(75,192,192,0.4)",
             borderColor: "rgba(75,192,192,1)",
-            data: [3104, 1689, 1318, 589, 1199, 1436]
+            data: []
         }
     ]
 };
@@ -43,8 +44,8 @@ var responseObject;
 };
 
 $.ajax({
-url: homeResource,
-dataType: "json"
+    url: homeResource,
+    dataType: "json"
 }).fail(function(xhr, status, errorThrown ) {
     console.log("Error: " + errorThrown );
     console.log("Status: " + status );
@@ -73,10 +74,22 @@ $(document).ajaxStop(function () {
 });
 
 $(document).ready(function() {
+    $.ajax({
+        url: issueResource,
+        dataType: "json"
+    }).fail(function(xhr, status, errorThrown ) {
+        console.log("Error: " + errorThrown );
+        console.log("Status: " + status );
+        console.dir(xhr);
+    }).done(function(jsonObject){
+        console.log("SUCCESS");
+        responseObject = jsonObject;
+    });
+    
     var ctx = document.getElementById('issues').getContext('2d');
-    var lineChart = new Chart(ctx, {
-    type: 'line',
-    data: lineData,
+    var barChart = new Chart(ctx, {
+    type: 'bar',
+    data: barData,
     options: {
         maintainAspectRatio: false,
         responsive: true
