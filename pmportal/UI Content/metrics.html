@@ -16,9 +16,9 @@
 		<div class="row">
 			<div class="col-lg-2 col-md-2" id="menuNav">
 				<ul class="list-unstyled h4" id="menu">
-					<li>Home</li>
-					<li>Release</li>
-					<li class="active">Metrics</li>
+					<a href="index.html"><li >Home</li></a>
+					<a href="releaseDash.html"><li>Release</li></a>
+					<a href="metrics.html"><li class="active">Metrics</li></a>
 				</ul>
 			</div>
 			<div class="col-lg-10 col-md-10" id="board">
@@ -48,9 +48,8 @@
 						</div>
 					</div>
 					<div class="row">
-						<div id="data" class="col-md-2">
-							<button id="dataList" onclick="toggleTable()"
-								style="margin: 0 auto">Toggle Data Table</button>
+						<div id="data" class="col-md-2" onclick="toggleTable()">
+							<h4 id="dataList">Toggle Data Table</h4>
 
 							<table id="dataTable">
 								<tr>
@@ -62,14 +61,20 @@
 							</table>
 						</div>
 
-						<div id="reportContainer" class="col-md-2">
-							<button id="reportButton" onclick="showReport()"
-								style="margin: 0 auto">Generate Report</button>
+						<div id="reportContainer" class="col-md-2" onclick="showReport()">
+							<h4 id="reportButton">Generate Report</h4>
 							<div id="report"></div>
-
 						</div>
-						<div id="about" class="col-md-2">
+						<div id="about" class="col-md-2" onclick="toggleAbout()">
 							<h4>What does this mean?</h4>
+							<div id="aboutInfo">
+							<p>Schedule Estimation Accuracy (SEA) is a ratio of the time<br>it took to complete a task divided by the time it was<br>estimated to take.
+							This is estimated on a sprint-by-sprint basis.</p>
+							<p>Effort Estimation Accuracy (EEA) is a ratio of the effort<br>it took to complete a task divided by the effort estimated<br>initially.
+							This is estimated on a sprint-by-sprint basis using a<br>metric called "Story Points". If a sprint contains issues<br>without any story points, the EEA will always default to 1.</p>
+							<p>Bug count is the number of issues listed as a "Bug" in a sprint.</p>
+							<p>The prediction model uses the Theil-Sen estimator to create<br>a simple linear regression model which tends to ignore<br>outliers, providing greater accuracy over smaller data sets.</p>
+						</div>
 						</div>
 					</div>
 				</section>

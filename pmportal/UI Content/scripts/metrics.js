@@ -10,6 +10,7 @@ var id="sea";
 var loaded=false;
 var ctx = document.getElementById("chart").getContext("2d");
 $("h3").append(projectKey);
+$("#aboutInfo").hide();
 //retrieve data
 $.ajax({
 	type:"GET",
@@ -47,7 +48,6 @@ function selectResource(whichId){
 function toggleTable(){
 	if(	$("#dataTable").css("visibility")=="collapse"){
 		$("#dataTable").css("visibility", "visible");
-	//$("#report").css("display", "none");
 	}else{
 		$("#dataTable").css("visibility", "collapse");
 	};
@@ -57,9 +57,13 @@ function showReport(){
 	if (loaded){
 		generateReport();
 	} else{
-		$("#report").html("<p>Please wait until the data is finished loading.<p>");
+		$("#report").html("<p>Please try again after data is loaded.<p>");
 	}; 
 };
+ function toggleAbout(){
+		$("#aboutInfo").toggle();
+ };
+
 
 function drawGraph(){
 		$(".chartjs-hidden-iframe").remove();
@@ -126,6 +130,7 @@ function generateReport(){
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
 	$("#reportContainer").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
 	$("#reportContainer").css("background-color", "#FFFFFF");
+	$("#reportContainer").css("color", "#000000");
 };
 function generateTable(){
 	seaArray=JSON.parse(responseObject.sea);
