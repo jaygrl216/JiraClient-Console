@@ -1,8 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
 
 body {
-/*    background: -webkit-linear-gradient(left, rgba(176,212,227,1) 0%,rgba(136,186,207,1) 100%);*/
-    background: linear-gradient(to right, #93cede 0%,#75bdd1 41%,#49a5bf 100%);
+    background: -webkit-linear-gradient(left, rgba(176,212,227,1) 0%,rgba(136,186,207,1) 100%);
     font-family: 'Raleway', sans-serif;
 }
 

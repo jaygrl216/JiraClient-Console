@@ -38,14 +38,12 @@ $( window ).resize(function() {
 //loading icon
 $(document).ajaxStart(function(){
 	$("#loadImage").show();
-	
 });
 $(document).ajaxStop(function(){
 	$("#loadImage").hide();
 });
 
 //functions
-
 function selectResource(whichId){
 	id=whichId;
 	if (loaded){
