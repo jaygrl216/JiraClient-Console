@@ -108,7 +108,8 @@ function drawLineGraphics(){
 			        	   data:dataArray,
 			        	   fill:false,
 			        	   backgroundColor:"#FF0000",
-						   borderColor:'rgba(0, 0, 0, 0.25)',
+						   borderColor:'rgba(0, 0, 0, 0.5)',
+						   borderDash:[5,5],
 						   lineTension:0
 			           }]
 
