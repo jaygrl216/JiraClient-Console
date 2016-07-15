@@ -20,7 +20,7 @@ $.ajax({
 	console.log( "Error: " + errorThrown );
 	console.log( "Status: " + status );
 	console.dir( xhr );
-	alert("Failed to load metrics for this project. This could be either a problem with the server, the Jira instance, or the project setup.")
+	alert("Failed to load metrics for this project. This could be either a problem with the server, the Jira instance, or the project setup. Reloading the page may fix the problem.")
 }).done(function(jsonObject){
 	responseObject=jsonObject;
 	loaded=true;
