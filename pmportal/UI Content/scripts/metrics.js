@@ -20,7 +20,7 @@ $.ajax({
 	console.log( "Error: " + errorThrown );
 	console.log( "Status: " + status );
 	console.dir( xhr );
-	alert("Failed to load metrics for this project. This could be either a problem with the server, the Jira instance, or the project setup.")
+	alert("Failed to load metrics for this project. This could be either a problem with the server, the Jira instance, or the project setup. Reloading the page may solve the problem.")
 }).done(function(jsonObject){
 	responseObject=jsonObject;
 	loaded=true;
@@ -129,7 +129,7 @@ function generateReport(){
 	var bugArray=JSON.parse(responseObject.bugs);
 	var predictedSea=seaArray[seaArray.length-1];
 	var seaAnalysis="The next sprint's predicted SEA value is " + predictedSea + ".";
-	var seaAnalysis2="This means the next sprint may take " + Math.round(predictedSea *10)/10 + " times <br>as long than estimated.";
+	var seaAnalysis2="This means the next sprint may take " + Math.round(predictedSea *10)/10 + " times <br>as long as estimated.";
 	var predictedEea=eeaArray[eeaArray.length-1];
 	var eeaAnalysis="Your predicted EEA value for the next sprint is " + predictedEea + ".";
 	var eeaAnalysis2="";
