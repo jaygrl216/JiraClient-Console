@@ -35,10 +35,16 @@ a:hover {
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     margin-left: 30px;
     margin-right: 5px;
-    margin-bottom: 20px;
-    height:300px;
+    margin-bottom: 30px;
+    height:200px;
     color:#FFF;
 }
+
+#graph1 p {
+    text-align: center;
+    font-size: 16px;
+}
+
 
 #graph1:hover {
     background: linear-gradient(to right, #f54747 0%,#f41f1f 99%);
@@ -52,8 +58,8 @@ a:hover {
 #graph2 {
 /*    background-color: #89B7D6;*/
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    height:300px;
-    margin-bottom: 20px;
+    height:200px;
+    margin-bottom: 30px;
     color:#69CEDB;
     text-align: center;
 }
@@ -67,7 +73,7 @@ a:hover {
 #graph3 {
     background-color: #47728F;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    margin-left: 32px;
+    margin-left: 5px;
     margin-bottom: 10px;
     height:200px;
     color:#FFF;
@@ -95,8 +101,9 @@ a:hover {
 #progress {
     background: linear-gradient(to right, rgba(255,197,120,1) 0%,rgba(249,168,69,1) 100%);
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    height: 300px;
-    margin-left: 5px;
+    height: 200px;
+    margin-left: 30px;
+    margin-right: 5px;
     color:#FFF;
     text-align: center;
 }
@@ -130,8 +137,13 @@ h3 small {
     font-weight: bold;
 }
 
+#graph1 h4 {
+    margin-bottom: 20px;
+}
+
 h4 {
     text-align: center;
+    
 }
 
 #information {
