@@ -1,6 +1,6 @@
 ﻿var username="amital";
 var password="ComPuteR90";
-var projectKey="RA";
+var projectKey="DEV";
 var baseURL="http://54.152.100.242/jira";
 var hostURL=window.location.host;
 var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
