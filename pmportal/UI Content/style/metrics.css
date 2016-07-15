@@ -43,6 +43,12 @@ body {
 	background-color: #FCFCFC;
 }
 
+#loadImage{
+	display:block;
+	margin:auto;
+padding-bottom:15%;	
+}
+
 .active {
 	background-color: #FFF;
 	color: #000 !important;
