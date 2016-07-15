@@ -92,13 +92,14 @@ function drawLineGraphics(){
 	labelArray[dataArray.length-1]="Next Sprint";
 	var chartData = {
 			labels:labelArray,
-			backgroundColor:'rgba(0, 0, 0, 1)',
 			datasets: [
 			           {
 			        	   label:chartLabel,
 			        	   data:dataArray,
 			        	   fill:false,
-			        	   backgroundColor:"#FF0000"
+			        	   backgroundColor:"#FF0000",
+						   borderColor:'rgba(0, 0, 0, 0.25)',
+						   lineTension:0
 			           }]
 
 	};
