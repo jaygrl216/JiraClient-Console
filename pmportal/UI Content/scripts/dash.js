@@ -81,7 +81,12 @@ $(document).ajaxStop(function () {
 $(document).ready(function(){
     console.log("ready");
     $("#board").on( "click", "li" , function () {
-        console.log("Clicked");
+        var item = $(this).text();
+        $.each(projectArray, function (index, proj) {
+            if(proj.name == item) {
+                showProjectData(index);
+            }
+        });
     });
 });
 
@@ -137,6 +142,7 @@ function createPie() {
 
 function showProjectData(num) {
     var project = projectArray[num];
+    $("#graph1").empty();
     $("#graph1").append("<p> Project Name: " + project.name + "</p>").append
             ("<p> Project Key: " + project.key + "</p>").append
             ("<p> Project Lead: " + project.lead.displayName + "</p>").append
