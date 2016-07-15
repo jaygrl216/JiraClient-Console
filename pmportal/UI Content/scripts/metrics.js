@@ -8,6 +8,7 @@ var projectResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+p
 var responseObject;
 var id="sea";
 var loaded=false;
+var chartToggle=false;
 var ctx = document.getElementById("chart").getContext("2d");
 $("h3").append(projectKey);
 $("#aboutInfo").hide();
@@ -73,6 +74,17 @@ function showReport(){
 function toggleAbout(){
 	$("#aboutInfo").toggle();
 };
+
+function toggleChart(){
+if (chartToggle){
+	$("#graphics").css("width","90%");
+	chartToggle=false;
+}else{
+		$("#graphics").css("width", "30%");
+		chartToggle=true;
+	};
+};
+
 
 
 function drawGraph(){
