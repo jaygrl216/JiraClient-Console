@@ -137,9 +137,10 @@ function createPie() {
 
 function showProjectData(num) {
     var project = projectArray[num];
-    $("#graph1").append("<h5> Project Name: " + project.name + "</h5>").append
-            ("<h5> Project Key: " + project.key + "</h5>").append
-            ("<h5> Project Lead: " + project.lead.displayName + "</h5>")
+    $("#graph1").append("<p> Project Name: " + project.name + "</p>").append
+            ("<p> Project Key: " + project.key + "</p>").append
+            ("<p> Project Lead: " + project.lead.displayName + "</p>").append
+            ("<p> Release to Date: " + project.releases.length + "</p>")
 }
 
 
