@@ -10,7 +10,6 @@ var id="sea";
 var loaded=false;
 var ctx = document.getElementById("chart").getContext("2d");
 $("h3").append(projectKey);
-$("#aboutInfo").hide();
 //retrieve data
 $.ajax({
 	type:"GET",
@@ -20,12 +19,12 @@ $.ajax({
 	console.log( "Error: " + errorThrown );
 	console.log( "Status: " + status );
 	console.dir( xhr );
-	alert("Failed to load metrics for this project. This could be either a problem with the server, the Jira instance, or the project setup.")
 }).done(function(jsonObject){
 	responseObject=jsonObject;
 	loaded=true;
 	generateTable();
 	drawGraph();
+
 });
 
 //loading icon
@@ -37,7 +36,6 @@ $(document).ajaxStop(function(){
 });
 
 //functions
-
 function selectResource(whichId){
 	id=whichId;
 	if (loaded){
@@ -49,27 +47,23 @@ function selectResource(whichId){
 function toggleTable(){
 	if(	$("#dataTable").css("visibility")=="collapse"){
 		$("#dataTable").css("visibility", "visible");
+		$("#report").css("display", "none");
 	}else{
 		$("#dataTable").css("visibility", "collapse");
 	};
 };
 
-function showReport(){
-	if (loaded){
-		generateReport();
-	} else{
-		$("#report").html("<p>Please try again after data is loaded.<p>");
-	}; 
-};
-function toggleAbout(){
-	$("#aboutInfo").toggle();
-};
-
-
 function drawGraph(){
+
+	if (id=="getReport"){
+		generateReport();
+	}else if (id=="dataList"){
+		generateTable();
+	}else{
+		drawLineGraphics();
+	};
 	$(".chartjs-hidden-iframe").remove();
-	drawLineGraphics();
-};
+}
 
 function drawLineGraphics(){
 	//for most metrics
@@ -98,19 +92,17 @@ function drawLineGraphics(){
 			        	   label:chartLabel,
 			        	   data:dataArray,
 			        	   fill:false,
-			        	   backgroundColor:"#FF0000",
-						   borderColor:'rgba(0, 0, 0, 0.25)',
-						   lineTension:0
+			        	   backgroundColor:"#FF0000"
 			           }]
-
+			
 	};
 	var myLineChart = new Chart(ctx,{
 		type: 'line',
 		data: chartData,
 		options:{
-			maintainAspectRatio:true,
-			responsive:true
-		}
+					   maintainAspectRatio:false,
+					   responsive:true
+				   }
 	});
 };
 
@@ -119,23 +111,24 @@ function generateReport(){
 	var eeaArray=JSON.parse(responseObject.eea);
 	var bugArray=JSON.parse(responseObject.bugs);
 	var predictedSea=seaArray[seaArray.length-1];
-	var seaAnalysis="The next sprint's predicted SEA value is " + predictedSea + ".";
-	var seaAnalysis2="This means the next sprint may take " + Math.round(predictedSea *10)/10 + " times <br>as long than estimated.";
+	var seaAnalysis="Your predicted SEA value for the next sprint is " + predictedSea + ".";
+	var seaAnalysis2="This means that the next sprint is estimated to take roughly " + Math.round(predictedSea *10)/10 + " times as long to finish than estimated.";
 	var predictedEea=eeaArray[eeaArray.length-1];
 	var eeaAnalysis="Your predicted EEA value for the next sprint is " + predictedEea + ".";
 	var eeaAnalysis2="";
 	if (predictedEea==1){
-		eeaAnalysis2="This means effort estimation planning is going as it should.";
+		eeaAnalysis2="This means that effort estimation planning is going as it should.";
 	}else{
-		eeaAnalysis2="The next sprint may take " + Math.round(predictedEea *10)/10 + " times <br>as much effort than estimated.";
+		eeaAnalysis2="This means that the next sprint is estimated to take roughly " + Math.round(predictedEea *10)/10 + " times as much effort to finish than estimated.";
 	}
 	var predictedBug=bugArray[bugArray.length-1];
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
-	$("#reportContainer").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
-	$("#reportContainer").css("background-color", "#FFFFFF");
-	$("#reportContainer").css("color", "#000000");
+	$("#report").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
+	$("#dataTable").css("visibility", "collapse");
+	$("#report").css("display", "initial");
 };
 function generateTable(){
+	ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
 	seaArray=JSON.parse(responseObject.sea);
 	eeaArray=JSON.parse(responseObject.eea);
 	bugArray=JSON.parse(responseObject.bugs);
@@ -143,4 +136,5 @@ function generateTable(){
 	for (var i=0;i<seaArray.length-1; i++){
 		$("#dataTable").append("<tr><td> Sprint: "+ (i+1)+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
 	};
+
 };

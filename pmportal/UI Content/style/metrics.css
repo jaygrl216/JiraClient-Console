@@ -1,134 +1,79 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
 
 body {
-	background: -webkit-linear-gradient(left, rgba(176, 212, 227, 1) 0%,
-		rgba(136, 186, 207, 1) 100%);
-	font-family: 'Raleway', sans-serif;
+    background: -webkit-linear-gradient(left, rgba(176,212,227,1) 0%,rgba(136,186,207,1) 100%);
+    font-family: 'Raleway', sans-serif;
 }
 
 #menu {
-	margin-top: 50%;
+    margin-top: 50%;
 }
 
-#menu li {
-	height: 50px;
-	color: #FFF;
+#menu li{
+    height:50px;
+    color:#FFF;
 }
 
-#menu li:hover {
-	height: 50px;
-	color: #FFF !important;
-	background-color: #658FAB;
+#menu li:hover{
+    height:50px;
+    color:#FFF !important;
+    background-color: #658FAB;
 }
 
 #board {
-	background-color: #FFF;
-	margin-left: -15px;
+    background-color: #FFF;
+    margin-left: -15px;
+}
+#graphics {
+    background-color: #F2F2F2;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    margin-left: 30px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+    width:auto;
+    color:#FFF;
+    text-align: center;
 }
 
-#graphics {
-	background-color: #F2F2F2;
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
-		inset;
-	margin-left: 30px;
-	margin-right: 5px;
-	margin-bottom: 20px;
-	width: 90%;
-	height: 30%;
-	color: #FFFFFF;
-	text-align: center;
-}
 
 #graphics:hover {
-	background-color: #FCFCFC;
+    background-color: #FCFCFC;
 }
 
 .active {
-	background-color: #FFF;
-	color: #000 !important;
+    background-color: #FFF;
+    color:#000 !important;
 }
 
 header .dropdown {
-	float: right;
-	margin-top: 15px;
+    float:right;
+    margin-top: 15px;
 }
 
 header h3 {
-	float: left;
+    float:left;
 }
 
 header li:hover {
-	background-color: #658FAB;
-	color: #FFF;
+    background-color: #658FAB;
+    color:#FFF;
 }
 
 h3 {
-	color: #69CEDB
+    color:#69CEDB
 }
 
 h3 small {
-	color: #189AAB;
-	font-weight: bold;
+    color:#189AAB;
+    font-weight: bold;
 }
 
 #information {
-	clear: both;
+    clear: both;
 }
 
-#reportContainer {
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
-		inset;
-	margin-left: 30px;
-	margin-right: 5px;
-	margin-bottom: 20px;
-	width: auto;
-	background-color: #FF0000;
-	color: #FFFFFF;
-}
 
-#reportContainer:hover {
-	background-color: #FF5050;
-}
 
-#data {
-	text-align: center;
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
-		inset;
-	margin-left: 30px;
-	margin-right: 5px;
-	margin-bottom: 20px;
-	width: auto;
-	background-color: #00AFAF;
-	color: #FFFFFF;
-}
-
-#data:hover {
-	background-color: #00E1E1;
-}
-
-#about {
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
-		inset;
-	margin-left: 30px;
-	margin-right: 5px;
-	margin-bottom: 20px;
-	width: auto;
-	background-color: #0000FF;
-	color: #FFFFFF;
-}
-
-#about:hover {
-	background-color: #5050FF;
-}
-
-table {
-	color: #000000;
-	margin-left: 10px;
-	background-color: #FCFCFC;
-	visibility: collapse;
-}
-
-th, td {
-	padding: 10px;
-	border: 1px solid black;
+th, td{
+	padding:10px;
 }

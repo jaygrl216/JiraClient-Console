@@ -6,6 +6,10 @@ var homeResource = "http://localhost:8080/pmportal/rest/home/" + username + "/" 
 var issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 var responseObject2;
+var projectArray;
+var issueArray;
+
+
  var barData = {
         labels: [],
         datasets: [
@@ -34,6 +38,13 @@ $.ajax({
 }).done(function(jsonObject){
     console.log("SUCCESS");
 	responseObject = jsonObject;
+    
+    projectArray = responseObject.projects;
+
+    $.each(projectArray, function (index, proj) {
+        var num = index + 1;
+        $("#projectList").append("<li>" + proj.name +  "</li>");
+    });
 });
 
  $.ajax({
@@ -46,17 +57,7 @@ $.ajax({
     }).done(function(jsonObject){
         console.log("SUCCESS");
         responseObject2 = jsonObject;
-        var projectArray = responseObject.projects;
-
-         $.each(projectArray, function (index, proj) {
-            var num = index + 1;
-            $("#projectList").append("<li>" + proj.name +  "</li>");
-            });
-
-        $("#graph1").append("<h5> Project Name: " + projectArray[0].name + "</h5>").append
-            ("<h5> Project Key: " + projectArray[0].key + "</h5>").append
-            ("<h5> Project Lead: " + projectArray[0].lead.displayName + "</h5>")
-        var issueArray = responseObject2.issues;
+        issueArray = responseObject2.issues;
         var completed = 0;
         var toDo = 0;
 
@@ -67,11 +68,21 @@ $.ajax({
         });
         barData.datasets[0].data[0] = issueArray.length;
         barData.datasets[1].data[0] = completed;
+     
+      
     });
 
 $(document).ajaxStop(function () {
     createBar();
     createPie();
+    showProjectData(0);
+});
+
+$(document).ready(function(){
+    console.log("ready");
+    $("#board").on( "click", "li" , function () {
+        console.log("Clicked");
+    });
 });
 
 
@@ -124,35 +135,14 @@ function createPie() {
     });
 }
 
+function showProjectData(num) {
+    var project = projectArray[num];
+    $("#graph1").append("<h5> Project Name: " + project.name + "</h5>").append
+            ("<h5> Project Key: " + project.key + "</h5>").append
+            ("<h5> Project Lead: " + project.lead.displayName + "</h5>")
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
  
-
-
-
-
-
-
-$(document).ready(function() {
-   
-    
-});
-    
-  
 
