@@ -62,7 +62,7 @@ canvas {
 */
 
 #graph3 {
-    background-color: #47728F;
+    background: linear-gradient(to right, #7abcff 0%,#60abf8 44%,#4096ee 100%);
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     margin-left: 5px;
     margin-bottom: 10px;
@@ -72,7 +72,7 @@ canvas {
 }
 
 #graph3:hover {
-    background-color: #32546B;
+    background: linear-gradient(to right, #7995fc 0%,#60abf8 44%,#2388ed 100%);
 }
 
 #graph3 h4 {
@@ -81,6 +81,7 @@ canvas {
 
 #graph3 p {
     font-size: 20px;
+    font-weight: bold;
 }
 
 #graph4 {
@@ -148,7 +149,8 @@ h4 {
 }
 
 #progress {
-    background: linear-gradient(to right, rgba(255,197,120,1) 0%,rgba(249,168,69,1) 100%);
+/*    background: linear-gradient(to right, rgba(255,197,120,1) 0%,rgba(249,168,69,1) 100%);*/
+    background: linear-gradient(to right, #ffc578 0%,#fb9d23 100%);
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     height: 200px;
     margin-left: 30px;
@@ -162,7 +164,7 @@ h4 {
 }
 
 #progress:hover {
-    background-color: #569130;
+    background: linear-gradient(to right, #ffaf47 0%,#f99111 100%);
 }
 
 
