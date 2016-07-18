@@ -1,33 +1,26 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
 
+a:hover {
+    text-decoration: none;
+}
+
+.active {
+    background-color: #FFF;
+    color:#000 !important;
+}
+
+#board {
+    background-color: #FFF;
+    margin-left: -15px;
+}
+
 body {
     background: -webkit-linear-gradient(left, rgba(176,212,227,1) 0%,rgba(136,186,207,1) 100%);
     font-family: 'Raleway', sans-serif;
 }
 
-a:hover {
-    text-decoration: none;
-}
-
-#menu {
-    margin-top: 50%;
-}
-
-#menu li{
-    height:50px;
-    color:#FFF;
-}
-
-#menu li:hover{
-    height:50px;
-    color:#FFF !important;
-    background-color: #658FAB;
-}
-
-
-#board {
-    background-color: #FFF;
-    margin-left: -15px;
+canvas {
+    margin-top: -15px;
 }
 
 #graph1 {
@@ -40,19 +33,17 @@ a:hover {
     color:#FFF;
 }
 
-#graph1 p {
-    text-align: center;
-    font-size: 16px;
-}
-
-
 #graph1:hover {
     background: linear-gradient(to right, #f54747 0%,#f41f1f 99%);
 }
 
-.active {
-    background-color: #FFF;
-    color:#000 !important;
+#graph1 h4 {
+    margin-bottom: 10px;
+}
+
+#graph1 p {
+    text-align: center;
+    font-size: 16px;
 }
 
 #graph2 {
@@ -98,20 +89,6 @@ a:hover {
     background-color: #96D2FA;
 }
 
-#progress {
-    background: linear-gradient(to right, rgba(255,197,120,1) 0%,rgba(249,168,69,1) 100%);
-    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    height: 200px;
-    margin-left: 30px;
-    margin-right: 5px;
-    color:#FFF;
-    text-align: center;
-}
-
-#progress:hover {
-    background-color: #569130;
-}
-
 header .dropdown {
     float:right;
     margin-top: 15px;
@@ -137,10 +114,6 @@ h3 small {
     font-weight: bold;
 }
 
-#graph1 h4 {
-    margin-bottom: 20px;
-}
-
 h4 {
     text-align: center;
     
@@ -150,10 +123,42 @@ h4 {
     clear: both;
 }
 
-canvas {
-    margin-top: -15px;
+
+#menu {
+    margin-top: 50%;
+}
+
+#menu li{
+    height:50px;
+    color:#FFF;
+}
+
+#menu li:hover{
+    height:50px;
+    color:#FFF !important;
+    background-color: #658FAB;
+}
+
+#progress {
+    background: linear-gradient(to right, rgba(255,197,120,1) 0%,rgba(249,168,69,1) 100%);
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    height: 200px;
+    margin-left: 30px;
+    margin-right: 5px;
+    color:#FFF;
+    text-align: center;
 }
 
 #progressGraph {
     margin-top: 10px;
 }
+
+#progress:hover {
+    background-color: #569130;
+}
+
+
+
+
+
+
