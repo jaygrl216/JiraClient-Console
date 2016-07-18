@@ -36,7 +36,6 @@ $.ajax({
     console.log("Status: " + status );
     console.dir(xhr);
 }).done(function(jsonObject){
-    console.log("SUCCESS");
 	responseObject = jsonObject;
     
     projectArray = responseObject.projects;
@@ -47,39 +46,14 @@ $.ajax({
     });
 });
 
- $.ajax({
-        url: issueResource,
-        dataType: "json"
-    }).fail(function(xhr, status, errorThrown ) {
-        console.log("Error: " + errorThrown );
-        console.log("Status: " + status );
-        console.dir(xhr);
-    }).done(function(jsonObject){
-        console.log("SUCCESS");
-        responseObject2 = jsonObject;
-        issueArray = responseObject2.issues;
-        var completed = 0;
-        var toDo = 0;
-
-        $.each(issueArray, function (index, issue) {
-            if(issue.status == "Resolved" || issue.status == "Closed") {
-                completed = completed + 1;
-            }
-        });
-        barData.datasets[0].data[0] = issueArray.length;
-        barData.datasets[1].data[0] = completed;
-     
-      
-    });
 
 $(document).ajaxStop(function () {
     createBar();
     createPie();
-    showProjectData(0);
+    showInitialData();
 });
 
 $(document).ready(function(){
-    console.log("ready");
     $("#board").on( "click", "li" , function () {
         var item = $(this).text();
         $.each(projectArray, function (index, proj) {
@@ -140,13 +114,84 @@ function createPie() {
     });
 }
 
-function showProjectData(num) {
-    var project = projectArray[num];
-    $("#graph1").empty();
-    $("#graph1").append("<h4> Project Information </h4>").append("<p> Project Name: " + project.name + "</p>").append
+function showInitialData() {
+    var project = projectArray[0];
+    $("#graph1").append("<p> Project Name: " + project.name + "</p>").append
             ("<p> Project Key: " + project.key + "</p>").append
             ("<p> Project Lead: " + project.lead.displayName + "</p>").append
-            ("<p> Release to Date: " + project.releases.length + "</p>")
+            ("<p> Release to Date: " + project.releases.length + "</p>");
+    
+    projKey = project.key;
+    issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    console.log(projKey);
+    console.log(issueResource);
+    
+    $.ajax({
+        url: issueResource,
+        dataType: "json"
+    }).fail(function(xhr, status, errorThrown ) {
+        console.log("Error: " + errorThrown );
+        console.log("Status: " + status );
+        console.dir(xhr);
+    }).done(function(jsonObject){
+        console.log("SUCCESS");
+        responseObject2 = jsonObject;
+        issueArray = responseObject2.issues;
+        var completed = 0;
+        var toDo = 0;
+
+        $.each(issueArray, function (index, issue) {
+            if(issue.status == "Resolved" || issue.status == "Closed") {
+                completed = completed + 1;
+            }
+        });
+        barData.datasets[0].data[0] = issueArray.length;
+        barData.datasets[1].data[0] = completed;
+        createBar();
+    });
+}
+
+function showProjectData(num) {
+    var project = projectArray[num];
+    clear();
+//    $("#graph1").empty();
+//    $("#graph1").append("<h4> Project Information </h4>").append("<p> Project Name: " + project.name + "</p>").append
+//            ("<p> Project Key: " + project.key + "</p>").append
+//            ("<p> Project Lead: " + project.lead.displayName + "</p>").append
+//            ("<p> Release to Date: " + project.releases.length + "</p>");
+//    
+//    projKey = project.key;
+//    issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+//    console.log(projKey);
+//    console.log(issueResource);
+//    
+//    $.ajax({
+//        url: issueResource,
+//        dataType: "json"
+//    }).fail(function(xhr, status, errorThrown ) {
+//        console.log("Error: " + errorThrown );
+//        console.log("Status: " + status );
+//        console.dir(xhr);
+//    }).done(function(jsonObject){
+//        console.log("SUCCESS");
+//        responseObject2 = jsonObject;
+//        issueArray = responseObject2.issues;
+//        var completed = 0;
+//        var toDo = 0;
+//
+//        $.each(issueArray, function (index, issue) {
+//            if(issue.status == "Resolved" || issue.status == "Closed") {
+//                completed = completed + 1;
+//            }
+//        });
+//        barData.datasets[0].data[0] = issueArray.length;
+//        barData.datasets[1].data[0] = completed;
+//        createBar();
+//    });
+}
+
+function clear() {
+    $("#issues").empty();
 }
 
 
