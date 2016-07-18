@@ -94,10 +94,13 @@ function createBar() {
     options: {
         maintainAspectRatio: false,
         responsive: true,
-        scaleOverride:true,
-        scaleSteps:9,
-        scaleStartValue:0,
-        scaleStepWidth:100
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                    }
+                }]
+            }
         }
         
     }); 
