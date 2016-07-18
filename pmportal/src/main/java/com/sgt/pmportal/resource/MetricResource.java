@@ -3,6 +3,7 @@ package com.sgt.pmportal.resource;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -36,11 +37,13 @@ public class MetricResource {
 		JiraProject project=projectService.getProjectByKey(key);
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		List<Number> defectList=metricService.calculateDefectTotal(project);
+		Date projectedDate = projectService.projectedDueDate(project);
 		Double progress=metricService.calculateProgress(key);
 		String responseString="{\"bugs\":\"" + defectList.get(0) +
 				"\", \"sea\":\"" + defectList.get(1) + 
 				"\", \"eea\":\"" + defectList.get(2) + 
 				"\", \"overdue\":\"" + defectList.get(3) +
+				"\", \"projectedDate\":\"" + projectedDate.toString() +
 				"\", \"progress\":\"" + progress.toString()	+ "\"}";
 		return responseString;
 	}

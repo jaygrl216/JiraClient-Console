@@ -75,6 +75,14 @@ canvas {
     background-color: #32546B;
 }
 
+#graph3 h4 {
+    margin-bottom: 30px;
+}
+
+#graph3 p {
+    font-size: 20px;
+}
+
 #graph4 {
     background-color: #8EC4E8;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
