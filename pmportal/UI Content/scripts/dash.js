@@ -184,6 +184,7 @@ function showProjectData(num) {
             ("<p> Project Lead: " + project.lead.displayName + "</p>").append
             ("<p> Release to Date: " + project.releases.length + "</p>");
     $("#graph3").empty();
+    $("#graph3").append("<h4> Projected End Date </h4>").
     
     projKey = project.key;
     issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
@@ -203,7 +204,7 @@ function showProjectData(num) {
         pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
         pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
         pieChart.update();
-        $("#graph3").append("<h4> Projected End Date </h4>").append("<p>" + metrics.projectedDate + "</p>");
+        $("#graph3").append("<p>" + metrics.projectedDate + "</p>");
     });
         
         
