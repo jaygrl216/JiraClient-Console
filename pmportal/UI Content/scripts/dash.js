@@ -4,10 +4,13 @@ var baseURL = "http://54.152.100.242/jira";
 var projKey = "PMPOR";
 var homeResource = "http://localhost:8080/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 var issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+var metricResource = "http://localhost:8080/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 var responseObject2;
+var responseObject3;
 var projectArray;
 var issueArray;
+var metrics;
 var barChart;
 var pieChart;
 
@@ -127,8 +130,25 @@ function showInitialData() {
     
     projKey = project.key;
     issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    metricResource = "http://localhost:8080/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     console.log(projKey);
     console.log(issueResource);
+    
+    $.ajax({
+        url: metricResource,
+        dataType: "json"
+    }).fail(function(xhr, status, errorThrown ) {
+        console.log("Error: " + errorThrown );
+        console.log("Status: " + status );
+        console.dir(xhr);
+    }).done(function(jsonObject){
+        console.log("SUCCESS");
+        responseObject3 = jsonObject;
+        metrics = responseObject3;
+        pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
+        pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
+        createPie();
+    });
     
     $.ajax({
         url: issueResource,
@@ -145,18 +165,15 @@ function showInitialData() {
         var toDo = 0;
 
         $.each(issueArray, function (index, issue) {
-            if(issue.status == "Resolved" || issue.status == "Closed") {
+            if(issue.status == "Resolved" || issue.status == "Closed" || issue.status == "Done") {
                 completed = completed + 1;
             } else {
                 toDo = toDo + 1;
             }
         });
-       barData.datasets[0].data[0] = issueArray.length
+        barData.datasets[0].data[0] = issueArray.length
         barData.datasets[1].data[0]= completed;
-        pieData.datasets[0].data[0] = completed;
-        pieData.datasets[0].data[1] = toDo;
         createBar();
-        createPie();
     });
 }
 
@@ -170,8 +187,27 @@ function showProjectData(num) {
     
     projKey = project.key;
     issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    metricResource = "http://localhost:8080/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     console.log(projKey);
     console.log(issueResource);
+    
+    $.ajax({
+        url: metricResource,
+        dataType: "json"
+    }).fail(function(xhr, status, errorThrown ) {
+        console.log("Error: " + errorThrown );
+        console.log("Status: " + status );
+        console.dir(xhr);
+    }).done(function(jsonObject){
+        console.log("SUCCESS");
+        responseObject3 = jsonObject;
+        metrics = responseObject3;
+        pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
+        pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
+        pieChart.update();
+    });
+        
+        
     
     $.ajax({
         url: issueResource,
@@ -188,7 +224,7 @@ function showProjectData(num) {
         var toDo = 0;
 
         $.each(issueArray, function (index, issue) {
-            if(issue.status == "Resolved" || issue.status == "Closed") {
+            if(issue.status == "Resolved" || issue.status == "Closed" || issue.status == "Done") {
                 completed = completed + 1;
             } else {
                 toDo = toDo + 1;
@@ -196,10 +232,7 @@ function showProjectData(num) {
         });
         barData.datasets[0].data[0] = issueArray.length
         barData.datasets[1].data[0]= completed;
-        pieData.datasets[0].data[0] = completed;
-        pieData.datasets[0].data[1] = toDo;
         barChart.update();
-        pieChart.update();
     });
 }
 
