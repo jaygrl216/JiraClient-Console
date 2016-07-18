@@ -8,6 +8,8 @@ var responseObject;
 var responseObject2;
 var projectArray;
 var issueArray;
+var barChart;
+var pieChart;
 
 
  var barData = {
@@ -27,6 +29,26 @@ var issueArray;
             }
         ]
     };
+
+ var pieData = {
+         labels: [
+            "Completed",
+            "To Do",
+        ],
+
+        datasets: [
+            {
+                data: [],
+                backgroundColor: [
+                    "#F54747",
+                    "#36A2EB",
+                ],
+                hoverBackgroundColor: [
+                    "#FC3A3A",
+                    "#36A2EB",
+                ]
+            }]
+     };
 
 $.ajax({
     url: homeResource,
@@ -49,7 +71,6 @@ $.ajax({
 
 $(document).ajaxStop(function () {
     createBar();
-    createPie();
     showInitialData();
 });
 
@@ -67,7 +88,7 @@ $(document).ready(function(){
 
 function createBar() {
     var ctx = document.getElementById('issues').getContext('2d');
-    var barChart = new Chart(ctx, {
+    barChart = new Chart(ctx, {
     type: 'bar',
     data: barData,
     options: {
@@ -83,28 +104,8 @@ function createBar() {
 }
 
 function createPie() {
-     var pieData = {
-         labels: [
-            "Completed",
-            "To Do",
-        ],
-
-        datasets: [
-            {
-                data: [80, 20],
-                backgroundColor: [
-                    "#F54747",
-                    "#36A2EB",
-                ],
-                hoverBackgroundColor: [
-                    "#FC3A3A",
-                    "#36A2EB",
-                ]
-            }]
-     };
-    
     var ctx = document.getElementById('progressGraph').getContext('2d');
-    var pieChart = new Chart(ctx, {
+    pieChart = new Chart(ctx, {
     type: 'pie',
     data: pieData,
     options: {
@@ -143,55 +144,60 @@ function showInitialData() {
         $.each(issueArray, function (index, issue) {
             if(issue.status == "Resolved" || issue.status == "Closed") {
                 completed = completed + 1;
+            } else {
+                toDo = toDo + 1;
             }
         });
-        barData.datasets[0].data[0] = issueArray.length;
-        barData.datasets[1].data[0] = completed;
+       barData.datasets[0].data[0] = issueArray.length
+        barData.datasets[1].data[0]= completed;
+        pieData.datasets[0].data[0] = completed;
+        pieData.datasets[0].data[1] = toDo;
         createBar();
+        createPie();
     });
 }
 
 function showProjectData(num) {
     var project = projectArray[num];
-    clear();
-//    $("#graph1").empty();
-//    $("#graph1").append("<h4> Project Information </h4>").append("<p> Project Name: " + project.name + "</p>").append
-//            ("<p> Project Key: " + project.key + "</p>").append
-//            ("<p> Project Lead: " + project.lead.displayName + "</p>").append
-//            ("<p> Release to Date: " + project.releases.length + "</p>");
-//    
-//    projKey = project.key;
-//    issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-//    console.log(projKey);
-//    console.log(issueResource);
-//    
-//    $.ajax({
-//        url: issueResource,
-//        dataType: "json"
-//    }).fail(function(xhr, status, errorThrown ) {
-//        console.log("Error: " + errorThrown );
-//        console.log("Status: " + status );
-//        console.dir(xhr);
-//    }).done(function(jsonObject){
-//        console.log("SUCCESS");
-//        responseObject2 = jsonObject;
-//        issueArray = responseObject2.issues;
-//        var completed = 0;
-//        var toDo = 0;
-//
-//        $.each(issueArray, function (index, issue) {
-//            if(issue.status == "Resolved" || issue.status == "Closed") {
-//                completed = completed + 1;
-//            }
-//        });
-//        barData.datasets[0].data[0] = issueArray.length;
-//        barData.datasets[1].data[0] = completed;
-//        createBar();
-//    });
-}
+    $("#graph1").empty();
+    $("#graph1").append("<h4> Project Information </h4>").append("<p> Project Name: " + project.name + "</p>").append
+            ("<p> Project Key: " + project.key + "</p>").append
+            ("<p> Project Lead: " + project.lead.displayName + "</p>").append
+            ("<p> Release to Date: " + project.releases.length + "</p>");
+    
+    projKey = project.key;
+    issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    console.log(projKey);
+    console.log(issueResource);
+    
+    $.ajax({
+        url: issueResource,
+        dataType: "json"
+    }).fail(function(xhr, status, errorThrown ) {
+        console.log("Error: " + errorThrown );
+        console.log("Status: " + status );
+        console.dir(xhr);
+    }).done(function(jsonObject){
+        console.log("SUCCESS");
+        responseObject2 = jsonObject;
+        issueArray = responseObject2.issues;
+        var completed = 0;
+        var toDo = 0;
 
-function clear() {
-    $("#issues").empty();
+        $.each(issueArray, function (index, issue) {
+            if(issue.status == "Resolved" || issue.status == "Closed") {
+                completed = completed + 1;
+            } else {
+                toDo = toDo + 1;
+            }
+        });
+        barData.datasets[0].data[0] = issueArray.length
+        barData.datasets[1].data[0]= completed;
+        pieData.datasets[0].data[0] = completed;
+        pieData.datasets[0].data[1] = toDo;
+        barChart.update();
+        pieChart.update();
+    });
 }
 
 
