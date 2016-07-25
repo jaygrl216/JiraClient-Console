@@ -1,0 +1,54 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
+
+a:hover {
+    text-decoration: none;
+}
+
+.active {
+    background-color: #FFF;
+    color:#000 !important;
+}
+
+#board {
+    background-color: #FFF;
+    margin-left: -15px;
+}
+#menu {
+	margin-top: 50%;
+}
+#loginButton{
+width:100%;
+margin-top:5px;
+background-color:#00acac;
+text-align:center;
+color:white;
+}
+#loginButton:hover{
+background-color:#00c0c0;
+}
+body {
+    background: -webkit-linear-gradient(left, rgba(176,212,227,1) 0%,rgba(136,186,207,1) 100%);
+    font-family: 'Raleway', sans-serif;
+}
+
+canvas {
+    margin-top: -15px;
+}
+
+header h3 {
+    float:left;
+}
+
+h3 {
+    color:#69CEDB
+}
+
+h3 small {
+    color:#189AAB;
+    font-weight: bold;
+}
+
+h4 {
+    text-align: center;
+    
+}
