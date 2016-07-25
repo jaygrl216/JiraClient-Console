@@ -39,8 +39,8 @@ $(document).ajaxStop(function(){
 });
 
 //functions
-function getDataFromURL(){
-	var temp = location.search.substring(1).split("&");
+ function getDataFromURL(){
+    var temp = location.search.substring(1).split("&");
 	if (temp.length>3){
 		var keyTemp=temp[0].split("=");
 		projectKey=keyTemp[1];
@@ -51,7 +51,7 @@ function getDataFromURL(){
 		var urlTemp=temp[3].split("=");
 		baseURL=urlTemp[1];
 	};
-};
+ };
 
 function selectResource(whichId){
 	id=whichId;
@@ -62,11 +62,7 @@ function selectResource(whichId){
 
 
 function toggleTable(){
-	if(	$("#dataTable").css("visibility")=="collapse"){
-		$("#dataTable").css("visibility", "visible");
-	}else{
-		$("#dataTable").css("visibility", "collapse");
-	};
+	$("#dataTable").toggle();
 };
 
 function showReport(){
@@ -81,10 +77,10 @@ function toggleAbout(){
 };
 
 function toggleChart(){
-	if (chartToggle){
-		$("#graphics").css("width","90%");
-		chartToggle=false;
-	}else{
+if (chartToggle){
+	$("#graphics").css("width","90%");
+	chartToggle=false;
+}else{
 		$("#graphics").css("width", "30%");
 		chartToggle=true;
 	};
@@ -125,9 +121,9 @@ function drawLineGraphics(){
 			        	   data:dataArray,
 			        	   fill:false,
 			        	   backgroundColor:"#FF0000",
-			        	   borderColor:'rgba(0, 0, 0, 0.5)',
-			        	   borderDash:[5,5],
-			        	   lineTension:0
+						   borderColor:'rgba(0, 0, 0, 0.5)',
+						   borderDash:[5,5],
+						   lineTension:0
 			           }]
 
 	};
