@@ -1,5 +1,6 @@
-﻿var username="admin";
-var password="admin";
+﻿//setup credentials from cookie
+var username=getCookie("username");
+var password=getCookie("password");
 var projectKey="DEV";
 var baseURL="http://54.152.100.242/jira";
 getDataFromURL();
@@ -41,14 +42,10 @@ $(document).ajaxStop(function(){
 //functions
  function getDataFromURL(){
     var temp = location.search.substring(1).split("&");
-	if (temp.length>3){
+	if (temp.length>1){
 		var keyTemp=temp[0].split("=");
 		projectKey=keyTemp[1];
-		var userTemp=temp[1].split("=");
-		username=userTemp[1];
-		var passTemp=temp[2].split("=");
-		password=passTemp[1];
-		var urlTemp=temp[3].split("=");
+		var urlTemp=temp[1].split("=");
 		baseURL=urlTemp[1];
 	};
  };
