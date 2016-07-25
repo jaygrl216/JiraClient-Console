@@ -15,6 +15,7 @@ a:hover {
 }
 
 body {
+	background-color:#ACD1E1;
     background: -webkit-linear-gradient(left, rgba(176,212,227,1) 0%,rgba(136,186,207,1) 100%);
     font-family: 'Raleway', sans-serif;
 }
