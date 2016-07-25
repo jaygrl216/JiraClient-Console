@@ -1,6 +1,7 @@
 ﻿var username="amital";
 var password="ComPuteR90";
-var projectKey=getProject();
+var projectKey="DEV";
+getDataFromURL();
 var baseURL="http://54.152.100.242/jira";
 var hostURL=window.location.host;
 var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
@@ -38,15 +39,19 @@ $(document).ajaxStop(function(){
 });
 
 //functions
- function getProject(){
-    var temp = location.search.substring(1).split("=");
-    var key=temp[1];
-	if (key!=null){
-	return key;
-	}else{
-		return "DEV";
+function getDataFromURL(){
+	var temp = location.search.substring(1).split("&");
+	if (temp.length>3){
+		var keyTemp=temp[0].split("=");
+		projectKey=keyTemp[1];
+		var userTemp=temp[1].split("=");
+		username=userTemp[1];
+		var passTemp=temp[2].split("=");
+		password=passTemp[1];
+		var urlTemp=temp[3].split("=");
+		baseURL=urlTemp[1];
 	};
-  };
+};
 
 function selectResource(whichId){
 	id=whichId;
@@ -76,10 +81,10 @@ function toggleAbout(){
 };
 
 function toggleChart(){
-if (chartToggle){
-	$("#graphics").css("width","90%");
-	chartToggle=false;
-}else{
+	if (chartToggle){
+		$("#graphics").css("width","90%");
+		chartToggle=false;
+	}else{
 		$("#graphics").css("width", "30%");
 		chartToggle=true;
 	};
@@ -120,9 +125,9 @@ function drawLineGraphics(){
 			        	   data:dataArray,
 			        	   fill:false,
 			        	   backgroundColor:"#FF0000",
-						   borderColor:'rgba(0, 0, 0, 0.5)',
-						   borderDash:[5,5],
-						   lineTension:0
+			        	   borderColor:'rgba(0, 0, 0, 0.5)',
+			        	   borderDash:[5,5],
+			        	   lineTension:0
 			           }]
 
 	};
