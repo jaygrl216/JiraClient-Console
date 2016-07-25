@@ -7,15 +7,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.atlassian.jira.rest.client.JiraRestClient;
-import com.sgt.pmportal.services.GeneralServices;
-
 @Path ("/user/{username}/{password}/{url:.+}")
 public class UserResource {
 
 	
 	/**
-	 * This method will test the login information
+	 * This method will return the user's information as well as issues they are 
+	 * assigned to.
 	 * 
 	 * @param username
 	 * @param password
@@ -24,14 +22,8 @@ public class UserResource {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String testLogin(@PathParam ("username") String username, 
+	public String getProjects(@PathParam ("username") String username, 
 			@PathParam ("password")	String password, @PathParam ("url") String url) throws URISyntaxException{
-		try{
-		@SuppressWarnings("unused")
-		JiraRestClient client=GeneralServices.login(url, username, password);
-		}catch (Exception e){
-			return "Fail";
-		}
-		return "Success";
+		return "";
 	}
 }
