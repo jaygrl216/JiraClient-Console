@@ -1,6 +1,7 @@
-function setCookie(uname, pass){
+function setCookie(uname, pass, url){
     document.cookie ="username=" + uname;
 	document.cookie="password=" + pass;
+	document.cookie="url=" + url;
 };
 
 function getCookie(cname) {

@@ -1,9 +1,11 @@
 var uname = "amital";
 var pass = "ComPuteR90";
-setCookie(uname, pass);
+var urlTemp = "http://54.152.100.242/jira";
+setCookie(uname, pass, urlTemp);
+//all the code above this line should be deleted in the final product
 var username=getCookie("username").toString();
 var password=getCookie("password").toString();
-var baseURL = "http://54.152.100.242/jira";
+var baseURL=getCookie("url").toString();
 var projKey = "DEV";
 var hostURL=window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
@@ -137,7 +139,7 @@ function showInitialData() {
     metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 	
 	//this will pass the information to metrics, so when they click on the link, it continues with the same project
-    $("#metricLink").attr("href", "metrics.html?project=" + projKey +"&url=" + baseURL);
+    $("#metricLink").attr("href", "metrics.html?project=" + projKey);
 	
     $.ajax({
         url: metricResource,
@@ -197,7 +199,7 @@ function showProjectData(num) {
     metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 	
 	//this will pass the information to metrics, so when they click on the link, it continues with the same project
-    $("#metricLink").attr("href", "metrics.html?project=" + projKey + "&url=" + baseURL);
+    $("#metricLink").attr("href", "metrics.html?project=" + projKey);
 	
     $.ajax({
         url: metricResource,

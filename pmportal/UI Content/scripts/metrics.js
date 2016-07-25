@@ -1,9 +1,9 @@
 ﻿//setup credentials from cookie
 var username=getCookie("username");
 var password=getCookie("password");
-var projectKey="DEV";
-var baseURL="http://54.152.100.242/jira";
-getDataFromURL();
+var baseURL=getCookie("url");
+//get which project is being worked on
+var projectKey=getKeyFromURL();
 var hostURL=window.location.host;
 var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
 var projectResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
@@ -40,14 +40,11 @@ $(document).ajaxStop(function(){
 });
 
 //functions
- function getDataFromURL(){
-    var temp = location.search.substring(1).split("&");
-	if (temp.length>1){
-		var keyTemp=temp[0].split("=");
-		projectKey=keyTemp[1];
-		var urlTemp=temp[1].split("=");
-		baseURL=urlTemp[1];
-	};
+function getKeyFromURL(){
+var temp = location.search.substring(1).split("=");
+if (temp.length>0){
+	return temp[1];
+};
  };
 
 function selectResource(whichId){
