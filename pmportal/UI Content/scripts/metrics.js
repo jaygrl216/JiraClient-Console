@@ -1,8 +1,8 @@
-﻿var username="amital";
-var password="ComPuteR90";
+﻿var username="admin";
+var password="admin";
 var projectKey="DEV";
-getDataFromURL();
 var baseURL="http://54.152.100.242/jira";
+getDataFromURL();
 var hostURL=window.location.host;
 var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
 var projectResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
@@ -22,7 +22,7 @@ $.ajax({
 	console.log( "Error: " + errorThrown );
 	console.log( "Status: " + status );
 	console.dir( xhr );
-	alert("Failed to load metrics for this project. This could be either a problem with the server, the Jira instance, or the project setup. Reloading the page may fix the problem.")
+	alert("Failed to load metrics for this project. This could be either a problem with the server, the Jira instance, the project setup, or the credentials used. Reloading the page may fix the problem.")
 }).done(function(jsonObject){
 	responseObject=jsonObject;
 	loaded=true;

@@ -2,9 +2,10 @@ var username = "jwashington";
 var password = "Diamond2017";
 var baseURL = "http://54.152.100.242/jira";
 var projKey = "PMPOR";
-var homeResource = "http://localhost:8080/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
-var issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-var metricResource = "http://localhost:8080/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+var hostURL=window.location.host;
+var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
+var issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+var metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 var responseObject2;
 var responseObject3;
@@ -129,9 +130,12 @@ function showInitialData() {
             ("<p> Release to Date: " + project.releases.length + "</p>");
     
     projKey = project.key;
-    issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-    metricResource = "http://localhost:8080/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-    
+    issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+	
+	//this will pass the information to metrics, so when they click on the link, it continues with the same project
+    $("#metricLink").attr("href", "metrics.html?project=" + projKey + "&user=" + username + "&pass=" + password+"&url=" + baseURL);
+	
     $.ajax({
         url: metricResource,
         dataType: "json"
@@ -186,9 +190,12 @@ function showProjectData(num) {
     $("#graph3").empty();
     
     projKey = project.key;
-    issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-    metricResource = "http://localhost:8080/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-    
+    issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+	
+	//this will pass the information to metrics, so when they click on the link, it continues with the same project
+    $("#metricLink").attr("href", "metrics.html?project=" + projKey + "&user=" + username + "&pass=" + password+"&url=" + baseURL);
+	
     $.ajax({
         url: metricResource,
         dataType: "json"
@@ -206,8 +213,6 @@ function showProjectData(num) {
         $("#graph3").append("<h4> Projected End Date </h4>").append("<p>" + metrics.projectedDate + "</p>");
     });
         
-        
-    
     $.ajax({
         url: issueResource,
         dataType: "json"
@@ -233,9 +238,4 @@ function showProjectData(num) {
         barData.datasets[1].data[0]= completed;
         barChart.update();
     });
-}
-
-
-    
- 
-
+};

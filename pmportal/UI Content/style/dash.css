@@ -101,8 +101,7 @@ canvas {
 header .dropdown {
     float:right;
     margin-top: 15px;
-    position: absolute;
-    right: 80px;
+	margin-right:80px;
 }
 
 header h3 {
@@ -131,7 +130,6 @@ h4 {
 #information {
     clear: both;
 }
-
 
 #menu {
     margin-top: 50%;
@@ -166,9 +164,3 @@ h4 {
 #progress:hover {
     background: linear-gradient(to right, #ffaf47 0%,#f99111 100%);
 }
-
-
-
-
-
-
