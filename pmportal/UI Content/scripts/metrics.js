@@ -38,10 +38,10 @@ $(document).ajaxStop(function(){
 });
 //functions
 function getKeyFromURL(){
-var temp = location.search.substring(1).split("=");
-if (temp.length>0){
-	return temp[1];
-};
+	var temp = location.search.substring(1).split("=");
+	if (temp.length>0){
+		return temp[1];
+	};
 };
 function selectResource(whichId){
 	id=whichId;
@@ -63,10 +63,10 @@ function toggleAbout(){
 	$("#aboutInfo").toggle();
 };
 function toggleChart(){
-if (chartToggle){
-	$("#graphics").css("width","90%");
-	chartToggle=false;
-}else{
+	if (chartToggle){
+		$("#graphics").css("width","90%");
+		chartToggle=false;
+	}else{
 		$("#graphics").css("width", "30%");
 		chartToggle=true;
 	};
@@ -103,9 +103,9 @@ function drawLineGraphics(){
 			        	   data:dataArray,
 			        	   fill:false,
 			        	   backgroundColor:"#FF0000",
-						   borderColor:'rgba(0, 0, 0, 0.5)',
-						   borderDash:[5,5],
-						   lineTension:0
+			        	   borderColor:'rgba(0, 0, 0, 0.5)',
+			        	   borderDash:[5,5],
+			        	   lineTension:0
 			           }]
 
 	};
