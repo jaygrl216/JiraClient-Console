@@ -124,18 +124,26 @@ function generateReport(){
 	var bugArray=JSON.parse(responseObject.bugs);
 	var predictedSea=seaArray[seaArray.length-1];
 	var seaAnalysis="The next sprint's predicted SEA value is " + predictedSea + ".";
-	var seaAnalysis2="This means the next sprint may take " + Math.round(predictedSea *10)/10 + " times <br>as long than estimated.";
+	var seaAnalysis2="This means the next sprint may take " + Math.round(predictedSea *10)/10 + " times as long as<br>estimated. The ideal SEA is 1.";
+	var seaAnalysis3="";
+	if (predictedSea > 1){
+		seaAnalysis3="Your SEA is higher than 1, which means that sprints are<br>taking longer than they should. Estimating longer periods, <br>lowering the amount of work per sprint, or making sure<br>each team member is performing as they should may help<br>reduce this score."
+	}else if (predictedSea < 1){
+				seaAnalysis3="Your SEA is lower than 1, which means that sprints are<br>taking less time than they should. Estimating shorter periods or <br>increasing the amount of work per sprint may help <br>increase this score."
+	}else{
+		seaAnalysis3="Your SEA is exactly 1, which means that the time spent on<br> sprints is exactly as estimated, down to the millisecond."
+	};
 	var predictedEea=eeaArray[eeaArray.length-1];
 	var eeaAnalysis="Your predicted EEA value for the next sprint is " + predictedEea + ".";
 	var eeaAnalysis2="";
 	if (predictedEea==1){
 		eeaAnalysis2="This means effort estimation planning is going as it should.";
 	}else{
-		eeaAnalysis2="The next sprint may take " + Math.round(predictedEea *10)/10 + " times <br>as much effort than estimated.";
+		eeaAnalysis2="The next sprint may take " + Math.round(predictedEea *10)/10 + " times as much effort as estimated.";
 	}
 	var predictedBug=bugArray[bugArray.length-1];
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
-	$("#reportContainer").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
+	$("#reportContainer").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +seaAnalysis3+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
 	$("#reportContainer").css("background-color", "#FFFFFF");
 	$("#reportContainer").css("color", "#000000");
 };
