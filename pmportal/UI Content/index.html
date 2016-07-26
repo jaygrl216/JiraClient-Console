@@ -23,6 +23,11 @@
 						<div class="col-md-2" id="loginButton" onclick="login()">
 							<p>Log In</p>
 						</div>
+						<br>
+					<input type="checkbox" id="rememberBox"/> Remember me
+					<br><br>
+					<p style="color:red; visibility:hidden" id="fail">Login failed! Double check your login info, and make sure the Jira URL is correct; it is generally "http://serverURL" or "http://serverURL/jira"
+					</p>
 				   </div>
                 </div>
                 
@@ -50,37 +55,41 @@
                 </div>
             </div>
         </section>
-        
         <script src="scripts/cookiehandler.js"></script>
         <script src="scripts/jquery-1.12.4.min.js"></script>
         <script src="scripts/bootstrap.min.js"></script>
 		<script>
-		function login(){
-var user=$("#uname").val();
-var pass=$("#pass").val();
-var baseURL=$("#url").val();
-var hostURL=window.location.host;
-var testResource="http://"+hostURL+"/pmportal/rest/test/" + user + "/" + pass + "/" +baseURL;
-$.ajax({
-	type:"GET",
-	dataType:"text",
-	url:testResource
-}).fail(function( xhr, status, errorThrown ) {
-	console.log( "Error: " + errorThrown );
-	console.log( "Status: " + status );
-	console.dir( xhr );
-alert("Login failed!");
-}).done(function(response){
-	if (response=="Success"){
-setCookie(user, pass, baseURL);
-window.location="releaseDash.html";
-} else{
-alert("Login failed!");
+var username=getCookie("username").toString();
+if (username!="") {
+	$("#uname").val(username);
+	$("#url").val(getCookie("url"));
+	$("#rememberBox").prop("checked", true);
+};
+function login(){
+	var user=$("#uname").val();
+	var pass=$("#pass").val();
+	var baseURL=$("#url").val();
+	var remember=$("#rememberBox").prop("checked");
+	var hostURL=window.location.host;
+	var testResource="http://"+hostURL+"/pmportal/rest/test/" + user + "/" + pass + "/" +baseURL;
+	$.ajax({
+		type:"GET",
+		dataType:"text",
+		url:testResource
+	}).fail(function( xhr, status, errorThrown ) {
+		console.log( "Error: " + errorThrown );
+		console.log( "Status: " + status );
+		console.dir( xhr );
+		$("#fail").css("visibility","visible");
+	}).done(function(response){
+		if (response=="Success"){
+			setCookie(user, pass, baseURL, remember);
+			window.location="releaseDash.html";
+		}else{
+			alert("Login failed!");
 };
 });
-
 };
 </script>
-    </body>
-
+</body>
 </html>

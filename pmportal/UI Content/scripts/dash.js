@@ -1,8 +1,3 @@
-var uname = "amital";
-var pass = "ComPuteR90";
-var urlTemp = "http://54.152.100.242/jira";
-setCookie(uname, pass, urlTemp);
-//all the code above this line should be deleted in the final product
 var username=getCookie("username").toString();
 var password=getCookie("password").toString();
 var baseURL=getCookie("url").toString();

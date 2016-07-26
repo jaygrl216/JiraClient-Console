@@ -2,7 +2,6 @@
 var username=getCookie("username");
 var password=getCookie("password");
 var baseURL=getCookie("url");
-//get which project is being worked on
 var projectKey=getKeyFromURL();
 var hostURL=window.location.host;
 var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
@@ -30,7 +29,6 @@ $.ajax({
 	generateTable();
 	drawGraph();
 });
-
 //loading icon
 $(document).ajaxStart(function(){
 	$("#loadImage").show();
@@ -38,27 +36,22 @@ $(document).ajaxStart(function(){
 $(document).ajaxStop(function(){
 	$("#loadImage").hide();
 });
-
 //functions
 function getKeyFromURL(){
 var temp = location.search.substring(1).split("=");
 if (temp.length>0){
 	return temp[1];
 };
- };
-
+};
 function selectResource(whichId){
 	id=whichId;
 	if (loaded){
 		drawGraph();
 	};
 };
-
-
 function toggleTable(){
 	$("#dataTable").toggle();
 };
-
 function showReport(){
 	if (loaded){
 		generateReport();
@@ -69,7 +62,6 @@ function showReport(){
 function toggleAbout(){
 	$("#aboutInfo").toggle();
 };
-
 function toggleChart(){
 if (chartToggle){
 	$("#graphics").css("width","90%");
@@ -79,14 +71,10 @@ if (chartToggle){
 		chartToggle=true;
 	};
 };
-
-
-
 function drawGraph(){
 	$(".chartjs-hidden-iframe").remove();
 	drawLineGraphics();
 };
-
 function drawLineGraphics(){
 	//for most metrics
 	var chartLabel;
@@ -130,7 +118,6 @@ function drawLineGraphics(){
 		}
 	});
 };
-
 function generateReport(){
 	var seaArray=JSON.parse(responseObject.sea);
 	var eeaArray=JSON.parse(responseObject.eea);
