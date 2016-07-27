@@ -151,6 +151,9 @@ function showInitialData() {
 		pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
 		createPie();
 		$("#graph3").append("<p>" + metrics.projectedDate + "</p>");
+        $("#graph4").append("<p> SEA: " + metrics.sea + "</p>");
+        $("#graph4").append("<p> EEA: " + metrics.eea + "</p>");
+        $("#graph4").append("<p> Progress: " + metrics.progress + "</p>");
 	});
 
 	$.ajax({
@@ -188,7 +191,10 @@ function showProjectData(num) {
             ("<p> Project Lead: " + project.lead.displayName + "</p>").append
             ("<p> Release to Date: " + project.releases.length + "</p>");
     $("#graph3").empty();
-    $("#graph3").append("<h4> Projected End Date </h4>").
+    $("#graph3").append("<h4> Projected End Date </h4>");
+    $("#graph4").empty();
+    $("#graph4").append("<h4> Project Data </h4>");
+    
     
     projKey = project.key;
     issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
@@ -208,10 +214,20 @@ function showProjectData(num) {
         pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
         pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
         pieChart.update();
+        var seaData = Math.round(metrics.sea * 100) / 100;
+        var eeaData = Math.round(metrics.eea * 100) / 100;
+        var progressData = Math.round(metrics.progress * 100) / 100;
+        
         $("#graph3").append("<p>" + metrics.projectedDate + "</p>");
+        $("#graph4").append("<p> SEA: " + seaData + "</p>");
+        $("#graph4").append("<p> EEA: " + eeaData + "</p>");
+        $("#graph4").append("<p> Progress: " + progressData + "</p>");
+        
     });
         
         
+    //this will pass the information to metrics, so when they click on the link, it continues with the same project
+	$("#metricLink").attr("href", "metrics.html?project=" + projKey);
     
     $.ajax({
         url: issueResource,
@@ -239,62 +255,4 @@ function showProjectData(num) {
         barChart.update();
     });
 }
-	var project = projectArray[num];
-	$("#graph1").empty();
-	$("#graph1").append("<h4> Project Information </h4>").append("<p> Project Name: " + project.name + "</p>").append
-	("<p> Project Key: " + project.key + "</p>").append
-	("<p> Project Lead: " + project.lead.displayName + "</p>").append
-	("<p> Release to Date: " + project.releases.length + "</p>");
-	$("#graph3").empty();
-
-	projKey = project.key;
-	issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-	metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-
-	//this will pass the information to metrics, so when they click on the link, it continues with the same project
-	$("#metricLink").attr("href", "metrics.html?project=" + projKey);
-
-	$.ajax({
-		url: metricResource,
-		dataType: "json"
-	}).fail(function(xhr, status, errorThrown ) {
-		console.log("Error: " + errorThrown );
-		console.log("Status: " + status );
-		console.dir(xhr);
-	}).done(function(jsonObject){
-		console.log("SUCCESS");
-		responseObject3 = jsonObject;
-		metrics = responseObject3;
-		pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
-		pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
-		pieChart.update();
-		$("#graph3").append("<h4> Projected End Date </h4>").append("<p>" + metrics.projectedDate + "</p>");
-	});
-
-	$.ajax({
-		url: issueResource,
-		dataType: "json"
-	}).fail(function(xhr, status, errorThrown ) {
-		console.log("Error: " + errorThrown );
-		console.log("Status: " + status );
-		console.dir(xhr);
-	}).done(function(jsonObject){
-		console.log("SUCCESS");
-		responseObject2 = jsonObject;
-		issueArray = responseObject2.issues;
-		var completed = 0;
-		var toDo = 0;
-
-		$.each(issueArray, function (index, issue) {
-			if(issue.status == "Resolved" || issue.status == "Closed" || issue.status == "Done") {
-				completed = completed + 1;
-			} else {
-				toDo = toDo + 1;
-			}
-		});
-		barData.datasets[0].data[0] = issueArray.length
-		barData.datasets[1].data[0]= completed;
-		barChart.update();
-	});
-};
->>>>>>> origin/master
+	
