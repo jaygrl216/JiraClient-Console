@@ -1,0 +1,52 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway); 
+
+body {
+    background-color: rgba(11, 12, 18, 0.9);
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+}
+
+ul {
+    font-family: 'Raleway', sans-serif;
+    color: #fff;
+}
+
+li {
+    margin-right: 50px;
+    margin-left: 40px;
+    padding: 20px;
+    text-align: center;
+}
+
+
+#graph {
+    height: 200px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(125, 126, 125, 0.2);
+}
+
+#graph2 {
+    margin-left: 20px;
+    height: 200px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(125, 126, 125, 0.2);
+}
+
+#graph3 {
+    margin-left: 20px;
+    height: 200px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(125, 126, 125, 0.2);
+}
+
+.navbar-inverse {
+    background-color: rgba(17, 18, 23, 0.9);
+}
+
+h3 {
+    margin-left: 50px;
+}
+
+#layer1 {
+    margin-left: 40px;
+}
