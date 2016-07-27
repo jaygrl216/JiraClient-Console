@@ -15,6 +15,7 @@ a:hover {
 }
 
 body {
+	background-color:#ACD1E1;
     background: -webkit-linear-gradient(left, rgba(176,212,227,1) 0%,rgba(136,186,207,1) 100%);
     font-family: 'Raleway', sans-serif;
 }
@@ -101,8 +102,7 @@ canvas {
 header .dropdown {
     float:right;
     margin-top: 15px;
-    position: absolute;
-    right: 80px;
+	margin-right:80px;
 }
 
 header h3 {
@@ -132,9 +132,8 @@ h4 {
     clear: both;
 }
 
-
 #menu {
-    margin-top: 50%;
+    margin-top: 30%;
 }
 
 #menu li{
@@ -166,9 +165,3 @@ h4 {
 #progress:hover {
     background: linear-gradient(to right, #ffaf47 0%,#f99111 100%);
 }
-
-
-
-
-
-

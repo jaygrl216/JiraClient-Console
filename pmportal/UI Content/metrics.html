@@ -48,7 +48,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div id="data" class="col-md-2">
+						<div id="data" class="col-md-4">
 							<h4 id="dataList" onclick="toggleTable()">Toggle Data Table</h4>
 
 							<table id="dataTable">
@@ -61,34 +61,34 @@
 							</table>
 						</div>
 
-						<div id="reportContainer" class="col-md-2" onclick="showReport()">
-							<h4 id="reportButton" style="text-align: center">Generate
-								Report</h4>
-							<div id="report"></div>
-						</div>
-						<div id="about" class="col-md-2" onclick="toggleAbout()">
+					
+						<div id="about" class="col-md-3" onclick="toggleAbout()">
 							<h4 style="text-align: center">What does this mean?</h4>
 							<div id="aboutInfo">
 								<p>
-									Schedule Estimation Accuracy (SEA) is a ratio of the time<br>it
-									took to complete a task divided by the time it was<br>estimated
+									Schedule Estimation Accuracy (SEA) is a ratio of the time it
+									took to complete a task divided by the time it was estimated
 									to take. This is calculated sprint-by-sprint.
 								</p>
 								<p>
-									Effort Estimation Accuracy (EEA) is a ratio of the effort<br>it
-									took to complete a task divided by the effort estimated<br>initially.
-									This is calculated sprint-by-sprint using a metric<br>
-									called "Story Points". If a sprint contains issues<br>without
-									any story points, the EEA will always default to 1.
+									Effort Estimation Accuracy (EEA) is a ratio of the effort it
+									took to complete a task divided by the effort estimated initially.
+									This is calculated sprint-by-sprint using a metric called "Story Points". 
+									If a sprint contains issues without	any story points, the EEA will always default to 1.
 								</p>
 								<p>Bug count is the number of issues listed as a "Bug" in a
 									sprint.</p>
 								<p>
-									The prediction model uses the Theil-Sen estimator to create<br>a
-									simple linear regression model which tends to ignore<br>outliers,
+									The prediction model uses the Theil-Sen estimator to create a
+									simple linear regression model which tends to ignore outliers,
 									providing greater accuracy over smaller data sets.
 								</p>
 							</div>
+						</div>
+						<div id="reportContainer" class="col-md-4" onclick="showReport()">
+							<h4 id="reportButton" style="text-align: center">Generate
+								Report</h4>
+							<div id="report"></div>
 						</div>
 					</div>
 				</section>
@@ -97,6 +97,7 @@
 
 
 	</section>
+	<script src="scripts/cookiehandler.js"></script>
 	<script src="scripts/jquery-1.12.4.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/metrics.js"></script>

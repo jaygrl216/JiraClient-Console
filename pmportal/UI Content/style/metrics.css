@@ -1,13 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
 
 body {
+	background-color:#ACD1E1;
 	background: -webkit-linear-gradient(left, rgba(176, 212, 227, 1) 0%,
 		rgba(136, 186, 207, 1) 100%);
 	font-family: 'Raleway', sans-serif;
 }
 
 #menu {
-	margin-top: 50%;
+	margin-top: 30%;
 }
 
 #menu li {
@@ -57,6 +58,7 @@ padding-bottom:15%;
 header .dropdown {
 	float: right;
 	margin-top: 15px;
+	margin-right:80px;
 }
 
 header h3 {
@@ -115,7 +117,6 @@ h3 small {
 	margin-left: 5px;
 	margin-right: 5px;
 	margin-bottom: 20px;
-	width:auto;
 		background-color: #0000FF;
 		color: #FFFFFF;
 }
@@ -128,7 +129,6 @@ table {
 	margin-bottom: 10px;
 	margin-left: 10px;
 	background-color: #FCFCFC;
-	visibility: collapse;
 }
 
 th, td {

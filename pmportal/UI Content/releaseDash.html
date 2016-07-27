@@ -1,68 +1,83 @@
 <!DOCTYPE HTML>
 <html lang="en">
-    <head>
-        <title>PMPortal Dashboard: Release</title>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        
-        <link rel="stylesheet" type="text/css" href="style/dash.css">
-        <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
-        <script type="text/javascript" src="scripts/Chart.js"></script>
-        <script type="text/javascript" src="scripts/dash.js"></script>
- 
-    </head>
-    <body>
-        <section id="dash" class="container-fluid">
-            <div class="row">
-                <div class="col-lg-2 col-md-2" id="menuNav">
-                    <ul class="list-unstyled h4" id="menu">
-                        <a href="index.html"><li>Home</li></a>
-                        <a href="releaseDash.html"><li class="active">Release</li></a>
-                        <a href="metrics.html"><li href="metrics.html">Metrics</li></a>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-10 col-md-10" id="board">
-                    <header>
-                        <h3>PMPortal Dashboard <small>Release Tracking</small></h3>
-                        <div class="dropdown">
-                        <button type="button" data-toggle="dropdown" class="btn btn-info dropdown-toggle">
-                            Projects<span class="caret"></span></button>
-                            <ul class="dropdown-menu" id="projectList">
-                            </ul>
-                        </div>
-                    </header>
-                    
-                    <section id="information">
-                        <div class="row" id="projInfo">
-                            <div class="col-lg-3" id="graph1"><h4>Project Information</h4></div>
-                            <div class="col-lg-8" id="graph2">
-                                <h4>Issue Tracking</h4>
-                                <canvas id="issues" width="100" height="80"></canvas>
-                            </div>
-                            
-                        </div>
-                        
-                        <div class="row" id="projInfo1">
-                            <div class="col-lg-4" id="progress"><h4>Progress Graph</h4>
-                                <canvas id="progressGraph" height="120px"></canvas>
-                            </div>
-                            <div class="col-lg-3" id="graph3"><h4>Projected End Date</h4></div>
-                            <div class="col-lg-4" id="graph4"><h4>Project Data</h4></div>
-                        </div>
-                    </section>
-                    
-                </div>
-                
-                
-            </div>
-        </section>
-        
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    </body>
+<head>
+<title>PMPortal Dashboard: Release</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css" href="style/dash.css">
+<script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
+<script type="text/javascript" src="scripts/Chart.js"></script>
+<script type="text/javascript" src="scripts/cookiehandler.js"></script>
+<script type="text/javascript" src="scripts/dash.js"></script>
+
+</head>
+<body>
+	<section id="dash" class="container-fluid">
+		<div class="row">
+			<div class="col-lg-2 col-md-2" id="menuNav">
+				<ul class="list-unstyled h4" id="menu">
+					<a href="index.html"><li>Home</li></a>
+					<a href="releaseDash.html"><li class="active">Release</li></a>
+					<a id="metricLink"><li>Metrics</li></a>
+				</ul>
+			</div>
+
+			<div class="col-lg-10 col-md-10" id="board">
+				<header>
+					<h3>
+						PMPortal Dashboard <small>Release Tracking</small>
+					</h3>
+					<div class="dropdown">
+						<button type="button" data-toggle="dropdown"
+							class="btn btn-info dropdown-toggle">
+							Projects<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" id="projectList">
+						</ul>
+					</div>
+				</header>
+
+				<section id="information">
+					<div class="row" id="projInfo">
+						<div class="col-lg-3" id="graph1">
+							<h4>Project Information</h4>
+						</div>
+						<div class="col-lg-8" id="graph2">
+							<h4>Issue Tracking</h4>
+							<canvas id="issues" width="100" height="80"></canvas>
+						</div>
+
+					</div>
+
+					<div class="row" id="projInfo1">
+						<div class="col-lg-4" id="progress">
+							<h4>Progress Graph</h4>
+							<canvas id="progressGraph" height="120px"></canvas>
+						</div>
+						<div class="col-lg-3" id="graph3">
+							<h4>Projected End Date</h4>
+						</div>
+						<div class="col-lg-4" id="graph4">
+							<h4>Project Data</h4>
+						</div>
+					</div>
+				</section>
+
+			</div>
+
+
+		</div>
+	</section>
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
 
 </html>

@@ -1,7 +1,8 @@
-﻿var username="amital";
-var password="ComPuteR90";
-var projectKey=getProject();
-var baseURL="http://54.152.100.242/jira";
+﻿//setup credentials from cookie
+var username=getCookie("username");
+var password=getCookie("password");
+var baseURL=getCookie("url");
+var projectKey=getKeyFromURL();
 var hostURL=window.location.host;
 var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
 var projectResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
@@ -21,14 +22,13 @@ $.ajax({
 	console.log( "Error: " + errorThrown );
 	console.log( "Status: " + status );
 	console.dir( xhr );
-	alert("Failed to load metrics for this project. This could be either a problem with the server, the Jira instance, or the project setup. Reloading the page may fix the problem.")
+	alert("Failed to load metrics for this project. This could be either a problem with the server, the Jira instance, the project setup, or the credentials used. Reloading the page may fix the problem.")
 }).done(function(jsonObject){
 	responseObject=jsonObject;
 	loaded=true;
 	generateTable();
 	drawGraph();
 });
-
 //loading icon
 $(document).ajaxStart(function(){
 	$("#loadImage").show();
@@ -36,34 +36,22 @@ $(document).ajaxStart(function(){
 $(document).ajaxStop(function(){
 	$("#loadImage").hide();
 });
-
 //functions
- function getProject(){
-    var temp = location.search.substring(1).split("=");
-    var key=temp[1];
-	if (key!=null){
-	return key;
-	}else{
-		return "DEV";
+function getKeyFromURL(){
+	var temp = location.search.substring(1).split("=");
+	if (temp.length>0){
+		return temp[1];
 	};
-  };
-
+};
 function selectResource(whichId){
 	id=whichId;
 	if (loaded){
 		drawGraph();
 	};
 };
-
-
 function toggleTable(){
-	if(	$("#dataTable").css("visibility")=="collapse"){
-		$("#dataTable").css("visibility", "visible");
-	}else{
-		$("#dataTable").css("visibility", "collapse");
-	};
+	$("#dataTable").toggle();
 };
-
 function showReport(){
 	if (loaded){
 		generateReport();
@@ -74,24 +62,19 @@ function showReport(){
 function toggleAbout(){
 	$("#aboutInfo").toggle();
 };
-
 function toggleChart(){
-if (chartToggle){
-	$("#graphics").css("width","90%");
-	chartToggle=false;
-}else{
+	if (chartToggle){
+		$("#graphics").css("width","90%");
+		chartToggle=false;
+	}else{
 		$("#graphics").css("width", "30%");
 		chartToggle=true;
 	};
 };
-
-
-
 function drawGraph(){
 	$(".chartjs-hidden-iframe").remove();
 	drawLineGraphics();
 };
-
 function drawLineGraphics(){
 	//for most metrics
 	var chartLabel;
@@ -120,9 +103,9 @@ function drawLineGraphics(){
 			        	   data:dataArray,
 			        	   fill:false,
 			        	   backgroundColor:"#FF0000",
-						   borderColor:'rgba(0, 0, 0, 0.5)',
-						   borderDash:[5,5],
-						   lineTension:0
+			        	   borderColor:'rgba(0, 0, 0, 0.7)',
+			        	   borderDash:[5,5],
+			        	   lineTension:0
 			           }]
 
 	};
@@ -135,25 +118,32 @@ function drawLineGraphics(){
 		}
 	});
 };
-
 function generateReport(){
 	var seaArray=JSON.parse(responseObject.sea);
 	var eeaArray=JSON.parse(responseObject.eea);
 	var bugArray=JSON.parse(responseObject.bugs);
 	var predictedSea=seaArray[seaArray.length-1];
-	var seaAnalysis="The next sprint's predicted SEA value is " + predictedSea + ".";
-	var seaAnalysis2="This means the next sprint may take " + Math.round(predictedSea *10)/10 + " times <br>as long than estimated.";
+	var seaAnalysis="The next sprint's predicted SEA value is<br>" + predictedSea + ".";
+	var seaAnalysis2="This means the next sprint may take " + Math.round(predictedSea *10)/10 + " times as long as<br>estimated.";
+	var seaAnalysis3="";
+	if (predictedSea > 1){
+		seaAnalysis3="Your SEA is higher than 1, which means that sprints are<br>taking longer than they should. Estimating longer periods, <br>lowering the amount of work per sprint, or making sure<br>each team member is performing as they should may help<br>reduce this score."
+	}else if (predictedSea < 1){
+				seaAnalysis3="Your SEA is lower than 1, which means that sprints are<br>taking less time than they should. Estimating shorter periods or <br>increasing the amount of work per sprint may help <br>increase this score."
+	}else{
+		seaAnalysis3="Your SEA is exactly 1, which means that the time spent on<br> sprints is exactly as estimated, down to the millisecond."
+	};
 	var predictedEea=eeaArray[eeaArray.length-1];
-	var eeaAnalysis="Your predicted EEA value for the next sprint is " + predictedEea + ".";
+	var eeaAnalysis="Your predicted EEA value for the next sprint is<br>" + predictedEea + ".";
 	var eeaAnalysis2="";
 	if (predictedEea==1){
 		eeaAnalysis2="This means effort estimation planning is going as it should.";
 	}else{
-		eeaAnalysis2="The next sprint may take " + Math.round(predictedEea *10)/10 + " times <br>as much effort than estimated.";
+		eeaAnalysis2="The next sprint may take " + Math.round(predictedEea *10)/10 + " times as much effort as<br>estimated.";
 	}
 	var predictedBug=bugArray[bugArray.length-1];
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
-	$("#reportContainer").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
+	$("#reportContainer").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +seaAnalysis3+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
 	$("#reportContainer").css("background-color", "#FFFFFF");
 	$("#reportContainer").css("color", "#000000");
 };
@@ -161,7 +151,7 @@ function generateTable(){
 	seaArray=JSON.parse(responseObject.sea);
 	eeaArray=JSON.parse(responseObject.eea);
 	bugArray=JSON.parse(responseObject.bugs);
-//	arrays have same length, subtract 1 to neglect prediction
+//subtract 1 to neglect prediction
 	for (var i=0;i<seaArray.length-1; i++){
 		$("#dataTable").append("<tr><td> Sprint: "+ (i+1)+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
 	};
