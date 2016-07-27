@@ -1,6 +1,8 @@
 package com.sgt.pmportal.resource;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Date;
@@ -11,8 +13,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.json.JSONObject;
+import org.json.XML;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
@@ -65,6 +78,21 @@ public class MetricResource {
 		responseObject.put("sea", dataList.get(0).toString());
 		responseObject.put("eea", dataList.get(1).toString());
 		responseObject.put("bugs", dataList.get(2).toString());
+		//create string out of JSON object, convert it to DOM object, transform into file
+		String xmlString=XML.toString(responseObject);
+	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
+	    DocumentBuilder builder;  
+	    try  
+	    {  
+	        builder = factory.newDocumentBuilder();  
+	        Document document = builder.parse( new InputSource( new StringReader( xmlString ) ) );  
+	        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+	        Result output = new StreamResult(new File("output.xml"));
+	        Source input = new DOMSource(document);
+	        transformer.transform(input, output);
+	    } catch (Exception e) {  
+	        e.printStackTrace();  
+	    } 
 		return responseObject.toString();
 	}
 	
