@@ -86,7 +86,7 @@ canvas {
 }
 
 #graph4 {
-    background-color: #8EC4E8;
+    background:linear-gradient(to right, #f54747 0%,#f96363 100%);
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     margin-left: 5px;
     margin-bottom: 10px;
@@ -96,7 +96,7 @@ canvas {
 }
 
 #graph4:hover {
-    background-color: #96D2FA;
+   background: linear-gradient(to right, #f54747 0%,#f41f1f 99%);
 }
 
 header .dropdown {
@@ -172,4 +172,8 @@ h4 {
 
 .inProgress {
     color: #F2F26D;
+}
+
+.incompleted {
+    color:#FA1616;
 }

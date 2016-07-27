@@ -156,8 +156,19 @@ function showInitialData() {
         var progressData = Math.round(metrics.progress * 100) / 100;
         
 		$("#graph3").append("<p>" + metrics.projectedDate + "</p>");
-        $("#graph4").append("<p> SEA: " + seaData + "</p>");
-        $("#graph4").append("<p> EEA: " + eeaData + "</p>");
+        
+        if (seaData < 1) {
+            $("#graph4").append("<p class='incomplete'> SEA: " + seaData + "</p>");
+        } else {
+            $("#graph4").append("<p class='completed'> SEA: " + seaData + "</p>");
+        }
+        
+        if (eeaData < 1) {
+            $("#graph4").append("<p class='incomplete'> EEA: " + eeaData + "</p>");
+        } else {
+             $("#graph4").append("<p class='completed'> EEA: " + eeaData + "</p>");
+        }
+        
         $("#graph4").append("<p> Progress: " + progressData + "</p>");
         
          if(progressData < 100) {
@@ -230,10 +241,21 @@ function showProjectData(num) {
         var progressData = Math.round(metrics.progress * 100) / 100;
         
         $("#graph3").append("<p>" + metrics.projectedDate + "</p>");
-        $("#graph4").append("<p> SEA: " + seaData + "</p>");
-        $("#graph4").append("<p> EEA: " + eeaData + "</p>");
-        $("#graph4").append("<p> Progress: " + progressData + "</p>");
         
+        if (seaData < 1) {
+            $("#graph4").append("<p class='incomplete'> SEA: " + seaData + "</p>");
+        } else {
+            $("#graph4").append("<p class='completed'> SEA: " + seaData + "</p>");
+        }
+    
+        if (eeaData < 1) {
+            $("#graph4").append("<p class='incomplete'> EEA: " + eeaData + "</p>");
+        } else {
+             $("#graph4").append("<p class='completed'> EEA: " + eeaData + "</p>");
+        }
+        
+        $("#graph4").append("<p> Progress: " + progressData + "</p>");
+
         if(progressData < 100) {
             $("#graph1").append("<p class='inProgress'> In Progress </p>");
         } else {
