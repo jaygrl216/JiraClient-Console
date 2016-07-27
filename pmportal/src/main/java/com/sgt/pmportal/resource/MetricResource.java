@@ -79,7 +79,7 @@ public class MetricResource {
 		responseObject.put("eea", dataList.get(1).toString());
 		responseObject.put("bugs", dataList.get(2).toString());
 		//create string out of JSON object, convert it to DOM object, transform into file
-		String xmlString=XML.toString(responseObject, "root");
+		String xmlString=XML.toString(responseObject, key);
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
 	    try{  
