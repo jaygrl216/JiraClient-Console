@@ -35,7 +35,7 @@ import com.sgt.pmportal.services.ProjectServices;
 
 @Path ("/metrics")
 public class MetricResource {
-	
+
 	@Path("/project/basic/{projectKey}/{username}/{password}/{url:.+}")
 	//serverURL/pmportal/rest/metrics/project/basic...
 	@GET
@@ -80,21 +80,19 @@ public class MetricResource {
 		responseObject.put("bugs", dataList.get(2).toString());
 		//create string out of JSON object, convert it to DOM object, transform into file
 		String xmlString=XML.toString(responseObject, "root");
-		System.out.println(xmlString);
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
-	    DocumentBuilder builder;  
-	    try  
-	    {  
+	    DocumentBuilder builder;
+	    try{  
 	        builder = factory.newDocumentBuilder();  
 	        Document document = builder.parse( new InputSource( new StringReader( xmlString ) ) );  
 	        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-	        Result output = new StreamResult(new File("output.xml"));
+	        Result output = new StreamResult(new File("../docroot/output.xml"));
 	        Source input = new DOMSource(document);
 	        transformer.transform(input, output);
-	    } catch (Exception e) {  
-	        e.printStackTrace();  
-	    } 
+	    }catch (Exception e){  
+	    	e.printStackTrace();
+	    }
+	    //return json object
 		return responseObject.toString();
 	}
-	
 }
