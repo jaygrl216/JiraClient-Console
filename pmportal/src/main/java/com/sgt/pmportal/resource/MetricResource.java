@@ -1,8 +1,11 @@
 package com.sgt.pmportal.resource;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.Writer;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Date;
@@ -78,7 +81,7 @@ public class MetricResource {
 		responseObject.put("sea", dataList.get(0).toString());
 		responseObject.put("eea", dataList.get(1).toString());
 		responseObject.put("bugs", dataList.get(2).toString());
-		//create string out of JSON object, convert it to DOM object, transform into file
+		//create XML out of JSON object
 		String xmlString=XML.toString(responseObject, key);
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -90,6 +93,21 @@ public class MetricResource {
 	        Source input = new DOMSource(document);
 	        transformer.transform(input, output);
 	    }catch (Exception e){  
+	    	e.printStackTrace();
+	    }
+	    //create excel file
+	    try{
+	    	String lineBreak= System.getProperty("line.separator");
+	    	File textFile=new File("../docroot/data/output.xls");
+	    	Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+	    	fileWriter.write("SEA	EEA	Bugs");
+	    	fileWriter.write(lineBreak);
+	    	for (int i=0; i<dataList.get(0).size(); i++){
+	    	fileWriter.write(dataList.get(0).get(i).toString() +"	"+ dataList.get(1).get(i).toString()+"	"+dataList.get(2).get(i).toString());
+	    	fileWriter.write(lineBreak);
+	    	}
+	    	fileWriter.close();
+	    }catch (Exception e){
 	    	e.printStackTrace();
 	    }
 	    //return json object
