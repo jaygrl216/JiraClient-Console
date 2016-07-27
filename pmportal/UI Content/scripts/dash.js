@@ -181,7 +181,6 @@ function showInitialData() {
 }
 
 function showProjectData(num) {
-<<<<<<< HEAD
     var project = projectArray[num];
     $("#graph1").empty();
     $("#graph1").append("<h4> Project Information </h4>").append("<p> Project Name: " + project.name + "</p>").append
@@ -240,12 +239,6 @@ function showProjectData(num) {
         barChart.update();
     });
 }
-
-
-    
- 
-
-=======
 	var project = projectArray[num];
 	$("#graph1").empty();
 	$("#graph1").append("<h4> Project Information </h4>").append("<p> Project Name: " + project.name + "</p>").append
