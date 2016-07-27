@@ -27,25 +27,16 @@
 					<h3>
 						PMPortal Dashboard <small>Settings</small>
 					</h3>
-					<div class="dropdown">
-						<button type="button" data-toggle="dropdown"
-							class="btn btn-info dropdown-toggle">
-							Settings<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" id="projectList">
-							<li>Notifications</li>
-							<li>Item2</li>
-							<li>Item3</li>
-						</ul>
-					</div>
 				</header>
 
-				<section id="notification">
+				<section id="content">
 					<div class="row">
-						<div class="col-lg-3" id="email">
+						<div class="col-lg-3" id="settings">
 							<p>If you would like to receive email notifications, please input your email below: </p>
-							<input type="text" id="emailInput"></input>
-							<button type="button" onclick="saveSettings()" value="Save"/>
+							<input type="text" id="emailInput" />
+							<br>
+
+							<button type="button" onclick="saveSettings()">Save</button>
 						</div>
 					</div>
 				</section>

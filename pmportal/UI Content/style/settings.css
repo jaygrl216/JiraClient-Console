@@ -27,7 +27,7 @@ body {
 	margin-left: -15px;
 }
 
-#email {
+#settings {
 	background-color: #F2F2F2;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
@@ -36,8 +36,6 @@ body {
 	margin-bottom: 20px;
 	width: 90%;
 	height: 30%;
-	color: #FFFFFF;
-	text-align: center;
 }
 
 .active {
@@ -67,20 +65,6 @@ h3 small {
 	color: #189AAB;
 	font-weight: bold;
 }
-#information {
+#content {
 	clear: both;
-}
-#data{
-		text-align: center;
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
-		inset;
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-bottom: 20px;
-	width:auto;
-		background-color: #00AFAF;
-		color: #FFFFFF;
-}
-#data:hover{
-	background-color: #00E1E1;
 }
