@@ -150,10 +150,21 @@ function showInitialData() {
 		pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
 		pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
 		createPie();
+        
+        var seaData = Math.round(metrics.sea * 100) / 100;
+        var eeaData = Math.round(metrics.eea * 100) / 100;
+        var progressData = Math.round(metrics.progress * 100) / 100;
+        
 		$("#graph3").append("<p>" + metrics.projectedDate + "</p>");
-        $("#graph4").append("<p> SEA: " + metrics.sea + "</p>");
-        $("#graph4").append("<p> EEA: " + metrics.eea + "</p>");
-        $("#graph4").append("<p> Progress: " + metrics.progress + "</p>");
+        $("#graph4").append("<p> SEA: " + seaData + "</p>");
+        $("#graph4").append("<p> EEA: " + eeaData + "</p>");
+        $("#graph4").append("<p> Progress: " + progressData + "</p>");
+        
+         if(progressData < 100) {
+            $("#graph1").append("<p class='inProgress'> In Progress </p>");
+        } else {
+            $("#graph1").append("<p class='completed'> Completed </p>");
+        }
 	});
 
 	$.ajax({
@@ -222,6 +233,12 @@ function showProjectData(num) {
         $("#graph4").append("<p> SEA: " + seaData + "</p>");
         $("#graph4").append("<p> EEA: " + eeaData + "</p>");
         $("#graph4").append("<p> Progress: " + progressData + "</p>");
+        
+        if(progressData < 100) {
+            $("#graph1").append("<p class='inProgress'> In Progress </p>");
+        } else {
+            $("#graph1").append("<p class='completed'> Completed </p>");
+        }
         
     });
         

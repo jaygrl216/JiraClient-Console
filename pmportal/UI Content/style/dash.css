@@ -165,3 +165,11 @@ h4 {
 #progress:hover {
     background: linear-gradient(to right, #ffaf47 0%,#f99111 100%);
 }
+
+.completed {
+    color: #4BEB50;
+}
+
+.inProgress {
+    color: #F2F26D;
+}
