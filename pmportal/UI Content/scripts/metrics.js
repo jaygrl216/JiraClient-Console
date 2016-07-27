@@ -32,9 +32,12 @@ $.ajax({
 //loading icon
 $(document).ajaxStart(function(){
 	$("#loadImage").show();
+
 });
 $(document).ajaxStop(function(){
 	$("#loadImage").hide();
+	$("#xlink").attr("href","data/output.xml");
+	$("#elink").attr("href","data/output.xls");
 });
 //functions
 function getKeyFromURL(){
