@@ -8,7 +8,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="style/template.css">
+        
         <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
+        <script type="text/javascript" src="scripts/Chart.js"></script>
+        <script type="text/javascript" src="scripts/release.js"></script>
     </head>
     
     <body>
@@ -23,13 +26,32 @@
             </ul>
         </nav>
         
-        <header class="row">
+        <header class="row" id="topLayer">
             <h3>PMPortal Dashboard</h3>
+            <div class="dropdown">
+                <button type="button" data-toggle="dropdown"
+                    class="btn btn-info dropdown-toggle">
+                    Projects<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="projectList">
+                </ul>
+            </div>
         </header>
+        
         <div class="row" id="layer1">
-            <div class="col-lg-7" id="graph"></div>
+            <div class="col-lg-7" id="graph">
+                <h4>Issue Tracking</h4>
+                <div class="canvas"><canvas id="issues"></canvas></div>
+                
+            </div>
             <div class="col-lg-2" id="graph2"></div>
             <div class="col-lg-2" id="graph3"></div>
+        </div>
+        
+        <div class="row" id="layer2">
+            <div class="col-lg-4" id="calendar">   
+            </div>
+            <div class="col-lg-7" id="graph4"></div>
         </div>
         
 	

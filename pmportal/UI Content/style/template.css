@@ -22,31 +22,78 @@ li {
 #graph {
     height: 200px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.2);
+    background-color: rgba(125, 126, 125, 0.1);
+    text-align: center;
 }
 
 #graph2 {
-    margin-left: 20px;
+    margin-left: 15px;
     height: 200px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.2);
+    background-color: rgba(125, 126, 125, 0.1);
+    
 }
 
 #graph3 {
-    margin-left: 20px;
+    margin-left: 15px;
     height: 200px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.2);
+    background-color: rgba(125, 126, 125, 0.1);
+}
+
+#calendar {
+    height: 200px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(125, 126, 125, 0.1);
+}
+
+#graph4 {
+    margin-left: 30px;
+    height: 200px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(125, 126, 125, 0.1);
 }
 
 .navbar-inverse {
     background-color: rgba(17, 18, 23, 0.9);
 }
 
-h3 {
-    margin-left: 50px;
+#layer1 {
+    clear: both;
+    margin-left: 40px;
+    margin-bottom: 30px;
 }
 
-#layer1 {
+#layer2 {
     margin-left: 40px;
+}
+
+header h3 {
+    float: left;
+    margin-left: 55px;
+}
+
+header .dropdown {
+    float: right;
+    margin-right: 80px;
+    margin-top: 15px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+h4 {
+  text-align: center;  
+}
+
+#projectList li {
+    color:#000;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 5px;
+}
+
+.canvas {
+    height: 180px;
 }
