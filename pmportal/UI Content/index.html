@@ -9,58 +9,44 @@
 <link rel="stylesheet" type="text/css" href="style/home.css">
 <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
 </head>
-<body>
-	<section id="dash" class="container-fluid">
-		<div class="row">
-			<div class="col-lg-2 col-md-2" id="menuNav">
-				<div id="menu">
-					Username: <br>
-					<input type="text" id="uname" /> <br> Password: <br>
-					<input type="password" id="pass" /> <br> Jira URL: <br>
-					<input type="url" id="url" /> <br>
-					<div class="col-md-2" id="loginButton" onclick="login()">
-						<p>Log In</p>
-					</div>
-					<br> <input type="checkbox" id="rememberBox" /> Remember me <br>
-					<br>
-					<p style="color: red; visibility: hidden" id="fail">Login
-						failed! Double check your login info, and make sure the Jira URL
-						is correct; it is generally "http://serverURL" or
-						"http://serverURL/jira"</p>
-				</div>
-			</div>
-
-			<div class="col-lg-10 col-md-10" id="board">
-				<header>
-					<h3>
-						PMPortal Dashboard <small>Home</small>
-					</h3>
-				</header>
-				<section id="information">
-					<div class="row">
-						<div class="col-lg-3" id="graphics">
-							<h4>About</h4>
-							<p>PM-Portal is a project management tool initially developed
-								by interns working for SGT Inc. The tool pulls together project
-								information from other project management tools such as Jira or
-								Bugzilla and displays a project's status or other metrics. The
-								tools uses the agile scrum methodology, dividing various work
-								phases into sprints which seek to satisfy user story
-								requirements. As of 7/25/16, Jira is the only tool supported.</p>
-						</div>
-						<div class="col-lg-3" id="links">
-							<h4>Links</h4>
-							<ul id="linkMenu">
-								<a href="http://www.sgt-inc.com"><li>SGT Inc.</li></a>
-								<a href="https://www.atlassian.com/software/jira"><li>Atlassian
-										Jira</li></a>
-							</ul>
-						</div>
-					</div>
-				</section>
-			</div>
+<body>					
+	<header class="row" id="topLayer">
+		<h3>
+		PMPortal Dashboard <small>Home</small>
+		</h3>
+	</header>
+	<div class="row" id="layer1">
+		<div class="col-md-2" id="loginInput">
+			Username: <br>
+			<input type="text" id="uname" /> <br> Password: <br>
+			<input type="password" id="pass" /> <br> Jira URL: <br>
+			<input type="url" id="url" /><br><br>
+			<input type="button" id="loginButton" value="Log In" onclick="login()"/>
+			<br> <input type="checkbox" id="rememberBox" /> Remember me <br>
+			<br>
+			<p style="color: red; visibility: hidden" id="fail">Login
+				failed! Double check your login info, and make sure the Jira URL
+				is correct; it is generally "http://serverURL" or
+				"http://serverURL/jira"</p>
 		</div>
-	</section>
+		<div class="col-lg-3" id="graphics">
+			<h4>About</h4>
+			<p>PM-Portal is a project management tool initially developed
+				by interns working for SGT Inc. The tool pulls together project
+				information from other project management tools such as Jira or
+				Bugzilla and displays a project's status or other metrics. The
+				tools uses the agile scrum methodology, dividing various work
+				phases into sprints which seek to satisfy user story
+				requirements. As of 7/28/16, Jira is the only tool supported.</p>
+		</div>
+		<div class="col-lg-3" id="links">
+			<h4>Links</h4>
+			<ul id="linkMenu">
+				<a href="http://www.sgt-inc.com"><li>SGT Inc.</li></a>
+				<a href="https://www.atlassian.com/software/jira"><li>Atlassian Jira</li></a>
+			</ul>
+		</div>
+	</div>
 	<script src="scripts/cookiehandler.js"></script>
 	<script src="scripts/jquery-1.12.4.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
