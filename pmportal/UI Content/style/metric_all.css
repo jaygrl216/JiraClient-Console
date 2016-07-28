@@ -33,15 +33,33 @@ input{
     background-color: #658FAB;
 }
 
-#graphics {
+#graph1 {
     background-color: rgba(125, 126, 125, 0.1);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
 	margin-left: 15px;
 	margin-right: 5px;
 	margin-bottom: 15px;
-	width: 80%;
-	height: 20%;
+	color: #FFFFFF;
+	text-align: center;
+}
+#graph2 {
+    background-color: rgba(125, 126, 125, 0.1);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+		inset;
+	margin-left: 15px;
+	margin-right: 5px;
+	margin-bottom: 15px;
+	color: #FFFFFF;
+	text-align: center;
+}
+#graph3 {
+    background-color: rgba(125, 126, 125, 0.1);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+		inset;
+	margin-left: 15px;
+	margin-right: 5px;
+	margin-bottom: 15px;
 	color: #FFFFFF;
 	text-align: center;
 }
@@ -72,21 +90,6 @@ header .dropdown {
 header {
     margin-bottom: 20px;
 }
-#data{
-		text-align: center;
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
-		inset;
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-bottom: 50px;
-	width:auto;
-    background-color: rgba(125, 126, 125, 0.1);
-		color: #FFFFFF;
-}
-#data:hover{
-  background-color: rgba(125, 126, 125, 1);
-}
-
 #about{
 		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
