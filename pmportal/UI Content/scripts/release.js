@@ -78,7 +78,7 @@ $(document).ajaxStop(function () {
 });
 
 $(document).ready(function(){
-	$("#board").on( "click", "li" , function () {
+	$("#topLayer").on( "click", "li" , function () {
 		var item = $(this).text();
 		$.each(projectArray, function (index, proj) {
 			if(proj.name == item) {
@@ -86,6 +86,13 @@ $(document).ready(function(){
 			}
 		});
 	});
+    
+    $('#calendar').fullCalendar({
+        eventColor: '#378006',
+        contentHeight: 'auto',
+        backgroundColor: '#10799C',
+        borderColor: '#10799C'
+    })
 });
 
 

@@ -4,6 +4,7 @@ body {
     background-color: rgba(11, 12, 18, 0.9);
     color: #fff;
     font-family: 'Raleway', sans-serif;
+    overflow-x: hidden;
 }
 
 ul {
@@ -20,38 +21,46 @@ li {
 
 
 #graph {
-    height: 200px;
+    margin-left: 15px;
+    height: 220px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     background-color: rgba(125, 126, 125, 0.1);
     text-align: center;
 }
 
 #graph2 {
-    margin-left: 15px;
-    height: 200px;
+    margin-left: 20px;
+    height: 220px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     background-color: rgba(125, 126, 125, 0.1);
     
 }
 
 #graph3 {
-    margin-left: 15px;
+    margin-top: 30px;
+    margin-left: 25px;
     height: 200px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     background-color: rgba(125, 126, 125, 0.1);
 }
 
-#calendar {
-    height: 200px;
+#cal {
+    height: 450px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     background-color: rgba(125, 126, 125, 0.1);
 }
 
 #graph4 {
     margin-left: 30px;
-    height: 200px;
+    height: 250px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     background-color: rgba(125, 126, 125, 0.1);
+}
+
+#calendar {
+    margin-top: 20px;
+    color: rgba(96, 101, 125, 1);
+    font-weight: bold;
 }
 
 .navbar-inverse {
@@ -60,7 +69,7 @@ li {
 
 #layer1 {
     clear: both;
-    margin-left: 40px;
+    margin-left: 80px;
     margin-bottom: 30px;
 }
 
@@ -75,7 +84,7 @@ header h3 {
 
 header .dropdown {
     float: right;
-    margin-right: 80px;
+    margin-right: 100px;
     margin-top: 15px;
 }
 
@@ -96,4 +105,12 @@ h4 {
 
 .canvas {
     height: 180px;
+}
+
+nav li:hover {
+    background-color:rgba(96, 101, 125, 1);
+}
+
+.active {
+    background-color:rgba(96, 101, 125, 1);
 }
