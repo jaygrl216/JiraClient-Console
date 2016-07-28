@@ -195,8 +195,23 @@ function showInitialData() {
         var eeaData = Math.round(metrics.eea * 100) / 100;
         var progressData = Math.round(metrics.progress * 100) / 100;
         
-        $("#graph").append("<p> Project Name: "+ project.name + " \(" + project.key + "\)</p>").append
-        ("<p> SEA: " + seaData + "</p>").append("<p> EEA: " + seaData + "</p>").append("<p> Progress: " + seaData + "</p>");
+         if(seaData < 1) {
+            $("#graph").append("<p class='good'> SEA: " + seaData + "</p>");
+        } else if (seaData >= 1) {
+            $("#graph").append("<p class='bad'> SEA: " + seaData + "</p>");
+        } else {
+            $("#graph").append("<p class='warning'> SEA: Cannot Compute SEA </p>");
+        }
+        
+        if(eeaData < 1) {
+            $("#graph").append("<p class='good'> EEA: " + eeaData + "</p>");
+        } else if (eeaData >= 1) {
+            $("#graph").append("<p class='bad'> EEA: " + eeaData + "</p>");
+        } else {
+            $("#graph").append("<p class='warning'> EEA: Cannot Compute SEA </p>");
+        }
+        
+        $("#graph").append("<p> Progress: " + progressData + "</p>");
 	});
 
 	$.ajax({
@@ -251,8 +266,25 @@ function showProjectData(num) {
         
          $("#graph").empty();
         $("#graph").append("<h4> Project Data & Info </h4>").append
-        ("<p> Project Name: "+ project.name + " \(" + project.key + "\)</p>").append
-        ("<p> SEA: " + seaData + "</p>").append("<p> EEA: " + seaData + "</p>").append("<p> Progress: " + seaData + "</p>");
+        ("<p> Project Name: "+ project.name + " \(" + project.key + "\)</p>");
+        
+        if(seaData < 1) {
+            $("#graph").append("<p class='good'> SEA: " + seaData + "</p>");
+        } else if (seaData >= 1) {
+            $("#graph").append("<p class='bad'> SEA: " + seaData + "</p>");
+        } else {
+            $("#graph").append("<p class='warning'> SEA: Cannot Compute SEA </p>");
+        }
+        
+        if(eeaData < 1) {
+            $("#graph").append("<p class='good'> EEA: " + eeaData + "</p>");
+        } else if (eeaData >= 1) {
+            $("#graph").append("<p class='bad'> EEA: " + eeaData + "</p>");
+        } else {
+            $("#graph").append("<p class='warning'> EEA: Cannot Compute SEA </p>");
+        }
+        
+        $("#graph").append("<p> Progress: " + progressData + "</p>");
     });
         
         

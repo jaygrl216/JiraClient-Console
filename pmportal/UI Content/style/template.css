@@ -92,6 +92,7 @@ header .dropdown {
     background-color: rgba(17, 18, 23, 0.9);
 }
 
+
 header {
     margin-bottom: 20px;
 }
@@ -101,7 +102,7 @@ h4 {
 }
 
 #projectList li {
-    color:#000;
+    color:#fff;
     margin-right: 0px;
     margin-left: 0px;
     padding: 5px;
@@ -121,4 +122,8 @@ nav li:hover {
 
 #pie {
     margin-top: 15px;
+}
+
+#graph h4 {
+    margin-bottom: 20px;
 }
