@@ -108,6 +108,12 @@ h4 {
     padding: 5px;
 }
 
+#projectList li:hover {
+    background-color:rgba(96, 101, 125, 1);
+}
+
+
+
 .canvas {
     height: 180px;
 }
@@ -130,6 +136,21 @@ nav li:hover {
 
 .good {
     color:#81EB3F;
+}
+
+.btn-info {
+    background-color:rgba(96, 101, 125, 1);
+    border-color: rgba(96, 101, 125, 1);
+}
+
+.btn-info:hover {
+    background-color:rgba(96, 101, 125, 0.5);
+    border-color: rgba(96, 101, 125, 1);
+}
+
+.btn-info:visited {
+     background-color:rgba(96, 101, 125, 1);
+    border-color: rgba(96, 101, 125, 1);
 }
 
 .bad {

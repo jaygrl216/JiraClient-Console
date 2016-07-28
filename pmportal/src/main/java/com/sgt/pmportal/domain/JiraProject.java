@@ -149,7 +149,7 @@ public class JiraProject {
 	 * @return Date
 	 */
 	private Date setDefaultDueDate() {
-		Date latest = new Date(0);
+		Date latest = new Date(System.currentTimeMillis());
 
 		for (Release curRelease: releases) {
 			if(curRelease.getRelease() != null) {
@@ -267,8 +267,8 @@ public class JiraProject {
 			releaseArray.put(release.toJSONString());
 		}
 		project.put("releases", releaseArray);
-		String projectString=project.toString();
-		return projectString;
+		project.put("due", due);
+		return project.toString();
 
 	}
 
