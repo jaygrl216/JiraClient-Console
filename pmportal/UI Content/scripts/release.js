@@ -171,7 +171,6 @@ function createPie() {
 function showInitialData() {
 	var project = projectArray[0];
     projKey = project.key;
-	$("#graph").append("<p> Project Name: "+ project.name + " \(" + project.key + "\)</p>");
 	//this will pass the information to metrics, so when they click on the link, it continues with the same project
 	$("#metricLink").attr("href", "metrics.html?project=" + projKey);
     
@@ -195,6 +194,9 @@ function showInitialData() {
         var seaData = Math.round(metrics.sea * 100) / 100;
         var eeaData = Math.round(metrics.eea * 100) / 100;
         var progressData = Math.round(metrics.progress * 100) / 100;
+        
+        $("#graph").append("<p> Project Name: "+ project.name + " \(" + project.key + "\)</p>").append
+        ("<p> SEA: " + seaData + "</p>").append("<p> EEA: " + seaData + "</p>").append("<p> Progress: " + seaData + "</p>");
 	});
 
 	$.ajax({
@@ -230,10 +232,6 @@ function showProjectData(num) {
     issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     metricResource = "http://localhost:8080/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     
-    
-    $("#graph").empty();
-    $("#graph").append("<p> Project Name: "+ project.name + " \(" + project.key + "\)</p>");
-    
     $.ajax({
         url: metricResource,
         dataType: "json"
@@ -250,6 +248,11 @@ function showProjectData(num) {
         var seaData = Math.round(metrics.sea * 100) / 100;
         var eeaData = Math.round(metrics.eea * 100) / 100;
         var progressData = Math.round(metrics.progress * 100) / 100; 
+        
+         $("#graph").empty();
+        $("#graph").append("<h4> Project Data & Info </h4>").append
+        ("<p> Project Name: "+ project.name + " \(" + project.key + "\)</p>").append
+        ("<p> SEA: " + seaData + "</p>").append("<p> EEA: " + seaData + "</p>").append("<p> Progress: " + seaData + "</p>");
     });
         
         

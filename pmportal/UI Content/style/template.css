@@ -88,6 +88,10 @@ header .dropdown {
     margin-top: 15px;
 }
 
+.dropdown ul {
+    background-color: rgba(17, 18, 23, 0.9);
+}
+
 header {
     margin-bottom: 20px;
 }
