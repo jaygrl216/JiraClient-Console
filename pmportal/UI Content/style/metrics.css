@@ -1,5 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
-
+a{
+	color:#000000;
+}
+a:hover{
+	text-decoration:none;
+}
 body {
 	background-color:#ACD1E1;
 	background: -webkit-linear-gradient(left, rgba(176, 212, 227, 1) 0%,

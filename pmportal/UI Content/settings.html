@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>PMPortal Dashboard: Settings</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style/bootstrap.min.css">
+<link rel="stylesheet" href="style/settings.css">
+<script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
+<script type="text/javascript" src="scripts/Chart.js"></script>
+</head>
+<body>
+
+	<section id="dash" class="container-fluid">
+		<div class="row">
+			<div class="col-lg-2 col-md-2" id="menuNav">
+				<ul class="list-unstyled h4" id="menu">
+					<a href="index.html"><li>Home</li></a>
+					<a href="releaseDash.html"><li>Release</li></a>
+					<a href="metrics.html"><li>Metrics</li></a>
+					<a href="settings.html"><li class="active">Settings</li></a>
+				</ul>
+			</div>
+			<div class="col-lg-10 col-md-10" id="board">
+				<header>
+					<h3>
+						PMPortal Dashboard <small>Settings</small>
+					</h3>
+				</header>
+
+				<section id="content">
+					<div class="row">
+						<div class="col-lg-3" id="settings">
+							<p>If you would like to receive email notifications, please input your email below: </p>
+							<input type="text" id="emailInput" />
+							<br>
+
+							<button type="button" onclick="saveSettings()">Save</button>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+
+
+	</section>
+	<script src="scripts/cookiehandler.js"></script>
+	<script src="scripts/jquery-1.12.4.min.js"></script>
+	<script src="scripts/bootstrap.min.js"></script>
+</body>
+
+</html>

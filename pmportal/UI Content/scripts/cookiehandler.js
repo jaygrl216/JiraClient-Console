@@ -11,6 +11,10 @@ function setCookie(uname, pass, url, remember){
 	};
 };
 
+function settingsCookie(emailAddress){
+	document.cookie="email="+emailAddress + "; expires=Tuesday, January 18, 2038 01:00:00 AM";
+};
+
 function getCookie(cname) {
 	var name = cname + "=";
 	var ca = document.cookie.split(';');
