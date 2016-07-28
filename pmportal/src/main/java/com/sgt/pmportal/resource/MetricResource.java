@@ -113,4 +113,23 @@ public class MetricResource {
 	    //return json object
 		return responseObject.toString();
 	}
+
+@Path("/all/basic/{projectKey}/{username}/{password}/{url:.+}")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public String getAllMetrics(@PathParam ("projectKey") String key, 
+		@PathParam ("username") String username, 
+		@PathParam ("password") String password, 
+		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+	JiraRestClient client=GeneralServices.login(url, username, password);
+	String authorization=GeneralServices.encodeAuth(username, password);
+	ProjectServices projectService=new ProjectServices(client, authorization, url);
+	JiraProject project=projectService.getProjectByKey(key);
+	MetricsServices metricService=new MetricsServices(client, authorization, url);
+	List<Number> defectList=metricService.calculateDefectTotal(project);
+	Date projectedDate = projectService.projectedDueDate(project);
+	Double progress=metricService.calculateProgress(key);
+	String responseString="";
+	return responseString;
+}
 }
