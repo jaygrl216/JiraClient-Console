@@ -383,50 +383,38 @@ public class MetricsServices {
 	}
 
 	/**
-	 * Calculates the forecast interval and regression error of a set of data
-	 * points, returns List<Double> This assumes that x starts at 0 and is in
+	 * Calculates the regression error of a set of data
+	 * points. This assumes that x starts at 0 and is in
 	 * increments of 1 and y (data) is a one dimensional vector
 	 * 
 	 * @param data,regressionLineSlope
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws JSONException
-	 * @return List<Double>
+	 * @return Double
 	 */
-	public List<Double> getForecastInterval(List<Double> data, Double regressionSlope) {
+	public Double getRegressionError(List<Double> data, Double regressionSlope) {
 		if (regressionSlope == null) {
 			regressionSlope = getRegressionSlope(data);
 		}
-		double interval = 0;
 		// standard deviation on the error of the regression line
 		double s = 0;
 		// this calculation will only work if there are at least four observed
 		// data points
 		if (data.size() > 4) {
-			double xAv = 0;
 			double sumE = 0;
-			// N=x because the number of observed values is 1 greater than the
-			// last index of that value; x=size-1 because the
-			// last number in data sets (in this case) will be an estimation
-			// (see predictAccuracy(), predictBugs())
 			// [observed value1 ] index:0
 			// [observed value2 ] index:1
 			// [ ... ] index:2...N-1
 			// [observed valueN ] index:N size x
-			// [estimated valueX] index:X (not used in this calculation)
+			// [estimated valueX] index:X
 			// x is the x value (same as index) for the estimated data point
 			double x = data.size() - 1;
 			// number of observed data points
 			double N = x;
-			// variance of x
-			double vX = 0;
 			// 'y-intercept'
 			double b = data.get(0);
-			// sum of observed x values (in our case, luckily, 0+1+2+3+...N
-			double sumX = 0;
-			double sumSquared = 0;
 			for (int i = 0; i < x; i++) {
-				sumX = sumX + i; // since x values are just increments of 1
 				// error of a data point
 				double e = data.get(i) - (regressionSlope * i + b); // mx+b,
 																	// substitute
@@ -438,22 +426,10 @@ public class MetricsServices {
 			double v = sumE / (N - 2); // N-2, two degrees of freedom (slope and
 										// point)
 			s = Math.sqrt(v);
-			// find the variance of x sum(i=0,N,(x(i)-xAv)^2)/(N-1)
-			xAv = sumX / (N); // N, total observed values of x
-			for (int i = 0; i < x; i++) {
-				sumSquared = sumSquared + (i - xAv) * (i - xAv);
-			}
-			vX = sumSquared / (x - 2); // N-1, one degree of freedom
-			// this is the actual calculation of the interval y^+/-
-			// 1.96*s*{1+1/N + [x-xAv]^2/[(N-1)vX]}^1/2
-			// inside is everything inside the square root
-			double inside = 1 + 1 / (x - 1) + (x - xAv) * (x - xAv) / ((N - 1) * vX);
-			interval = 1.96 * s * Math.sqrt(inside);
+		}else{
+			s=0;
 		}
-		List<Double> forecastList = new ArrayList<>();
-		forecastList.add(interval);
-		forecastList.add(s);
 		// [0]=forecast interval, [1]=error of the regression
-		return forecastList;
+		return s;
 	}
 }

@@ -25,6 +25,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.w3c.dom.Document;
@@ -110,7 +111,40 @@ public class MetricResource {
 	    }catch (Exception e){
 	    	e.printStackTrace();
 	    }
+	    responseObject.put("seaAccuracy", metricService.getRegressionError(dataList.get(0), null));
+	    responseObject.put("eeaAccuracy", metricService.getRegressionError(dataList.get(1), null));
+	    responseObject.put("bugAccuracy", metricService.getRegressionError(dataList.get(2), null));
 	    //return json object
 		return responseObject.toString();
 	}
+
+@Path("/all/{username}/{password}/{url:.+}")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public String getAllMetrics(@PathParam ("username") String username,
+		@PathParam ("password") String password,
+		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+	JiraRestClient client=GeneralServices.login(url, username, password);
+	String authorization=GeneralServices.encodeAuth(username, password);
+	ProjectServices projectService=new ProjectServices(client, authorization, url);
+	List<JiraProject> projectList=projectService.getAllJiraProjects();
+	MetricsServices metricService=new MetricsServices(client, authorization, url);
+	JSONObject responseObject=new JSONObject();
+	JSONArray projectArray=new JSONArray();
+	for (JiraProject project:projectList){
+	List<Number> defectList=metricService.calculateDefectTotal(project);
+	String key=project.getKey();
+	String name=project.getName();
+	Double progress=metricService.calculateProgress(key);
+	String projectString="{\"name\":\""+name+"\", \"bugs\":\"" + defectList.get(0) +
+			"\", \"sea\":\"" + defectList.get(1) +
+			"\", \"eea\":\"" + defectList.get(2) +
+			"\", \"overdue\":\"" + defectList.get(3) +
+			"\", \"progress\":\"" + progress.toString()	+ "\"}";
+	JSONObject projectObject=new JSONObject(projectString);
+	projectArray.put(projectObject);
+	}
+	responseObject.put("project", projectArray);
+	return responseObject.toString();
+}
 }

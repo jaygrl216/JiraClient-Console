@@ -12,42 +12,45 @@
 </head>
 <body>
 
-	<section id="dash" class="container-fluid">
-		<div class="row">
-			<div class="col-lg-2 col-md-2" id="menuNav">
-				<ul class="list-unstyled h4" id="menu">
-					<a href="index.html"><li>Home</li></a>
-					<a href="releaseDash.html"><li>Release</li></a>
-					<a href="metrics.html"><li>Metrics</li></a>
-					<a href="settings.html"><li class="active">Settings</li></a>
-				</ul>
-			</div>
-			<div class="col-lg-10 col-md-10" id="board">
-				<header>
+	<nav class="navbar navbar-inverse navbar-fixed-bottom">
+        <ul class="nav nav-justified">
+			<li><a href="index.html">Home</a></li>
+			<li><a href="releaseDash.html">Release</a></li>
+			<li><a href="metrics.html">Metrics</a></li>
+			<li>Reports</li>
+			<li class="active">Profile &amp; Settings</li>
+            </ul>
+        </nav>
+			<header class="row" id="topLayer">
 					<h3>
 						PMPortal Dashboard <small>Settings</small>
 					</h3>
 				</header>
 
-				<section id="content">
-					<div class="row">
+					<div class="row" id="layer1">
 						<div class="col-lg-3" id="settings">
-							<p>If you would like to receive email notifications, please input your email below: </p>
-							<input type="text" id="emailInput" />
+							<p>If you would like to receive email notifications, please input your email below</p>
+							Email Address: <input type="text" id="emailInput" />
+							<input type="button" value="Send Test Email"/>
+							<br><br>
+							<p>Edit credentials and server URL</p>
+							Username: <input type="text" id="userText"/>
+							Password: <input type="password" id="passText"/>
+							Jira URL: <input type="text" id="urlText"/>
+							<br><input type="checkbox" id="rememberBox" /> Remember me <br>
 							<br>
-
-							<button type="button" onclick="saveSettings()">Save</button>
+							<p style="color: red; visibility: hidden" id="fail">Login
+							failed! Double check your login info, and make sure the Jira URL
+							is correct; it is generally "http://serverURL" or
+							"http://serverURL/jira"</p>
+							
+							<a><input type="button" onclick="saveSettings()" value="Save"/></a>
 						</div>
 					</div>
-				</section>
-			</div>
-		</div>
-
-
-	</section>
 	<script src="scripts/cookiehandler.js"></script>
 	<script src="scripts/jquery-1.12.4.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
+	<script src="scripts/settings.js"></script>
 </body>
 
 </html>
