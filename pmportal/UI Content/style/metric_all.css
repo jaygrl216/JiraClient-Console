@@ -22,16 +22,17 @@ li {
 input{
 	background-color:rgba(125, 126, 125, 0.1);
 }
-#metricList li {
+#projectList li {
     color:#000;
     margin-right: 0px;
     margin-left: 0px;
     padding: 5px;
 }
-#metricList li:hover{
+#projectList li:hover{
     color:#FFF !important;
     background-color: #658FAB;
 }
+
 #graphics {
     background-color: rgba(125, 126, 125, 0.1);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
@@ -71,21 +72,6 @@ header .dropdown {
 header {
     margin-bottom: 20px;
 }
-
-#information {
-	clear: both;
-}
-#reportContainer{
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
-		inset;
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-bottom: 50px;
-	width:auto;
-    background-color: rgba(125, 126, 125, 0.1);
-		color: #FFFFFF;
-}
-
 #data{
 		text-align: center;
 		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
