@@ -111,10 +111,11 @@ public class MetricResource {
 	    }catch (Exception e){
 	    	e.printStackTrace();
 	    }
+	    responseObject.put("seaAccuracy", metricService.getRegressionError(dataList.get(0), null));
 	    //return json object
 		return responseObject.toString();
 	}
-
+	
 @Path("/all/{username}/{password}/{url:.+}")
 @GET
 @Produces(MediaType.APPLICATION_JSON)
