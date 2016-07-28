@@ -130,7 +130,6 @@ public String getAllMetrics(@PathParam ("username") String username,
 	JSONArray projectArray=new JSONArray();
 	for (JiraProject project:projectList){
 	List<Number> defectList=metricService.calculateDefectTotal(project);
-	Date projectedDate = projectService.projectedDueDate(project);
 	String key=project.getKey();
 	String name=project.getName();
 	Double progress=metricService.calculateProgress(key);
@@ -138,7 +137,6 @@ public String getAllMetrics(@PathParam ("username") String username,
 			"\", \"sea\":\"" + defectList.get(1) + 
 			"\", \"eea\":\"" + defectList.get(2) + 
 			"\", \"overdue\":\"" + defectList.get(3) +
-			"\", \"projectedDate\":\"" + projectedDate.toString() +
 			"\", \"progress\":\"" + progress.toString()	+ "\"}";
 	JSONObject projectObject=new JSONObject(projectString);
 	projectArray.put(projectObject);
