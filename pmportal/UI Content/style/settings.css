@@ -1,34 +1,30 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
 
+a{
+	color:#ffffff;
+}
+a:hover{
+	text-decoration:none;
+}
 body {
-	background-color:#ACD1E1;
-	background: -webkit-linear-gradient(left, rgba(176, 212, 227, 1) 0%,
-		rgba(136, 186, 207, 1) 100%);
-	font-family: 'Raleway', sans-serif;
+    background-color: rgba(11, 12, 18, 0.9);
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
 }
 
-#menu {
-	margin-top: 30%;
+ul {
+    font-family: 'Raleway', sans-serif;
+    color: #fff;
 }
 
-#menu li {
-	height: 50px;
-	color: #FFF;
+li {
+    text-align: center;
 }
-
-#menu li:hover {
-	height: 50px;
-	color: #FFF !important;
-	background-color: #658FAB;
+input{
+	background-color: rgba(125, 126, 125, 0.1);
 }
-
-#board {
-	background-color: #FFF;
-	margin-left: -15px;
-}
-
 #settings {
-	background-color: #F2F2F2;
+    background-color: rgba(125, 126, 125, 0.1);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
 	margin-left: 30px;
@@ -37,34 +33,28 @@ body {
 	width: 90%;
 	height: 30%;
 }
+#layer1 {
+    clear: both;
+    margin-left: 40px;
+    margin-bottom: 30px;
+}
 
+#layer2 {
+    margin-left: 40px;
+	margin-bottom:30px;
+}
 .active {
 	background-color: #FFF;
 	color: #000 !important;
 }
-
-header .dropdown {
-	float: right;
-	margin-top: 15px;
-	margin-right:80px;
-}
-
 header h3 {
-	float: left;
+    float: left;
+    margin-left: 55px;
 }
 
-header li:hover {
-	background-color: #658FAB;
-	color: #FFF;
+header {
+    margin-bottom: 20px;
 }
-
-h3 {
-	color: #69CEDB
-}
-h3 small {
-	color: #189AAB;
-	font-weight: bold;
-}
-#content {
-	clear: both;
+.navbar-inverse {
+    background-color: rgba(17, 18, 23, 0.9);
 }
