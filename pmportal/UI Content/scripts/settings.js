@@ -25,6 +25,7 @@ function saveSettings(){
 	}).done(function(response){
 		if (response=="Success"){
 			setCookie(user, pass, baseURL, remember);
+			alert("Successfully saved credentials")
 		}else{
 			alert("Login failed!");
 };
