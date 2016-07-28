@@ -127,3 +127,15 @@ nav li:hover {
 #graph h4 {
     margin-bottom: 20px;
 }
+
+.good {
+    color:#81EB3F;
+}
+
+.bad {
+    color:#F52811;
+}
+
+.warning {
+    color: #F5E949;
+}
