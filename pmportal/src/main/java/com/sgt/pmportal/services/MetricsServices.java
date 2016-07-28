@@ -426,6 +426,8 @@ public class MetricsServices {
 			double v = sumE / (N - 2); // N-2, two degrees of freedom (slope and
 										// point)
 			s = Math.sqrt(v);
+		}else{
+			s=0;
 		}
 		// [0]=forecast interval, [1]=error of the regression
 		return s;
