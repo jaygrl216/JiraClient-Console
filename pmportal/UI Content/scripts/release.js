@@ -3,8 +3,8 @@ var password = "Diamond2017";
 var baseURL = "http://54.152.100.242/jira";
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
-var issueResource;
-var metricResource;
+var issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+var metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 var responseObject2;
 var responseObject3;
@@ -13,6 +13,8 @@ var issueArray;
 var metrics;
 var barChart;
 var pieChart;
+var projKey;
+var stop = 0;
 
 var barData = {
 		labels: [],
@@ -30,6 +32,27 @@ var barData = {
 		        	   data: []
 		           }
 		           ]
+};
+
+
+var pieData = {
+		labels: [
+		         "Completed",
+		         "To Do",
+		         ],
+
+		         datasets: [
+		                    {
+		                    	data: [0,0],
+		                    	backgroundColor: [
+		                    	                  "#FA760A",
+		                    	                  "#FAEB48",
+		                    	                  ],
+		                    	                  hoverBackgroundColor: [
+		                    	                                         "#FA9848",
+		                    	                                         "#FAF087",
+		                    	                                         ]
+		                    }]
 };
 
 function createBar() {
@@ -52,6 +75,17 @@ function createBar() {
 	}); 
 }
 
+function createPie() {
+	var ctx = document.getElementById('pie').getContext('2d');
+	pieChart = new Chart(ctx, {
+		type: 'pie',
+		data: pieData,
+		options: {
+			maintainAspectRatio: true,
+			responsive: true
+		}
+	});
+}
 
 $.ajax({
 	url: homeResource,
@@ -73,8 +107,12 @@ $.ajax({
 
 
 $(document).ajaxStop(function () {
-	createBar();
-	showInitialData();
+    if(stop == 0) {
+        createBar();
+        createPie();
+        showInitialData();
+        stop = 1;
+    }
 });
 
 $(document).ready(function(){
@@ -96,19 +134,49 @@ $(document).ready(function(){
 });
 
 
+function createBar() {
+	var ctx = document.getElementById('issues').getContext('2d');
+	barChart = new Chart(ctx, {
+		type: 'bar',
+		data: barData,
+		options: {
+			maintainAspectRatio: false,
+			responsive: true,
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true
+					}
+				}]
+			}
+		}
+
+	}); 
+}
+
+function createPie() {
+	var ctx = document.getElementById('pie').getContext('2d');
+	pieChart = new Chart(ctx, {
+		type: 'pie',
+		data: pieData,
+		options: {
+			maintainAspectRatio: true,
+			responsive: true
+		}
+	});
+}
+
+
+
 function showInitialData() {
 	var project = projectArray[0];
-	$("#graph1").append("<p> Project Name: " + project.name + "</p>").append
-	("<p> Project Key: " + project.key + "</p>").append
-	("<p> Project Lead: " + project.lead.displayName + "</p>").append
-	("<p> Release to Date: " + project.releases.length + "</p>");
-
-	projKey = project.key;
-	issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-	metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-
+    projKey = project.key;
+	$("#graph").append("<p> Project Name: "+ project.name + " \(" + project.key + "\)</p>");
 	//this will pass the information to metrics, so when they click on the link, it continues with the same project
 	$("#metricLink").attr("href", "metrics.html?project=" + projKey);
+    
+    metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 
 	$.ajax({
 		url: metricResource,
@@ -118,7 +186,6 @@ function showInitialData() {
 		console.log("Status: " + status );
 		console.dir(xhr);
 	}).done(function(jsonObject){
-		console.log("SUCCESS");
 		responseObject3 = jsonObject;
 		metrics = responseObject3;
 		pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
@@ -128,28 +195,6 @@ function showInitialData() {
         var seaData = Math.round(metrics.sea * 100) / 100;
         var eeaData = Math.round(metrics.eea * 100) / 100;
         var progressData = Math.round(metrics.progress * 100) / 100;
-        
-		$("#graph3").append("<p>" + metrics.projectedDate + "</p>");
-        
-        if (seaData < 1) {
-            $("#graph4").append("<p class='incomplete'> SEA: " + seaData + "</p>");
-        } else {
-            $("#graph4").append("<p class='completed'> SEA: " + seaData + "</p>");
-        }
-        
-        if (eeaData < 1) {
-            $("#graph4").append("<p class='incomplete'> EEA: " + eeaData + "</p>");
-        } else {
-             $("#graph4").append("<p class='completed'> EEA: " + eeaData + "</p>");
-        }
-        
-        $("#graph4").append("<p> Progress: " + progressData + "</p>");
-        
-         if(progressData < 100) {
-            $("#graph1").append("<p class='inProgress'> In Progress </p>");
-        } else {
-            $("#graph1").append("<p class='completed'> Completed </p>");
-        }
 	});
 
 	$.ajax({
@@ -181,20 +226,13 @@ function showInitialData() {
 
 function showProjectData(num) {
     var project = projectArray[num];
-    $("#graph1").empty();
-    $("#graph1").append("<h4> Project Information </h4>").append("<p> Project Name: " + project.name + "</p>").append
-            ("<p> Project Key: " + project.key + "</p>").append
-            ("<p> Project Lead: " + project.lead.displayName + "</p>").append
-            ("<p> Release to Date: " + project.releases.length + "</p>");
-    $("#graph3").empty();
-    $("#graph3").append("<h4> Projected End Date </h4>");
-    $("#graph4").empty();
-    $("#graph4").append("<h4> Project Data </h4>");
-    
-    
     projKey = project.key;
     issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     metricResource = "http://localhost:8080/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    
+    
+    $("#graph").empty();
+    $("#graph").append("<p> Project Name: "+ project.name + " \(" + project.key + "\)</p>");
     
     $.ajax({
         url: metricResource,
@@ -204,7 +242,6 @@ function showProjectData(num) {
         console.log("Status: " + status );
         console.dir(xhr);
     }).done(function(jsonObject){
-        console.log("SUCCESS");
         responseObject3 = jsonObject;
         metrics = responseObject3;
         pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
@@ -212,30 +249,7 @@ function showProjectData(num) {
         pieChart.update();
         var seaData = Math.round(metrics.sea * 100) / 100;
         var eeaData = Math.round(metrics.eea * 100) / 100;
-        var progressData = Math.round(metrics.progress * 100) / 100;
-        
-        $("#graph3").append("<p>" + metrics.projectedDate + "</p>");
-        
-        if (seaData < 1) {
-            $("#graph4").append("<p class='incomplete'> SEA: " + seaData + "</p>");
-        } else {
-            $("#graph4").append("<p class='completed'> SEA: " + seaData + "</p>");
-        }
-    
-        if (eeaData < 1) {
-            $("#graph4").append("<p class='incomplete'> EEA: " + eeaData + "</p>");
-        } else {
-             $("#graph4").append("<p class='completed'> EEA: " + eeaData + "</p>");
-        }
-        
-        $("#graph4").append("<p> Progress: " + progressData + "</p>");
-
-        if(progressData < 100) {
-            $("#graph1").append("<p class='inProgress'> In Progress </p>");
-        } else {
-            $("#graph1").append("<p class='completed'> Completed </p>");
-        }
-        
+        var progressData = Math.round(metrics.progress * 100) / 100; 
     });
         
         
@@ -268,4 +282,9 @@ function showProjectData(num) {
         barChart.update();
     });
 }
+	
+
+
+
+
 

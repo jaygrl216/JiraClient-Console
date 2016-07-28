@@ -114,3 +114,7 @@ nav li:hover {
 .active {
     background-color:rgba(96, 101, 125, 1);
 }
+
+#pie {
+    margin-top: 15px;
+}
