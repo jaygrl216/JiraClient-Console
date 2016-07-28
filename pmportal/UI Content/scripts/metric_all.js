@@ -12,6 +12,8 @@ var labelArray=[];
 var seaData=[];
 var eeaData=[];
 var bugData=[];
+var progData=[];
+$("#aboutInfo").hide();
 $.ajax({
 	url: homeResource,
 	dataType: "json"
@@ -36,6 +38,7 @@ $.ajax({
 }).done(function(jsonObject){
 	metricObject = jsonObject;
 	projectArray = metricObject.project;
+	parseData();
 	$.each(projectArray, function (index, proj) {;
 		labelArray[index]=proj.name;
 	});
@@ -59,9 +62,10 @@ $(document).ready(function(){
 });
 function parseData(){
 	$.each(projectArray, function (i, proj) {;
-		seaData[i]=JSON.parse(proj.sea);
-		eeaData[i]=JSON.parse(proj.eea);
-		bugData[i]=JSON.parse(proj.bugs);
+		seaData[i]=proj.sea;
+		eeaData[i]=proj.eea;
+		bugData[i]=proj.bugs;
+		progData[i]=proj.progress;
 	});
 };
 
@@ -70,6 +74,7 @@ function drawGraphics(){
 	var ctx1=document.getElementById("seaGraph").getContext("2d");
 	var ctx2=document.getElementById("eeaGraph").getContext("2d");
 	var ctx3=document.getElementById("bugGraph").getContext("2d");
+	var ctx4=document.getElementById("progGraph").getContext("2d");
 	var chartData1 = {
 			labels:labelArray,
 			datasets: [
@@ -88,7 +93,7 @@ function drawGraphics(){
 			        	   label:"EEA",
 			        	   data:eeaData,
 			        	   fill:false,
-			        	   backgroundColor:"#FF0000",
+			        	   backgroundColor:"#00FF00",
 			           }]
 
 	};
@@ -99,7 +104,18 @@ function drawGraphics(){
 			        	   label:"Bugs",
 			        	   data:bugData,
 			        	   fill:false,
-			        	   backgroundColor:"#FF0000",
+			        	   backgroundColor:"#0000FF",
+			           }]
+
+	};
+			var chartData4 = {
+			labels:labelArray,
+			datasets: [
+			           {
+			        	   label:"Progress",
+			        	   data:progData,
+			        	   fill:false,
+			        	   backgroundColor:"#FF00FF",
 			           }]
 
 	};
@@ -107,29 +123,68 @@ function drawGraphics(){
 		type: 'bar',
 		data: chartData1,
 		options:{
-			maintainAspectRatio:true,
-			responsive:true
+			maintainAspectRatio:false,
+			responsive:true,
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true
+					}
+				}]
+			}
 		}
 	});
 		var barChart2 = new Chart(ctx2,{
 		type: 'bar',
 		data: chartData2,
 		options:{
-			maintainAspectRatio:true,
-			responsive:true
+			maintainAspectRatio:false,
+			responsive:true,
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true
+					}
+				}]
+			}
 		}
 	});
 		var barChart3 = new Chart(ctx3,{
 		type: 'bar',
 		data: chartData3,
 		options:{
-			maintainAspectRatio:true,
-			responsive:true
+			maintainAspectRatio:false,
+			responsive:true,
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true,
+						fixedStepSize:1
+					}
+				}]
+			}
+		}
+	});
+			var barChart4 = new Chart(ctx4,{
+		type: 'bar',
+		data: chartData4,
+		options:{
+			maintainAspectRatio:false,
+			responsive:true,
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true,
+						max:100
+					}
+				}]
+			}
 		}
 	});
 };
-
-
+function toggleAbout(){
+	$("#aboutInfo").toggle();
+};
 function redirectToMetrics(key){
 	window.location="metrics.html?project="+key;
 };

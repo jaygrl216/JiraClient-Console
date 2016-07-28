@@ -40,6 +40,8 @@ input{
 	margin-left: 15px;
 	margin-right: 5px;
 	margin-bottom: 15px;
+	width:90%;
+	height:300px;
 	color: #FFFFFF;
 	text-align: center;
 }
@@ -50,6 +52,8 @@ input{
 	margin-left: 15px;
 	margin-right: 5px;
 	margin-bottom: 15px;
+	width:90%;
+	height:300px;
 	color: #FFFFFF;
 	text-align: center;
 }
@@ -60,14 +64,29 @@ input{
 	margin-left: 15px;
 	margin-right: 5px;
 	margin-bottom: 15px;
+	width:90%;
+	height:300px;
+	color: #FFFFFF;
+	text-align: center;
+}
+#graph4 {
+    background-color: rgba(125, 126, 125, 0.1);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+		inset;
+	margin-left: 15px;
+	margin-right: 5px;
+	margin-bottom: 15px;
+	width:90%;
+	height:300px;
 	color: #FFFFFF;
 	text-align: center;
 }
 
 #loadImage{
 	display:block;
-	margin:auto;
-padding-bottom:15%;	
+	margin-left:43%;
+	width:7%;
+position:fixed;
 }
 
 .active {
@@ -109,6 +128,18 @@ header {
 }
 
 #layer2 {
+    margin-left: 40px;
+	margin-bottom:30px;
+}
+#layer3 {
+    margin-left: 40px;
+	margin-bottom:30px;
+}
+#layer4 {
+    margin-left: 40px;
+	margin-bottom:30px;
+}
+#layer5 {
     margin-left: 40px;
 	margin-bottom:30px;
 }

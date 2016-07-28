@@ -34,19 +34,29 @@
 			</ul>
 		</div>
 	</header>
+	<p>Please wait. This may take several minutes to complete.</p>
 	<div class="row" id="layer1">
 		<img id="loadImage" src="images/loading.gif" />
 		<div class="col-lg-4" id="graph1">
 		<canvas id="seaGraph"></canvas>
 		</div>
+	</div>
+	<div class="row" id="layer2">
 		<div class="col-lg-4" id="graph2">
 			<canvas id="eeaGraph"></canvas>
 		</div>
 	</div>
-	<div class="row" id="layer2">
+	<div class="row" id="layer3">
 		<div class="col-lg-4" id="graph3">
 			<canvas id="bugGraph"></canvas>
 		</div>
+	</div>
+	<div class="row" id="layer4">
+		<div class="col-lg-4" id="graph4">
+			<canvas id="progGraph"></canvas>
+		</div>
+	</div>
+		<div class="row" id="layer5">
 		<div id="about" class="col-md-3" onclick="toggleAbout()">
 			<h4 style="text-align: center">What does this mean?</h4>
 			<div id="aboutInfo">
@@ -63,10 +73,9 @@
 				</p>
 				<p>Bug count is the number of issues listed as a "Bug" in a
 					sprint.</p>
-				<p>
-					The prediction model uses the Theil-Sen estimator to create a
-					simple linear regression model which tends to ignore outliers,
-					providing greater accuracy over smaller data sets.
+				<p>Progress is the perccentage of issues completed out of the total number of issues in a project.
+				</p>
+				<p>If values do not show up for a certain project, it likely contains no sprints and is not an agile scrum project.
 				</p>
 			</div>
 		</div>
