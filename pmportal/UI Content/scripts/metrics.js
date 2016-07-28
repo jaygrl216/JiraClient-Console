@@ -5,7 +5,7 @@ var baseURL=getCookie("url");
 var projectKey=getKeyFromURL();
 var hostURL=window.location.host;
 var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
-var projectResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
+var allResource="http://" + hostURL+ "/pmportal/rest/metrics/all/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 var id="sea";
 var loaded=false;
@@ -29,6 +29,7 @@ $.ajax({
 	generateTable();
 	drawGraph();
 });
+
 //loading icon
 $(document).ajaxStart(function(){
 	$("#loadImage").show();
@@ -147,4 +148,7 @@ function generateTable(){
 	for (var i=0;i<seaArray.length-1; i++){
 		$("#dataTable").append("<tr><td> Sprint: "+ (i+1)+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
 	};
+};
+function redirectToAll(){
+	window.location="metric_all.html";
 };
