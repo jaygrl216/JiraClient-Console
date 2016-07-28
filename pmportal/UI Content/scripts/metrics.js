@@ -65,15 +65,6 @@ function showReport(){
 function toggleAbout(){
 	$("#aboutInfo").toggle();
 };
-function toggleChart(){
-	if (chartToggle){
-		$("#graphics").css("width","90%");
-		chartToggle=false;
-	}else{
-		$("#graphics").css("width", "30%");
-		chartToggle=true;
-	};
-};
 function drawGraph(){
 	$(".chartjs-hidden-iframe").remove();
 	drawLineGraphics();
@@ -106,7 +97,7 @@ function drawLineGraphics(){
 			        	   data:dataArray,
 			        	   fill:false,
 			        	   backgroundColor:"#FF0000",
-			        	   borderColor:'rgba(0, 0, 0, 0.7)',
+			        	   borderColor:'rgba(255, 255, 255, 0.5)',
 			        	   borderDash:[5,5],
 			        	   lineTension:0
 			           }]
@@ -147,8 +138,6 @@ function generateReport(){
 	var predictedBug=bugArray[bugArray.length-1];
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
 	$("#reportContainer").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +seaAnalysis3+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
-	$("#reportContainer").css("background-color", "#FFFFFF");
-	$("#reportContainer").css("color", "#000000");
 };
 function generateTable(){
 	seaArray=JSON.parse(responseObject.sea);

@@ -1,52 +1,45 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
 a{
-	color:#000000;
+	color:#ffffff;
 }
 a:hover{
 	text-decoration:none;
 }
 body {
-	background-color:#ACD1E1;
-	background: -webkit-linear-gradient(left, rgba(176, 212, 227, 1) 0%,
-		rgba(136, 186, 207, 1) 100%);
-	font-family: 'Raleway', sans-serif;
+    background-color: rgba(11, 12, 18, 0.9);
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
 }
 
-#menu {
-	margin-top: 30%;
+ul {
+    font-family: 'Raleway', sans-serif;
+    color: #fff;
 }
 
-#menu li {
-	height: 50px;
-	color: #FFF;
+li {
+    text-align: center;
 }
-
-#menu li:hover {
-	height: 50px;
-	color: #FFF !important;
-	background-color: #658FAB;
+input{
+	background-color:rgba(125, 126, 125, 0.1);
 }
-
-#board {
-	background-color: #FFF;
-	margin-left: -15px;
+#metricList li {
+    color:#000;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 5px;
 }
 
 #graphics {
-	background-color: #F2F2F2;
+    background-color: rgba(125, 126, 125, 0.1);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
-	margin-left: 30px;
+	margin-left: 15px;
 	margin-right: 5px;
-	margin-bottom: 20px;
-	width: 90%;
-	height: 30%;
+	margin-bottom: 15px;
+	width: 80%;
+	height: 20%;
 	color: #FFFFFF;
 	text-align: center;
-}
-
-#graphics:hover {
-	background-color: #FCFCFC;
 }
 
 #loadImage{
@@ -60,45 +53,34 @@ padding-bottom:15%;
 	color: #000 !important;
 }
 
-header .dropdown {
-	float: right;
-	margin-top: 15px;
-	margin-right:80px;
-}
 
 header h3 {
-	float: left;
+    float: left;
+    margin-left: 55px;
 }
 
-header li:hover {
-	background-color: #658FAB;
-	color: #FFF;
+header .dropdown {
+    float: right;
+    margin-right: 80px;
+    margin-top: 15px;
 }
 
-h3 {
-	color: #69CEDB
-}
-
-h3 small {
-	color: #189AAB;
-	font-weight: bold;
+header {
+    margin-bottom: 20px;
 }
 
 #information {
 	clear: both;
 }
 #reportContainer{
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
 	margin-left: 5px;
 	margin-right: 5px;
-	margin-bottom: 20px;
+	margin-bottom: 50px;
 	width:auto;
-		background-color: #FF0000;
+    background-color: rgba(125, 126, 125, 0.1);
 		color: #FFFFFF;
-}
-#reportContainer:hover{
-	background-color: #FF5050;
 }
 
 #data{
@@ -107,13 +89,13 @@ h3 small {
 		inset;
 	margin-left: 5px;
 	margin-right: 5px;
-	margin-bottom: 20px;
+	margin-bottom: 50px;
 	width:auto;
-		background-color: #00AFAF;
+    background-color: rgba(125, 126, 125, 0.1);
 		color: #FFFFFF;
 }
 #data:hover{
-	background-color: #00E1E1;
+  background-color: rgba(125, 126, 125, 1);
 }
 
 #about{
@@ -121,21 +103,32 @@ h3 small {
 		inset;
 	margin-left: 5px;
 	margin-right: 5px;
-	margin-bottom: 20px;
-		background-color: #0000FF;
+	margin-bottom: 50px;
+    background-color: rgba(125, 126, 125, 0.1);
 		color: #FFFFFF;
 }
 #about:hover{
-	background-color: #5050FF;
+    background-color: rgba(125, 126, 125, 1);
+}
+#layer1 {
+    clear: both;
+    margin-left: 40px;
+    margin-bottom: 30px;
 }
 
+#layer2 {
+    margin-left: 40px;
+	margin-bottom:30px;
+}
 table {
 	color: #000000;
 	margin-bottom: 10px;
 	margin-left: 10px;
 	background-color: #FCFCFC;
 }
-
+.navbar-inverse {
+    background-color: rgba(17, 18, 23, 0.9);
+}
 th, td {
 	padding: 5px;
 	border: 1px solid black;

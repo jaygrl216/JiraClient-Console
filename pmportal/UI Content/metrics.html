@@ -11,103 +11,87 @@
 <script type="text/javascript" src="scripts/Chart.js"></script>
 </head>
 <body>
+        <nav class="navbar navbar-inverse navbar-fixed-bottom">
+            <ul class="nav nav-justified">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="releaseDash.html">Release</a></li>
+              <li class="active">Metrics</li>
+              <li>Reports</li>
+              <li><a href="settings.html">Profile &amp; Settings</a></li>
+            </ul>
+        </nav>
 
-	<section id="dash" class="container-fluid">
-		<div class="row">
-			<div class="col-lg-2 col-md-2" id="menuNav">
-				<ul class="list-unstyled h4" id="menu">
-					<a href="index.html"><li>Home</li></a>
-					<a href="releaseDash.html"><li>Release</li></a>
-					<a href="metrics.html"><li class="active">Metrics</li></a>
-					<a href="settings.html"><li>Settings</li></a>
-				</ul>
-			</div>
-			<div class="col-lg-10 col-md-10" id="board">
-				<header>
-					<h3>
-						PMPortal Dashboard <small>Metrics Tracking</small>
-					</h3>
-					<div class="dropdown">
-						<button type="button" data-toggle="dropdown"
-							class="btn btn-info dropdown-toggle">
-							Metrics<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" id="projectList">
-							<li id="sea" onclick="selectResource(this.id)">SEA Trends</li>
-							<li id="eea" onclick="selectResource(this.id)">EEA Trends</li>
-							<li id="bugs" onclick="selectResource(this.id)">Bug Trends</li>
-
-						</ul>
-					</div>
-				</header>
-
-				<section id="information">
-					<div class="row">
-						<div class="col-lg-3" id="graphics" onclick="toggleChart()">
-							<canvas id="chart" style="width: auto; height: auto"></canvas>
-							<img id="loadImage" src="images/loading.gif" />
-						</div>
-					</div>
-					<div class="row">
-						<div id="data" class="col-md-4">
-							<h4 id="dataList" onclick="toggleTable()">Toggle Data Table</h4>
-
-							<table id="dataTable">
-								<tr>
-									<th>Sprint</th>
-									<th>SEA</th>
-									<th>EEA</th>
-									<th>Bugs</th>
-								</tr>
-							</table>
-							<a id="xlink" download="output.xml">
-								<input type="button" value="Export XML">
-							</a>
-							<a id="elink" download="output.xls">
-								<input type="button" value="Export Excel Spreadsheet">
-							</a>
-						</div>
-
-					
-						<div id="about" class="col-md-3" onclick="toggleAbout()">
-							<h4 style="text-align: center">What does this mean?</h4>
-							<div id="aboutInfo">
-								<p>
-									Schedule Estimation Accuracy (SEA) is a ratio of the time it
-									took to complete a task divided by the time it was estimated
-									to take. This is calculated sprint-by-sprint.
-								</p>
-								<p>
-									Effort Estimation Accuracy (EEA) is a ratio of the effort it
-									took to complete a task divided by the effort estimated initially.
-									This is calculated sprint-by-sprint using a metric called "Story Points". 
-									If a sprint contains issues without	any story points, the EEA will always default to 1.
-								</p>
-								<p>Bug count is the number of issues listed as a "Bug" in a
-									sprint.</p>
-								<p>
-									The prediction model uses the Theil-Sen estimator to create a
-									simple linear regression model which tends to ignore outliers,
-									providing greater accuracy over smaller data sets.
-								</p>
-							</div>
-						</div>
-						<div id="reportContainer" class="col-md-4" onclick="showReport()">
-							<h4 id="reportButton" style="text-align: center">Generate
-								Report</h4>
-							<div id="report"></div>
-						</div>
-					</div>
-				</section>
+	<header class="row" id="topLayer">
+		<h3>
+			PMPortal Dashboard <small>Metrics Tracking</small>
+		</h3>
+		<div class="dropdown">
+			<button type="button" data-toggle="dropdown"
+				class="btn btn-info dropdown-toggle">
+				Metrics<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" id="metricList">
+				<li id="sea" onclick="selectResource(this.id)">SEA Trends</li>
+				<li id="eea" onclick="selectResource(this.id)">EEA Trends</li>
+				<li id="bugs" onclick="selectResource(this.id)">Bug Trends</li>
+			</ul>
+		</div>
+	</header>
+	<div class="row" id="layer1">
+		<div class="col-lg-3" id="graphics">
+			<canvas id="chart" style="width: auto"></canvas>
+			<img id="loadImage" src="images/loading.gif" />
+		</div>
+	</div>
+	<div class="row" id="layer2">
+		<div id="data" class="col-md-4">
+			<h4 id="dataList" onclick="toggleTable()">Toggle Data Table</h4>
+			<table id="dataTable">
+				<tr>
+					<th>Sprint</th>
+					<th>SEA</th>
+					<th>EEA</th>
+					<th>Bugs</th>
+				</tr>
+			</table>
+			<a id="xlink" download="output.xml">
+				<input type="button" value="Export XML"/>
+			</a>
+			<a id="elink" download="output.xls">
+				<input type="button" value="Export Excel Spreadsheet"/>
+			</a>
+		</div>
+		<div id="about" class="col-md-3" onclick="toggleAbout()">
+			<h4 style="text-align: center">What does this mean?</h4>
+			<div id="aboutInfo">
+				<p>
+					Schedule Estimation Accuracy (SEA) is a ratio of the time it
+					took to complete a task divided by the time it was estimated
+					to take. This is calculated sprint-by-sprint.
+				</p>
+				<p>
+					Effort Estimation Accuracy (EEA) is a ratio of the effort it
+					took to complete a task divided by the effort estimated initially.
+					This is calculated sprint-by-sprint using a metric called "Story Points". 
+					If a sprint contains issues without	any story points, the EEA will always default to 1.
+				</p>
+				<p>Bug count is the number of issues listed as a "Bug" in a
+					sprint.</p>
+				<p>
+					The prediction model uses the Theil-Sen estimator to create a
+					simple linear regression model which tends to ignore outliers,
+					providing greater accuracy over smaller data sets.
+				</p>
 			</div>
 		</div>
-
-
-	</section>
+		<div id="reportContainer" class="col-md-4">
+		<a><input type="button" onclick="showReport()" value="Generate Report"/></a>
+			<div id="report"></div>
+		</div>
+	</div>
 	<script src="scripts/cookiehandler.js"></script>
 	<script src="scripts/jquery-1.12.4.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/metrics.js"></script>
 </body>
-
 </html>
