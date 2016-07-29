@@ -6,48 +6,30 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="style/home.css">
+<link rel="stylesheet" type="text/css" href="style/main.css">
 <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
 </head>
 <body>					
-	<header class="row" id="topLayer">
-		<h3>
-		PMPortal Dashboard <small>Home</small>
-		</h3>
-	</header>
-	<div class="row" id="layer1">
-		<div class="col-md-2" id="loginInput">
-			Username: <br>
-			<input type="text" id="uname" /> <br> Password: <br>
-			<input type="password" id="pass" /> <br> Jira URL: <br>
-			<input type="url" id="url" /><br><br>
-			<input type="button" id="loginButton" value="Log In" onclick="login()"/>
-			<br> <input type="checkbox" id="rememberBox" /> Remember me <br>
-			<br>
-			<p style="color: red; visibility: hidden" id="fail">Login
-				failed! Double check your login info, and make sure the Jira URL
-				is correct; it is generally "http://serverURL" or
-				"http://serverURL/jira"</p>
+	<div class="row">
+        <div class="col-lg-6 col-lg-offset-3" id="login">
+            <h2>PMPortal Login</h2>
+            <div id="loginInput">
+                <span class="inputTag">Username</span> <br>
+                <input type="text" id="uname" /> <br> <span class="inputTag">Password</span> <br>
+                <input type="password" id="pass" /> <br><span class="inputTag">Jira URL</span> <br>
+                <input type="url" id="url" /><br><br>
+                <input type="button" id="loginButton" value="Log In" onclick="login()"/>
+                <br><br><input type="checkbox" id="rememberBox" /> <span class="inputTag">Remember Me</span> <br>
+                <br>
+                <p style="color: red; visibility: hidden" id="fail">Login
+                    failed! Double check your login info, and make sure the Jira URL
+                    is correct; it is generally "http://serverURL" or
+                    "http://serverURL/jira"</p>
 		</div>
-		<div class="col-lg-3" id="graphics">
-			<h4>About</h4>
-			<p>PM-Portal is a project management tool initially developed
-				by interns working for SGT Inc. The tool pulls together project
-				information from other project management tools such as Jira or
-				Bugzilla and displays a project's status or other metrics. The
-				tools uses the agile scrum methodology, dividing various work
-				phases into sprints which seek to satisfy user story
-				requirements. As of 7/28/16, Jira is the only tool supported.</p>
-		</div>
-		<div class="col-lg-3" id="links">
-			<h4>Links</h4>
-			<ul id="linkMenu">
-				<a href="http://www.sgt-inc.com"><li>SGT Inc.</li></a>
-				<a href="https://www.atlassian.com/software/jira"><li>Atlassian Jira</li></a>
-			</ul>
-		</div>
-	</div>
-	<script src="scripts/cookiehandler.js"></script>
+        </div>
+    </div>
+    
+    <script src="scripts/cookiehandler.js"></script>
 	<script src="scripts/jquery-1.12.4.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
 	<script>
@@ -76,7 +58,7 @@ function login(){
 	}).done(function(response){
 		if (response=="Success"){
 			setCookie(user, pass, baseURL, remember);
-			window.location="releaseDash.html";
+			window.location="release.html";
 		}else{
 			alert("Login failed!");
 };

@@ -1,6 +1,6 @@
-var username = "jwashington";
-var password = "Diamond2017";
-var baseURL = "http://54.152.100.242/jira";
+var username=getCookie("username").toString();
+var password=getCookie("password").toString();
+var baseURL=getCookie("url").toString();
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 var issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;

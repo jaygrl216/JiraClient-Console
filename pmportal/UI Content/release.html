@@ -1,52 +1,74 @@
 <!DOCTYPE HTML>
 <html lang="en">
+    
     <head>
-        <title>Release Dashboard</title>
-        <link rel="stylesheet" type="text/css" href="style/style.css">
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
+        <title>PMPortal Dashboard</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' href='style/fullcalendar.css' />
+        <script src="scripts/jquery-2.4.js"></script>
+        <script src='scripts/moment.min.js'></script>
+        <script src='scripts/fullcalendar.js'></script>
+        <link rel="stylesheet" href="style/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="style/template.css">
         <script type="text/javascript" src="scripts/Chart.js"></script>
-        <script type="text/javascript" src="scripts/logistics.js"></script>
-
+        <script type="text/javascript" src="scripts/release.js"></script>
+       
     </head>
+    
+
     <body>
-        <header><h1>Release Tracking Dashboard</h1></header>
         
-        <nav>
-            <ul id="projectList">
-<!--
-                <li>Project 1</li>
-                <li>Project 2</li>
-                <li>Project 3</li>
-                <li>Project 4</li>
-                <li>Project 5</li>
-                <li>Project 6</li>
--->
+        <nav class="navbar navbar-inverse navbar-fixed-bottom">
+            <ul class="nav nav-justified">
+                <li><a href="home.html">Home</a></li>
+                <li class="active"><a href="release.html">Release</a></li>
+                <li><a href="metrics.html">Metrics</a></li>
+                <li><a href="reports.html">Reports</a></li>
+                <li><a href="settings.html">Profile &amp; Settings</a></li>
             </ul>
         </nav>
         
-        <section>
-        <div id="info">
-            <div id="text">
-                <h3>Project Name: Project 1</h3>
-                
-                <p>Start Date: 6/1/2016</p>
-                <p>End Date: 8/1/2016</p>
-                <p>Completed Date: 7/25/2016</p>
-                
-                
+        <header class="row" id="topLayer">
+            <h3>PMPortal Dashboard</h3>
+            <div class="dropdown">
+                <button type="button" data-toggle="dropdown"
+                    class="btn btn-info dropdown-toggle">
+                    Projects<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="projectList">
+                </ul>
+            </div>
+        </header>
+        
+        <div class="row" id="layer1">
+            <div class="col-lg-4" id="cal">
+                <div id="calendar"></div>
             </div>
             
-            <div id="graphics">
-                <canvas id="chart" height="150px" width="100px"></canvas>
+            <div class="col-lg-7">
+                <div class="row">
+                    <div class="col-lg-6" id="graph">
+                        <h4>Project Data &amp; Info</h4>
+                    </div>
+                    <div class="col-lg-5" id="graph2">
+                        <h4>Progress Graph</h4>
+                        <canvas id="pie"></canvas>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-11" id="graph3">
+                        <h4>Issue Tracking</h4>
+                        <div class="canvas"><canvas id="issues"></canvas></div>
+                    </div>
+                </div>
+                
             </div>
         </div>
-            </section>
+                
         
-        
-        <footer></footer>
-        
-        <script src="scripts/script.js"></script>
+        <script src="scripts/bootstrap.min.js"></script>
     </body>
-
 </html>

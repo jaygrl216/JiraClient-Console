@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>PMPortal Dashboard</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="style/home.css">
+<script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
+</head>
+<body>					
+	<header class="row" id="topLayer">
+		<h3>
+		PMPortal Dashboard <small>Home</small>
+		</h3>
+	</header>
+	<div class="row" id="layer1">
+		<div class="col-md-2" id="loginInput">
+			Username: <br>
+			<input type="text" id="uname" /> <br> Password: <br>
+			<input type="password" id="pass" /> <br> Jira URL: <br>
+			<input type="url" id="url" /><br><br>
+			<input type="button" id="loginButton" value="Log In" onclick="login()"/>
+			<br> <input type="checkbox" id="rememberBox" /> Remember me <br>
+			<br>
+			<p style="color: red; visibility: hidden" id="fail">Login
+				failed! Double check your login info, and make sure the Jira URL
+				is correct; it is generally "http://serverURL" or
+				"http://serverURL/jira"</p>
+		</div>
+		<div class="col-lg-3" id="graphics">
+			<h4>About</h4>
+			<p>PM-Portal is a project management tool initially developed
+				by interns working for SGT Inc. The tool pulls together project
+				information from other project management tools such as Jira or
+				Bugzilla and displays a project's status or other metrics. The
+				tools uses the agile scrum methodology, dividing various work
+				phases into sprints which seek to satisfy user story
+				requirements. As of 7/28/16, Jira is the only tool supported.</p>
+		</div>
+		<div class="col-lg-3" id="links">
+			<h4>Links</h4>
+			<ul id="linkMenu">
+				<a href="http://www.sgt-inc.com"><li>SGT Inc.</li></a>
+				<a href="https://www.atlassian.com/software/jira"><li>Atlassian Jira</li></a>
+			</ul>
+		</div>
+	</div>
+	<script src="scripts/cookiehandler.js"></script>
+	<script src="scripts/jquery-1.12.4.min.js"></script>
+	<script src="scripts/bootstrap.min.js"></script>
+	<script>
+var username=getCookie("username").toString();
+if (username!="") {
+	$("#uname").val(username);
+	$("#url").val(getCookie("url"));
+	$("#rememberBox").prop("checked", true);
+};
+function login(){
+	var user=$("#uname").val();
+	var pass=$("#pass").val();
+	var baseURL=$("#url").val();
+	var remember=$("#rememberBox").prop("checked");
+	var hostURL=window.location.host;
+	var testResource="http://"+hostURL+"/pmportal/rest/test/" + user + "/" + pass + "/" +baseURL;
+	$.ajax({
+		type:"GET",
+		dataType:"text",
+		url:testResource
+	}).fail(function( xhr, status, errorThrown ) {
+		console.log( "Error: " + errorThrown );
+		console.log( "Status: " + status );
+		console.dir( xhr );
+		$("#fail").css("visibility","visible");
+	}).done(function(response){
+		if (response=="Success"){
+			setCookie(user, pass, baseURL, remember);
+			window.location="releaseDash.html";
+		}else{
+			alert("Login failed!");
+};
+});
+};
+</script>
+</body>
+</html>
