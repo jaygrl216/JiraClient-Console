@@ -9,7 +9,7 @@ var allResource="http://" + hostURL+ "/pmportal/rest/metrics/all/" + username + 
 var responseObject;
 var id="sea";
 var loaded=false;
-var chartToggle=false;
+var lineChart;
 var ctx = document.getElementById("chart").getContext("2d");
 $("h3").append(projectKey);
 $("#aboutInfo").hide();
@@ -27,7 +27,7 @@ $.ajax({
 	responseObject=jsonObject;
 	loaded=true;
 	generateTable();
-	drawGraph();
+	drawLineGraphics();
 });
 
 //loading icon
@@ -50,7 +50,8 @@ function getKeyFromURL(){
 function selectResource(whichId){
 	id=whichId;
 	if (loaded){
-		drawGraph();
+	lineChart.destroy();
+	drawLineGraphics();
 	};
 };
 function toggleTable(){
@@ -66,15 +67,12 @@ function showReport(){
 function toggleAbout(){
 	$("#aboutInfo").toggle();
 };
-function drawGraph(){
-	$(".chartjs-hidden-iframe").remove();
-	drawLineGraphics();
-};
 function drawLineGraphics(){
 	//for most metrics
 	var chartLabel;
 	var dataArray;
 	var labelArray=[];
+	var colorArray=[];
 	if (id=="sea"){
 		chartLabel="SEA";
 		dataArray=JSON.parse(responseObject.sea);
@@ -88,8 +86,10 @@ function drawLineGraphics(){
 
 	for (var i=0; i<dataArray.length; i++){
 		labelArray[i]="Sprint " + (i+1);
+		colorArray[i]="#FF0000";
 	}
 	labelArray[dataArray.length-1]="Next Sprint";
+	colorArray[dataArray.length-1]="#0000ff";
 	var chartData = {
 			labels:labelArray,
 			datasets: [
@@ -97,14 +97,17 @@ function drawLineGraphics(){
 			        	   label:chartLabel,
 			        	   data:dataArray,
 			        	   fill:false,
-			        	   backgroundColor:"#FF0000",
+						   pointRadius:5,
+						   pointHoverRadius:6,
+						   backgroundcolor:"#FF0000",
+			        	   pointBackgroundColor:colorArray,
 			        	   borderColor:'rgba(255, 255, 255, 0.5)',
 			        	   borderDash:[5,5],
 			        	   lineTension:0
 			           }]
 
 	};
-	var myLineChart = new Chart(ctx,{
+	lineChart = new Chart(ctx,{
 		type: 'line',
 		data: chartData,
 		options:{
@@ -138,7 +141,7 @@ function generateReport(){
 	}
 	var predictedBug=bugArray[bugArray.length-1];
 	var bugAnalysis="Your predicted Bug count for the next sprint is " + predictedBug + ".";
-	$("#reportContainer").html("<p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +seaAnalysis3+"</p>"+"<p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<p>" +bugAnalysis+"</p>");
+	$("#reportContainer").html("<h4>SEA</h4><p>" +seaAnalysis+"</p>"+"<p>" +seaAnalysis2+"</p>"+"<p>" +seaAnalysis3+"</p>"+"<hr>EEA</h4><p>" +eeaAnalysis+"</p>"+"<p>" +eeaAnalysis2+"</p>"+"<h4>Bugs</h4><p>" +bugAnalysis+"</p>");
 };
 function generateTable(){
 	seaArray=JSON.parse(responseObject.sea);
