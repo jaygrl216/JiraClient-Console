@@ -160,3 +160,26 @@ nav li:hover {
 .warning {
     color: #F5E949;
 }
+
+a:link {
+    color: #fff;
+}
+
+a:visited {
+    color:#fff;
+}
+
+a:hover {
+    color:#fff;
+}
+
+a:active {
+    color:rgba(96, 101, 125, 1);
+    font-weight: bold;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: rgba(96, 101, 125, 1);
+}
+
