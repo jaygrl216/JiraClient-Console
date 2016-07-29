@@ -18,8 +18,10 @@ ul {
 }
 
 li {
+    padding: 10px;
     text-align: center;
 }
+
 input{
 	background-color: rgba(125, 126, 125, 0.1);
 }
@@ -43,10 +45,8 @@ input{
     margin-left: 40px;
 	margin-bottom:30px;
 }
-.active {
-	background-color: #FFF;
-	color: #000 !important;
-}
+
+
 header h3 {
     float: left;
     margin-left: 55px;
@@ -57,4 +57,34 @@ header {
 }
 .navbar-inverse {
     background-color: rgba(17, 18, 23, 0.9);
+}
+
+nav li:hover {
+    background-color:rgba(96, 101, 125, 1);
+}
+
+.active {
+    background-color:rgba(96, 101, 125, 1);
+}
+
+a:link {
+    color: #fff;
+}
+
+a:visited {
+    color:#fff;
+}
+
+a:hover {
+    color:#fff;
+}
+
+a:active {
+    color:rgba(96, 101, 125, 1);
+    font-weight: bold;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: rgba(96, 101, 125, 1);
 }
