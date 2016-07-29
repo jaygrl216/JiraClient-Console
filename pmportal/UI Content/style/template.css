@@ -200,3 +200,15 @@ a:active {
     background-color: rgba(96, 101, 125, 1);
 }
 
+#sgt {
+    margin-top: -20px;
+    margin-left: 15px;
+    float:left;
+}
+
+#jira {
+    margin-top: -20px;
+    float:right;
+    margin-right: 100px;
+}
+

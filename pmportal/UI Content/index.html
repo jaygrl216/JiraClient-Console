@@ -58,7 +58,7 @@ function login(){
 	}).done(function(response){
 		if (response=="Success"){
 			setCookie(user, pass, baseURL, remember);
-			window.location="release.html";
+			window.location="home.html";
 		}else{
 			alert("Login failed!");
 };
