@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    
+    <head>
+        <title>PMPortal Dashboard: Home</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="scripts/cookiehandler.js"></script>
+        <script src="scripts/jquery-2.4.js"></script>
+        <link rel="stylesheet" href="style/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="style/template.css">
+        <script type="text/javascript" src="scripts/Chart.js"></script>
+        <script type="text/javascript" src="scripts/home.js"></script>
+       
+    </head>
+    
+
+    <body>
+        
+        <nav class="navbar navbar-inverse navbar-fixed-bottom">
+            <ul class="nav nav-justified">
+                <li class="active"><a href="home.html">Home</a></li>
+                <li><a href="release.html">Release</a></li>
+                <li><a href="metrics.html">Metrics</a></li>
+                <li><a href="reports.html">Reports</a></li>
+                <li><a href="settings.html">Profile &amp; Settings</a></li>
+            </ul>
+        </nav>
+        
+        <header class="row" id="topLayer">
+            <h3>PMPortal Dashboard <small>Home</small></h3>
+        </header>
+        
+        <div class="row" id="layer1">
+            <div class="col-lg-6" id="about">
+                <h4>About PMPortal</h4>
+                <p>PM-Portal is a project management tool initially developed
+				by interns working for SGT Inc. The tool pulls together project
+				information from other project management tools such as Jira or
+				Bugzilla and displays a project's status or other metrics. The
+				tools uses the agile scrum methodology, dividing various work
+				phases into sprints which seek to satisfy user story
+				requirements. As of 7/29/16, Jira is the only tool supported.</p>
+                
+                <p>The Release page of the dashboard gives you information on individual projects
+                suchs as due date, projected due date, issues completed and SEA &amp; EEA data.</p>
+                
+                <p>The Metrics page of the dashboard gives you more detailed metrics about a project as well as
+                a look at metrics spanning across all projects</p>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-9" id="total">
+                        <h4>Total Projects</h4>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-9" id="finished">
+                        <h4>Completed Projects</h4>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-9" id="links">
+                        <h4>Links</h4>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+                
+        
+        <script src="scripts/bootstrap.min.js"></script>
+    </body>
+</html>

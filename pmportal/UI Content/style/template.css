@@ -19,6 +19,25 @@ li {
     text-align: center;
 }
 
+#total, #finished {
+    height: 150px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(125, 126, 125, 0.1); 
+    margin-bottom: 25px;
+    margin-left: 20px;
+}
+
+#links {
+    height: 100px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(125, 126, 125, 0.1); 
+    margin-left: 20px;
+}
+
+#about p{
+    font-size: 16px;
+    margin-top: 20px;
+}
 
 #graph {
     margin-left: 15px;
@@ -44,7 +63,7 @@ li {
     background-color: rgba(125, 126, 125, 0.1);
 }
 
-#cal {
+#cal, #about{
     height: 450px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     background-color: rgba(125, 126, 125, 0.1);
