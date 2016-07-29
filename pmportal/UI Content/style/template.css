@@ -212,3 +212,10 @@ a:active {
     margin-right: 100px;
 }
 
+.totalProjects {
+    font-size: 80px;
+    text-align: center;
+    color: #F75F00;
+    margin-top: -10px;
+}
+

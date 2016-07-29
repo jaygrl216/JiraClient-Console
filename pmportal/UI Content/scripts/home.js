@@ -30,5 +30,5 @@ $.ajax({
 });
 
 $(document).ajaxStop(function () {
-    $("#total").append("<h4>" + projectArray.length + "</h4>");
+    $("#total").append("<p class='totalProjects'>" + projectArray.length + "</p>");
 });
