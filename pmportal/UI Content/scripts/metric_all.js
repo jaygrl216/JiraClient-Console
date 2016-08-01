@@ -28,6 +28,7 @@ $.ajax({
 		$("#projectList").append("<li>" + proj.name +  "</li>");
 		labelArray[index]=proj.name;
 	});
+	getMetrics();
 });
 $(document).ajaxStart(function(){
 	$("#loadImage").show();
