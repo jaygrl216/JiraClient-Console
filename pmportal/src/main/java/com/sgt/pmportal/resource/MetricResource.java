@@ -90,7 +90,14 @@ public class MetricResource {
 	        builder = factory.newDocumentBuilder();
 	        Document document = builder.parse( new InputSource( new StringReader( xmlString ) ) );
 	        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-	        Result output = new StreamResult(new File("../docroot/data/output.xml"));
+	        Result output;
+	        try{
+	        	//Tomcat
+	        	output = new StreamResult(new File("webapps/pmportal/data/output.xml"));
+	        } catch(Exception notfound){
+	        	//glassfi
+	        	output=new StreamResult(new File("../docroot/data/output.xml"));
+	        }
 	        Source input = new DOMSource(document);
 	        transformer.transform(input, output);
 	    }catch (Exception e){
