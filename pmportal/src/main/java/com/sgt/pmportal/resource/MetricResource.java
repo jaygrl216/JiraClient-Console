@@ -99,7 +99,14 @@ public class MetricResource {
 	    //create excel file
 	    try{
 	    	String lineBreak= System.getProperty("line.separator");
-	    	File textFile=new File("../docroot/data/output.xls");
+	    	File textFile;
+	    	try{
+	    		//Tomcat
+	    	textFile=new File("webapps/pmportal/data/output.xls");
+	    	}catch (Exception e){
+	    		//glassfish
+	    		textFile=new File("../docroot/data/output.xls");
+	    	}
 	    	Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 	    	fileWriter.write("SEA	EEA	Bugs");
 	    	fileWriter.write(lineBreak);
