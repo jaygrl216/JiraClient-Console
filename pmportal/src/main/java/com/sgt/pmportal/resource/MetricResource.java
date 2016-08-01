@@ -146,14 +146,15 @@ public String getAllMetrics(@PathParam ("username") String username,
 	JSONObject responseObject=new JSONObject();
 	JSONArray projectArray=new JSONArray();
 	for (JiraProject project:projectList){
-	List<Number> defectList=metricService.calculateDefectTotal(project);
 	String key=project.getKey();
 	String name=project.getName();
+	Double sea=metricService.calculateProjectSEA(project, null);
+	Double eea=metricService.calculateProjectEEA(project, null);
+	Long bugs=metricService.calculateBugs(key);
 	Double progress=metricService.calculateProgress(key);
-	String projectString="{\"name\":\""+name+"\", \"bugs\":\"" + defectList.get(0) +
-			"\", \"sea\":\"" + defectList.get(1) +
-			"\", \"eea\":\"" + defectList.get(2) +
-			"\", \"overdue\":\"" + defectList.get(3) +
+	String projectString="{\"name\":\""+name+"\", \"bugs\":\"" + bugs +
+			"\", \"sea\":\"" + sea +
+			"\", \"eea\":\"" + eea +
 			"\", \"progress\":\"" + progress.toString()	+ "\"}";
 	JSONObject projectObject=new JSONObject(projectString);
 	projectArray.put(projectObject);
