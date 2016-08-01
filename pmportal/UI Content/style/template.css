@@ -223,3 +223,17 @@ a:active {
     margin-top: -10px;
 }
 
+.overdueBad {
+    font-size: 100px;
+    text-align: center;
+    color: #F54242;
+    margin-top: -10px;
+}
+
+.overdueGood {
+    font-size: 100px;
+    text-align: center;
+    color: #60E663;
+    margin-top: -10px;
+}
+

@@ -4,6 +4,7 @@ var baseURL=getCookie("url").toString();
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 var overdue = 0;
+var stop = 0;
 
 $.ajax({
 	url: homeResource,
@@ -23,6 +24,20 @@ $.ajax({
 	});
 });
 
+
+$(document).ajaxStop(function () {
+    if(stop == 0) {
+        if(overdue == 0) {       
+            $("#graph").append("<p class='overdueGood'>" + overdue + "</p>");
+        } else {
+            $("#graph").append("<p class='overdueBad'>" + overdue + "</p>");
+        }
+        
+        stop = 1;
+    }
+});
+
+
 $(document).ready(function(){
 	$("#topLayer").on( "click", "li" , function () {
 		var item = $(this).text();
@@ -32,6 +47,8 @@ $(document).ready(function(){
 			}
 		});
 	});
+    
+    
     
     $('#calendar').fullCalendar({
         contentHeight: 'auto',
