@@ -48,17 +48,17 @@ $(document).ready(function(){
 });
 function getMetrics(){
 	$.each(projectNameArray, function (index, proj) {;
-	var resource="http://"+hostURL+"/pmportal/rest/metrics/sea/"+proj.key+ username + "/" + password + "/" + baseURL;
+	var resource="http://"+hostURL+"/pmportal/rest/metrics/sea/"+proj.key+"/" +username + "/" + password + "/" + baseURL;
 		seaData[index]=getData(resource).sea;
 	});
 	drawSEA();
 	$.each(projectNameArray, function (index, proj) {;
-	var resource="http://"+hostURL+"/pmportal/rest/metrics/eea/"+proj.key+ username + "/" + password + "/" + baseURL;
+	var resource="http://"+hostURL+"/pmportal/rest/metrics/eea/"+proj.key+ "/" +username + "/" + password + "/" + baseURL;
 		eeaData[index]=getData(resource).eea;
 	});
 	drawEEA();
 	$.each(projectNameArray, function (index, proj) {;
-	var resource="http://"+hostURL+"/pmportal/rest/metrics/bugs/"+proj.key+ username + "/" + password + "/" + baseURL;
+	var resource="http://"+hostURL+"/pmportal/rest/metrics/bugs/"+proj.key+ "/"+username + "/" + password + "/" + baseURL;
 		bugData[index]=getData(resource).bugs;
 	});
 	drawBugs();
