@@ -5,6 +5,7 @@ var hostURL=window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 var allResource="http://" + hostURL+ "/pmportal/rest/metrics/all/" + username + "/" + password + "/" + baseURL;
 var responseObject;
+var metricObject;
 var projectNameArray;
 var projectArray;
 var labelArray=[];
@@ -25,9 +26,23 @@ $.ajax({
 	projectNameArray = responseObject.projects;
 	$.each(projectNameArray, function (index, proj) {;
 		$("#projectList").append("<li>" + proj.name +  "</li>");
+	});
+});
+$.ajax({
+	url: allResource,
+	dataType: "json"
+}).fail(function(xhr, status, errorThrown ) {
+	console.log("Error: " + errorThrown );
+	console.log("Status: " + status );
+	console.dir(xhr);
+}).done(function(jsonObject){
+	metricObject = jsonObject;
+	projectArray = metricObject.project;
+	parseData();
+	$.each(projectArray, function (index, proj) {;
 		labelArray[index]=proj.name;
 	});
-	getMetrics();
+	drawGraphics();
 });
 $(document).ajaxStart(function(){
 	$("#loadImage").show();
@@ -45,44 +60,22 @@ $(document).ready(function(){
 		});
 	});
 });
-function getMetrics(){
-	$.each(projectNameArray, function (index, proj) {;
-	var resource="http://"+hostURL+"/pmportal/rest/metrics/sea/"+proj.key+"/" +username + "/" + password + "/" + baseURL;
-		seaData[index]=getData(resource).sea;
+function parseData(){
+	$.each(projectArray, function (i, proj) {;
+		seaData[i]=proj.sea;
+		eeaData[i]=proj.eea;
+		bugData[i]=proj.bugs;
+		progData[i]=proj.progress;
 	});
-	drawSEA();
-	$.each(projectNameArray, function (index, proj) {;
-	var resource="http://"+hostURL+"/pmportal/rest/metrics/eea/"+proj.key+ "/" +username + "/" + password + "/" + baseURL;
-		eeaData[index]=getData(resource).eea;
-	});
-	drawEEA();
-	$.each(projectNameArray, function (index, proj) {;
-	var resource="http://"+hostURL+"/pmportal/rest/metrics/bugs/"+proj.key+ "/"+username + "/" + password + "/" + baseURL;
-		bugData[index]=getData(resource).bugs;
-	});
-	drawBugs();
-	$.each(projectNameArray, function (index, proj) {;
-	var resource="http://"+hostURL+"/pmportal/rest/metrics/progress/"+proj.key+ username + "/" + password + "/" + baseURL;
-		progData[index]=getData(resource).progress;
-	});
-	drawProgress();
 };
-function getData(resource){
-	$.ajax({
-	url: resource,
-	dataType: "json"
-}).fail(function(xhr, status, errorThrown ) {
-	console.log("Error: " + errorThrown );
-	console.log("Status: " + status );
-	console.dir(xhr);
-}).done(function(jsonObject){
-	var metricObject = jsonObject;
-	return metricObject;
-});
-};
-function drawSEA(){
-		var ctx1=document.getElementById("seaGraph").getContext("2d");
-		var chartData1 = {
+
+
+function drawGraphics(){
+	var ctx1=document.getElementById("seaGraph").getContext("2d");
+	var ctx2=document.getElementById("eeaGraph").getContext("2d");
+	var ctx3=document.getElementById("bugGraph").getContext("2d");
+	var ctx4=document.getElementById("progGraph").getContext("2d");
+	var chartData1 = {
 			labels:labelArray,
 			datasets: [
 			           {
@@ -93,7 +86,40 @@ function drawSEA(){
 			           }]
 
 	};
-		var barChart = new Chart(ctx1,{
+		var chartData2 = {
+			labels:labelArray,
+			datasets: [
+			           {
+			        	   label:"EEA",
+			        	   data:eeaData,
+			        	   fill:false,
+			        	   backgroundColor:"#00FF00",
+			           }]
+
+	};
+		var chartData3 = {
+			labels:labelArray,
+			datasets: [
+			           {
+			        	   label:"Bugs",
+			        	   data:bugData,
+			        	   fill:false,
+			        	   backgroundColor:"#0000FF",
+			           }]
+
+	};
+			var chartData4 = {
+			labels:labelArray,
+			datasets: [
+			           {
+			        	   label:"Progress",
+			        	   data:progData,
+			        	   fill:false,
+			        	   backgroundColor:"#FF00FF",
+			           }]
+
+	};
+	var barChart = new Chart(ctx1,{
 		type: 'bar',
 		data: chartData1,
 		options:{
@@ -108,21 +134,7 @@ function drawSEA(){
 			}
 		}
 	});
-};
-function drawEEA(){
-	var ctx2=document.getElementById("eeaGraph").getContext("2d");
-			var chartData2 = {
-			labels:labelArray,
-			datasets: [
-			           {
-			        	   label:"EEA",
-			        	   data:eeaData,
-			        	   fill:false,
-			        	   backgroundColor:"#00FF00",
-			           }]
-
-	};
-	var barChart2 = new Chart(ctx2,{
+		var barChart2 = new Chart(ctx2,{
 		type: 'bar',
 		data: chartData2,
 		options:{
@@ -137,21 +149,7 @@ function drawEEA(){
 			}
 		}
 	});
-};
-function drawBugs(){
-	var ctx3=document.getElementById("bugGraph").getContext("2d");
-			var chartData3 = {
-			labels:labelArray,
-			datasets: [
-			           {
-			        	   label:"Bugs",
-			        	   data:bugData,
-			        	   fill:false,
-			        	   backgroundColor:"#0000FF",
-			           }]
-
-	};
-	var barChart3 = new Chart(ctx3,{
+		var barChart3 = new Chart(ctx3,{
 		type: 'bar',
 		data: chartData3,
 		options:{
@@ -167,23 +165,7 @@ function drawBugs(){
 			}
 		}
 	});
-	
-};
-
-function drawProgress(){
-	var ctx4=document.getElementById("progGraph").getContext("2d");
-	var chartData4 = {
-		labels:labelArray,
-		datasets: [
-		           {
-		        	   label:"Progress",
-		        	   data:progData,
-		        	   fill:false,
-		        	   backgroundColor:"#FF00FF",
-		           }]
-
-	};
-	var barChart4 = new Chart(ctx4,{
+			var barChart4 = new Chart(ctx4,{
 		type: 'bar',
 		data: chartData4,
 		options:{
