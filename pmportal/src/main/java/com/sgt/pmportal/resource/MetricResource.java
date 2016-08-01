@@ -60,6 +60,7 @@ public class MetricResource {
 				"\", \"sea\":\"" + defectList.get(1) + 
 				"\", \"eea\":\"" + defectList.get(2) + 
 				"\", \"overdue\":\"" + defectList.get(3) +
+				"\", \"endDate\":\"" + project.getDueDateString() +
 				"\", \"projectedDate\":\"" + projectedDate.toString() +
 				"\", \"progress\":\"" + progress.toString()	+ "\"}";
 		return responseString;

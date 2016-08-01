@@ -139,6 +139,14 @@ public class JiraProject {
 	 * Returns the due date of the project
 	 * @return
 	 */
+	public String getDueDateString() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(due);
+		int month = calendar.get(Calendar.MONTH);
+		int day = calendar.get(Calendar.DATE);
+		return month + "-" + day;
+	}
+	
 	public Date getDueDate() {
 		return due;
 	}
