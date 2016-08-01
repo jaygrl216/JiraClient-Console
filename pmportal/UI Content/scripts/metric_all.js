@@ -36,7 +36,7 @@ $.ajax({
 	    //Download progress
 	    xhr.addEventListener("progress", function(evt){
 	      if (evt.lengthComputable) {
-	        var percentComplete = evt.loaded / evt.total;
+	        var percentComplete = 100* evt.loaded / evt.total;
 	        $("#loadText").html(percentComplete + "%");
 	      }
 	    }, false);
