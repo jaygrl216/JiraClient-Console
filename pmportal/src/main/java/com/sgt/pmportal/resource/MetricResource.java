@@ -135,6 +135,7 @@ public class MetricResource {
 @Path("/all/{username}/{password}/{url:.+}")
 @GET
 @Produces(MediaType.APPLICATION_JSON)
+//This method takes a really long time. Recommend calling individual metrics and gathering client-side
 public String getAllMetrics(@PathParam ("username") String username,
 		@PathParam ("password") String password,
 		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
