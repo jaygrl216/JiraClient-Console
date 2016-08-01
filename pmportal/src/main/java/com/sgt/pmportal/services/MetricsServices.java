@@ -97,10 +97,8 @@ public class MetricsServices {
 	 * @throws IOException
 	 * @return List<Double>
 	 */
-	public List<Double> calculateProjectSEA(JiraProject project, List<Sprint> sprintList)
+	public Double calculateProjectSEA(JiraProject project, List<Sprint> sprintList)
 			throws IOException, ParseException {
-		System.out.println("Getting sprints...");
-		project.getSprints();
 		if (sprintList == null) {
 			SprintServices sprintService = new SprintServices(client, authorization, baseURL);
 			sprintList = sprintService.getClosedSprintsByProject(project);
@@ -108,28 +106,16 @@ public class MetricsServices {
 		double seaSum = 0;
 		double length = sprintList.size();
 		System.out.println("Number of sprints: " + length);
-		// this list stores individual values to calculate standard deviation
-		ArrayList<Double> seaList = new ArrayList<Double>();
+
 		System.out.print("Calculating SEA values...\n");
 		// get sea values for every sprint
 		for (Sprint sprint : sprintList) {
 			double sea = calculateSprintSEA(sprint);
 			seaSum = seaSum + sea;
-			seaList.add(sea);
 		}
 		// calculate the average
 		double averageSEA = (seaSum / length);
-		// calculate standard deviation
-		double summand = 0;
-		for (double sea : seaList) {
-			summand = summand + (sea - averageSEA) * (sea - averageSEA);
-		}
-		double seaDev = Math.sqrt(summand / length);
-		// store values in an array list and return
-		ArrayList<Double> seaMetric = new ArrayList<Double>();
-		seaMetric.add(averageSEA);
-		seaMetric.add(seaDev);
-		return seaMetric;
+		return averageSEA;
 	}
 
 	/**
@@ -198,7 +184,7 @@ public class MetricsServices {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	public List<Double> calculateProjectEEA(JiraProject project, List<Sprint> sprintList)
+	public Double calculateProjectEEA(JiraProject project, List<Sprint> sprintList)
 			throws IOException, ParseException {
 		SprintServices sprintService = new SprintServices(client, authorization, baseURL);
 		if (sprintList == null) {
@@ -206,29 +192,14 @@ public class MetricsServices {
 		}
 		double eeaSum = 0;
 		double length = sprintList.size();
-		System.out.println("Number of sprints: " + length);
-		// this list stores individual values to calculate standard deviation
-		ArrayList<Double> eeaList = new ArrayList<Double>();
-		System.out.print("Calculating EEA values...\n");
 		// get eea values for every sprint
 		for (Sprint sprint : sprintList) {
 			double eea = calculateSprintEEA(sprint);
 			eeaSum = eeaSum + eea;
-			eeaList.add(eea);
 		}
 		// calculate the average
 		double averageEEA = (eeaSum / length);
-		// calculate standard deviation
-		double summand = 0;
-		for (double eea : eeaList) {
-			summand = summand + (eea - averageEEA) * (eea - averageEEA);
-		}
-		double eeaDev = Math.sqrt(summand / length);
-		// store values in an array list and return
-		ArrayList<Double> eeaMetric = new ArrayList<Double>();
-		eeaMetric.add(averageEEA);
-		eeaMetric.add(eeaDev);
-		return eeaMetric;
+		return averageEEA;
 	}
 
 	/**
@@ -273,8 +244,8 @@ public class MetricsServices {
 		long overDue = 0;
 		// get sprints here and pass them in to reduce repetitive load times
 		List<Sprint> sprintList = sprintService.getClosedSprintsByProject(project);
-		double sea = calculateProjectSEA(project, sprintList).get(0);
-		double eea = calculateProjectEEA(project, sprintList).get(0);
+		double sea = calculateProjectSEA(project, sprintList);
+		double eea = calculateProjectEEA(project, sprintList);
 		if (project.seeIfOverdue()) {
 			overDue++;
 		}
