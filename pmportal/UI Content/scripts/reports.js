@@ -9,11 +9,15 @@ $(document).ready(function(){
 	});
     
     $('#calendar').fullCalendar({
+        contentHeight: 'auto',
         dayRender: function (date, cell) {
             var today = new Date();
-            if (date.getDate() === today.getDate()) {
+            var date2 = date._d;
+            if(today.getMonth() == date2.getMonth() && today.getDate() == date2.getDate()) {
                 cell.css("background-color", "red");
             }
+            console.log(today);
+            console.log(date._d);
         }
     })
 });
