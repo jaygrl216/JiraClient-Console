@@ -138,7 +138,7 @@ public class MetricResource {
 @GET
 @Produces(MediaType.APPLICATION_JSON)
 //This method takes a really long time. Recommend calling individual metrics and gathering client-side
-public Response getAllMetrics(@PathParam ("username") String username,
+public String getAllMetrics(@PathParam ("username") String username,
 		@PathParam ("password") String password,
 		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
 	JiraRestClient client=GeneralServices.login(url, username, password);
@@ -163,7 +163,6 @@ public Response getAllMetrics(@PathParam ("username") String username,
 	projectArray.put(projectObject);
 	}
 	responseObject.put("project", projectArray);
-	String str=responseObject.toString();
-	return Response.ok(str , MediaType.APPLICATION_JSON).header(HttpHeaders.CONTENT_LENGTH, str.getBytes("UTF-8").length).build();
+	return responseObject.toString();
 }
 }
