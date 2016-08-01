@@ -90,7 +90,15 @@ input{
 	width:7%;
 position:fixed;
 }
-
+#loadText{
+	display:block;
+	margin-left:43%;
+	width:7%;
+	position:fixed;
+	font-size: 80px;
+    text-align: center;
+    color: #F75F00;
+}
 
 header h3 {
     float: left;
