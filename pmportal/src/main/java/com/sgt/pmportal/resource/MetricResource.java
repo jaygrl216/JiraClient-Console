@@ -91,7 +91,14 @@ public class MetricResource {
 	        builder = factory.newDocumentBuilder();
 	        Document document = builder.parse( new InputSource( new StringReader( xmlString ) ) );
 	        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-	        Result output = new StreamResult(new File("../docroot/data/output.xml"));
+	        Result output;
+	        try{
+	        	//Tomcat
+	        	output = new StreamResult(new File("webapps/pmportal/data/output.xml"));
+	        } catch(Exception notfound){
+	        	//glassfi
+	        	output=new StreamResult(new File("../docroot/data/output.xml"));
+	        }
 	        Source input = new DOMSource(document);
 	        transformer.transform(input, output);
 	    }catch (Exception e){
@@ -100,7 +107,14 @@ public class MetricResource {
 	    //create excel file
 	    try{
 	    	String lineBreak= System.getProperty("line.separator");
-	    	File textFile=new File("../docroot/data/output.xls");
+	    	File textFile;
+	    	try{
+	    		//Tomcat
+	    	textFile=new File("webapps/pmportal/data/output.xls");
+	    	}catch (Exception e){
+	    		//glassfish
+	    		textFile=new File("../docroot/data/output.xls");
+	    	}
 	    	Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 	    	fileWriter.write("SEA	EEA	Bugs");
 	    	fileWriter.write(lineBreak);
