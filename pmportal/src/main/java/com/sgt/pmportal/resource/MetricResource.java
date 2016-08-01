@@ -129,13 +129,13 @@ public class MetricResource {
 	    responseObject.put("seaAccuracy", metricService.getRegressionError(dataList.get(0), null));
 	    responseObject.put("eeaAccuracy", metricService.getRegressionError(dataList.get(1), null));
 	    responseObject.put("bugAccuracy", metricService.getRegressionError(dataList.get(2), null));
-	    //return json object
 		return responseObject.toString();
 	}
 
 @Path("/all/{username}/{password}/{url:.+}")
 @GET
 @Produces(MediaType.APPLICATION_JSON)
+//This method takes a really long time. Recommend calling individual metrics and gathering client-side
 public String getAllMetrics(@PathParam ("username") String username,
 		@PathParam ("password") String password,
 		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
@@ -147,19 +147,83 @@ public String getAllMetrics(@PathParam ("username") String username,
 	JSONObject responseObject=new JSONObject();
 	JSONArray projectArray=new JSONArray();
 	for (JiraProject project:projectList){
-	List<Number> defectList=metricService.calculateDefectTotal(project);
 	String key=project.getKey();
 	String name=project.getName();
+	Double sea=metricService.calculateProjectSEA(project, null);
+	Double eea=metricService.calculateProjectEEA(project, null);
+	Long bugs=metricService.calculateBugs(key);
 	Double progress=metricService.calculateProgress(key);
-	String projectString="{\"name\":\""+name+"\", \"bugs\":\"" + defectList.get(0) +
-			"\", \"sea\":\"" + defectList.get(1) +
-			"\", \"eea\":\"" + defectList.get(2) +
-			"\", \"overdue\":\"" + defectList.get(3) +
+	String projectString="{\"name\":\""+name+"\", \"bugs\":\"" + bugs +
+			"\", \"sea\":\"" + sea +
+			"\", \"eea\":\"" + eea +
 			"\", \"progress\":\"" + progress.toString()	+ "\"}";
 	JSONObject projectObject=new JSONObject(projectString);
 	projectArray.put(projectObject);
 	}
 	responseObject.put("project", projectArray);
+	return responseObject.toString();
+}
+
+@Path("/sea/{projectKey}/{username}/{password}/{url:.+}")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public String getSEA(@PathParam ("projectKey") String key, @PathParam ("username") String username,
+		@PathParam ("password") String password,
+		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+	JiraRestClient client=GeneralServices.login(url, username, password);
+	String authorization=GeneralServices.encodeAuth(username, password);
+	ProjectServices projectService=new ProjectServices(client, authorization, url);
+	JiraProject project=projectService.getProjectByKey(key);
+	MetricsServices metricService=new MetricsServices(client, authorization, url);
+	JSONObject responseObject=new JSONObject();
+	Double sea=metricService.calculateProjectSEA(project, null);
+	responseObject.put("sea", sea);
+	return responseObject.toString();
+}
+
+@Path("/eea/{projectKey}/{username}/{password}/{url:.+}")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public String getEEA(@PathParam ("projectKey") String key, @PathParam ("username") String username,
+		@PathParam ("password") String password,
+		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+	JiraRestClient client=GeneralServices.login(url, username, password);
+	String authorization=GeneralServices.encodeAuth(username, password);
+	ProjectServices projectService=new ProjectServices(client, authorization, url);
+	JiraProject project=projectService.getProjectByKey(key);
+	MetricsServices metricService=new MetricsServices(client, authorization, url);
+	JSONObject responseObject=new JSONObject();
+	Double eea=metricService.calculateProjectEEA(project, null);
+	responseObject.put("eea", eea);
+	return responseObject.toString();
+}
+@Path("/bug/{projectKey}/{username}/{password}/{url:.+}")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public String getBugs(@PathParam ("projectKey") String key, @PathParam ("username") String username,
+		@PathParam ("password") String password,
+		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+	JiraRestClient client=GeneralServices.login(url, username, password);
+	String authorization=GeneralServices.encodeAuth(username, password);
+	MetricsServices metricService=new MetricsServices(client, authorization, url);
+	JSONObject responseObject=new JSONObject();
+	Long bug=metricService.calculateBugs(key);
+	responseObject.put("bugs", bug);
+	return responseObject.toString();
+}
+
+@Path("/progress/{projectKey}/{username}/{password}/{url:.+}")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public String getProgress(@PathParam ("projectKey") String key, @PathParam ("username") String username,
+		@PathParam ("password") String password,
+		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+	JiraRestClient client=GeneralServices.login(url, username, password);
+	String authorization=GeneralServices.encodeAuth(username, password);
+	MetricsServices metricService=new MetricsServices(client, authorization, url);
+	JSONObject responseObject=new JSONObject();
+	Double progress=metricService.calculateProgress(key);
+	responseObject.put("progress", progress);
 	return responseObject.toString();
 }
 }
