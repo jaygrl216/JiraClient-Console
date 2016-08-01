@@ -3,6 +3,25 @@ var password=getCookie("password").toString();
 var baseURL=getCookie("url").toString();
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
+var overdue = 0;
+
+$.ajax({
+	url: homeResource,
+	dataType: "json"
+}).fail(function(xhr, status, errorThrown ) {
+	console.log("Error: " + errorThrown );
+	console.log("Status: " + status );
+	console.dir(xhr);
+}).done(function(jsonObject){
+	responseObject = jsonObject;
+	projectArray = responseObject.projects;
+
+	$.each(projectArray, function (index, proj) {
+		if(proj.overdue == true) {
+            overdue = overdue + 1;
+        }
+	});
+});
 
 $(document).ready(function(){
 	$("#topLayer").on( "click", "li" , function () {

@@ -269,6 +269,7 @@ public class JiraProject {
 		leadUser.put("timezone", lead.getTimeZone());
 		
 		project.put("lead", leadUser);
+		project.put("overdue", isOverdue);
 
 		JSONArray releaseArray=new JSONArray();
 		for (Release release:getReleases()){
