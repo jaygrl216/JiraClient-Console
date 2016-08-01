@@ -129,7 +129,6 @@ public class MetricResource {
 	    responseObject.put("seaAccuracy", metricService.getRegressionError(dataList.get(0), null));
 	    responseObject.put("eeaAccuracy", metricService.getRegressionError(dataList.get(1), null));
 	    responseObject.put("bugAccuracy", metricService.getRegressionError(dataList.get(2), null));
-	    //return json object
 		return responseObject.toString();
 	}
 
