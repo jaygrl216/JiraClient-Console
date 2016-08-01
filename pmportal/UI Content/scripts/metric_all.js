@@ -5,7 +5,6 @@ var hostURL=window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 var allResource="http://" + hostURL+ "/pmportal/rest/metrics/all/" + username + "/" + password + "/" + baseURL;
 var responseObject;
-var metricObject;
 var projectNameArray;
 var projectArray;
 var labelArray=[];
@@ -77,7 +76,7 @@ function getData(resource){
 	console.log("Status: " + status );
 	console.dir(xhr);
 }).done(function(jsonObject){
-	metricObject = jsonObject;
+	var metricObject = jsonObject;
 	return metricObject;
 });
 };
