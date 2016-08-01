@@ -78,7 +78,8 @@ function getData(resource){
 }).done(function(jsonObject){
 	metricObject = jsonObject;
 	return metricObject;
-}
+});
+};
 function drawSEA(){
 		var ctx1=document.getElementById("seaGraph").getContext("2d");
 		var chartData1 = {
