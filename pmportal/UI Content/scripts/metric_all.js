@@ -30,18 +30,6 @@ $.ajax({
 });
 $.ajax({
 	url: allResource,
-	 xhr: function()
-	  {
-	    var xhr = new window.XMLHttpRequest();
-	    //Download progress
-	    xhr.addEventListener("progress", function(evt){
-	      if (evt.lengthComputable) {
-	        var percentComplete = 100* evt.loaded / evt.total;
-	        $("#loadText").html(percentComplete + "%");
-	      }
-	    }, false);
-	    return xhr;
-	  },
 	dataType: "json"
 }).fail(function(xhr, status, errorThrown ) {
 	console.log("Error: " + errorThrown );
