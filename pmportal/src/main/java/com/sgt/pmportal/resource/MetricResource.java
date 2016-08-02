@@ -2,7 +2,6 @@ package com.sgt.pmportal.resource;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
@@ -45,7 +44,6 @@ import com.sgt.pmportal.services.ProjectServices;
 public class MetricResource {
 
 	@Path("/project/basic/{projectKey}/{username}/{password}/{url:.+}")
-	//serverURL/pmportal/rest/metrics/project/basic...
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getBasicMetrics(@PathParam ("projectKey") String key, 
@@ -140,7 +138,7 @@ public class MetricResource {
 	@Path("/all/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	//This method takes a really long time. Recommend calling individual metrics and gathering client-side
+	//This method takes a really long time
 	public String getAllMetrics(@PathParam ("username") String username,
 			@PathParam ("password") String password,
 			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
