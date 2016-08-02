@@ -30,7 +30,7 @@ public class NotificationResource {
 		    	textFile=new File("webapps/pmportal/data/notify.txt");
 		    	}catch (Exception e){
 		    		//glassfish
-		    		textFile=new File("../docroot/data/notify.txt");
+		    		textFile=new File("notify.txt");
 		    	}
 		    	//The key is to split ";" then to split ","
 		    	Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
