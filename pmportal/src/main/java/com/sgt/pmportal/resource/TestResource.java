@@ -9,7 +9,7 @@ import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.NotificationService;
 
 public class TestResource {
-	@Path ("/test/{username}/{password}/{url:.+}")
+	@Path ("/test/login/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String testLogin(@PathParam ("username") String username,
