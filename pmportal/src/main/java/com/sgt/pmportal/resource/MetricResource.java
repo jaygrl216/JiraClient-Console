@@ -15,7 +15,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
@@ -161,69 +163,6 @@ public String getAllMetrics(@PathParam ("username") String username,
 	projectArray.put(projectObject);
 	}
 	responseObject.put("project", projectArray);
-	return responseObject.toString();
-}
-
-@Path("/sea/{projectKey}/{username}/{password}/{url:.+}")
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-public String getSEA(@PathParam ("projectKey") String key, @PathParam ("username") String username,
-		@PathParam ("password") String password,
-		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
-	JiraRestClient client=GeneralServices.login(url, username, password);
-	String authorization=GeneralServices.encodeAuth(username, password);
-	ProjectServices projectService=new ProjectServices(client, authorization, url);
-	JiraProject project=projectService.getProjectByKey(key);
-	MetricsServices metricService=new MetricsServices(client, authorization, url);
-	JSONObject responseObject=new JSONObject();
-	Double sea=metricService.calculateProjectSEA(project, null);
-	responseObject.put("sea", sea);
-	return responseObject.toString();
-}
-
-@Path("/eea/{projectKey}/{username}/{password}/{url:.+}")
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-public String getEEA(@PathParam ("projectKey") String key, @PathParam ("username") String username,
-		@PathParam ("password") String password,
-		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
-	JiraRestClient client=GeneralServices.login(url, username, password);
-	String authorization=GeneralServices.encodeAuth(username, password);
-	ProjectServices projectService=new ProjectServices(client, authorization, url);
-	JiraProject project=projectService.getProjectByKey(key);
-	MetricsServices metricService=new MetricsServices(client, authorization, url);
-	JSONObject responseObject=new JSONObject();
-	Double eea=metricService.calculateProjectEEA(project, null);
-	responseObject.put("eea", eea);
-	return responseObject.toString();
-}
-@Path("/bug/{projectKey}/{username}/{password}/{url:.+}")
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-public String getBugs(@PathParam ("projectKey") String key, @PathParam ("username") String username,
-		@PathParam ("password") String password,
-		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
-	JiraRestClient client=GeneralServices.login(url, username, password);
-	String authorization=GeneralServices.encodeAuth(username, password);
-	MetricsServices metricService=new MetricsServices(client, authorization, url);
-	JSONObject responseObject=new JSONObject();
-	Long bug=metricService.calculateBugs(key);
-	responseObject.put("bugs", bug);
-	return responseObject.toString();
-}
-
-@Path("/progress/{projectKey}/{username}/{password}/{url:.+}")
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-public String getProgress(@PathParam ("projectKey") String key, @PathParam ("username") String username,
-		@PathParam ("password") String password,
-		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
-	JiraRestClient client=GeneralServices.login(url, username, password);
-	String authorization=GeneralServices.encodeAuth(username, password);
-	MetricsServices metricService=new MetricsServices(client, authorization, url);
-	JSONObject responseObject=new JSONObject();
-	Double progress=metricService.calculateProgress(key);
-	responseObject.put("progress", progress);
 	return responseObject.toString();
 }
 }
