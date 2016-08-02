@@ -5,6 +5,10 @@ var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 var overdue = 0;
 var stop = 0;
+var dateArray = new Array(0);
+var i = 0;
+
+
 
 $.ajax({
 	url: homeResource,
@@ -21,6 +25,13 @@ $.ajax({
 		if(proj.overdue == true) {
             overdue = overdue + 1;
         }
+        
+        var dueDate = new Date();
+        var dates = proj.due.split("-");
+        dueDate.setMonth(dates[0]);
+        dueDate.setDate(dates[1]);
+        dateArray[index] = dueDate;
+        
 	});
 });
 
@@ -53,18 +64,13 @@ $(document).ready(function(){
     $('#calendar').fullCalendar({
         contentHeight: 'auto',
         dayRender: function (date, cell) {
-            var today = new Date();
-            today.setMonth(7);
-            today.setDate(14);
-            
             var date2 = date._d;
-            if(today.getMonth() == date2.getMonth() && today.getDate() == date2.getDate()) {
+            if(dateArray[i].getMonth() == date2.getMonth() && dateArray[i].getDate() == date2.getDate()) {
                 cell.css("background-color", "red");
-                console.log(cell);
-                console.log(today);
+                console.log(dateArray[i]);
                 console.log(date._d);
             }
-            
+            i = i + 1;
         }
     })
 });
