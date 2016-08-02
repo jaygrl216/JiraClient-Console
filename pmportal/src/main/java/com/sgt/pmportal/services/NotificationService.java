@@ -12,8 +12,8 @@ import javax.mail.internet.MimeMessage;
 
 public class NotificationService {
 //This will only work if less secure apps are permitted, otherwise must use OAuth for gmail
-	 String     d_email="ajmital@gmail.com",
-			 	d_password = "ComPuteR90",
+	 String     d_email="pmportalalert@gmail.com",
+			 	d_password = "PMPortal",
 	            d_host = "smtp.gmail.com",
 	            d_port  = "465";
 	 /**
