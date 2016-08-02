@@ -25,18 +25,18 @@ public class NotificationResource {
 		String password=requestObject.getString("password");
 		String url=requestObject.getString("url");
 		String email=requestObject.getString("email");
-		//create excel file
-				File textFile;
+		//check if user already exists, then write if not
+		
 				try{
 					//Tomcat
-					textFile=new File("webapps/pmportal/data/notify.txt");
-					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+					File textFile=new File("webapps/pmportal/data/notify.txt");
+					Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
 					fileWriter.write(username+","+password+","+email+","+url+";");
 					fileWriter.close();
 				}catch (Exception e){
 					//glassfish
-					textFile=new File("../applications/pmportal/data/notify.txt");
-					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+					File textFile=new File("../applications/pmportal/data/notify.txt");
+					Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
 					fileWriter.write(username+","+password+","+email+","+url+";");
 					fileWriter.close();
 				}
