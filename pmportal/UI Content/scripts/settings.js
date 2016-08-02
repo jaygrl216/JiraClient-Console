@@ -12,7 +12,7 @@ function saveSettings(){
 	var pass=$("#passText").val();
 	var remember=$("#rememberBox").prop("checked");
 	var hostURL=window.location.host;
-	var testResource="http://"+hostURL+"/pmportal/rest/test/" + user + "/" + pass + "/" +baseURL;
+	var testResource="http://"+hostURL+"/pmportal/rest/test/login/" + user + "/" + pass + "/" +baseURL;
 	$.ajax({
 		type:"GET",
 		dataType:"text",
