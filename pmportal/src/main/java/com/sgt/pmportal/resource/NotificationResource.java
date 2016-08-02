@@ -26,21 +26,18 @@ public class NotificationResource {
 		String url=requestObject.getString("url");
 		String email=requestObject.getString("email");
 		//create excel file
-				String lineBreak= System.getProperty("line.separator");
 				File textFile;
 				try{
 					//Tomcat
-					textFile=new File("webapps/pmportal/data/"+username+".txt");
+					textFile=new File("webapps/pmportal/data/notify.txt");
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-					fileWriter.write("SEA	EEA	Bugs");
-					fileWriter.write(lineBreak);
+					fileWriter.write(username+","+password+","+email+","+url+";");
 					fileWriter.close();
 				}catch (Exception e){
 					//glassfish
-					textFile=new File("../applications/pmportal/data/"+username+".txt");
+					textFile=new File("../applications/pmportal/data/notify.txt");
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-					fileWriter.write("SEA	EEA	Bugs");
-					fileWriter.write(lineBreak);
+					fileWriter.write(username+","+password+","+email+","+url+";");
 					fileWriter.close();
 				}
 }
