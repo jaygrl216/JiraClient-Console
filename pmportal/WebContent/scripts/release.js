@@ -177,11 +177,10 @@ function showInitialData() {
         dayRender: function(date, cell) {
             var today = new Date();
             var date2 = date._d;
-                if(due.getMonth() == date2.getMonth() && due.getDate() == date2.getDate()) {
+                if(due.getMonth() == date2.getMonth() && due.getDate() - 1 == date2.getDate()) {
                     cell.css("background-color", "#9EF0AA");
-                    console.log(date._d);
                 }
-            
+
                 if(today.getMonth() == date2.getMonth() && today.getDate() - 1 == date2.getDate()) {
                     cell.css("background-color", "rgba(96, 101, 125, 1)");
                     console.log("Today" + date._d);
