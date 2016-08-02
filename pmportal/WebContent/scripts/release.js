@@ -279,12 +279,11 @@ function showProjectData(num) {
         dayRender: function(date, cell) {
             var today = new Date();
             var date2 = date._d;
-                if(today.getDate == due.getDate && date2.getDate == today.getDate) {
+                 if(due.getMonth() == date2.getMonth() && due.getDate() - 1 == date2.getDate()) {
                     cell.css("background-color", "#9EF0AA");
-                    console.log("same");
-                } else if(due.getMonth() == date2.getMonth() && due.getDate() - 1 == date2.getDate()) {
-                    cell.css("background-color", "#9EF0AA");
-                } else if(today.getMonth() == date2.getMonth() && today.getDate() - 1 == date2.getDate()) {
+                }
+
+                if(today.getMonth() == date2.getMonth() && today.getDate() - 1 == date2.getDate()) {
                     cell.css("background-color", "rgba(96, 101, 125, 1)");
                     console.log("Today" + date._d);
                 }
