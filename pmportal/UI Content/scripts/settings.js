@@ -33,7 +33,7 @@ function saveSettings(){
 	settingsCookie(eaddress);
 };
 function testEmail(){
-	var eaddress=("#emailInput").val();
+	var eaddress=$("#emailInput").val();
 	var testResource="http://"+hostURL+"/pmportal/rest/test/email/"+eaddress;
 	$.ajax({
 		type:"GET",
