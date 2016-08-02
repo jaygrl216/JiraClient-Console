@@ -7,9 +7,9 @@ import javax.ws.rs.core.MediaType;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.NotificationService;
-
+@Path("/test")
 public class TestResource {
-	@Path ("/test/login/{username}/{password}/{url:.+}")
+	@Path ("/login/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String testLogin(@PathParam ("username") String username,
@@ -23,7 +23,7 @@ public class TestResource {
 		}
 		return "Success";
 	}
-	@Path ("/test/email/{address}")
+	@Path ("/email/{address}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String testEmail(@PathParam ("address") String m_to){
