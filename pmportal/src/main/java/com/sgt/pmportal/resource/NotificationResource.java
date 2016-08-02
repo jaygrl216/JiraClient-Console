@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 
 import javax.ws.rs.Consumes;
@@ -18,26 +19,28 @@ import javax.ws.rs.POST;
 public class NotificationResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void saveCredentials(JSONObject requestObject){
+	public void saveCredentials(JSONObject requestObject) throws IOException{
 		String username=requestObject.getString("username");
 		String password=requestObject.getString("password");
 		String url=requestObject.getString("url");
 		String email=requestObject.getString("email");
-			try{
-		    	File textFile;
-		    	try{
-		    		//Tomcat
-		    	textFile=new File("webapps/pmportal/data/notify.txt");
-		    	}catch (Exception e){
-		    		//glassfish
-		    		textFile=new File("../applications/pmportal/data/notify.txt");
-		    	}
-		    	//The key is to split ";" then to split ","
-		    	Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-		    	fileWriter.write(username+","+password+","+email+","+url+";");
-		    	fileWriter.close();
-		    }catch (Exception e){
-		    	e.printStackTrace();
-		    }
-	}
+		//create excel file
+				String lineBreak= System.getProperty("line.separator");
+				File textFile;
+				try{
+					//Tomcat
+					textFile=new File("webapps/pmportal/data/output.xls");
+					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+					fileWriter.write("SEA	EEA	Bugs");
+					fileWriter.write(lineBreak);
+					fileWriter.close();
+				}catch (Exception e){
+					//glassfish
+					textFile=new File("../applications/pmportal/data/output.xls");
+					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+					fileWriter.write("SEA	EEA	Bugs");
+					fileWriter.write(lineBreak);
+					fileWriter.close();
+				}
+}
 }
