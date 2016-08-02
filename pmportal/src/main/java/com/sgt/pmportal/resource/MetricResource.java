@@ -69,7 +69,7 @@ public class MetricResource {
 				"\", \"progress\":\"" + progress.toString()	+ "\"}";
 		return responseString;
 	}
-	
+
 	@Path("/project/detail/{projectKey}/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -89,78 +89,83 @@ public class MetricResource {
 		responseObject.put("bugs", dataList.get(2).toString());
 		//create XML out of JSON object
 		String xmlString=XML.toString(responseObject, key);
-	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	    DocumentBuilder builder;
-	        builder = factory.newDocumentBuilder();
-	        Document document = builder.parse( new InputSource( new StringReader( xmlString ) ) );
-	        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-	        Result output;
-	        try{
-	        	//Tomcat
-	        	output = new StreamResult(new File("webapps/pmportal/data/output.xml"));
-	        } catch(Exception notfound){
-	        	//glassfi
-	        	output=new StreamResult(new File("../applications/pmportal/data/output.xml"));
-	        }
-	        Source input = new DOMSource(document);
-	        transformer.transform(input, output);
-	    //create excel file
-	    	String lineBreak= System.getProperty("line.separator");
-	    	File textFile;
-	    	try{
-	    		//Tomcat
-	    	textFile=new File("webapps/pmportal/data/output.xls");
-	    	}catch (Exception e){
-	    		//glassfish
-	    		textFile=new File("../applications/pmportal/data/output.xls");
-	    	}
-	    	try{
-	    	Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-	    	fileWriter.write("SEA	EEA	Bugs");
-	    	fileWriter.write(lineBreak);
-	    	for (int i=0; i<dataList.get(0).size(); i++){
-	    	fileWriter.write(dataList.get(0).get(i).toString() +"	"+ dataList.get(1).get(i).toString()+"	"+dataList.get(2).get(i).toString());
-	    	fileWriter.write(lineBreak);
-	    	}
-	    	fileWriter.close();
-	    }catch (Exception e){
-	    	e.printStackTrace();
-	    }
-	    responseObject.put("seaAccuracy", metricService.getRegressionError(dataList.get(0), null));
-	    responseObject.put("eeaAccuracy", metricService.getRegressionError(dataList.get(1), null));
-	    responseObject.put("bugAccuracy", metricService.getRegressionError(dataList.get(2), null));
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder;
+		builder = factory.newDocumentBuilder();
+		Document document = builder.parse( new InputSource( new StringReader( xmlString ) ) );
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		Result output;
+		try{
+			//Tomcat
+			output = new StreamResult(new File("webapps/pmportal/data/output.xml"));
+			Source input = new DOMSource(document);
+			transformer.transform(input, output);
+		}catch (Exception e){
+			output = new StreamResult(new File("../applications/pmportal/data/output.xml"));
+			Source input = new DOMSource(document);
+			transformer.transform(input, output);
+		}
+		//create excel file
+		String lineBreak= System.getProperty("line.separator");
+		File textFile;
+		try{
+			//Tomcat
+			textFile=new File("webapps/pmportal/data/output.xls");
+			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+			fileWriter.write("SEA	EEA	Bugs");
+			fileWriter.write(lineBreak);
+			for (int i=0; i<dataList.get(0).size(); i++){
+				fileWriter.write(dataList.get(0).get(i).toString() +"	"+ dataList.get(1).get(i).toString()+"	"+dataList.get(2).get(i).toString());
+				fileWriter.write(lineBreak);
+			}
+			fileWriter.close();
+		}catch (Exception e){
+			//glassfish
+			textFile=new File("../applications/pmportal/data/output.xls");
+			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+			fileWriter.write("SEA	EEA	Bugs");
+			fileWriter.write(lineBreak);
+			for (int i=0; i<dataList.get(0).size(); i++){
+				fileWriter.write(dataList.get(0).get(i).toString() +"	"+ dataList.get(1).get(i).toString()+"	"+dataList.get(2).get(i).toString());
+				fileWriter.write(lineBreak);
+			}
+			fileWriter.close();
+		}
+		responseObject.put("seaAccuracy", metricService.getRegressionError(dataList.get(0), null));
+		responseObject.put("eeaAccuracy", metricService.getRegressionError(dataList.get(1), null));
+		responseObject.put("bugAccuracy", metricService.getRegressionError(dataList.get(2), null));
 		return responseObject.toString();
 	}
 
-@Path("/all/{username}/{password}/{url:.+}")
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-//This method takes a really long time. Recommend calling individual metrics and gathering client-side
-public String getAllMetrics(@PathParam ("username") String username,
-		@PathParam ("password") String password,
-		@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
-	JiraRestClient client=GeneralServices.login(url, username, password);
-	String authorization=GeneralServices.encodeAuth(username, password);
-	ProjectServices projectService=new ProjectServices(client, authorization, url);
-	List<JiraProject> projectList=projectService.getAllJiraProjects();
-	MetricsServices metricService=new MetricsServices(client, authorization, url);
-	JSONObject responseObject=new JSONObject();
-	JSONArray projectArray=new JSONArray();
-	for (JiraProject project:projectList){
-	String key=project.getKey();
-	String name=project.getName();
-	Double sea=metricService.calculateProjectSEA(project, null);
-	Double eea=metricService.calculateProjectEEA(project, null);
-	Long bugs=metricService.calculateBugs(key);
-	Double progress=metricService.calculateProgress(key);
-	String projectString="{\"name\":\""+name+"\", \"bugs\":\"" + bugs +
-			"\", \"sea\":\"" + sea +
-			"\", \"eea\":\"" + eea +
-			"\", \"progress\":\"" + progress.toString()	+ "\"}";
-	JSONObject projectObject=new JSONObject(projectString);
-	projectArray.put(projectObject);
+	@Path("/all/{username}/{password}/{url:.+}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	//This method takes a really long time. Recommend calling individual metrics and gathering client-side
+	public String getAllMetrics(@PathParam ("username") String username,
+			@PathParam ("password") String password,
+			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+		JiraRestClient client=GeneralServices.login(url, username, password);
+		String authorization=GeneralServices.encodeAuth(username, password);
+		ProjectServices projectService=new ProjectServices(client, authorization, url);
+		List<JiraProject> projectList=projectService.getAllJiraProjects();
+		MetricsServices metricService=new MetricsServices(client, authorization, url);
+		JSONObject responseObject=new JSONObject();
+		JSONArray projectArray=new JSONArray();
+		for (JiraProject project:projectList){
+			String key=project.getKey();
+			String name=project.getName();
+			Double sea=metricService.calculateProjectSEA(project, null);
+			Double eea=metricService.calculateProjectEEA(project, null);
+			Long bugs=metricService.calculateBugs(key);
+			Double progress=metricService.calculateProgress(key);
+			String projectString="{\"name\":\""+name+"\", \"bugs\":\"" + bugs +
+					"\", \"sea\":\"" + sea +
+					"\", \"eea\":\"" + eea +
+					"\", \"progress\":\"" + progress.toString()	+ "\"}";
+			JSONObject projectObject=new JSONObject(projectString);
+			projectArray.put(projectObject);
+		}
+		responseObject.put("project", projectArray);
+		return responseObject.toString();
 	}
-	responseObject.put("project", projectArray);
-	return responseObject.toString();
-}
 }
