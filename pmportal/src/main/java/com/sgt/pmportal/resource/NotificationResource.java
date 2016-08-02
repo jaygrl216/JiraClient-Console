@@ -29,14 +29,14 @@ public class NotificationResource {
 				File textFile;
 				try{
 					//Tomcat
-					textFile=new File("webapps/pmportal/data/output.xls");
+					textFile=new File("webapps/pmportal/data/"+username+".txt");
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 					fileWriter.write("SEA	EEA	Bugs");
 					fileWriter.write(lineBreak);
 					fileWriter.close();
 				}catch (Exception e){
 					//glassfish
-					textFile=new File("../applications/pmportal/data/output.xls");
+					textFile=new File("../applications/pmportal/data/"+username+".txt");
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 					fileWriter.write("SEA	EEA	Bugs");
 					fileWriter.write(lineBreak);
