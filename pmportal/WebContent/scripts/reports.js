@@ -48,7 +48,7 @@ $(document).ajaxComplete(function() {
                 console.log(dateArray[i].getMonth());
                 console.log(dateArray[i].getDate());
                  if(dateArray[i].getMonth() == date2.getMonth() && dateArray[i].getDate() == date2.getDate()) {
-                    cell.css("background-color", "rgba(96, 101, 125, 1)");
+                    cell.css("background-color", "#9EF0AA");
                     console.log(dateArray[i]);
                     console.log(date._d);
                 }
