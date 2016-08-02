@@ -6,6 +6,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.services.GeneralServices;
+import com.sgt.pmportal.services.NotificationService;
 
 public class TestResource {
 	@Path ("/test/{username}/{password}/{url:.+}")
@@ -22,18 +23,18 @@ public class TestResource {
 		}
 		return "Success";
 	}
-	@Path ("/test/{username}/{password}/{url:.+}")
+	@Path ("/test/email/{address}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public String testEmail(@PathParam ("username") String username,
-			@PathParam ("password")	String password,
-			@PathParam ("url") String url){
+	public String testEmail(@PathParam ("address") String m_to){
 		try{
+			String m_subject="Test of PM-Portal Alert System";
+			String m_text="Hello, this message is to let you know that the PM-Portal notification system was able to send to your email.";
 			@SuppressWarnings("unused")
-			JiraRestClient client=GeneralServices.login(url, username, password);
+			NotificationService nService=new NotificationService(m_to, m_subject, m_text);
 		}catch (Exception e){
 			return "Failed";
 		}
-		return "Success";
+		return "Sent";
 	}
 }
