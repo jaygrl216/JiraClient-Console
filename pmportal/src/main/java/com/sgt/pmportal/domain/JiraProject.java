@@ -276,7 +276,7 @@ public class JiraProject {
 			releaseArray.put(release.toJSONString());
 		}
 		project.put("releases", releaseArray);
-		project.put("due", due);
+		project.put("due", getDueDateString());
 		return project.toString();
 
 	}
