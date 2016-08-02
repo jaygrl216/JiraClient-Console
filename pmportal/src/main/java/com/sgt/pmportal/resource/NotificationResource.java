@@ -17,6 +17,7 @@ import javax.ws.rs.POST;
 
 @Path("/notification")
 public class NotificationResource {
+	@Path("/save")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void saveCredentials(JSONObject requestObject) throws IOException{
