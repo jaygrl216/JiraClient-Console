@@ -32,3 +32,23 @@ function saveSettings(){
 });
 	settingsCookie(eaddress);
 };
+function testEmail(){
+	var eaddress=("#emailInput").val();
+	var testResource="http://"+hostURL+"/pmportal/rest/test/email/"+eaddress;
+	$.ajax({
+		type:"GET",
+		dataType:"text",
+		url:testResource
+	}).fail(function( xhr, status, errorThrown ) {
+		console.log( "Error: " + errorThrown );
+		console.log( "Status: " + status );
+		console.dir( xhr );
+		alert("Failed to reach server!")
+	}).done(function(response){
+		if (response=="Sent"){
+			alert("An email has been sent to the specified address");
+		}else{
+			alert("Email failed to send!");
+};
+});
+};
