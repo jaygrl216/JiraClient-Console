@@ -2,6 +2,7 @@ package com.sgt.pmportal.resource;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
@@ -18,9 +19,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -30,6 +33,7 @@ import org.json.JSONObject;
 import org.json.XML;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
@@ -72,7 +76,7 @@ public class MetricResource {
 	public String getDetailMetrics(@PathParam ("projectKey") String key, 
 			@PathParam ("username") String username, 
 			@PathParam ("password") String password, 
-			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException, TransformerException, ParserConfigurationException, SAXException{
 		JiraRestClient client=GeneralServices.login(url, username, password);
 		String authorization=GeneralServices.encodeAuth(username, password);
 		ProjectServices projectService=new ProjectServices(client, authorization, url);
@@ -87,7 +91,6 @@ public class MetricResource {
 		String xmlString=XML.toString(responseObject, key);
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder builder;
-	    try{
 	        builder = factory.newDocumentBuilder();
 	        Document document = builder.parse( new InputSource( new StringReader( xmlString ) ) );
 	        Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -97,15 +100,11 @@ public class MetricResource {
 	        	output = new StreamResult(new File("webapps/pmportal/data/output.xml"));
 	        } catch(Exception notfound){
 	        	//glassfi
-	        	output=new StreamResult(new File("../docroot/data/output.xml"));
+	        	output=new StreamResult(new File("../applications/pmportal/data/output.xml"));
 	        }
 	        Source input = new DOMSource(document);
 	        transformer.transform(input, output);
-	    }catch (Exception e){
-	    	e.printStackTrace();
-	    }
 	    //create excel file
-	    try{
 	    	String lineBreak= System.getProperty("line.separator");
 	    	File textFile;
 	    	try{
@@ -113,8 +112,9 @@ public class MetricResource {
 	    	textFile=new File("webapps/pmportal/data/output.xls");
 	    	}catch (Exception e){
 	    		//glassfish
-	    		textFile=new File("../docroot/data/output.xls");
+	    		textFile=new File("../applications/pmportal/data/output.xls");
 	    	}
+	    	try{
 	    	Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 	    	fileWriter.write("SEA	EEA	Bugs");
 	    	fileWriter.write(lineBreak);
