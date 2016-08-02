@@ -21,19 +21,20 @@ public class NotificationResource {
 	public void saveCredentials(JSONObject requestObject){
 		String username=requestObject.getString("username");
 		String password=requestObject.getString("password");
-		 try{
-		    	String lineBreak= System.getProperty("line.separator");
+		String url=requestObject.getString("url");
+		String email=requestObject.getString("email");
+			try{
 		    	File textFile;
 		    	try{
 		    		//Tomcat
-		    	textFile=new File("webapps/pmportal/data/output.xls");
+		    	textFile=new File("webapps/pmportal/data/notify.txt");
 		    	}catch (Exception e){
 		    		//glassfish
-		    		textFile=new File("../docroot/data/output.xls");
+		    		textFile=new File("../docroot/data/notify.txt");
 		    	}
+		    	//The key is to split ";" then to split ","
 		    	Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-		    	fileWriter.write("SEA	EEA	Bugs");
-		    	fileWriter.write(lineBreak);
+		    	fileWriter.write(username+","+password+","+email+","+url+";");
 		    	fileWriter.close();
 		    }catch (Exception e){
 		    	e.printStackTrace();
