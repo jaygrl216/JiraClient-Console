@@ -125,12 +125,7 @@ $(document).ready(function(){
 		});
 	});
     
-    $('#calendar').fullCalendar({
-        eventColor: '#378006',
-        contentHeight: 'auto',
-        backgroundColor: '#10799C',
-        borderColor: '#10799C'
-    })
+    $('#calendar').append("Loading...");
 });
 
 
@@ -171,6 +166,30 @@ function createPie() {
 function showInitialData() {
 	var project = projectArray[0];
     projKey = project.key;
+    projDate = project.due.split("-");
+    due = new Date();
+    due.setMonth(projDate[0]);
+    due.setDate(projDate[1]);
+    
+    $('#calendar').empty();
+    $('#calendar').fullCalendar({
+        contentHeight: 'auto',
+        dayRender: function(date, cell) {
+            var today = new Date();
+            var date2 = date._d;
+                if(due.getMonth() == date2.getMonth() && due.getDate() == date2.getDate()) {
+                    cell.css("background-color", "#9EF0AA");
+                    console.log(date._d);
+                }
+            
+                if(today.getMonth() == date2.getMonth() && today.getDate() - 1 == date2.getDate()) {
+                    cell.css("background-color", "rgba(96, 101, 125, 1)");
+                    console.log("Today" + date._d);
+                }
+            
+            
+        }
+    });
 	//this will pass the information to metrics, so when they click on the link, it continues with the same project
 	$("#metricLink").attr("href", "metrics.html?project=" + projKey);
     
@@ -248,6 +267,32 @@ function showInitialData() {
 function showProjectData(num) {
     var project = projectArray[num];
     projKey = project.key;
+    
+    projDate = project.due.split("-");
+    due = new Date();
+    due.setMonth(projDate[0]);
+    due.setDate(projDate[1]);
+    
+    $('#calendar').empty();
+    $('#calendar').fullCalendar({
+        contentHeight: 'auto',
+        dayRender: function(date, cell) {
+            var today = new Date();
+            var date2 = date._d;
+                if(due.getMonth() == date2.getMonth() && due.getDate() == date2.getDate()) {
+                    cell.css("background-color", "#9EF0AA");
+                    console.log(date._d);
+                }
+            
+                if(today.getMonth() == date2.getMonth() && today.getDate() - 1 == date2.getDate()) {
+                    cell.css("background-color", "rgba(96, 101, 125, 1)");
+                    console.log("Today" + date._d);
+                }
+            
+            
+        }
+    });
+    
     issueResource = "http://localhost:8080/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     metricResource = "http://localhost:8080/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     
