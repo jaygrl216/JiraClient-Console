@@ -5,13 +5,14 @@ if (email!=""){
 $("#emailInput").val(email);
 };
 
+var hostURL=window.location.host;
 function saveSettings(){
 	var eaddress=$("#emailInput").val();
 	var user=$("#userText").val();
 	var baseURL=$("#urlText").val();
 	var pass=$("#passText").val();
 	var remember=$("#rememberBox").prop("checked");
-	var hostURL=window.location.host;
+
 	var testResource="http://"+hostURL+"/pmportal/rest/test/login/" + user + "/" + pass + "/" +baseURL;
 	$.ajax({
 		type:"GET",
