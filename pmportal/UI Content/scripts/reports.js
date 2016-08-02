@@ -38,7 +38,8 @@ $(document).ajaxComplete(function() {
     });
            
     console.log(dateArray);
-           
+    
+    $('#calendar').empty();
     $('#calendar').fullCalendar({
         contentHeight: 'auto',
         dayRender: function(date, cell) {
@@ -47,7 +48,7 @@ $(document).ajaxComplete(function() {
                 console.log(dateArray[i].getMonth());
                 console.log(dateArray[i].getDate());
                  if(dateArray[i].getMonth() == date2.getMonth() && dateArray[i].getDate() == date2.getDate()) {
-                    cell.css("background-color", "red");
+                    cell.css("background-color", "rgba(96, 101, 125, 1)");
                     console.log(dateArray[i]);
                     console.log(date._d);
                 }
@@ -70,9 +71,7 @@ $(document).ajaxStop(function () {
 });
 
 $(document).ready(function() {
-    $('#calendar').fullCalendar({
-        contentHeight: 'auto'
-    });
+    $('#calendar').append("Loading");
 })
 
 //function reRender(date, cell) {
