@@ -6,11 +6,26 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.services.GeneralServices;
-@Path ("/test/{username}/{password}/{url:.+}")
+
 public class TestResource {
+	@Path ("/test/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String testLogin(@PathParam ("username") String username,
+			@PathParam ("password")	String password,
+			@PathParam ("url") String url){
+		try{
+			@SuppressWarnings("unused")
+			JiraRestClient client=GeneralServices.login(url, username, password);
+		}catch (Exception e){
+			return "Failed";
+		}
+		return "Success";
+	}
+	@Path ("/test/{username}/{password}/{url:.+}")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String testEmail(@PathParam ("username") String username,
 			@PathParam ("password")	String password,
 			@PathParam ("url") String url){
 		try{
