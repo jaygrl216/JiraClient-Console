@@ -16,7 +16,14 @@ public class NotificationService {
 			 	d_password = "ComPuteR90",
 	            d_host = "smtp.gmail.com",
 	            d_port  = "465";
-	    
+	 /**
+	  * The Notification Service sends an email to the specified address
+	  * 
+	  * @param to
+	  * @param subject
+	  * @param text
+	  * 
+	  */
 	    public NotificationService(String m_to, String m_subject, String m_text){
 	        Properties props = new Properties();
 	        props.put("mail.smtp.user", d_email);
