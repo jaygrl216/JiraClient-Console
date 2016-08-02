@@ -279,7 +279,7 @@ function showProjectData(num) {
         dayRender: function(date, cell) {
             var today = new Date();
             var date2 = date._d;
-                if(today.getDate == due.getDate) {
+                if(today.getDate == due.getDate && date2.getDate == today.getDate) {
                     cell.css("background-color", "#9EF0AA");
                     console.log(date._d);
                 } else if(due.getMonth() == date2.getMonth() && due.getDate() - 1 == date2.getDate()) {
