@@ -73,8 +73,8 @@ $(document).ready(function(){
 	$("#userList").on( "click", "li" , function () {
 		var item = $(this).text();
 		$.each(userArray, function (index, user) {
-			if(user.name+", " + user.url == item) {
-				$("#uname").val(user.name);
+			if((user.username+", " + user.url) == item) {
+				$("#uname").val(user.username);
 				$("#url").val(user.url);
 				$("#rememberBox").prop("checked", true);
 			}
