@@ -79,9 +79,10 @@ public class ConfigResource {
 			String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 			//convert to JSON so it can be easily manipulated client-side
 			String[] userArray=fileString.split(";");
-			if (userArray.length>0){
-				for (String user:userArray){
-					String[] userData=user.split(",");
+
+			for (String user:userArray){
+				String[] userData=user.split(",");
+				if (userData.length>1){
 					JSONObject tempObject=new JSONObject();
 					tempObject.put("username", userData[0]);
 					tempObject.put("password", userData[1]);
@@ -91,12 +92,14 @@ public class ConfigResource {
 				}
 			}
 		}catch (Exception e){
+			e.printStackTrace();
 			//glassfish
 			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 			String[] userArray=fileString.split(";");
-			if (userArray.length>0){
-				for (String user:userArray){
-					String[] userData=user.split(",");
+
+			for (String user:userArray){
+				String[] userData=user.split(",");
+				if (userData.length>1){
 					JSONObject tempObject=new JSONObject();
 					tempObject.put("username", userData[0]);
 					tempObject.put("password", userData[1]);
