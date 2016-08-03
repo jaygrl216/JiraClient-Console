@@ -39,7 +39,8 @@ public class NotificationResource {
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 					position=fileString.indexOf(username);
 					length=fileString.substring(position).indexOf(";") + 1;
-					fileWriter.write(username+","+password+","+email+","+url+";", position,length);
+					String newString=fileString.substring(0, position) + fileString.substring(length);
+					fileWriter.write(newString+username+","+password+","+email+","+url+";");
 					fileWriter.close();
 				}else{
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
@@ -57,7 +58,9 @@ public class NotificationResource {
 				Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 				position=fileString.indexOf(username);
 				length=fileString.substring(position).indexOf(";") + 1;
-				fileWriter.write(username+","+password+","+email+","+url+";", position,length);
+				String newString=fileString.substring(0, position) + fileString.substring(length);
+				fileWriter.write(newString+username+","+password+","+email+","+url+";");
+				fileWriter.write(username+","+password+","+email+","+url+";");
 				fileWriter.close();
 			}else{
 				Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
