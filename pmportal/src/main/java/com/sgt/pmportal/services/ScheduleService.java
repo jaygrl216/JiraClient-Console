@@ -52,5 +52,7 @@ public class ScheduleService {
 		responseObject.put("users", responseArray);
 		return responseObject;
 	}
-
+	public void sendMail(){
+		NotificationService nService=new NotificationService("to", "subject", "text");
+	}
 }
