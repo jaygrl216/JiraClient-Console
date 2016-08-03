@@ -33,32 +33,37 @@ public class NotificationResource {
 			File textFile=new File("webapps/pmportal/data/config.txt");
 			//See if file exists, if it does, perform operations, or else, just write to it
 				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/notify.txt")), StandardCharsets.UTF_8);
-				Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
 				int position=0;
 				int length=0;
 				if (fileString.toLowerCase().contains(username.toLowerCase())){
+					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 					position=fileString.indexOf(username);
 					length=fileString.substring(position).indexOf(";") + 1;
 					fileWriter.write(username+","+password+","+email+","+url+";", position,length);
+					fileWriter.close();
 				}else{
+					Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
 					fileWriter.write(username+","+password+","+email+","+url+";");
+					fileWriter.close();
 				};
-				fileWriter.close();
+
 		}catch (Exception e){
 			//glassfish
 			File textFile=new File("../applications/pmportal/data/config.txt");
-				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/notify.txt")), StandardCharsets.UTF_8);
-				Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
-				int position=0;
-				int length=0;
-				if (fileString.toLowerCase().contains(username.toLowerCase())){
-					position=fileString.indexOf(username);
-					length=fileString.substring(position).indexOf(";") + 1;
-					fileWriter.write(username+","+password+","+email+","+url+";", position,length);
-				}else{
-					fileWriter.write(username+","+password+","+email+","+url+";");
-				};
+			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/notify.txt")), StandardCharsets.UTF_8);
+			int position=0;
+			int length=0;
+			if (fileString.toLowerCase().contains(username.toLowerCase())){
+				Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+				position=fileString.indexOf(username);
+				length=fileString.substring(position).indexOf(";") + 1;
+				fileWriter.write(username+","+password+","+email+","+url+";", position,length);
 				fileWriter.close();
+			}else{
+				Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
+				fileWriter.write(username+","+password+","+email+","+url+";");
+				fileWriter.close();
+			};
 		}
 		return "Saved";
 	}
