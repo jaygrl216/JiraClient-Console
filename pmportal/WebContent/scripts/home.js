@@ -36,6 +36,6 @@ $.ajax({
 
 $(document).ajaxStop(function () {
         $("#total").append("<p class='totalProjects'>" + projectArray.length + "</p>");
-         $("#finished").append("<p class='totalProjects'>" + completed + "</p>");
+         $("#finished").append("<p class='completedProjects'>" + completed + "</p>");
 });
 

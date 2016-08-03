@@ -223,6 +223,13 @@ a:active {
     margin-top: -10px;
 }
 
+.completedProjects {
+    font-size: 80px;
+    text-align: center;
+    color: #B7E7F7;
+    margin-top: -10px;
+}
+
 .overdueBad {
     font-size: 150px;
     text-align: center;
