@@ -27,14 +27,14 @@ $.ajax({
 
 	projectArray = responseObject.projects;
     
-//    $.each(projectArray, function (index, proj) {
-//			getProgress(proj);
-//		});
+    $.each(projectArray, function (index, proj) {
+			getProgress(proj);
+		});
 });
 
 $(document).ajaxStop(function () {
         $("#total").append("<p class='totalProjects'>" + projectArray.length + "</p>");
-//         $("#finished").append("<p class='totalProjects'>" + completed + "</p>");
+         $("#finished").append("<p class='totalProjects'>" + completed + "</p>");
 });
 
 function getProgress(project) {
