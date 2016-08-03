@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -30,6 +33,16 @@ public class NotificationResource {
 				try{
 					//Tomcat
 					File textFile=new File("webapps/pmportal/data/notify.txt");
+					String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/notify.txt")));
+					String[] fileArray=fileString.split(";");
+					for (String user:fileArray){
+						String[] userData=user.split(",");
+						for (String data:userData){
+							if (data.equalsIgnoreCase(username)){
+								
+							}
+						}
+					};
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
 					fileWriter.write(username+","+password+","+email+","+url+";");
 					fileWriter.close();
