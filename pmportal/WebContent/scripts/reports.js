@@ -65,7 +65,7 @@ $(document).ajaxStop(function () {
            
     console.log(dateArray);
     
-    $('#calendar').empty();
+    $('#calendar').fullCalendar('destroy');
     $('#calendar').fullCalendar({
         contentHeight: 'auto',
         dayRender: function(date, cell) {
@@ -88,7 +88,9 @@ $(document).ajaxStop(function () {
 
 
 $(document).ready(function() {
-    $('#calendar').append("Loading");
+    $('#calendar').fullCalendar({
+        contentHeight: 'auto'
+    });
 });
 
 //function reRender(date, cell) {

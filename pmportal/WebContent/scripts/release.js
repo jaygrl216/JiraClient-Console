@@ -125,7 +125,9 @@ $(document).ready(function(){
 		});
 	});
     
-    $('#calendar').append("Loading...");
+    $('#calendar').fullCalendar({
+        contentHeight: 'auto'
+    });
 });
 
 
@@ -171,7 +173,7 @@ function showInitialData() {
     due.setMonth(projDate[0]);
     due.setDate(projDate[1]);
     
-    $('#calendar').empty();
+    $('#calendar').fullCalendar('destroy');
     $('#calendar').fullCalendar({
         contentHeight: 'auto',
         dayRender: function(date, cell) {
