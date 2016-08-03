@@ -23,6 +23,7 @@ public class ConfigResource {
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/save")
+	//saves a series of credentials, sent as a JSON object, to a config file
 	public String saveCredentials(String request) throws IOException{
 		JSONObject requestObject=new JSONObject(request);
 		String username=requestObject.getString("username");
@@ -72,6 +73,7 @@ public class ConfigResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get")
+	//Retrieves all the information in the config file as a JSON string except passwords
 	public String getAllCredentials() throws IOException{
 		JSONObject responseObject=new JSONObject();
 		JSONArray responseArray=new JSONArray();
@@ -114,6 +116,7 @@ public class ConfigResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get/user/{username}")
+	//Retrieves information on an individual user
 	public String getUserCredentials(@PathParam ("username") String username) throws IOException{
 		JSONObject responseObject=new JSONObject();
 		try{
@@ -148,6 +151,4 @@ public class ConfigResource {
 		}
 		return responseObject.toString();
 	}
-	
-	
 }
