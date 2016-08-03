@@ -72,7 +72,7 @@ $(document).ajaxStop(function () {
         }
 });
 
-$(document.ajaxComplete(function(){
+$(document).ajaxComplete(function(){
     $("graph2").append("<h4> Average SEA: " + averageSEA + "</h4>").append("<h4> Average EEA: " + averageEEA + "</h4>");
 });
 
