@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -92,7 +93,6 @@ public class ConfigResource {
 				}
 			}
 		}catch (Exception e){
-			e.printStackTrace();
 			//glassfish
 			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 			String[] userArray=fileString.split(";");
@@ -111,4 +111,43 @@ public class ConfigResource {
 		responseObject.put("users", responseArray);
 		return responseObject.toString();
 	}
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get/user/{username}")
+	public String getUserCredentials(@PathParam ("username") String username) throws IOException{
+		JSONObject responseObject=new JSONObject();
+		try{
+			//Tomcat
+			//read file
+			String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			if (fileString.toLowerCase().contains(username.toLowerCase())){
+				int startIndex=fileString.indexOf(username);
+				//do not add 1 to length or else will include semicolon
+				int length=fileString.substring(startIndex).indexOf(";");
+				int finalIndex=startIndex+length;
+				String userString=fileString.substring(startIndex, finalIndex);
+				String[] userData=userString.split(",");
+				responseObject.put("username", userData[0]);
+				responseObject.put("email", userData[2]);
+				responseObject.put("url", userData[3]);
+			}
+		}catch (Exception e){
+			//glassfish
+			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			if (fileString.toLowerCase().contains(username.toLowerCase())){
+				int startIndex=fileString.indexOf(username);
+				//do not add 1 to length or else will include semicolon
+				int length=fileString.substring(startIndex).indexOf(";");
+				int finalIndex=startIndex+length;
+				String userString=fileString.substring(startIndex, finalIndex);
+				String[] userData=userString.split(",");
+				responseObject.put("username", userData[0]);
+				responseObject.put("email", userData[2]);
+				responseObject.put("url", userData[3]);
+			}
+		}
+		return responseObject.toString();
+	}
+	
+	
 }
