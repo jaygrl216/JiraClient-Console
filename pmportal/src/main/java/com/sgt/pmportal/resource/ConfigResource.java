@@ -20,6 +20,7 @@ import org.json.JSONObject;
 @Path("/config")
 public class ConfigResource {
 	@POST
+	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/save")
 	public String saveCredentials(String request) throws IOException{
 		JSONObject requestObject=new JSONObject(request);
