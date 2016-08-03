@@ -51,12 +51,34 @@ if (username!="") {
 	$("#url").val(getCookie("url"));
 	$("#rememberBox").prop("checked", true);
 };
+var hostURL=window.location.host;
+var configResource="http://" + hostURL+"/pmportal/rest/config/get";
+var responseObject;
+$.ajax({
+	url: configResource,
+	dataType: "json"
+}).fail(function(xhr, status, errorThrown ) {
+	console.log("Error: " + errorThrown );
+	console.log("Status: " + status );
+	console.dir(xhr);
+}).done(function(jsonObject){
+	responseObject = jsonObject;
+	userArray = responseObject.users;
+	$.each(userArray, function (index, user) {
+		var num = index + 1;
+		$("#userList").append("<li>" + user.username +", " + user.url "</li>");
+	});
+});
+
+
+
+
 function login(){
 	var user=$("#uname").val();
 	var pass=$("#pass").val();
 	var baseURL=$("#url").val();
 	var remember=$("#rememberBox").prop("checked");
-	var hostURL=window.location.host;
+
 	var testResource="http://"+hostURL+"/pmportal/rest/test/login/" + user + "/" + pass + "/" +baseURL;
 	$.ajax({
 		type:"GET",
@@ -70,9 +92,6 @@ function login(){
 	}).done(function(response){
 		if (response=="Success"){
 			setCookie(user, pass, baseURL, remember);
-			if (remember){
-				saveToConfig(user, pass, baseURL, "");
-			};
 			window.location="home.html";
 		}else{
 			$("#fail").css("visibility","visible");
