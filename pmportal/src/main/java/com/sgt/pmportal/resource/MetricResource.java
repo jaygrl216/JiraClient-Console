@@ -149,7 +149,6 @@ public class MetricResource {
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		JSONObject responseObject=new JSONObject();
 		JSONArray projectArray=new JSONArray();
-		List<Double> averages = metricService.getAverageSEAAndEEA();
 		for (JiraProject project:projectList){
 			String key=project.getKey();
 			String name=project.getName();
@@ -164,9 +163,25 @@ public class MetricResource {
 			JSONObject projectObject=new JSONObject(projectString);
 			projectArray.put(projectObject);
 		}
-		responseObject.put("Average SEA", averages.get(0));
-		responseObject.put("Average EEA", averages.get(1));
 		responseObject.put("project", projectArray);
+		return responseObject.toString();
+	}
+	
+	@Path("/averages/{username}/{password}/{url:.+}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	//This method takes a really long time
+	public String getAverages(@PathParam ("username") String username,
+			@PathParam ("password") String password,
+			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+		JiraRestClient client=GeneralServices.login(url, username, password);
+		String authorization=GeneralServices.encodeAuth(username, password);
+		MetricsServices metricService=new MetricsServices(client, authorization, url);
+		JSONObject responseObject=new JSONObject();
+		List<Double> averages = metricService.getAverageSEAAndEEA();
+		
+		responseObject.put("Average SEA", Math.round(averages.get(0)));
+		responseObject.put("Average EEA", Math.round(averages.get(1)));
 		return responseObject.toString();
 	}
 	
