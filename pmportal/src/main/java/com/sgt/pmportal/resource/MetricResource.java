@@ -149,6 +149,7 @@ public class MetricResource {
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		JSONObject responseObject=new JSONObject();
 		JSONArray projectArray=new JSONArray();
+		List<Double> averages = metricService.getAverageSEAAndEEA();
 		for (JiraProject project:projectList){
 			String key=project.getKey();
 			String name=project.getName();
@@ -163,7 +164,11 @@ public class MetricResource {
 			JSONObject projectObject=new JSONObject(projectString);
 			projectArray.put(projectObject);
 		}
+		responseObject.put("Average SEA", averages.get(0));
+		responseObject.put("Average EEA", averages.get(1));
 		responseObject.put("project", projectArray);
 		return responseObject.toString();
 	}
+	
+	
 }

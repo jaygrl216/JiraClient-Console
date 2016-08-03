@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
 import com.sgt.pmportal.domain.JiraIssue;
@@ -402,5 +404,28 @@ public class MetricsServices {
 		}
 		// [0]=forecast interval, [1]=error of the regression
 		return s;
+	}
+	
+	public List<Double> getAverageSEAAndEEA() throws IOException, ParseException {
+		ProjectServices projectService = new ProjectServices(client, 
+				authorization, baseURL);
+		
+		List<JiraProject> projects = projectService.getAllJiraProjects();
+		List<Double> averages = new ArrayList<Double>();
+		double totalSEA = 0;
+		double totalEEA = 0;
+		
+		for(JiraProject project: projects) {
+			totalSEA += calculateProjectSEA(project, null);
+			totalEEA += calculateProjectEEA(project, null);
+		}
+		
+		double averageSEA = totalSEA / projects.size();
+		double averageEEA = totalEEA / projects.size();
+		averages.add(averageSEA);
+		averages.add(averageEEA);
+		
+		return averages;
+		
 	}
 }
