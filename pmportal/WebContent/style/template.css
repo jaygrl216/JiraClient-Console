@@ -244,3 +244,20 @@ a:active {
     margin-top: -50px;
 }
 
+h5 {
+    text-align: center;
+}
+
+#graph2 p {
+    text-align: center;
+}
+
+#graph2 h4 {
+    margin-bottom: 30px;
+}
+/*
+.averSEA {
+    margin-top: -50px;
+}
+*/
+
