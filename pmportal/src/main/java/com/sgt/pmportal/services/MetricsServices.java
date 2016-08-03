@@ -414,15 +414,21 @@ public class MetricsServices {
 		List<Double> averages = new ArrayList<Double>();
 		double totalSEA = 0;
 		double totalEEA = 0;
+		int total = 0;
 		
 		for(JiraProject project: projects) {
 			List<Number> defects = calculateDefectTotal(project);
-			totalSEA += (double) defects.get(0);
-			totalEEA += (double) defects.get(1);
+			Double curSEA = (double) defects.get(0);
+			Double curEEA = (double) defects.get(1);
+			if(! curSEA.isNaN()) {
+				totalSEA += curSEA;
+				totalEEA += curEEA;
+				total++;
+			}
 		}
 		
-		double averageSEA = totalSEA / projects.size();
-		double averageEEA = totalEEA / projects.size();
+		double averageSEA = totalSEA / total ;
+		double averageEEA = totalEEA / total ;
 		averages.add(averageSEA);
 		averages.add(averageEEA);
 		
