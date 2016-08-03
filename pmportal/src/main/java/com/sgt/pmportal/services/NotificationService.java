@@ -17,7 +17,7 @@ public class NotificationService {
 	            d_host = "smtp.gmail.com",
 	            d_port  = "465";
 	 /**
-	  * The Notification Service sends an email to the specified address...from my address
+	  * The Notification Service sends an email to the specified address
 	  *
 	  * @param to
 	  * @param subject
