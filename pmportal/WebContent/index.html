@@ -65,12 +65,24 @@ $.ajax({
 	responseObject = jsonObject;
 	userArray = responseObject.users;
 	$.each(userArray, function (index, user) {
-		var num = index + 1;
 		$("#userList").append("<li>" + user.username +", " + user.url + "</li>");
 	});
 });
 
-
+$(document).ready(function(){
+	$("#userList").on( "click", "li" , function () {
+		var item = $(this).text();
+		$.each(userArray, function (index, user) {
+			if(user.name+", " + user.url == item) {
+				$("#uname").val(user.name);
+				$("#url").val(user.url);
+				$("#rememberBox").prop("checked", true);
+			}
+		});
+	});
+    
+    $('#calendar').append("Loading...");
+});
 
 
 function login(){
