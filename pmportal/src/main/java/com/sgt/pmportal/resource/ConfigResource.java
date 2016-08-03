@@ -24,11 +24,9 @@ public class ConfigResource {
 		String url=requestObject.getString("url");
 		String email=requestObject.getString("email");
 		//check if user already exists, then write if not
-
 		try{
 			//Tomcat
 			File textFile=new File("webapps/pmportal/data/config.txt");
-			//See if file exists, if it does, perform operations, or else, just write to it
 				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 				if (fileString.toLowerCase().contains(username.toLowerCase())){
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
@@ -64,5 +62,18 @@ public class ConfigResource {
 			};
 		}
 		return "Saved";
+	}
+	@Path("/get")
+	public String getAllCredentials() throws IOException{
+		String responseString="";
+		try{
+			//Tomcat
+				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			
+		}catch (Exception e){
+			//glassfish
+				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+		}
+		return responseString;
 	}
 }
