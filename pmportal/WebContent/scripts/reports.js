@@ -3,6 +3,7 @@ var password=getCookie("password").toString();
 var baseURL=getCookie("url").toString();
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
+var metrics = "http://"+hostURL+"/pmportal/rest/metrics/averages" + username + "/" + password + "/" + baseURL;
 var projectArray;
 var overdue = 0;
 var stop = 0;
@@ -28,6 +29,18 @@ $.ajax({
         }
       
 	});
+});
+
+$.ajax({
+	url: metrics,
+	dataType: "json"
+}).fail(function(xhr, status, errorThrown ) {
+	console.log("Error: " + errorThrown );
+	console.log("Status: " + status );
+	console.dir(xhr);
+}).done(function(jsonObject){
+    averageSEA = jsonObject.aveSEA;
+	averageEEA = jsonObject.aveEEA;
 });
 
 $(document).ajaxComplete(function() {
@@ -68,14 +81,13 @@ $(document).ajaxStop(function () {
         } else {
             $("#graph").append("<p class='overdueBad'>" + overdue + "</p>");
         }
-            stop = 1;
+
+        $("#graph2").append("<h5> Average SEA </h5> <p>" + averageSEA + "</p>").append
+        ("<h5> Average EEA </h5> <p>" + averageEEA + "</p>");
+        stop = 1;
         }
 });
 
-$(document).ajaxComplete(function(){
-    $("#graph2").append("<h5> Average SEA </h5> <p>" + averageSEA + "</p>").append
-    ("<h5> Average EEA </h5> <p>" + averageEEA + "</p>");
-});
 
 $(document).ready(function() {
     $('#calendar').append("Loading");
