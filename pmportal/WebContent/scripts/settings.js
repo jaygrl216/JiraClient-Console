@@ -34,13 +34,12 @@ function saveSettings(){
 });
 };
 function saveToConfig(user, pass, baseURL, eaddress){
-	var request="{username=\"" + user+"\", password=\""+ pass + "\", url=\"" + baseURL+"\", email=\"" + eaddress+"\"}";
+	var request="{\"username\":\"" + user+"\", \"password\":\""+ pass + "\", \"url\":\"" + baseURL+"\", \"email\":\"" + eaddress+"\"}";
 	var resource="http://"+hostURL+"/pmportal/rest/notification/save";
 	$.ajax({
 		type:"POST",
 		data:request,
-		contentType:"json",
-		dataType:"text",
+		dataType:"json",
 		url:resource
 	}).fail(function( xhr, status, errorThrown ) {
 		console.log( "Error: " + errorThrown );
