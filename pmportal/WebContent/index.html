@@ -66,7 +66,7 @@ $.ajax({
 	userArray = responseObject.users;
 	$.each(userArray, function (index, user) {
 		var num = index + 1;
-		$("#userList").append("<li>" + user.username +", " + user.url "</li>");
+		$("#userList").append("<li>" + user.username +", " + user.url + "</li>");
 	});
 });
 
