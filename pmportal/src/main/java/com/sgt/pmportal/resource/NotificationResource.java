@@ -32,7 +32,7 @@ public class NotificationResource {
 			//Tomcat
 			File textFile=new File("webapps/pmportal/data/config.txt");
 			//See if file exists, if it does, perform operations, or else, just write to it
-				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/notify.txt")), StandardCharsets.UTF_8);
+				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 				int position=0;
 				int length=0;
 				if (fileString.toLowerCase().contains(username.toLowerCase())){
@@ -50,7 +50,7 @@ public class NotificationResource {
 		}catch (Exception e){
 			//glassfish
 			File textFile=new File("../applications/pmportal/data/config.txt");
-			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/notify.txt")), StandardCharsets.UTF_8);
+			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 			int position=0;
 			int length=0;
 			if (fileString.toLowerCase().contains(username.toLowerCase())){
