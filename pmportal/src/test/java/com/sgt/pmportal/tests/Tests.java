@@ -28,8 +28,8 @@ import com.sgt.pmportal.services.UserServices;
 
 public class Tests {
 
-	private static final String JIRA_URL = "http://52.204.130.7:8081/";
-	private static final String JIRA_ADMIN_USERNAME = "JWashington@sgt-inc.com";
+	private static final String JIRA_URL = "http://54.152.100.242/jira";
+	private static final String JIRA_ADMIN_USERNAME = "jwashington";
 	private static final String JIRA_ADMIN_PASSWORD = "Diamond2017";
 
 	/**
@@ -55,9 +55,9 @@ public class Tests {
 		//this runs a series of tests as a java application
 
 			test.printInfo();
-			test.testProjectInfo();
+//			test.testProjectInfo();
 		//		test.versionTest();
-		//		test.metricsServiceTest();
+				test.metricsServiceTest();
 		//		test.userServicesTest();
 		//		test.sprintServiceTest();
 		//test.projectAnalysisTest();
@@ -152,7 +152,9 @@ public class Tests {
 			Project project=client.getProjectClient().getProject("PA").claim();
 			double progress=metricServices.calculateProgress(project.getKey());
 			System.out.println("The progress on project "+project.getName()+" is:" +progress+"%");
-		} catch (RestClientException noProject){
+			List<Double> averages = metricServices.getAverageSEAAndEEA();
+			System.out.println(averages.toString());
+		} catch (RestClientException | IOException | ParseException noProject){
 			System.err.println("Project does not exist");
 		}
 	}

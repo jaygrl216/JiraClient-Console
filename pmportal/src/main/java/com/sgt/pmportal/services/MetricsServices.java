@@ -416,8 +416,9 @@ public class MetricsServices {
 		double totalEEA = 0;
 		
 		for(JiraProject project: projects) {
-			totalSEA += calculateProjectSEA(project, null);
-			totalEEA += calculateProjectEEA(project, null);
+			List<Number> defects = calculateDefectTotal(project);
+			totalSEA += (double) defects.get(0);
+			totalEEA += (double) defects.get(1);
 		}
 		
 		double averageSEA = totalSEA / projects.size();
