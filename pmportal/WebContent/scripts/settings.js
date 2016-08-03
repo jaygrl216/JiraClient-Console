@@ -26,12 +26,29 @@ function saveSettings(){
 	}).done(function(response){
 		if (response=="Success"){
 			setCookie(user, pass, baseURL, remember);
-			alert("Successfully saved credentials")
+			settingsCookie(eaddress);
+			saveToConfig(user, pass, baseURL, eaddress);
 		}else{
 			alert("Login failed!");
 };
 });
-	settingsCookie(eaddress);
+};
+function saveToConfig(user, pass, baseURL, eaddress){
+	var request="{username=\"" + user+"\", password=\""+ pass + "\", url=\"" + baseURL+"\", email=\"" + eaddress+"\"}";
+	var resource="http://"+hostURL+"/pmportal/rest/notification/save";
+	$.ajax({
+		type:"POST",
+		data:request,
+		contentType:"json",
+		dataType:"text",
+		url:resource
+	}).fail(function( xhr, status, errorThrown ) {
+		console.log( "Error: " + errorThrown );
+		console.log( "Status: " + status );
+		console.dir( xhr );
+	}).done(function(response){
+		alert("Successfully saved configuration");
+});	
 };
 function testEmail(){
 	var eaddress=$("#emailInput").val();
