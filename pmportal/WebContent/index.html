@@ -58,11 +58,30 @@ function login(){
 	}).done(function(response){
 		if (response=="Success"){
 			setCookie(user, pass, baseURL, remember);
+			if (remember){
+				saveToConfig(user, pass, baseURL, "");
+			};
 			window.location="home.html";
 		}else{
 			$("#fail").css("visibility","visible");
 };
 });
+};
+function saveToConfig(user, pass, baseURL, eaddress){
+	var request="{\"username\":\"" + user+"\", \"password\":\""+ pass + "\", \"url\":\"" + baseURL+"\", \"email\":\"" + eaddress+"\"}";
+	var resource="http://"+hostURL+"/pmportal/rest/config/save";
+	$.ajax({
+		type:"POST",
+		data:request,
+		dataType:"json",
+		url:resource
+	}).fail(function( xhr, status, errorThrown ) {
+		console.log( "Error: " + errorThrown );
+		console.log( "Status: " + status );
+		console.dir( xhr );
+	}).done(function(response){
+		alert("Successfully saved configuration");
+});	
 };
 </script>
 </body>
