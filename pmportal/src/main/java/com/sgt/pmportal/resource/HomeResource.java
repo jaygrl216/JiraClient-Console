@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.services.GeneralServices;
+import com.sgt.pmportal.services.MetricsServices;
 import com.sgt.pmportal.services.ProjectServices;
 
 
@@ -31,12 +32,16 @@ public class HomeResource {
 		JiraRestClient client=GeneralServices.login(url, username, password);
 		String authorization=GeneralServices.encodeAuth(username, password);
 		ProjectServices projectService=new ProjectServices(client, authorization, url);
+		MetricsServices metricService = new MetricsServices(client, authorization, url);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
 
 		StringBuilder responseString=new StringBuilder();
 		responseString.append("{\"projects\":");
 		JSONArray projectArray=new JSONArray();
 		for (JiraProject project:projectList){
+			if(! (metricService.calculateProgress(project.getKey()) < 100)) {
+				project.setCompleted(true);
+			}
 			JSONObject projectObject=new JSONObject(project.JSONString());
 			projectArray.put(projectObject);
 		}

@@ -270,6 +270,7 @@ public class JiraProject {
 		
 		project.put("lead", leadUser);
 		project.put("overdue", isOverdue);
+		project.put("completed", isComplete);
 
 		JSONArray releaseArray=new JSONArray();
 		for (Release release:getReleases()){
