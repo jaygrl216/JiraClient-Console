@@ -35,7 +35,7 @@ function saveSettings(){
 };
 function saveToConfig(user, pass, baseURL, eaddress){
 	var request="{\"username\":\"" + user+"\", \"password\":\""+ pass + "\", \"url\":\"" + baseURL+"\", \"email\":\"" + eaddress+"\"}";
-	var resource="http://"+hostURL+"/pmportal/rest/notification/save";
+	var resource="http://"+hostURL+"/pmportal/rest/config/save";
 	$.ajax({
 		type:"POST",
 		data:request,
