@@ -7,6 +7,8 @@ var projectArray;
 var overdue = 0;
 var stop = 0;
 var dateArray = new Array(0);
+var averageSEA = 0;
+var averageEEA = 0;
 
 
 
@@ -68,6 +70,10 @@ $(document).ajaxStop(function () {
         }
             stop = 1;
         }
+});
+
+$(document.ajaxComplete(function(){
+    $("graph2").append("<h4> Average SEA: " + averageSEA + "</h4>").append("<h4> Average EEA: " + averageEEA + "</h4>");
 });
 
 $(document).ready(function() {
