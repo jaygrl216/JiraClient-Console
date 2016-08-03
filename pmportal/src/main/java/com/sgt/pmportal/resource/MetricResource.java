@@ -180,8 +180,8 @@ public class MetricResource {
 		JSONObject responseObject=new JSONObject();
 		List<Double> averages = metricService.getAverageSEAAndEEA();
 		
-		responseObject.put("Average SEA", Math.round(averages.get(0)));
-		responseObject.put("Average EEA", Math.round(averages.get(1)));
+		responseObject.put("Average SEA", averages.get(0));
+		responseObject.put("Average EEA", averages.get(1));
 		return responseObject.toString();
 	}
 	
