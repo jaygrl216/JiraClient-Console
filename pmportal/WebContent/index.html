@@ -113,10 +113,10 @@ function login(){
 			});
 			if (exists){
 				settingsCookie(user.email);
+				window.location="home.html";
 			}else{
 				saveToConfig(uname, pass, baseURL, "");
 			};
-			window.location="home.html";
 		}else{
 			$("#fail").css("visibility","visible");
 };
@@ -136,6 +136,7 @@ function saveToConfig(user, pass, baseURL, eaddress){
 		console.dir( xhr );
 	}).done(function(response){
 		alert("Successfully saved configuration");
+		window.location="home.html";
 });	
 };
 </script>
