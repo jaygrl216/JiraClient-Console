@@ -33,13 +33,12 @@ public class NotificationResource {
 			File textFile=new File("webapps/pmportal/data/config.txt");
 			//See if file exists, if it does, perform operations, or else, just write to it
 				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-				int position=0;
-				int length=0;
 				if (fileString.toLowerCase().contains(username.toLowerCase())){
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-					position=fileString.indexOf(username);
-					length=fileString.substring(position).indexOf(";") + 1;
-					String newString=fileString.substring(0, position) + fileString.substring(length);
+					int startIndex=fileString.indexOf(username);
+					int length=fileString.substring(startIndex).indexOf(";") + 1;
+					int finalIndex=startIndex+length;
+					String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
 					fileWriter.write(newString+username+","+password+","+email+","+url+";");
 					fileWriter.close();
 				}else{
@@ -52,13 +51,12 @@ public class NotificationResource {
 			//glassfish
 			File textFile=new File("../applications/pmportal/data/config.txt");
 			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			int position=0;
-			int length=0;
 			if (fileString.toLowerCase().contains(username.toLowerCase())){
 				Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-				position=fileString.indexOf(username);
-				length=fileString.substring(position).indexOf(";") + 1;
-				String newString=fileString.substring(0, position) + fileString.substring(length);
+				int startIndex=fileString.indexOf(username);
+				int length=fileString.substring(startIndex).indexOf(";") + 1;
+				int finalIndex=startIndex+length;
+				String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
 				fileWriter.write(newString+username+","+password+","+email+","+url+";");
 				fileWriter.write(username+","+password+","+email+","+url+";");
 				fileWriter.close();
