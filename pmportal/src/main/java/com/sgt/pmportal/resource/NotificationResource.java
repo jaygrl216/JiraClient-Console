@@ -32,7 +32,7 @@ public class NotificationResource {
 		
 				try{
 					//Tomcat
-					File textFile=new File("webapps/pmportal/data/notify.txt");
+					File textFile=new File("webapps/pmportal/data/config.txt");
 					String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/notify.txt")));
 					String[] fileArray=fileString.split(";");
 					for (String user:fileArray){
@@ -48,7 +48,7 @@ public class NotificationResource {
 					fileWriter.close();
 				}catch (Exception e){
 					//glassfish
-					File textFile=new File("../applications/pmportal/data/notify.txt");
+					File textFile=new File("../applications/pmportal/data/config.txt");
 					Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
 					fileWriter.write(username+","+password+","+email+","+url+";");
 					fileWriter.close();
