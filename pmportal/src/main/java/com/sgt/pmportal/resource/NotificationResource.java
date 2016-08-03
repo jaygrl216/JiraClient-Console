@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -33,7 +34,7 @@ public class NotificationResource {
 				try{
 					//Tomcat
 					File textFile=new File("webapps/pmportal/data/config.txt");
-					String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/notify.txt")));
+					String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/notify.txt")), StandardCharsets.UTF_8);
 					String[] fileArray=fileString.split(";");
 					for (String user:fileArray){
 						String[] userData=user.split(",");
