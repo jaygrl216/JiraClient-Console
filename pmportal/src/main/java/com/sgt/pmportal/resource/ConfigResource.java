@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -63,6 +64,7 @@ public class ConfigResource {
 		}
 		return "Saved";
 	}
+	@GET
 	@Path("/get")
 	public String getAllCredentials() throws IOException{
 		String responseString="";
