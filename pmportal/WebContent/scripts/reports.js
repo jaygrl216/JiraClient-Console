@@ -3,7 +3,7 @@ var password=getCookie("password").toString();
 var baseURL=getCookie("url").toString();
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
-var metrics = "http://"+hostURL+"/pmportal/rest/metrics/averages" + username + "/" + password + "/" + baseURL;
+var metrics = "http://"+hostURL+"/pmportal/rest/metrics/averages/" + username + "/" + password + "/" + baseURL;
 var projectArray;
 var overdue = 0;
 var stop = 0;
@@ -43,8 +43,19 @@ $.ajax({
 	averageEEA = jsonObject.aveEEA;
 });
 
-$(document).ajaxComplete(function() {
-    $.each(projectArray, function (index, proj) {
+
+$(document).ajaxStop(function () {
+    if(stop == 0) {
+        if(overdue == 0) {
+            $("#graph").append("<p class='overdueGood'>" + overdue + "</p>");
+        } else {
+            $("#graph").append("<p class='overdueBad'>" + overdue + "</p>");
+        }
+
+        $("#graph2").append("<h5> Average SEA </h5> <p>" + averageSEA + "</p>").append
+        ("<h5> Average EEA </h5> <p>" + averageEEA + "</p>");
+
+          $.each(projectArray, function (index, proj) {
         var dueDate = new Date();
             var dates = proj.due.split("-");
             dueDate.setMonth(dates[0]);
@@ -71,19 +82,6 @@ $(document).ajaxComplete(function() {
             
         }
     });
-});
-
-
-$(document).ajaxStop(function () {
-    if(stop == 0) {
-        if(overdue == 0) {       
-            $("#graph").append("<p class='overdueGood'>" + overdue + "</p>");
-        } else {
-            $("#graph").append("<p class='overdueBad'>" + overdue + "</p>");
-        }
-
-        $("#graph2").append("<h5> Average SEA </h5> <p>" + averageSEA + "</p>").append
-        ("<h5> Average EEA </h5> <p>" + averageEEA + "</p>");
         stop = 1;
         }
 });
@@ -91,7 +89,7 @@ $(document).ajaxStop(function () {
 
 $(document).ready(function() {
     $('#calendar').append("Loading");
-})
+});
 
 //function reRender(date, cell) {
 //    var date2 = date._d;
