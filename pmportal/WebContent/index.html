@@ -10,10 +10,8 @@
 <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
 </head>
 <body>					
-	<div class="row">
-        <div class="col-lg-6 col-lg-offset-3" id="login">
-            <h2>PMPortal Login</h2>
-            <div class="dropdown">
+<header>
+<div class="dropdown">
 			<button type="button" data-toggle="dropdown"
 				class="btn btn-info dropdown-toggle">
 				Known Users<span class="caret"></span>
@@ -21,6 +19,11 @@
 			<ul class="dropdown-menu" id="userList">
 			</ul>
 		</div>
+</header>
+	<div class="row">
+        <div class="col-lg-6 col-lg-offset-3" id="login">
+            <h2>PMPortal Login</h2>
+         
             <div id="loginInput">
                 <span class="inputTag">Username</span> <br>
                 <input type="text" id="uname" /> <br> <span class="inputTag">Password</span> <br>
@@ -35,6 +38,7 @@
                     "http://serverURL/jira"</p>
 		</div>
         </div>
+           
     </div>
     
     <script src="scripts/cookiehandler.js"></script>

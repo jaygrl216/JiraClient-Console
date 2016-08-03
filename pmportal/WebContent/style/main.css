@@ -23,3 +23,21 @@ body {
 .inputTag {
     color: #fff;
 }
+header .dropdown {
+    float: right;
+    margin-right: 80px;
+    margin-top: 15px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+#userList li {
+    color:#000;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 5px;
+}
+#userList li:hover{
+    color:#FFF !important;
+}
