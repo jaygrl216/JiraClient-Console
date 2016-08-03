@@ -31,20 +31,20 @@ public class ConfigResource {
 		try{
 			//Tomcat
 			File textFile=new File("webapps/pmportal/data/config.txt");
-				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-				if (fileString.toLowerCase().contains(username.toLowerCase())){
-					Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-					int startIndex=fileString.indexOf(username);
-					int length=fileString.substring(startIndex).indexOf(";") + 1;
-					int finalIndex=startIndex+length;
-					String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
-					fileWriter.write(newString+username+","+password+","+email+","+url+";");
-					fileWriter.close();
-				}else{
-					Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
-					fileWriter.write(username+","+password+","+email+","+url+";");
-					fileWriter.close();
-				};
+			String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			if (fileString.toLowerCase().contains(username.toLowerCase())){
+				Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+				int startIndex=fileString.indexOf(username);
+				int length=fileString.substring(startIndex).indexOf(";") + 1;
+				int finalIndex=startIndex+length;
+				String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
+				fileWriter.write(newString+username+","+password+","+email+","+url+";");
+				fileWriter.close();
+			}else{
+				Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
+				fileWriter.write(username+","+password+","+email+","+url+";");
+				fileWriter.close();
+			};
 
 		}catch (Exception e){
 			//glassfish
@@ -76,9 +76,10 @@ public class ConfigResource {
 		try{
 			//Tomcat
 			//read file
-				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 			//convert to JSON so it can be easily manipulated client-side
-				String[] userArray=fileString.split(";");
+			String[] userArray=fileString.split(";");
+			if (userArray.length>0){
 				for (String user:userArray){
 					String[] userData=user.split(",");
 					JSONObject tempObject=new JSONObject();
@@ -86,12 +87,14 @@ public class ConfigResource {
 					tempObject.put("password", userData[1]);
 					tempObject.put("email", userData[2]);
 					tempObject.put("url", userData[3]);
-				responseArray.put(tempObject);
+					responseArray.put(tempObject);
 				}
+			}
 		}catch (Exception e){
 			//glassfish
-				String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-				String[] userArray=fileString.split(";");
+			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			String[] userArray=fileString.split(";");
+			if (userArray.length>0){
 				for (String user:userArray){
 					String[] userData=user.split(",");
 					JSONObject tempObject=new JSONObject();
@@ -99,8 +102,9 @@ public class ConfigResource {
 					tempObject.put("password", userData[1]);
 					tempObject.put("email", userData[2]);
 					tempObject.put("url", userData[3]);
-				responseArray.put(tempObject);
+					responseArray.put(tempObject);
 				}
+			}
 		}
 		responseObject.put("users", responseArray);
 		return responseObject.toString();
