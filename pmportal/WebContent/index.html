@@ -9,9 +9,9 @@
 <link rel="stylesheet" type="text/css" href="style/main.css">
 <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
 </head>
-<body>					
-<header>
-<div class="dropdown">
+<body>
+	<header>
+		<div class="dropdown">
 			<button type="button" data-toggle="dropdown"
 				class="btn btn-info dropdown-toggle">
 				Known Users<span class="caret"></span>
@@ -19,29 +19,32 @@
 			<ul class="dropdown-menu" id="userList">
 			</ul>
 		</div>
-</header>
+	</header>
 	<div class="row">
-        <div class="col-lg-6 col-lg-offset-3" id="login">
-            <h2>PMPortal Login</h2>
-         
-            <div id="loginInput">
-                <span class="inputTag">Username</span> <br>
-                <input type="text" id="uname" /> <br> <span class="inputTag">Password</span> <br>
-                <input type="password" id="pass" /> <br><span class="inputTag">Jira URL</span> <br>
-                <input type="url" id="url" /><br><br>
-                <input type="button" id="loginButton" value="Log In" onclick="login()"/>
-                <br><br><input type="checkbox" id="rememberBox" /> <span class="inputTag">Remember Me</span> <br>
-                <br>
-                <p style="color: red; visibility: hidden" id="fail">Login
-                    failed! Double check your login info, and make sure the Jira URL
-                    is correct; it is generally "http://serverURL" or
-                    "http://serverURL/jira"</p>
+		<div class="col-lg-6 col-lg-offset-3" id="login">
+			<h2>PMPortal Login</h2>
+
+			<div id="loginInput">
+				<span class="inputTag">Username</span> <br> <input type="text"
+					id="uname" /> <br> <span class="inputTag">Password</span> <br>
+				<input type="password" id="pass" /> <br>
+				<span class="inputTag">Jira URL</span> <br> <input type="url"
+					id="url" /><br>
+				<br> <input type="button" id="loginButton" value="Log In"
+					onclick="login()" /> <br>
+				<br>
+				<input type="checkbox" id="rememberBox" /> <span class="inputTag">Remember
+					Me</span> <br> <br>
+				<p style="color: red; visibility: hidden" id="fail">Login
+					failed! Double check your login info, and make sure the Jira URL is
+					correct; it is generally "http://serverURL" or
+					"http://serverURL/jira"</p>
+			</div>
 		</div>
-        </div>
-           
-    </div>
-    
-    <script src="scripts/cookiehandler.js"></script>
+
+	</div>
+
+	<script src="scripts/cookiehandler.js"></script>
 	<script src="scripts/jquery-1.12.4.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
 	<script>
@@ -86,12 +89,12 @@ $(document).ready(function(){
 
 
 function login(){
-	var user=$("#uname").val();
+	var uname=$("#uname").val();
 	var pass=$("#pass").val();
 	var baseURL=$("#url").val();
 	var remember=$("#rememberBox").prop("checked");
-
-	var testResource="http://"+hostURL+"/pmportal/rest/test/login/" + user + "/" + pass + "/" +baseURL;
+	var testResource="http://"+hostURL+"/pmportal/rest/test/login/" + uname + "/" + pass + "/" +baseURL;
+	var exists=false;
 	$.ajax({
 		type:"GET",
 		dataType:"text",
@@ -103,7 +106,18 @@ function login(){
 		alert("Failed to contact server!");
 	}).done(function(response){
 		if (response=="Success"){
-			setCookie(user, pass, baseURL, remember);
+			setCookie(uname, pass, baseURL, remember);
+			//check if the user is already in the system
+			$.each(userArray, function (index, user) {
+				if (uname==user.username){
+					exists=true;
+				};
+			});
+			if (exists){
+				settingsCookie(user.email);
+			}else{
+				saveToConfig(uname, pass, baseURL, "");
+			};
 			window.location="home.html";
 		}else{
 			$("#fail").css("visibility","visible");
