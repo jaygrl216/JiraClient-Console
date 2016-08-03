@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
 
-public class ScheduleService {
+public class AlertService {
 
 	//This could literally take an hour. This method should only be run on a weekly basis, if that
 	public static void checkMetrics() throws IOException, URISyntaxException, ParseException{
