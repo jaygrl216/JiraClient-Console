@@ -13,7 +13,7 @@ function saveSettings(){
 	var pass=$("#passText").val();
 	var seaMin=$("#seaMin").val();
 	var seaMax=$("#seaMax").val();
-	var eeaMin=$("$eeaMin").val();
+	var eeaMin=$("#eeaMin").val();
 	var eeaMax=$("#eeaMax").val();
 	var bugMax=$("#bugMax").val();
 	var remember=$("#rememberBox").prop("checked");
