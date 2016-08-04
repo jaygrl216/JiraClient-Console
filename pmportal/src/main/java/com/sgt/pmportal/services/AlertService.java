@@ -16,7 +16,7 @@ public class AlertService {
 
 	//This could literally take an hour. This method should only be run on a weekly basis, if that
 	public static void checkMetrics() throws IOException, URISyntaxException, ParseException{
-		JSONObject userObject=new JSONObject(ConfigResource.getAllCredentials());
+		JSONObject userObject=new JSONObject(ConfigResource.getUsersUnexposed());
 		JSONArray userArray=userObject.getJSONArray("users");
 		for (int i=0; i<userArray.length(); i++){
 			JSONObject user=userArray.getJSONObject(i);
