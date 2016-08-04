@@ -2,9 +2,6 @@ package com.sgt.pmportal.services;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.List;
 
@@ -50,6 +47,11 @@ public class AlertService {
 				if (eea<eeaMin || eea>eeaMax){
 					String body="Your Effort Estimation Accuracy value for project \""+projectName+"\" has exceeded the accepted limitations. "
 							+ "The accepted range was from " +eeaMin + " to " +eeaMax + ", but the EEA value is "+eea+".";
+					sendMail(user.getString("email"),body);
+				};
+				if (bugs>bugMax){
+					String body="Your Bug count for project \""+projectName+"\" has exceeded the accepted limitations. "
+							+ "The accepted maximum was " +bugMax+ ", but the Bug count is "+bugs+".";
 					sendMail(user.getString("email"),body);
 				};
 			}
