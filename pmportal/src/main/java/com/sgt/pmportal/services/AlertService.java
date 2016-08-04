@@ -26,6 +26,11 @@ public class AlertService {
 			String username=user.getString("username");
 			String password=user.getString("password");
 			String url=user.getString("url");
+			Double seaMin=Double.valueOf(user.getString("seaMin"));
+			Double seaMax=Double.valueOf(user.getString("seaMax"));
+			Double eeaMin=Double.valueOf(user.getString("eeaMin"));
+			Double eeaMax=Double.valueOf(user.getString("eeaMax"));
+			Long bugMax=Long.valueOf(user.getString("bugMax"));
 			JiraRestClient client=GeneralServices.login(url, username, password);
 			String authorization=GeneralServices.encodeAuth(username, password);
 			ProjectServices projectService=new ProjectServices(client, authorization, url);
