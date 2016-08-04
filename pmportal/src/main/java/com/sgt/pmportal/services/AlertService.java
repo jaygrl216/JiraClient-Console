@@ -38,10 +38,15 @@ public class AlertService {
 			MetricsServices metricService=new MetricsServices(client, authorization, url);
 			for (JiraProject project:projectList){
 				String key=project.getKey();
+				String projectName=project.getName();
 				Double sea=metricService.calculateProjectSEA(project, null);
 				Double eea=metricService.calculateProjectEEA(project, null);
 				Long bugs=metricService.calculateBugs(key);
-	
+				if (sea<seaMin || sea>seaMax){
+					String body="Your SEA value for project \""+projectName+"\" has exceeded the accepted limitations. "
+							+ "The accepted range was from " +seaMin + " to " +seaMax + ", but the SEA value is "+sea+".";
+					sendMail(user.getString("email"),body);
+				}
 			}
 		}
 	}
