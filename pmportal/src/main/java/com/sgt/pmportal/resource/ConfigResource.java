@@ -30,6 +30,11 @@ public class ConfigResource {
 		String password=requestObject.getString("password");
 		String url=requestObject.getString("url");
 		String email=requestObject.getString("email");
+		String seaMin=requestObject.getString("seaMin");
+		String seaMax=requestObject.getString("seaMax");
+		String eeaMin=requestObject.getString("eeaMin");
+		String eeaMax=requestObject.getString("eeaMax");
+		String bugMax=requestObject.getString("bugMax");
 		//check if user already exists, then write if not
 		try{
 			//Tomcat
@@ -41,11 +46,11 @@ public class ConfigResource {
 				int length=fileString.substring(startIndex).indexOf(";") + 1;
 				int finalIndex=startIndex+length;
 				String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
-				fileWriter.write(newString+username+","+password+","+email+","+url+";");
+				fileWriter.write(newString+username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 				fileWriter.close();
 			}else{
 				Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
-				fileWriter.write(username+","+password+","+email+","+url+";");
+				fileWriter.write(username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 				fileWriter.close();
 			};
 
@@ -59,12 +64,11 @@ public class ConfigResource {
 				int length=fileString.substring(startIndex).indexOf(";") + 1;
 				int finalIndex=startIndex+length;
 				String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
-				fileWriter.write(newString+username+","+password+","+email+","+url+";");
-				fileWriter.write(username+","+password+","+email+","+url+";");
+				fileWriter.write(newString+username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 				fileWriter.close();
 			}else{
 				Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
-				fileWriter.write(username+","+password+","+email+","+url+";");
+				fileWriter.write(username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 				fileWriter.close();
 			};
 		}
@@ -91,6 +95,11 @@ public class ConfigResource {
 					tempObject.put("username", userData[0]);
 					tempObject.put("email", userData[2]);
 					tempObject.put("url", userData[3]);
+					tempObject.put("seaMin", userData[4]);
+					tempObject.put("seaMax", userData[5]);
+					tempObject.put("eeaMin", userData[6]);
+					tempObject.put("eeaMax", userData[7]);
+					tempObject.put("bugMax", userData[8]);
 					responseArray.put(tempObject);
 				}
 			}
@@ -106,6 +115,11 @@ public class ConfigResource {
 					tempObject.put("username", userData[0]);
 					tempObject.put("email", userData[2]);
 					tempObject.put("url", userData[3]);
+					tempObject.put("seaMin", userData[4]);
+					tempObject.put("seaMax", userData[5]);
+					tempObject.put("eeaMin", userData[6]);
+					tempObject.put("eeaMax", userData[7]);
+					tempObject.put("bugMax", userData[8]);
 					responseArray.put(tempObject);
 				}
 			}
@@ -133,6 +147,11 @@ public class ConfigResource {
 				responseObject.put("username", userData[0]);
 				responseObject.put("email", userData[2]);
 				responseObject.put("url", userData[3]);
+				responseObject.put("seaMin", userData[4]);
+				responseObject.put("seaMax", userData[5]);
+				responseObject.put("eeaMin", userData[6]);
+				responseObject.put("eeaMax", userData[7]);
+				responseObject.put("bugMax", userData[8]);
 			}
 		}catch (Exception e){
 			//glassfish
@@ -147,6 +166,11 @@ public class ConfigResource {
 				responseObject.put("username", userData[0]);
 				responseObject.put("email", userData[2]);
 				responseObject.put("url", userData[3]);
+				responseObject.put("seaMin", userData[4]);
+				responseObject.put("seaMax", userData[5]);
+				responseObject.put("eeaMin", userData[6]);
+				responseObject.put("eeaMax", userData[7]);
+				responseObject.put("bugMax", userData[8]);
 			}
 		}
 		return responseObject.toString();
