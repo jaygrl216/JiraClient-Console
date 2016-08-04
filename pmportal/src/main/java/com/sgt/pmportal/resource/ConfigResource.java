@@ -66,13 +66,9 @@ public class ConfigResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get")
-<<<<<<< HEAD
-	//Retrieves all the information in the config file as a JSON string except passwords
-	public String getAllCredentials() throws IOException{
-=======
+
 	//Retrieves all the information in the config file as a JSON string except passwords
 	public static String getAllCredentials() throws IOException{
->>>>>>> origin/master
 		JSONObject responseObject=new JSONObject();
 		JSONArray responseArray=new JSONArray();
 		String fileString;
@@ -103,40 +99,6 @@ public class ConfigResource {
 		responseObject.put("users", responseArray);
 		return responseObject.toString();
 	}
-<<<<<<< HEAD
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/get/user/{username}")
-	//Retrieves information on an individual user
-	public String getUserCredentials(@PathParam ("username") String username) throws IOException{
-		JSONObject responseObject=new JSONObject();
-		String fileString;
-		try{
-			//Tomcat
-			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-		}catch (Exception e){
-			//glassfish
-			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-		}
-		if (fileString.toLowerCase().contains(username.toLowerCase())){
-			int startIndex=fileString.indexOf(username);
-			//do not add 1 to length or else will include semicolon
-			int length=fileString.substring(startIndex).indexOf(";");
-			int finalIndex=startIndex+length;
-			String userString=fileString.substring(startIndex, finalIndex);
-			String[] userData=userString.split(",");
-			responseObject.put("username", userData[0]);
-			responseObject.put("email", userData[2]);
-			responseObject.put("url", userData[3]);
-			responseObject.put("seaMin", userData[4]);
-			responseObject.put("seaMax", userData[5]);
-			responseObject.put("eeaMin", userData[6]);
-			responseObject.put("eeaMax", userData[7]);
-			responseObject.put("bugMax", userData[8]);
-		}
-		return responseObject.toString();
-	}
-=======
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get/user/{username}")
@@ -203,5 +165,4 @@ public class ConfigResource {
 		responseObject.put("users", responseArray);
 		return responseObject;
 	}
->>>>>>> origin/master
 }
