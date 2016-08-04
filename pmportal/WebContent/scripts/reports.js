@@ -4,12 +4,17 @@ var baseURL=getCookie("url").toString();
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 var metrics = "http://"+hostURL+"/pmportal/rest/metrics/averages/" + username + "/" + password + "/" + baseURL;
+var config = "http://" +hostURL+"/pmportal/rest/config/get/user/" + username;
 var projectArray;
 var overdue = 0;
 var stop = 0;
 var dateArray = new Array(0);
 var averageSEA = 0;
 var averageEEA = 0;
+var eeaMin = 0;
+var eeaMax = 0;
+var seaMin = 0;
+var seaMax = 0;
 
 
 
@@ -51,25 +56,35 @@ $.ajax({
 	console.log("Status: " + status );
 	console.dir(xhr);
 }).done(function(jsonObject){
-    averageSEA = jsonObject.aveSEA;
-	averageEEA = jsonObject.aveEEA;
+    eeaMin = jsonObject.eeaMin;
+    eeaMax = jsonObject.eeaMax;
+    seaMin = jsonObject.seaMin;
+    seaMax = jsonObject.seaMax;
 });
 
 
 
 $(document).ajaxStop(function () {
+    averageSEA = Math.round(averageSEA * 100) / 100;
+    averageEEA = Math.round(averageEEA * 100) / 100;
+
     if(stop == 0) {
         if(overdue == 0) {
             $("#graph").append("<p class='overdueGood'>" + overdue + "</p>");
+            $('.sea1').show();
         } else {
             $("#graph").append("<p class='overdueBad'>" + overdue + "</p>");
         }
 
-        $("#graph2").append("<h5> Average SEA </h5> <p>" + Math.round(averageSEA * 100) / 100 + "</p>").append
-        ("<h5> Average EEA </h5> <p>" + Math.round(averageEEA * 100) / 100 + "</p>");
+        if(seaMin <= averageSEA && averageSEA <= seaMax) {
+            $("#graph2").append("<h5> Average SEA </h5> <p class='good'>" + averageSEA+ "</p>")
+        }
+
+        $("#graph2").append("<h5> Average SEA </h5> <p>" + averageSEA+ "</p>").append
+        ("<h5> Average EEA </h5> <p>" + averageEEA + "</p>");
 
           $.each(projectArray, function (index, proj) {
-        var dueDate = new Date();
+            var dueDate = new Date();
             var dates = proj.due.split("-");
             dueDate.setMonth(dates[0]);
             dueDate.setDate(dates[1] - 1);
