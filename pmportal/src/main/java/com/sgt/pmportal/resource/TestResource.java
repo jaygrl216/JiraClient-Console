@@ -5,6 +5,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import com.atlassian.jira.rest.client.JiraRestClient;
+import com.sgt.pmportal.services.AlertService;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.NotificationService;
 @Path("/test")
@@ -36,5 +37,17 @@ public class TestResource {
 			return "Failed";
 		}
 		return "Sent";
+	}
+	//This method will fail if there is no user, and will do nothing if there is no user with an email
+	@Path("/alert")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String testAlert(){
+		try{
+		AlertService.checkMetrics();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return "Done";
 	}
 }
