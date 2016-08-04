@@ -52,7 +52,7 @@ $(document).ajaxStop(function () {
             $("#graph").append("<p class='overdueBad'>" + overdue + "</p>");
         }
 
-        $("#graph2").append("<h5> Average SEA </h5> <p>" + Math.round(averageEEA * 100) / 100 + "</p>").append
+        $("#graph2").append("<h5> Average SEA </h5> <p>" + Math.round(averageSEA * 100) / 100 + "</p>").append
         ("<h5> Average EEA </h5> <p>" + Math.round(averageEEA * 100) / 100 + "</p>");
 
           $.each(projectArray, function (index, proj) {
