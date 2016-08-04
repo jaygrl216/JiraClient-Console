@@ -43,7 +43,7 @@ function saveToConfig(user, pass, baseURL, eaddress, seaMin, seaMax, eeaMin, eea
 	$.ajax({
 		type:"POST",
 		data:request,
-		dataType:"json",
+		dataType:"text",
 		url:resource
 	}).fail(function( xhr, status, errorThrown ) {
 		console.log( "Error: " + errorThrown );
