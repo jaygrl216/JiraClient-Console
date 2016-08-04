@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 import javax.ws.rs.GET;
@@ -44,9 +45,13 @@ public class ConfigResource {
 			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			//glassfish
+			try{
 			textFile=new File("../applications/pmportal/data/config.txt");
 			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-
+			}catch(NoSuchFileException e2){
+				textFile=new File("../eclipseApps/pmportal/data/config.txt");
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			}
 		}
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
@@ -76,8 +81,12 @@ public class ConfigResource {
 			//Tomcat
 			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
-			//glassfish
-			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			try{
+				//glassfish
+				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			}catch(NoSuchFileException e2){
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			}
 		}
 		//convert to JSONObject for client to read
 		String[] userArray=fileString.split(";");
@@ -110,8 +119,12 @@ public class ConfigResource {
 			//Tomcat
 			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
-			//glassfish
-			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			try{
+				//glassfish
+				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			}catch(NoSuchFileException e2){
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			}
 		}
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
 			int startIndex=fileString.indexOf(username);
@@ -142,7 +155,11 @@ public class ConfigResource {
 			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			//glassfish
-			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			try{
+				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			}catch(NoSuchFileException e2){
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			}
 		}
 		//convert to JSONObject for client to read
 		String[] userArray=fileString.split(";");
