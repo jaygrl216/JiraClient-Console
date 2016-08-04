@@ -47,17 +47,17 @@ public class AlertService {
 					if (sea<seaMin || sea>seaMax){
 						String body="Your Schedule Estimation Accuracy value for project \""+projectName+"\" has exceeded the accepted limitations. "
 								+ "The accepted range was from " +seaMin + " to " +seaMax + ", but the SEA value is "+sea+".";
-						sendMail(user.getString("email"),body);
+						sendMail(email,body);
 					};
 					if (eea<eeaMin || eea>eeaMax){
 						String body="Your Effort Estimation Accuracy value for project \""+projectName+"\" has exceeded the accepted limitations. "
 								+ "The accepted range was from " +eeaMin + " to " +eeaMax + ", but the EEA value is "+eea+".";
-						sendMail(user.getString("email"),body);
+						sendMail(email,body);
 					};
 					if (bugs>bugMax){
 						String body="Your Bug count for project \""+projectName+"\" has exceeded the accepted limitations. "
 								+ "The accepted maximum was " +bugMax+ ", but the Bug count is "+bugs+".";
-						sendMail(user.getString("email"),body);
+						sendMail(email,body);
 					};
 				}
 			}
