@@ -130,4 +130,37 @@ public class ConfigResource {
 		}
 		return responseObject.toString();
 	}
+	
+	//DO NOT EXPOSE TO REST
+	public static JSONObject getUsersUnexposed() throws IOException{
+		JSONObject responseObject=new JSONObject();
+		JSONArray responseArray=new JSONArray();
+		String fileString;
+		try{
+			//Tomcat
+			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+		}catch (Exception e){
+			//glassfish
+			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+		}
+		//convert to JSONObject for client to read
+		String[] userArray=fileString.split(";");
+		for (String user:userArray){
+			String[] userData=user.split(",");
+			if (userData.length>1){
+				JSONObject tempObject=new JSONObject();
+				tempObject.put("username", userData[0]);
+				tempObject.put("email", userData[2]);
+				tempObject.put("url", userData[3]);
+				tempObject.put("seaMin", userData[4]);
+				tempObject.put("seaMax", userData[5]);
+				tempObject.put("eeaMin", userData[6]);
+				tempObject.put("eeaMax", userData[7]);
+				tempObject.put("bugMax", userData[8]);
+				responseArray.put(tempObject);
+			}
+		}
+		responseObject.put("users", responseArray);
+		return responseObject;
+	}
 }
