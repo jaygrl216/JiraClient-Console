@@ -12,11 +12,17 @@ import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.resource.ConfigResource;
 
-public class AlertService {
+public class AlertService implements Runnable {
 
 	//This could literally take an hour. This method should only be run on a weekly basis, if that
-	public static void checkMetrics() throws IOException, URISyntaxException, ParseException{
-		JSONObject userObject=ConfigResource.getUsersUnexposed();
+
+	public void run(){
+		JSONObject userObject = null;
+		try {
+			userObject = ConfigResource.getUsersUnexposed();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		JSONArray userArray=userObject.getJSONArray("users");
 		for (int i=0; i<userArray.length(); i++){
 			JSONObject user=userArray.getJSONObject(i);
@@ -30,7 +36,13 @@ public class AlertService {
 				Double eeaMin=Double.valueOf(user.getString("eeaMin"));
 				Double eeaMax=Double.valueOf(user.getString("eeaMax"));
 				Long bugMax=Long.valueOf(user.getString("bugMax"));
-				JiraRestClient client=GeneralServices.login(url, username, password);
+				JiraRestClient client = null;
+				try {
+					client = GeneralServices.login(url, username, password);
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				String authorization=GeneralServices.encodeAuth(username, password);
 				ProjectServices projectService=new ProjectServices(client, authorization, url);
 				List<JiraProject> projectList=projectService.getAllJiraProjects();
@@ -38,8 +50,20 @@ public class AlertService {
 				for (JiraProject project:projectList){
 					String key=project.getKey();
 					String projectName=project.getName();
-					Double sea=metricService.calculateProjectSEA(project, null);
-					Double eea=metricService.calculateProjectEEA(project, null);
+					Double sea = 1.0;
+					try {
+						sea = metricService.calculateProjectSEA(project, null);
+					} catch (IOException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Double eea = 1.0;
+					try {
+						eea = metricService.calculateProjectEEA(project, null);
+					} catch (IOException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					Long bugs=metricService.calculateBugs(key);
 					if (sea<seaMin || sea>seaMax){
 						String body="Your Schedule Estimation Accuracy value for project \""+projectName+"\" has exceeded the accepted limitations. "
