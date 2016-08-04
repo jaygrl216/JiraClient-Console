@@ -115,15 +115,15 @@ function login(){
 				settingsCookie(user.email);
 				window.location="home.html";
 			}else{
-				saveToConfig(uname, pass, baseURL, "");
+				saveToConfig(uname, pass, baseURL, "", "0.8", "1.25", "0.8", "1.25", "10");
 			};
 		}else{
 			$("#fail").css("visibility","visible");
 };
 });
 };
-function saveToConfig(user, pass, baseURL, eaddress){
-	var request="{\"username\":\"" + user+"\", \"password\":\""+ pass + "\", \"url\":\"" + baseURL+"\", \"email\":\"" + eaddress+"\"}";
+function saveToConfig(user, pass, baseURL, eaddress, seaMin, seaMax, eeaMin, eeaMax, bugMax){
+	var request="{\"username\":\"" + user+"\", \"password\":\""+ pass + "\", \"url\":\"" + baseURL+"\", \"email\":\"" + eaddress+"\", \"seaMin\":\""+seaMin+"\", \"seaMax\":\""+seaMax+"\", \"eeaMin\":\""+eeaMin+"\", \"eeaMax\":\""+eeaMax+"\", \"bugMax\":\""+bugMax+"\"}";
 	var resource="http://"+hostURL+"/pmportal/rest/config/save";
 	$.ajax({
 		type:"POST",
