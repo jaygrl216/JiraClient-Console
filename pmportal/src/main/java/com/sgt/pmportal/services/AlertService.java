@@ -5,18 +5,15 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.resource.ConfigResource;
-@Path("/alert")
+
 public class AlertService {
-	@GET
+
 	//This could literally take an hour. This method should only be run on a weekly basis, if that
 	public String checkMetrics() throws IOException, URISyntaxException, ParseException{
 		JSONObject userObject=new JSONObject(ConfigResource.getAllCredentials());
