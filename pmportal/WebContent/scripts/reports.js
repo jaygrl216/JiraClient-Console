@@ -69,6 +69,7 @@ $(document).ajaxStop(function () {
     averageEEA = Math.round(averageEEA * 100) / 100;
 
     if(stop == 0) {
+        ('.gen1').hide();
         if(overdue == 0) {
             $("#graph").append("<p class='overdueGood'>" + overdue + "</p>");
         } else {
@@ -100,7 +101,7 @@ $(document).ajaxStop(function () {
             dueDate.setMonth(dates[0]);
             dueDate.setDate(dates[1] - 1);
             dateArray = dateArray.concat(dueDate);  
-    });
+        });
 
     
     $('#calendar').fullCalendar('destroy');
