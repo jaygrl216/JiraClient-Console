@@ -32,20 +32,33 @@
 							<p>If you would like to receive email notifications, please input your email below</p>
 							Email Address: <input type="text" id="emailInput" />
 							<input type="button" value="Send Test Email" onclick="testEmail()"/>
-							<br><br>
-							<p>Edit credentials and server URL</p>
+							<br>
+							<br>
+							<h4>Set notification boundaries</h4>
+							<table><tr>
+							<td>SEA: </td><td> <input type="number" id="seaMin" value="0.8" min="0" max="1" step="0.01"/> - <input type="number" id="seaMax" value="1.25" min="1" step="0.01"/>
+							<input type="button" value="Reset" onclick="resetSEA()"/></td>
+							</tr><tr>
+							<td>EEA: </td><td><input type="number" id="eeaMin" value="0.8" min="0" max="1" step="0.01"/> - <input type="number" id="eeaMax" value="1.25" min="1" step="0.01"/>
+							<input type="button" value="Reset" onclick="resetEEA()"/></td>
+							</tr><tr>
+							<td>Bugs: </td><td><input type="number" id="bugMax" value="10" min="0"/>
+							<input type="button" value="Reset" onclick="resetBugs()"/></td>
+							</tr></table>
+							<br>
+							<h4>Edit credentials and server URL</h4>
 							Username: <input type="text" id="userText"/>
 							Password: <input type="password" id="passText"/>
 							Jira URL: <input type="text" id="urlText"/>
 							<p style="color:red">Your credentials will be overwritten unless you specify a different username</p>
-							<br><input type="checkbox" id="rememberBox" /> Remember me <br>
-							<br>
+							<input type="checkbox" id="rememberBox" /> Remember me <br>
 							<p style="color: red; visibility: hidden" id="fail">Login
 							failed! Double check your login info, and make sure the Jira URL
 							is correct; it is generally "http://serverURL" or
 							"http://serverURL/jira"</p>
 							
 							<a><input type="button" onclick="saveSettings()" value="Save"/></a>
+							
 						</div>
 					</div>
 	<script src="scripts/cookiehandler.js"></script>
