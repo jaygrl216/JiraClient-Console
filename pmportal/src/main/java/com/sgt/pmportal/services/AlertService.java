@@ -5,60 +5,68 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.resource.ConfigResource;
-
+@Path("/alert")
 public class AlertService {
-
+	@GET
 	//This could literally take an hour. This method should only be run on a weekly basis, if that
-	public static void checkMetrics() throws IOException, URISyntaxException, ParseException{
+	public String checkMetrics() throws IOException, URISyntaxException, ParseException{
 		JSONObject userObject=new JSONObject(ConfigResource.getAllCredentials());
 		JSONArray userArray=userObject.getJSONArray("users");
 		for (int i=0; i<userArray.length(); i++){
 			JSONObject user=userArray.getJSONObject(i);
-			String username=user.getString("username");
-			String password=user.getString("password");
-			String url=user.getString("url");
-			Double seaMin=Double.valueOf(user.getString("seaMin"));
-			Double seaMax=Double.valueOf(user.getString("seaMax"));
-			Double eeaMin=Double.valueOf(user.getString("eeaMin"));
-			Double eeaMax=Double.valueOf(user.getString("eeaMax"));
-			Long bugMax=Long.valueOf(user.getString("bugMax"));
-			JiraRestClient client=GeneralServices.login(url, username, password);
-			String authorization=GeneralServices.encodeAuth(username, password);
-			ProjectServices projectService=new ProjectServices(client, authorization, url);
-			List<JiraProject> projectList=projectService.getAllJiraProjects();
-			MetricsServices metricService=new MetricsServices(client, authorization, url);
-			for (JiraProject project:projectList){
-				String key=project.getKey();
-				String projectName=project.getName();
-				Double sea=metricService.calculateProjectSEA(project, null);
-				Double eea=metricService.calculateProjectEEA(project, null);
-				Long bugs=metricService.calculateBugs(key);
-				if (sea<seaMin || sea>seaMax){
-					String body="Your Schedule Estimation Accuracy value for project \""+projectName+"\" has exceeded the accepted limitations. "
-							+ "The accepted range was from " +seaMin + " to " +seaMax + ", but the SEA value is "+sea+".";
-					sendMail(user.getString("email"),body);
-				};
-				if (eea<eeaMin || eea>eeaMax){
-					String body="Your Effort Estimation Accuracy value for project \""+projectName+"\" has exceeded the accepted limitations. "
-							+ "The accepted range was from " +eeaMin + " to " +eeaMax + ", but the EEA value is "+eea+".";
-					sendMail(user.getString("email"),body);
-				};
-				if (bugs>bugMax){
-					String body="Your Bug count for project \""+projectName+"\" has exceeded the accepted limitations. "
-							+ "The accepted maximum was " +bugMax+ ", but the Bug count is "+bugs+".";
-					sendMail(user.getString("email"),body);
-				};
+			String email=user.getString("email");
+			if (email!=null && email!=""){
+				String username=user.getString("username");
+				String password=user.getString("password");
+				String url=user.getString("url");
+				Double seaMin=Double.valueOf(user.getString("seaMin"));
+				Double seaMax=Double.valueOf(user.getString("seaMax"));
+				Double eeaMin=Double.valueOf(user.getString("eeaMin"));
+				Double eeaMax=Double.valueOf(user.getString("eeaMax"));
+				Long bugMax=Long.valueOf(user.getString("bugMax"));
+				JiraRestClient client=GeneralServices.login(url, username, password);
+				String authorization=GeneralServices.encodeAuth(username, password);
+				ProjectServices projectService=new ProjectServices(client, authorization, url);
+				List<JiraProject> projectList=projectService.getAllJiraProjects();
+				MetricsServices metricService=new MetricsServices(client, authorization, url);
+				for (JiraProject project:projectList){
+					String key=project.getKey();
+					String projectName=project.getName();
+					Double sea=metricService.calculateProjectSEA(project, null);
+					Double eea=metricService.calculateProjectEEA(project, null);
+					Long bugs=metricService.calculateBugs(key);
+					if (sea<seaMin || sea>seaMax){
+						String body="Your Schedule Estimation Accuracy value for project \""+projectName+"\" has exceeded the accepted limitations. "
+								+ "The accepted range was from " +seaMin + " to " +seaMax + ", but the SEA value is "+sea+".";
+						sendMail(user.getString("email"),body);
+					};
+					if (eea<eeaMin || eea>eeaMax){
+						String body="Your Effort Estimation Accuracy value for project \""+projectName+"\" has exceeded the accepted limitations. "
+								+ "The accepted range was from " +eeaMin + " to " +eeaMax + ", but the EEA value is "+eea+".";
+						sendMail(user.getString("email"),body);
+					};
+					if (bugs>bugMax){
+						String body="Your Bug count for project \""+projectName+"\" has exceeded the accepted limitations. "
+								+ "The accepted maximum was " +bugMax+ ", but the Bug count is "+bugs+".";
+						sendMail(user.getString("email"),body);
+					};
+				}
 			}
 		}
+		return "Finished";
 	}
 	//This method sends an alert notification
 	public static void sendMail(String m_to, String body){
+		@SuppressWarnings("unused")
 		NotificationService nService=new NotificationService(m_to, "PM-Portal Alert", body);
 	}
 }
