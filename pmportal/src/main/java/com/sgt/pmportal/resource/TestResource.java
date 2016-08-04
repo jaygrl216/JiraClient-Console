@@ -38,16 +38,4 @@ public class TestResource {
 		}
 		return "Sent";
 	}
-	//This method will fail if there is no user, and will do nothing if there is no user with an email
-	@Path("/alert")
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String testAlert(){
-		try{
-		AlertService.checkMetrics();
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-		return "Done";
-	}
 }
