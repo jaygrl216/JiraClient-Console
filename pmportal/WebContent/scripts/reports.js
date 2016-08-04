@@ -43,6 +43,19 @@ $.ajax({
 	averageEEA = jsonObject.aveEEA;
 });
 
+$.ajax({
+	url: config,
+	dataType: "json"
+}).fail(function(xhr, status, errorThrown ) {
+	console.log("Error: " + errorThrown );
+	console.log("Status: " + status );
+	console.dir(xhr);
+}).done(function(jsonObject){
+    averageSEA = jsonObject.aveSEA;
+	averageEEA = jsonObject.aveEEA;
+});
+
+
 
 $(document).ajaxStop(function () {
     if(stop == 0) {
@@ -62,8 +75,7 @@ $(document).ajaxStop(function () {
             dueDate.setDate(dates[1] - 1);
             dateArray = dateArray.concat(dueDate);  
     });
-           
-    console.log(dateArray);
+
     
     $('#calendar').fullCalendar('destroy');
     $('#calendar').fullCalendar({
@@ -71,12 +83,8 @@ $(document).ajaxStop(function () {
         dayRender: function(date, cell) {
             var date2 = date._d;
             for(var i = 0; i < dateArray.length; i++) {
-                console.log(dateArray[i].getMonth());
-                console.log(dateArray[i].getDate());
                  if(dateArray[i].getMonth() == date2.getMonth() && dateArray[i].getDate() == date2.getDate()) {
                     cell.css("background-color", "#9EF0AA");
-                    console.log(dateArray[i]);
-                    console.log(date._d);
                 }
             }
             
@@ -94,18 +102,6 @@ $(document).ready(function() {
 
 });
 
-//function reRender(date, cell) {
-//    var date2 = date._d;
-//            for(var i = 0; i < dateArray.length; i++) {
-//                console.log(dateArray[i].getMonth());
-//                console.log(dateArray[i].getDate());
-//                 if(dateArray[i].getMonth() == date2.getMonth() && dateArray[i].getDate() == date2.getDate()) {
-//                    cell.css("background-color", "red");
-//                    console.log(dateArray[i]);
-//                    console.log(date._d);
-//                }
-//            }
-//}
 
 
 
