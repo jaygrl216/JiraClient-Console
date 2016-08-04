@@ -5,7 +5,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import com.atlassian.jira.rest.client.JiraRestClient;
-import com.sgt.pmportal.services.AlertService;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.NotificationService;
 @Path("/test")
