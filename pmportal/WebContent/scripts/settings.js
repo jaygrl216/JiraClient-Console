@@ -31,7 +31,7 @@ function saveSettings(){
 		if (response=="Success"){
 			setCookie(user, pass, baseURL, remember);
 			settingsCookie(eaddress);
-			saveToConfig(user, pass, baseURL, eaddress);
+			saveToConfig(user, pass, baseURL, eaddress, seaMin, seaMax, eeaMin, eeaMax, bugMax);
 		}else{
 			alert("Login failed!");
 };
