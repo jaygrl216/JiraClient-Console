@@ -46,8 +46,8 @@ public class ConfigResource {
 		}catch (Exception e){
 			//glassfish
 			try{
-			textFile=new File("../applications/pmportal/data/config.txt");
-			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+				textFile=new File("../applications/pmportal/data/config.txt");
+				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 			}catch(NoSuchFileException e2){
 				textFile=new File("../eclipseApps/pmportal/data/config.txt");
 				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);

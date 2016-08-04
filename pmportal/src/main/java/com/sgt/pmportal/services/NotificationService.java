@@ -15,7 +15,7 @@ public class NotificationService {
 	 String     d_email="pmportalalert@gmail.com",
 			 	d_password = "PMPortal",
 	            d_host = "smtp.gmail.com",
-	            d_port  = "465";
+	            d_port  = "587";
 	 /**
 	  * The Notification Service sends an email to the specified address
 	  *
