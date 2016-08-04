@@ -35,43 +35,32 @@ public class ConfigResource {
 		String eeaMin=requestObject.getString("eeaMin");
 		String eeaMax=requestObject.getString("eeaMax");
 		String bugMax=requestObject.getString("bugMax");
+		String fileString;
+		File textFile;
 		//check if user already exists, then write if not
 		try{
 			//Tomcat
-			File textFile=new File("webapps/pmportal/data/config.txt");
-			String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			if (fileString.toLowerCase().contains(username.toLowerCase())){
-				Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-				int startIndex=fileString.indexOf(username);
-				int length=fileString.substring(startIndex).indexOf(";") + 1;
-				int finalIndex=startIndex+length;
-				String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
-				fileWriter.write(newString+username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
-				fileWriter.close();
-			}else{
-				Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
-				fileWriter.write(username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
-				fileWriter.close();
-			};
-
+			textFile=new File("webapps/pmportal/data/config.txt");
+			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			//glassfish
-			File textFile=new File("../applications/pmportal/data/config.txt");
-			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			if (fileString.toLowerCase().contains(username.toLowerCase())){
-				Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-				int startIndex=fileString.indexOf(username);
-				int length=fileString.substring(startIndex).indexOf(";") + 1;
-				int finalIndex=startIndex+length;
-				String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
-				fileWriter.write(newString+username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
-				fileWriter.close();
-			}else{
-				Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
-				fileWriter.write(username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
-				fileWriter.close();
-			};
+			textFile=new File("../applications/pmportal/data/config.txt");
+			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			
 		}
+		if (fileString.toLowerCase().contains(username.toLowerCase())){
+			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+			int startIndex=fileString.indexOf(username);
+			int length=fileString.substring(startIndex).indexOf(";") + 1;
+			int finalIndex=startIndex+length;
+			String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
+			fileWriter.write(newString+username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
+			fileWriter.close();
+		}else{
+			Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
+			fileWriter.write(username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
+			fileWriter.close();
+		};
 		return "Saved";
 	}
 	@GET
@@ -81,47 +70,29 @@ public class ConfigResource {
 	public String getAllCredentials() throws IOException{
 		JSONObject responseObject=new JSONObject();
 		JSONArray responseArray=new JSONArray();
+		String fileString;
 		try{
 			//Tomcat
-			//read file
-			String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			//convert to JSON so it can be easily manipulated client-side
-			String[] userArray=fileString.split(";");
-
-			for (String user:userArray){
-				String[] userData=user.split(",");
-				if (userData.length>1){
-					JSONObject tempObject=new JSONObject();
-					tempObject.put("username", userData[0]);
-					tempObject.put("email", userData[2]);
-					tempObject.put("url", userData[3]);
-					tempObject.put("seaMin", userData[4]);
-					tempObject.put("seaMax", userData[5]);
-					tempObject.put("eeaMin", userData[6]);
-					tempObject.put("eeaMax", userData[7]);
-					tempObject.put("bugMax", userData[8]);
-					responseArray.put(tempObject);
-				}
-			}
+			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			//glassfish
-			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			String[] userArray=fileString.split(";");
-
-			for (String user:userArray){
-				String[] userData=user.split(",");
-				if (userData.length>1){
-					JSONObject tempObject=new JSONObject();
-					tempObject.put("username", userData[0]);
-					tempObject.put("email", userData[2]);
-					tempObject.put("url", userData[3]);
-					tempObject.put("seaMin", userData[4]);
-					tempObject.put("seaMax", userData[5]);
-					tempObject.put("eeaMin", userData[6]);
-					tempObject.put("eeaMax", userData[7]);
-					tempObject.put("bugMax", userData[8]);
-					responseArray.put(tempObject);
-				}
+			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+		}
+		//convert to JSONObject for client to read
+		String[] userArray=fileString.split(";");
+		for (String user:userArray){
+			String[] userData=user.split(",");
+			if (userData.length>1){
+				JSONObject tempObject=new JSONObject();
+				tempObject.put("username", userData[0]);
+				tempObject.put("email", userData[2]);
+				tempObject.put("url", userData[3]);
+				tempObject.put("seaMin", userData[4]);
+				tempObject.put("seaMax", userData[5]);
+				tempObject.put("eeaMin", userData[6]);
+				tempObject.put("eeaMax", userData[7]);
+				tempObject.put("bugMax", userData[8]);
+				responseArray.put(tempObject);
 			}
 		}
 		responseObject.put("users", responseArray);
