@@ -13,7 +13,7 @@ function saveSettings(){
 	var pass=$("#passText").val();
 	var seaMin=$("#seaMin").val();
 	var seaMax=$("#seaMax").val();
-	var eeaMin=$("$eeaMin").val();
+	var eeaMin=$("#eeaMin").val();
 	var eeaMax=$("#eeaMax").val();
 	var bugMax=$("#bugMax").val();
 	var remember=$("#rememberBox").prop("checked");
@@ -43,7 +43,7 @@ function saveToConfig(user, pass, baseURL, eaddress, seaMin, seaMax, eeaMin, eea
 	$.ajax({
 		type:"POST",
 		data:request,
-		dataType:"json",
+		dataType:"text",
 		url:resource
 	}).fail(function( xhr, status, errorThrown ) {
 		console.log( "Error: " + errorThrown );
