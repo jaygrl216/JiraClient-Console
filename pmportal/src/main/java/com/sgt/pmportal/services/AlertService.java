@@ -31,11 +31,10 @@ public class AlertService {
 			MetricsServices metricService=new MetricsServices(client, authorization, url);
 			for (JiraProject project:projectList){
 				String key=project.getKey();
-				String name=project.getName();
 				Double sea=metricService.calculateProjectSEA(project, null);
 				Double eea=metricService.calculateProjectEEA(project, null);
 				Long bugs=metricService.calculateBugs(key);
-				Double progress=metricService.calculateProgress(key);			
+	
 			}
 		}
 	}
