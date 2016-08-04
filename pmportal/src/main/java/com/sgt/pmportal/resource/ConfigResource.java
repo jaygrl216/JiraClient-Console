@@ -150,6 +150,7 @@ public class ConfigResource {
 			if (userData.length>1){
 				JSONObject tempObject=new JSONObject();
 				tempObject.put("username", userData[0]);
+				tempObject.put("password", userData[1]);
 				tempObject.put("email", userData[2]);
 				tempObject.put("url", userData[3]);
 				tempObject.put("seaMin", userData[4]);
