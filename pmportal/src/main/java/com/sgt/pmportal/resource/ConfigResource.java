@@ -67,7 +67,7 @@ public class ConfigResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get")
 	//Retrieves all the information in the config file as a JSON string except passwords
-	public String getAllCredentials() throws IOException{
+	public static String getAllCredentials() throws IOException{
 		JSONObject responseObject=new JSONObject();
 		JSONArray responseArray=new JSONArray();
 		String fileString;

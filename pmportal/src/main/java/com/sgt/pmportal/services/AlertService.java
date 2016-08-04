@@ -13,12 +13,14 @@ import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
+import com.sgt.pmportal.resource.ConfigResource;
 
 public class AlertService {
 
 	//This could literally take an hour. This method should only be run on a weekly basis, if that
 	public static void checkMetrics() throws IOException, URISyntaxException, ParseException{
-		JSONArray userArray=getCredentials().getJSONArray("users");
+		JSONObject userObject=new JSONObject(ConfigResource.getAllCredentials());
+		JSONArray userArray=userObject.getJSONArray("users");
 		for (int i=0; i<userArray.length(); i++){
 			JSONObject user=userArray.getJSONObject(i);
 			String username=user.getString("username");
@@ -37,46 +39,6 @@ public class AlertService {
 	
 			}
 		}
-	}
-	//this is a clone of the method found in ConfigResource.java
-	public static JSONObject getCredentials() throws IOException{
-		JSONObject responseObject=new JSONObject();
-		JSONArray responseArray=new JSONArray();
-		try{
-			//Tomcat
-			//read file
-			String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			//convert to JSON so it can be easily manipulated client-side
-			String[] userArray=fileString.split(";");
-
-			for (String user:userArray){
-				String[] userData=user.split(",");
-				if (userData.length>1){
-					JSONObject tempObject=new JSONObject();
-					tempObject.put("username", userData[0]);
-					tempObject.put("email", userData[2]);
-					tempObject.put("url", userData[3]);
-					responseArray.put(tempObject);
-				}
-			}
-		}catch (Exception e){
-			//glassfish
-			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			String[] userArray=fileString.split(";");
-
-			for (String user:userArray){
-				String[] userData=user.split(",");
-				if (userData.length>1){
-					JSONObject tempObject=new JSONObject();
-					tempObject.put("username", userData[0]);
-					tempObject.put("email", userData[2]);
-					tempObject.put("url", userData[3]);
-					responseArray.put(tempObject);
-				}
-			}
-		}
-		responseObject.put("users", responseArray);
-		return responseObject;
 	}
 	//This method sends an alert notification
 	public static void sendMail(String m_to, String body){
