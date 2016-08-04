@@ -71,17 +71,28 @@ $(document).ajaxStop(function () {
     if(stop == 0) {
         if(overdue == 0) {
             $("#graph").append("<p class='overdueGood'>" + overdue + "</p>");
-            $('.sea1').show();
         } else {
             $("#graph").append("<p class='overdueBad'>" + overdue + "</p>");
         }
 
         if(seaMin <= averageSEA && averageSEA <= seaMax) {
-            $("#graph2").append("<h5> Average SEA </h5> <p class='good'>" + averageSEA+ "</p>")
+            $("#graph2").append("<h5> Average SEA </h5> <p class='good'>" + averageSEA+ "</p>");
+            $('.sea1').show();
+        } else if (averageSEA > seaMax) {
+            $("#graph2").append("<h5> Average SEA </h5> <p class='warn'>" + averageSEA+ "</p>");
+            $('.sea2').show();
+        } else {
+            $("#graph2").append("<h5> Average SEA </h5> <p class='warn'>" + averageSEA+ "</p>");
         }
 
-        $("#graph2").append("<h5> Average SEA </h5> <p>" + averageSEA+ "</p>").append
-        ("<h5> Average EEA </h5> <p>" + averageEEA + "</p>");
+        if(seaMin <= averageSEA && averageSEA <= seaMax) {
+            $("#graph2").append("<h5> Average EEA </h5> <p class='good'>" + averageEEA + "</p>");
+            $('.eea1').show();
+        } else if (averageSEA > seaMax) {
+            $("#graph2").append("<h5> Average EEA </h5> <p class='warn'>" + averageEEA + "</p>");
+        } else {
+           $("#graph2").append("<h5> Average EEA </h5> <p class='warn'>" + averageEEA + "</p>");
+        }
 
           $.each(projectArray, function (index, proj) {
             var dueDate = new Date();
