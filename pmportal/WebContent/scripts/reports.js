@@ -91,6 +91,10 @@ $(document).ready(function() {
     $('#calendar').fullCalendar({
         contentHeight: 'auto'
     });
+
+    $('.sea1').style.display='none';
+    $('.sea2').style.display='none';
+    $('.eea1').style.display='none';
 });
 
 //function reRender(date, cell) {
