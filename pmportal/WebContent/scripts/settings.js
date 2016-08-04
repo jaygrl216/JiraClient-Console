@@ -11,6 +11,9 @@ function saveSettings(){
 	var user=$("#userText").val();
 	var baseURL=$("#urlText").val();
 	var pass=$("#passText").val();
+	if (pass==""){
+		pass=getCookie("password").toString();
+	};
 	var seaMin=$("#seaMin").val();
 	var seaMax=$("#seaMax").val();
 	var eeaMin=$("#eeaMin").val();
