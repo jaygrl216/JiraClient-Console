@@ -45,9 +45,13 @@ public class ConfigResource {
 			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			//glassfish
+			try{
 			textFile=new File("../applications/pmportal/data/config.txt");
 			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-
+			}catch(NoSuchFileException e2){
+				textFile=new File("../eclipseApps/pmportal/data/config.txt");
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			}
 		}
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
