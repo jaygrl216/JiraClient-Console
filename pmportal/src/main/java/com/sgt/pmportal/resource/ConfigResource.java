@@ -104,45 +104,29 @@ public class ConfigResource {
 	//Retrieves information on an individual user
 	public String getUserCredentials(@PathParam ("username") String username) throws IOException{
 		JSONObject responseObject=new JSONObject();
+		String fileString;
 		try{
 			//Tomcat
-			//read file
-			String fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			if (fileString.toLowerCase().contains(username.toLowerCase())){
-				int startIndex=fileString.indexOf(username);
-				//do not add 1 to length or else will include semicolon
-				int length=fileString.substring(startIndex).indexOf(";");
-				int finalIndex=startIndex+length;
-				String userString=fileString.substring(startIndex, finalIndex);
-				String[] userData=userString.split(",");
-				responseObject.put("username", userData[0]);
-				responseObject.put("email", userData[2]);
-				responseObject.put("url", userData[3]);
-				responseObject.put("seaMin", userData[4]);
-				responseObject.put("seaMax", userData[5]);
-				responseObject.put("eeaMin", userData[6]);
-				responseObject.put("eeaMax", userData[7]);
-				responseObject.put("bugMax", userData[8]);
-			}
+			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			//glassfish
-			String fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			if (fileString.toLowerCase().contains(username.toLowerCase())){
-				int startIndex=fileString.indexOf(username);
-				//do not add 1 to length or else will include semicolon
-				int length=fileString.substring(startIndex).indexOf(";");
-				int finalIndex=startIndex+length;
-				String userString=fileString.substring(startIndex, finalIndex);
-				String[] userData=userString.split(",");
-				responseObject.put("username", userData[0]);
-				responseObject.put("email", userData[2]);
-				responseObject.put("url", userData[3]);
-				responseObject.put("seaMin", userData[4]);
-				responseObject.put("seaMax", userData[5]);
-				responseObject.put("eeaMin", userData[6]);
-				responseObject.put("eeaMax", userData[7]);
-				responseObject.put("bugMax", userData[8]);
-			}
+			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+		}
+		if (fileString.toLowerCase().contains(username.toLowerCase())){
+			int startIndex=fileString.indexOf(username);
+			//do not add 1 to length or else will include semicolon
+			int length=fileString.substring(startIndex).indexOf(";");
+			int finalIndex=startIndex+length;
+			String userString=fileString.substring(startIndex, finalIndex);
+			String[] userData=userString.split(",");
+			responseObject.put("username", userData[0]);
+			responseObject.put("email", userData[2]);
+			responseObject.put("url", userData[3]);
+			responseObject.put("seaMin", userData[4]);
+			responseObject.put("seaMax", userData[5]);
+			responseObject.put("eeaMin", userData[6]);
+			responseObject.put("eeaMax", userData[7]);
+			responseObject.put("bugMax", userData[8]);
 		}
 		return responseObject.toString();
 	}
