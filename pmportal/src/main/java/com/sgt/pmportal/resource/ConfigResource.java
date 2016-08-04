@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 import javax.ws.rs.GET;
@@ -43,10 +44,14 @@ public class ConfigResource {
 			textFile=new File("webapps/pmportal/data/config.txt");
 			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
+			try{
 			//glassfish
 			textFile=new File("../applications/pmportal/data/config.txt");
 			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-
+			}catch(NoSuchFileException e2){
+				textFile=new File("../eclipseApps/pmportal/data/config.txt");
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			}
 		}
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
@@ -79,7 +84,7 @@ public class ConfigResource {
 			try{
 				//glassfish
 				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}catch(Exception e2){
+			}catch(NoSuchFileException e2){
 				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 			}
 		}
@@ -120,7 +125,7 @@ public class ConfigResource {
 			try{
 				//glassfish
 				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}catch(Exception e2){
+			}catch(NoSuchFileException e2){
 				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 			}
 		}
@@ -158,7 +163,7 @@ public class ConfigResource {
 			//glassfish
 			try{
 				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}catch(Exception e2){
+			}catch(NoSuchFileException e2){
 				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 			}
 		}
