@@ -34,16 +34,12 @@ input{
 	margin-bottom: 20px;
 	width: 90%;
 	height: 30%;
+	padding:5px;
 }
 #layer1 {
     clear: both;
     margin-left: 40px;
     margin-bottom: 30px;
-}
-
-#layer2 {
-    margin-left: 40px;
-	margin-bottom:30px;
 }
 
 
@@ -87,4 +83,7 @@ a:active {
 .nav>li>a:focus, .nav>li>a:hover {
     text-decoration: none;
     background-color: rgba(96, 101, 125, 1);
+}
+td{
+	padding:5px;
 }
