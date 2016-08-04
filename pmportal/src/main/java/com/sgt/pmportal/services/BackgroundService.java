@@ -18,7 +18,7 @@ public class BackgroundService implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new AlertService(), 0, 1, TimeUnit.DAYS);
+		scheduler.scheduleAtFixedRate(new AlertService(), 1, 1, TimeUnit.DAYS);
 
 	}
 
