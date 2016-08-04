@@ -15,7 +15,7 @@ import com.sgt.pmportal.resource.ConfigResource;
 public class AlertService {
 
 	//This could literally take an hour. This method should only be run on a weekly basis, if that
-	public String checkMetrics() throws IOException, URISyntaxException, ParseException{
+	public static void checkMetrics() throws IOException, URISyntaxException, ParseException{
 		JSONObject userObject=new JSONObject(ConfigResource.getAllCredentials());
 		JSONArray userArray=userObject.getJSONArray("users");
 		for (int i=0; i<userArray.length(); i++){
@@ -59,7 +59,6 @@ public class AlertService {
 				}
 			}
 		}
-		return "Finished";
 	}
 	//This method sends an alert notification
 	public static void sendMail(String m_to, String body){
