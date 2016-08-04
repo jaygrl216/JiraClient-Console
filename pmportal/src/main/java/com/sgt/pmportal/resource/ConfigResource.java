@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 import javax.ws.rs.GET;
@@ -44,14 +43,10 @@ public class ConfigResource {
 			textFile=new File("webapps/pmportal/data/config.txt");
 			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
-			try{
 			//glassfish
 			textFile=new File("../applications/pmportal/data/config.txt");
 			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}catch(NoSuchFileException e2){
-				textFile=new File("../eclipseApps/pmportal/data/config.txt");
-				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}
+
 		}
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
@@ -81,12 +76,8 @@ public class ConfigResource {
 			//Tomcat
 			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
-			try{
-				//glassfish
-				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}catch(NoSuchFileException e2){
-				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}
+			//glassfish
+			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}
 		//convert to JSONObject for client to read
 		String[] userArray=fileString.split(";");
@@ -107,48 +98,7 @@ public class ConfigResource {
 		}
 		responseObject.put("users", responseArray);
 		return responseObject.toString();
-<<<<<<< HEAD
 	}
-=======
-	}
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/get/user/{username}")
-	//Retrieves information on an individual user
-	public String getUserCredentials(@PathParam ("username") String username) throws IOException{
-		JSONObject responseObject=new JSONObject();
-		String fileString;
-		try{
-			//Tomcat
-			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-		}catch (Exception e){
-			try{
-				//glassfish
-				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}catch(NoSuchFileException e2){
-				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}
-		}
-		if (fileString.toLowerCase().contains(username.toLowerCase())){
-			int startIndex=fileString.indexOf(username);
-			//do not add 1 to length or else will include semicolon
-			int length=fileString.substring(startIndex).indexOf(";");
-			int finalIndex=startIndex+length;
-			String userString=fileString.substring(startIndex, finalIndex);
-			String[] userData=userString.split(",");
-			responseObject.put("username", userData[0]);
-			responseObject.put("email", userData[2]);
-			responseObject.put("url", userData[3]);
-			responseObject.put("seaMin", userData[4]);
-			responseObject.put("seaMax", userData[5]);
-			responseObject.put("eeaMin", userData[6]);
-			responseObject.put("eeaMax", userData[7]);
-			responseObject.put("bugMax", userData[8]);
-		}
-		return responseObject.toString();
-	}
->>>>>>> refs/remotes/origin/master
-
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get/user/{username}")
@@ -161,11 +111,7 @@ public class ConfigResource {
 			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			//glassfish
-			try{
-				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}catch(NoSuchFileException e2){
-				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
-			}
+			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
 		}
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
 			int startIndex=fileString.indexOf(username);
@@ -183,14 +129,40 @@ public class ConfigResource {
 			responseObject.put("eeaMax", userData[7]);
 			responseObject.put("bugMax", userData[8]);
 		}
-<<<<<<< HEAD
 		return responseObject.toString();
 	}
-}
-	
-=======
+
+	//DO NOT EXPOSE TO REST
+	public static JSONObject getUsersUnexposed() throws IOException{
+		JSONObject responseObject=new JSONObject();
+		JSONArray responseArray=new JSONArray();
+		String fileString;
+		try{
+			//Tomcat
+			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+		}catch (Exception e){
+			//glassfish
+			fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+		}
+		//convert to JSONObject for client to read
+		String[] userArray=fileString.split(";");
+		for (String user:userArray){
+			String[] userData=user.split(",");
+			if (userData.length>1){
+				JSONObject tempObject=new JSONObject();
+				tempObject.put("username", userData[0]);
+				tempObject.put("password", userData[1]);
+				tempObject.put("email", userData[2]);
+				tempObject.put("url", userData[3]);
+				tempObject.put("seaMin", userData[4]);
+				tempObject.put("seaMax", userData[5]);
+				tempObject.put("eeaMin", userData[6]);
+				tempObject.put("eeaMax", userData[7]);
+				tempObject.put("bugMax", userData[8]);
+				responseArray.put(tempObject);
+			}
+		}
 		responseObject.put("users", responseArray);
 		return responseObject;
 	}
 }
->>>>>>> refs/remotes/origin/master
