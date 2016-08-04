@@ -69,7 +69,7 @@ $(document).ajaxStop(function () {
     averageEEA = Math.round(averageEEA * 100) / 100;
 
     if(stop == 0) {
-        ('.gen1').hide();
+        $('.gen1').hide();
         if(overdue == 0) {
             $("#graph").append("<p class='overdueGood'>" + overdue + "</p>");
         } else {
