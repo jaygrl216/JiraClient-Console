@@ -80,10 +80,10 @@ $(document).ajaxStop(function () {
             $("#graph2").append("<h5> Average SEA </h5> <p class='good'>" + averageSEA+ "</p>");
             $('.sea1').show();
         } else if (averageSEA > seaMax) {
-            $("#graph2").append("<h5> Average SEA </h5> <p class='warning'>" + averageSEA+ "</p>");
+            $("#graph2").append("<h5> Average SEA </h5> <p class='below'>" + averageSEA+ "</p>");
             $('.sea2').show();
         } else {
-            $("#graph2").append("<h5> Average SEA </h5> <p class='warning'>" + averageSEA+ "</p>");
+            $("#graph2").append("<h5> Average SEA </h5> <p class='bad'>" + averageSEA+ "</p>");
             $('.sea3').show();
         }
 
@@ -91,10 +91,10 @@ $(document).ajaxStop(function () {
             $("#graph2").append("<h5> Average EEA </h5> <p class='good'>" + averageEEA + "</p>");
             $('.eea1').show();
         } else if (averageSEA > seaMax) {
-            $("#graph2").append("<h5> Average EEA </h5> <p class='warning'>" + averageEEA + "</p>");
+            $("#graph2").append("<h5> Average EEA </h5> <p class='below'>" + averageEEA + "</p>");
             $('.eea2').show();
         } else {
-           $("#graph2").append("<h5> Average EEA </h5> <p class='warning'>" + averageEEA + "</p>");
+           $("#graph2").append("<h5> Average EEA </h5> <p class='bad'>" + averageEEA + "</p>");
             $('.eea2').show();
         }
 

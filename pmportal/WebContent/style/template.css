@@ -260,4 +260,11 @@ h5 {
     display: none;
 }
 
+.below {
+    color: #C2E4F0;
+}
+
+#graph3 p {
+    font-weight: bold;
+}
 
