@@ -66,6 +66,7 @@ public class ConfigResource {
 			fileWriter.write(username+","+password+","+email+","+url+"," + seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 			fileWriter.close();
 		};
+		System.out.println("Saved");
 		return "Saved";
 	}
 	@GET
