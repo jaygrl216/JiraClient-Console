@@ -11,20 +11,16 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class BackgroundService implements ServletContextListener{
 
-
-
 	private ScheduledExecutorService scheduler;
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new AlertService(), 1, 1, TimeUnit.DAYS);
-
+		//scheduler.scheduleAtFixedRate(process, delay, interval, unit of time);
+		scheduler.scheduleAtFixedRate(new AlertService(), 1, 7, TimeUnit.DAYS);
 	}
-
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {
 		scheduler.shutdownNow();
 	}
-
 }
