@@ -41,16 +41,16 @@ public class ConfigResource {
 		//check if user already exists, then write if not
 		try{
 			//Tomcat
-			textFile=new File("webapps/pmportal/data/config.txt");
-			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			textFile=new File("webapps/pmportal/WEB-INF/config.txt");
+			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			//glassfish
 			try{
 				textFile=new File("../applications/pmportal/data/config.txt");
-				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 			}catch(NoSuchFileException e2){
 				textFile=new File("../eclipseApps/pmportal/data/config.txt");
-				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 			}
 		}
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
@@ -79,13 +79,13 @@ public class ConfigResource {
 		String fileString;
 		try{
 			//Tomcat
-			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			try{
 				//glassfish
-				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 			}catch(NoSuchFileException e2){
-				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 			}
 		}
 		//convert to JSONObject for client to read
@@ -117,13 +117,13 @@ public class ConfigResource {
 		String fileString;
 		try{
 			//Tomcat
-			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			try{
 				//glassfish
-				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 			}catch(NoSuchFileException e2){
-				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 			}
 		}
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
@@ -152,13 +152,13 @@ public class ConfigResource {
 		String fileString;
 		try{
 			//Tomcat
-			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+			fileString=new String(Files.readAllBytes(Paths.get("webapps/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 		}catch (Exception e){
 			//glassfish
 			try{
-				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+				fileString=new String(Files.readAllBytes(Paths.get("../applications/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 			}catch(NoSuchFileException e2){
-				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/data/config.txt")), StandardCharsets.UTF_8);
+				fileString=new String(Files.readAllBytes(Paths.get("../eclipseApps/pmportal/WEB-INF/config.txt")), StandardCharsets.UTF_8);
 			}
 		}
 		//convert to JSONObject for client to read
