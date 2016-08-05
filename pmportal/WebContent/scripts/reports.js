@@ -84,6 +84,7 @@ $(document).ajaxStop(function () {
             $('.sea2').show();
         } else {
             $("#graph2").append("<h5> Average SEA </h5> <p class='warning'>" + averageSEA+ "</p>");
+            $('.sea3').show();
         }
 
         if(seaMin <= averageSEA && averageSEA <= seaMax) {
@@ -91,8 +92,10 @@ $(document).ajaxStop(function () {
             $('.eea1').show();
         } else if (averageSEA > seaMax) {
             $("#graph2").append("<h5> Average EEA </h5> <p class='warning'>" + averageEEA + "</p>");
+            $('.eea2').show();
         } else {
            $("#graph2").append("<h5> Average EEA </h5> <p class='warning'>" + averageEEA + "</p>");
+            $('.eea2').show();
         }
 
           $.each(projectArray, function (index, proj) {
