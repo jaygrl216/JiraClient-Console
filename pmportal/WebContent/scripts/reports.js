@@ -87,15 +87,15 @@ $(document).ajaxStop(function () {
             $('.sea3').show();
         }
 
-        if(seaMin <= averageSEA && averageSEA <= seaMax) {
+        if(seaMin <= averageEEA && averageEEA <= eeaMax) {
             $("#graph2").append("<h5> Average EEA </h5> <p class='good'>" + averageEEA + "</p>");
             $('.eea1').show();
-        } else if (averageSEA > seaMax) {
+        } else if (averageEEA > eeaMax) {
             $("#graph2").append("<h5> Average EEA </h5> <p class='bad'>" + averageEEA + "</p>");
             $('.eea2').show();
         } else {
            $("#graph2").append("<h5> Average EEA </h5> <p class='below'>" + averageEEA + "</p>");
-            $('.eea2').show();
+            $('.eea3').show();
         }
 
           $.each(projectArray, function (index, proj) {
