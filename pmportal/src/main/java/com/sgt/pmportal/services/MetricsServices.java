@@ -107,9 +107,10 @@ public class MetricsServices {
 		}
 		double seaSum = 0;
 		double length = sprintList.size();
+		if (length==0){
+			return 1.0;
+		};
 		System.out.println("Number of sprints: " + length);
-
-		System.out.print("Calculating SEA values...\n");
 		// get sea values for every sprint
 		for (Sprint sprint : sprintList) {
 			double sea = calculateSprintSEA(sprint);
@@ -194,6 +195,9 @@ public class MetricsServices {
 		}
 		double eeaSum = 0;
 		double length = sprintList.size();
+		if (length==0){
+			return 1.0;
+		};
 		// get eea values for every sprint
 		for (Sprint sprint : sprintList) {
 			double eea = calculateSprintEEA(sprint);
