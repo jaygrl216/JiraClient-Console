@@ -421,9 +421,8 @@ public class MetricsServices {
 		int total = 0;
 		
 		for(JiraProject project: projects) {
-			List<Number> defects = calculateDefectTotal(project);
-			Double curSEA = (double) defects.get(1);
-			Double curEEA = (double) defects.get(2);
+			Double curSEA = calculateProjectSEA(project, null);
+			Double curEEA = calculateProjectEEA(project, null);
 			if(! ((Double) curEEA).isNaN()) {
 				totalSEA += curSEA;
 				totalEEA += curEEA;
