@@ -171,8 +171,12 @@ public class SprintServices {
 				if (sprintResponse==null){
 					return sprintList;
 				}
+				try{
 				JSONObject sprintObject=new JSONObject(sprintResponse);
 				sprintArray=sprintObject.getJSONArray("values");
+				}catch (JSONException noData){
+					return sprintList;
+				};
 				//format date
 				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.ENGLISH);
 
@@ -186,8 +190,13 @@ public class SprintServices {
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			
 				String sprintGreenHopperResponse=getAgileData("/rest/greenhopper/latest/sprintquery/" + boardId);
+				JSONArray sprintGreenHopperArray=new JSONArray();
+				try{
 				JSONObject sprintGreenHopperObject=new JSONObject(sprintGreenHopperResponse);
-				JSONArray sprintGreenHopperArray=sprintGreenHopperObject.getJSONArray("sprints");
+				sprintGreenHopperArray=sprintGreenHopperObject.getJSONArray("sprints");
+				}catch (JSONException noData){
+					return sprintList;
+				};
 				ArrayList<String> idArray=new ArrayList<>();
 				ArrayList<JSONObject> sprintArray=new ArrayList<>();
 				//format date
@@ -253,8 +262,12 @@ public class SprintServices {
 				if (sprintResponse==null){
 					return sprintList;
 				}
+				try{
 				JSONObject sprintObject=new JSONObject(sprintResponse);
 				sprintArray=sprintObject.getJSONArray("values");
+				}catch(JSONException noData){
+					return sprintList;
+				};
 				//format date not applicable to future sprints
 				//retrieve data
 				for (int i=0; i<sprintArray.length(); i++){
@@ -265,8 +278,13 @@ public class SprintServices {
 			}catch(FileNotFoundException fException2){
 				//greenhopper sprint call			
 				String sprintGreenHopperResponse=getAgileData("/rest/greenhopper/latest/sprintquery/" + boardId);
+				JSONArray sprintGreenHopperArray=new JSONArray();
+				try{
 				JSONObject sprintGreenHopperObject=new JSONObject(sprintGreenHopperResponse);
-				JSONArray sprintGreenHopperArray=sprintGreenHopperObject.getJSONArray("sprints");
+				sprintGreenHopperArray=sprintGreenHopperObject.getJSONArray("sprints");
+				}catch (JSONException noData){
+					return sprintList;
+				};
 				ArrayList<String> idArray=new ArrayList<String>();
 				ArrayList<JSONObject> sprintArray=new ArrayList<JSONObject>();
 				//format date not used in future sprints
