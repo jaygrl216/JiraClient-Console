@@ -108,15 +108,12 @@ function login(){
 			//check if the user is already in the system
 			$.each(userArray, function (index, user) {
 				if (uname==user.username){
-					exists=true;
+					settingsCookie(user.email);
+					window.location="home.html";
+				}else{
+					saveToConfig(uname, pass, baseURL, "", "0.8", "1.25", "0.8", "1.25", "10");
 				};
-			});
-			if (exists){
-				settingsCookie(user.email);
-				window.location="home.html";
-			}else{
-				saveToConfig(uname, pass, baseURL, "", "0.8", "1.25", "0.8", "1.25", "10");
-			};
+			});				
 		}else{
 			$("#fail").css("visibility","visible");
 };
