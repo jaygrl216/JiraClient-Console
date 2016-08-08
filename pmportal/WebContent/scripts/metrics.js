@@ -5,7 +5,6 @@ var baseURL=getCookie("url");
 var projectKey=getKeyFromURL();
 var hostURL=window.location.host;
 var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
-var allResource="http://" + hostURL+ "/pmportal/rest/metrics/all/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 var id="sea";
 var loaded=false;
