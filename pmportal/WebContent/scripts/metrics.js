@@ -1,11 +1,10 @@
-﻿//setup credentials from cookie
+//setup credentials from cookie
 var username=getCookie("username");
 var password=getCookie("password");
 var baseURL=getCookie("url");
 var projectKey=getKeyFromURL();
 var hostURL=window.location.host;
 var metricResource="http://"+hostURL+"/pmportal/rest/metrics/project/detail/"+projectKey+"/" + username + "/" + password + "/" +baseURL;
-var allResource="http://" + hostURL+ "/pmportal/rest/metrics/all/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 var id="sea";
 var loaded=false;
@@ -26,8 +25,12 @@ $.ajax({
 }).done(function(jsonObject){
 	responseObject=jsonObject;
 	loaded=true;
+	if (responseObject.response==200){
 	generateTable();
 	drawLineGraphics();
+	}else if (responseObject.response==0){
+		alert("There are no closed sprints for this project, so there is no metric data available yet. Try coming back after you have finished work.");
+	}
 });
 
 //loading icon
@@ -61,7 +64,7 @@ function showReport(){
 	if (loaded){
 		generateReport();
 	} else{
-		$("#report").html("<p>Please try again after data is loaded.<p>");
+		$("#report").html("<p>Please try again after data is loaded.</p>");
 	}; 
 };
 function toggleAbout(){

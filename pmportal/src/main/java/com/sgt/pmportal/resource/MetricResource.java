@@ -82,6 +82,11 @@ public class MetricResource {
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
 		List<List<Double>> dataList=metricService.predictNext(project);
 		JSONObject responseObject=new JSONObject();
+		//In case data is too small
+		if (dataList.size()==0){
+			responseObject.put("response", 0);
+			return responseObject.toString();
+		};
 		responseObject.put("sea", dataList.get(0).toString());
 		responseObject.put("eea", dataList.get(1).toString());
 		responseObject.put("bugs", dataList.get(2).toString());
@@ -132,6 +137,7 @@ public class MetricResource {
 		responseObject.put("seaAccuracy", metricService.getRegressionError(dataList.get(0), null));
 		responseObject.put("eeaAccuracy", metricService.getRegressionError(dataList.get(1), null));
 		responseObject.put("bugAccuracy", metricService.getRegressionError(dataList.get(2), null));
+		responseObject.put("response", 200);
 		return responseObject.toString();
 	}
 
