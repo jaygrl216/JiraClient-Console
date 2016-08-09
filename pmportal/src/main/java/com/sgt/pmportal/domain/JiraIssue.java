@@ -92,6 +92,10 @@ public class JiraIssue {
 		return str.toString();
 	}
 
+	/**
+	 * Returns a JSON formatted String
+	 * @return String
+	 */
 	public String JSONString() {
 		JSONObject issue = new JSONObject();
 		issue.put("key", key);

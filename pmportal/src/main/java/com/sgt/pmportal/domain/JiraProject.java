@@ -183,8 +183,12 @@ public class JiraProject {
 		issues.add(jiraIssue);
 	}
 
-	public void addSprints(ArrayList<Sprint> sprints) {
-		this.sprints = new ArrayList<Sprint>(sprints);
+	/**
+	 * Adds sprints to the sprint list
+	 * @param sprints
+	 */
+	public void addSprints(List<Sprint> sprints) {
+		this.sprints = new ArrayList<>(sprints);
 	}
 
 

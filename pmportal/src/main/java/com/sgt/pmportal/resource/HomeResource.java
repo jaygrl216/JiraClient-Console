@@ -23,23 +23,34 @@ import com.sgt.pmportal.services.ProjectServices;
 
 @Path ("/home/{username}/{password}/{url:.+}")
 
+/**
+ * This class contains a REST method that displays information about a
+ * Jira instance
+ *
+ * @author Aman Mital
+ * @author Jada Washington
+ *
+ */
 public class HomeResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getProjects(@PathParam ("username") String username, 
-			@PathParam ("password")	String password, 
-			@PathParam ("url") String url) throws URISyntaxException, IOException, ParseException{
-		JiraRestClient client=GeneralServices.login(url, username, password);
-		String authorization=GeneralServices.encodeAuth(username, password);
-		ProjectServices projectService=new ProjectServices(client, authorization, url);
-		MetricsServices metricService = new MetricsServices(client, authorization, url);
-		List<JiraProject> projectList=projectService.getAllJiraProjects();
+			@PathParam ("password")	String password, @PathParam ("url") String url)
+					throws URISyntaxException, IOException, ParseException {
 
-		StringBuilder responseString=new StringBuilder();
+		JiraRestClient client = GeneralServices.login(url, username, password);
+		String authorization = GeneralServices.encodeAuth(username, password);
+		ProjectServices projectService = new ProjectServices(client,
+				authorization, url);
+		MetricsServices metricService = new MetricsServices(client,
+				authorization, url);
+		List<JiraProject> projectList = projectService.getAllJiraProjects();
+
+		StringBuilder responseString = new StringBuilder();
 		responseString.append("{\"projects\":");
-		JSONArray projectArray=new JSONArray();
+		JSONArray projectArray = new JSONArray();
 		for (JiraProject project:projectList){
-			if(! (metricService.calculateProgress(project.getKey()) < 100)) {
+			if(metricService.calculateProgress(project.getKey()) >= 100) {
 				project.setCompleted(true);
 			}
 			JSONObject projectObject=new JSONObject(project.JSONString());
