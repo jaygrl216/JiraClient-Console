@@ -29,10 +29,10 @@
 					type="text" id="jname" /> <br> <span class="inputTag">Jira
 					Password</span> <br> <input type="password" id="jpass" /> <br>
 				<span class="inputTag">Jira URL</span><br> <input type="url"
-					id="jiraurl" /> <br> 
+					id="jiraurl" /> <br> <br>
 					<p>To make it easier to identify your Jira, give it an alias</p>
 					<span class="inputTag">Jira
-					Instance Alias</span><br> <input type="text" id="alias" /><br>
+					Instance Alias</span><br> <input type="text" id="alias" /><br><br>
 				<p>If you would like to receive alerts, please input your email
 					below.</p>
 				<span class="inputTag">Email Address:</span><br> <input
@@ -79,6 +79,8 @@
 			});
 			}else{
 				alert("Passwords do not match!");
+				$("#pass").css("border", "1px solid #ff0000");
+				$("#passConfirm").css("border", "1px solid #ff0000");
 			}
 		};
 		function saveToConfig(jname, jpass, baseURL, alias) {

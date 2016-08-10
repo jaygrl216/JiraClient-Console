@@ -22,6 +22,9 @@ body {
 .inputTag {
     color: #fff;
 }
+input{
+	color:#000000;
+}
 header .dropdown {
     float: right;
     margin-right: 80px;
