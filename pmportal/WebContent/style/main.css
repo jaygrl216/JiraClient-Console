@@ -2,22 +2,21 @@
 
 body {
     background-color: rgba(11, 12, 18, 0.9);
-    color: #fff;
+    color: #ffffff;
     font-family: 'Raleway', sans-serif;
     overflow-x: hidden;
 }
 
-#login {
+.login {
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     background-color: rgba(125, 126, 125, 0.1);
     text-align: center;
-    height: 300px;
+    height: auto;
     margin-top: 150px;
 }
 
 #loginInput {
     text-align: center;
-    color:#000;
 }
 
 .inputTag {

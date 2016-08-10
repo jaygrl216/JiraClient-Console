@@ -11,19 +11,27 @@
 </head>
 <body>
 	<div class="row">
-		<div class="col-lg-6 col-lg-offset-3" id="login">
+		<div class="col-sm-3 col-sm-offset-1 login">
 			<h2>Create New User</h2>
 
 			<div id="loginInput">
 				<span class="inputTag">Username</span> <br> <input type="text"
 					id="uname" /> <br> <span class="inputTag">Password</span> <br>
-				<input type="password" id="pass" /> <br> <br>
-				<h3>Set up Jira instance</h3>
+				<input type="password" id="pass" /> <br>
+				<span class="inputTag">Confirm Password</span> <br>
+				<input type="password" id="passConfirm" /><br> <br>
+			</div>
+			</div>
+			
+			<div class="col-lg-4 col-lg-offset-1 login">
+				<h2>Set up Jira instance</h2>
 				<span class="inputTag">Jira Username</span><br> <input
 					type="text" id="jname" /> <br> <span class="inputTag">Jira
 					Password</span> <br> <input type="password" id="jpass" /> <br>
 				<span class="inputTag">Jira URL</span><br> <input type="url"
-					id="jiraurl" /> <br> <span class="inputTag">Jira
+					id="jiraurl" /> <br> 
+					<p>To make it easier to identify your Jira, give it an alias</p>
+					<span class="inputTag">Jira
 					Instance Alias</span><br> <input type="text" id="alias" /><br>
 				<p>If you would like to receive alerts, please input your email
 					below.</p>
@@ -33,8 +41,7 @@
 					failed! Double check your login info. Your Jira URL is probably in
 					the form "http://serverURL/jira" or "http://serverURL".</p>
 				<br> <input type="button" id="loginButton" value="Create User"
-					onclick="create()" /> <br> <br>
-			</div>
+					onclick="create()" style="color:#000000"/> <br> <br>
 		</div>
 
 	</div>
@@ -45,6 +52,7 @@
 	<script>
 		var hostURL = window.location.host;
 		function create() {
+			if ($("#pass").val()==$("#passConfirm").val()){
 			var jname = $("#jname").val();
 			var jpass = $("#jpass").val();
 			var url = $("#jiraurl").val();
@@ -69,10 +77,14 @@
 				}
 				;
 			});
+			}else{
+				alert("Passwords do not match!");
+			}
 		};
 		function saveToConfig(jname, jpass, baseURL, alias) {
 			var pm = $("#uname").val();
 			var pass = $("#pass").val();
+			var passConfirm=$("#passConfirm").val();
 			var email = $("#email").val();
 			
 			var request = "{\"pm\":\"" + pm + "\", \"password\":\"" + pass
