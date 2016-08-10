@@ -45,5 +45,14 @@ nav h4 {
     margin-bottom: 30px;
 }
 
+#mainGraph {
+    height: 150px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    background-color: #fff;
+    margin-left: 50px;
+    margin-top: 15px;
+
+}
+
 
 
