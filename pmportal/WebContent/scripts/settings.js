@@ -20,7 +20,7 @@ function saveSettings(){
 	var eeaMax=$("#eeaMax").val();
 	var bugMax=$("#bugMax").val();
 	var remember=$("#rememberBox").prop("checked");
-	var testResource="http://"+hostURL+"/pmportal/rest/test/login/" + user + "/" + pass + "/" +baseURL;
+	var testResource="http://"+hostURL+"/pmportal/rest/test/jira/" + user + "/" + pass + "/" +baseURL;
 	$.ajax({
 		type:"GET",
 		dataType:"text",

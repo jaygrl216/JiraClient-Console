@@ -22,6 +22,8 @@
 				<br> <br>
 				<p style="color: red; visibility: hidden" id="fail">Login
 					failed! Double check your login info, or create a new user.</p>
+					<br>
+					<input type="button" value="Create new user" onclick="createNew()"/>
 			</div>
 		</div>
 
@@ -55,6 +57,10 @@
 				;
 			});
 		};
+		
+		function createNew(){
+			window.location="new.html";
+		}
 	</script>
 </body>
 </html>
