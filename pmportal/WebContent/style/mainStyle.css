@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
 
 body {
-    background-color: #030A0D;
+    background-color: #f1f1f1;
     font-family: 'Raleway', sans-serif;
 }
 
@@ -12,9 +12,17 @@ html, body, #mainRow {
     padding: 0;
 }
 
+#navTop {
+    height: 15%;
+    background-color: #29282e;
+    margin-top: -20px;
+    padding-top: 40px;
+    text-align: center;
+}
+
 nav {
     height:100%;
-    background-color: #030A0D;
+    background-color: #29282e;
 }
 
 nav ul {
@@ -22,10 +30,13 @@ nav ul {
 }
 
 nav li {
-    margin-left: 10px;
+    margin-left: -50px;
     margin-bottom: 15px;
     font-size: 16px;
     color: #919191;
+    border-bottom: 1px solid #393840;
+    text-align: center;
+    padding: 10px;
 }
 
 nav h4 {
@@ -35,67 +46,4 @@ nav h4 {
 }
 
 
-#rc1 {
-    margin-top: 50px;
-    margin-left: -15px;
-    background-color: #EDEDED;
-    box-shadow: inset 0 0 5px #000000;
-    height: 200px;
-    border-radius: 5px;
-}
 
-#rc2 {
-    margin-top: 50px;
-    margin-right: 5px;
-    margin-left: 10px;
-    background-color: rgba(255, 240, 122, 0.8);
-    box-shadow: inset 0 0 5px #000000;
-    height: 100px;
-    border-radius: 5px;
-}
-
-#rc7 {
-    margin-top: 10px;
-    margin-left: 10px;
-    background-color: #EDEDED;
-    box-shadow: inset 0 0 5px #000000;
-    height: 200px;
-    border-radius: 5px;
-    background-image: url(../images/project.jpg);
-    background-size: cover;
-    opacity: 1.1;
-}
-
-#rc7 h3 {
-    text-align: center;
-    color:#000;
-    font-weight: bold;
-    margin-top: 70px;
-}
-
-#rc3 {
-    margin-top: 50px;
-    margin-left: 30px;
-    background-color: rgba(79, 171, 201, 0.6);
-    box-shadow: inset 0 0 5px #000000;
-    border-radius: 5px;
-    height: 575px;
-}
-
-#rc4 {
-    margin-top: 10px;
-    margin-left: -20px;
-    margin-right: 10px;
-    background-color: rgba(230, 25, 25, 0.8);
-    box-shadow: inset 0 0 5px #000000;
-    height: 100px;
-    border-radius: 5px;
-}
-
-#rc5 {
-    margin-top: 10px;
-    background-color: rgba(79, 171, 201, 0.6);
-    box-shadow: inset 0 0 5px #000000;
-    height: 100px;
-    border-radius: 5px;
-}
