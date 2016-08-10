@@ -23,7 +23,9 @@
 					type="text" id="jname" /> <br> <span class="inputTag">Jira
 					Password</span> <br> <input type="password" id="jpass" /> <br>
 				<span class="inputTag">Jira URL</span><br> <input type="url"
-					id="jiraurl" /> <br> <br>
+					id="jiraurl" /> <br> <span class="inputTag">Jira
+					Instance Alias</span><br> <input type="text" id="alias" /> <br>
+				<br>
 				<p style="color: red; visibility: hidden" id="fail">Jira login
 					failed! Double check your login info. Your Jira URL is probably in
 					the form "http://serverURL/jira" or "http://serverURL".</p>
@@ -45,6 +47,7 @@
 			var jname = $("#jname").val();
 			var jpass = $("#jpass").val();
 			var url = $("#jiraurl").val();
+			var alias=$("#alias").val();
 			var testResource = "http://" + hostURL
 					+ "/pmportal/rest/test/jira/" + jname + "/" + jpass + "/"
 					+ url;
@@ -60,34 +63,46 @@
 			}).done(function(response) {
 				if (response == "Success") {
 					window.location = "select.html?user=" + uname;
-					saveToConfig();
+					saveToConfig(pm, pass, jname, jpass, url, alias);
 				} else {
 					$("#fail").css("visibility", "visible");
 				}
 				;
 			});
 		};
-		function saveToConfig(user, pass, baseURL, eaddress, seaMin, seaMax,
-				eeaMin, eeaMax, bugMax) {
-			var request = "{\"username\":\"" + user + "\", \"password\":\""
-					+ pass + "\", \"url\":\"" + baseURL + "\", \"email\":\""
-					+ eaddress + "\", \"seaMin\":\"" + seaMin
-					+ "\", \"seaMax\":\"" + seaMax + "\", \"eeaMin\":\""
-					+ eeaMin + "\", \"eeaMax\":\"" + eeaMax
-					+ "\", \"bugMax\":\"" + bugMax + "\"}";
-			var resource = "http://" + hostURL + "/pmportal/rest/config/save";
+		function saveToConfig(pm, pass, jname, jpass, baseURL, alias) {
+			var email="";
+			var request = "{\"pm\":\"" + pm + "\", \"password\":\""
+					+ pass + "\", \"email\":\"" + email + "\"}";
+			var saveRequest="{\"username\":\"" +jname+"\", \"password\":\""+ jpass + "\", \"url\":\"" + baseURL+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+0.8+"\", \"seaMax\":\""+1.25+"\", \"eeaMin\":\""+0.8+"\", \"eeaMax\":\""+1.25+"\", \"bugMax\":\""+10+"\"}";
+			var configResource = "http://" + hostURL + "/pmportal/rest/config/save/new";
+			var saveResource = "http://" + hostURL + "/pmportal/rest/config/save";
 			$.ajax({
 				type : "POST",
 				data : request,
 				dataType : "text",
-				url : resource
+				url : configResource
 			}).fail(function(xhr, status, errorThrown) {
 				console.log("Error: " + errorThrown);
 				console.log("Status: " + status);
 				console.dir(xhr);
 			}).done(function(response) {
-				alert("Successfully saved configuration");
+				$.ajax({
+					type : "POST",
+					data : saveRequest,
+					dataType : "text",
+					url : saveResource
+				}).fail(function(xhr, status, errorThrown) {
+					console.log("Error: " + errorThrown);
+					console.log("Status: " + status);
+					console.dir(xhr);
+				}).done(function(response) {
+					alert("Successfully saved configuration");
+					setCookie(jname, jpass, baseURL, pm);
+					window.location="home.html";
+				});
 			});
+			
 		};
 	</script>
 </body>
