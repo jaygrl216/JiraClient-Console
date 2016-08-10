@@ -121,14 +121,36 @@ public class ProjectServices {
 	 */
 	public JiraProject toJiraProject(Project p, List<JiraIssue> issueList) {
 		JiraUser user = GeneralServices.toJiraUser(p.getLead(), mainClient);
+		JiraProject project;
 		if(issueList == null) {
-			return new JiraProject(p.getName(), p.getKey(), user, 
+			project = new JiraProject(p.getName(), p.getKey(), user, 
 					p.getDescription(), versionsToRelease(p.getVersions()), p.getUri());
-		}
-		return new JiraProject(p.getName(), p.getKey(), user, 
+		} else {
+			project = new JiraProject(p.getName(), p.getKey(), user, 
 				p.getDescription(), versionsToRelease(p.getVersions()), p.getUri(), issueList);
+		}
+		
+		Promise<SearchResult> result = mainClient.getSearchClient().searchJql(
+				"project=" + p.getKey());
+		SearchResult issues = result.claim();
+		Iterable<BasicIssue> iterableIssues = issues.getIssues();
+		
+		if(iterableIssues.iterator().hasNext()) {
+			BasicIssue first = iterableIssues.iterator().next();
+			IssueRestClient issueClient = mainClient.getIssueClient();
 
+			
+			if(first != null) {
+				Issue i = issueClient.getIssue(first.getKey()).claim();
+				DateTime date = i.getCreationDate();
+				date = date.plusMonths(2);
+				project.setDueDate(date.toDate());
+			}
+		}
+		
+		
 
+		return project;
 	}
 
 	/**

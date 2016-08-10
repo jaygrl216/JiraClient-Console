@@ -55,9 +55,9 @@ public class Tests {
 		//this runs a series of tests as a java application
 
 			test.printInfo();
-//			test.testProjectInfo();
+		test.testProjectInfo();
 		//		test.versionTest();
-				test.metricsServiceTest();
+		//	test.metricsServiceTest();
 		//		test.userServicesTest();
 		//		test.sprintServiceTest();
 		//test.projectAnalysisTest();
@@ -78,50 +78,42 @@ public class Tests {
 		System.out.println("Project Services Test");
 		JiraRestClient client = login();
 		ProjectServices pservices = new ProjectServices(client, JIRA_ADMIN_PASSWORD, JIRA_URL);
-		int numProjects = pservices.getAllJiraProjects().size();
 		
-		assertEquals(2, numProjects);
+		JiraProject project = pservices.getProjectByKey("DA");
+		project.complete();
 		
-		System.out.format("This Jira instance has %s project(s) associated with it.\n", numProjects);
-		
-		JiraProject testProject = pservices.getProjectByKey("TP");
-		assertTrue(testProject != null);
-		
-		System.out.format("We will be working with the the project: %s(%s) for this test.\n", 
-				testProject.getName(), testProject.getKey());
-
-
-		try {
-			JiraProject pm = pservices.getProjectByName("PM-Portal");
-			ProjectServices.populateIssues(pm);
-			System.out.format("Gathering information for project: %s\n\n", 
-					pm.getName());
-			System.out.format("There are %d issues for %s.\n\n", 
-					pm.getNumIssues(), pm.getName());
-
-			System.out.println("Printing issues...");
-			for(JiraIssue i: pm.getIssues()) {
-				System.out.println(i.toString());
-			}
-			System.out.println("All issues printed.");
-		} catch (NullPointerException e) {
-			System.err.println("No project was found");
-		}
-
-		//			try{
-		//
-		//				Iterable<BasicIssue> basic = client.getSearchClient().searchJql(
-		//						"project = "+ pm.getKey()).claim().getIssues();
-		//				System.out.println("Retrieving issues from project \"" + pm.getName()+"\"");
-		//				for(BasicIssue b: basic) {
-		//					Promise<Issue> issue = client.getIssueClient().getIssue(b.getKey());
-		//					Issue realIssue = issue.claim();
-		//					System.out.println((char)27+"[32m"+realIssue.getKey()+": "+realIssue.getIssueType().getName()+(char)27+"[0m");
-		//				}
-		//			} catch(NullPointerException noProject){
-		//				System.err.println("Project does not exist");
-		//			}
-		System.out.println("");
+//		int numProjects = pservices.getAllJiraProjects().size();
+//		
+//		assertEquals(2, numProjects);
+//		
+//		System.out.format("This Jira instance has %s project(s) associated with it.\n", numProjects);
+//		
+//		JiraProject testProject = pservices.getProjectByKey("TP");
+//		assertTrue(testProject != null);
+//		
+//		System.out.format("We will be working with the the project: %s(%s) for this test.\n", 
+//				testProject.getName(), testProject.getKey());
+//
+//
+//		try {
+//			JiraProject pm = pservices.getProjectByName("PM-Portal");
+//			ProjectServices.populateIssues(pm);
+//			System.out.format("Gathering information for project: %s\n\n", 
+//					pm.getName());
+//			System.out.format("There are %d issues for %s.\n\n", 
+//					pm.getNumIssues(), pm.getName());
+//
+//			System.out.println("Printing issues...");
+//			for(JiraIssue i: pm.getIssues()) {
+//				System.out.println(i.toString());
+//			}
+//			System.out.println("All issues printed.");
+//		} catch (NullPointerException e) {
+//			System.err.println("No project was found");
+//		}
+//
+//	
+//		System.out.println("");
 	}
 	@Test
 	public void versionTest(){
