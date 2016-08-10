@@ -1,4 +1,5 @@
 package com.sgt.pmportal.resource;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -18,6 +19,8 @@ public class TestResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String testLogin(@PathParam ("pm") String pm,
 			@PathParam ("password")	String password) throws IOException{
+		File configFile=new File("pmpor/config.txt");
+		if (configFile.exists()){
 		String fileString=new String(Files.readAllBytes(Paths.get("pmpor/config.txt")), StandardCharsets.UTF_8);
 		if (fileString.toLowerCase().contains(pm.toLowerCase())){
 			int startIndex=fileString.indexOf(pm);
@@ -29,6 +32,7 @@ public class TestResource {
 				return "Success";
 			};
 		}
+		};
 		return "Fail";
 	}
 	@Path ("/jira/{username}/{password}/{url:.+}")
