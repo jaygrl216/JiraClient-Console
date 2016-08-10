@@ -1,15 +1,16 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway); 
 
+#about p{
+    font-size: 16px;
+    margin-top: 20px;
+}
+
 body {
-    background-color: rgba(11, 12, 18, 0.9);
+/*    background-color: rgba(11, 12, 18, 0.9);*/
+    background-color: rgba(199, 199, 199, 1);
     color: #fff;
     font-family: 'Raleway', sans-serif;
     overflow-x: hidden;
-}
-
-ul {
-    font-family: 'Raleway', sans-serif;
-    color: #fff;
 }
 
 li {
@@ -17,25 +18,34 @@ li {
     text-align: center;
 }
 
+#links {
+    height: 100px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(11, 12, 18, 0.9);
+    margin-left: 20px;
+}
+
 #total, #finished {
     height: 150px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.1); 
+/*    background-color: rgba(11, 12, 18, 0.9); */
+    background-color: rgba(18, 179, 157, 0.5);
     margin-bottom: 25px;
     margin-left: 20px;
 }
 
-#links {
-    height: 100px;
-    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.1); 
-    margin-left: 20px;
+ul {
+    font-family: 'Raleway', sans-serif;
+    color: #fff;
 }
 
-#about p{
-    font-size: 16px;
-    margin-top: 20px;
-}
+
+
+
+
+
+
+
 
 #graph {
     margin-left: 15px;
@@ -64,7 +74,7 @@ li {
 #cal, #about{
     height: 450px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.1);
+    background-color: rgba(125, 126, 125, 0.4);
 }
 
 #graph4 {
@@ -82,6 +92,7 @@ li {
 
 .navbar-inverse {
     background-color: rgba(17, 18, 23, 0.9);
+    border-top: none;
 }
 
 #layer1 {
@@ -97,6 +108,7 @@ li {
 header h3 {
     float: left;
     margin-left: 55px;
+    color: rgba(17, 18, 23, 0.7);
 }
 
 header .dropdown {
