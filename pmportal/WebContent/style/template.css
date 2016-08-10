@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway); 
 
 body {
-    background-color: rgba(11, 12, 18, 0.7);
+    background-color: rgba(11, 12, 18, 0.9);
     color: #fff;
     font-family: 'Raleway', sans-serif;
     overflow-x: hidden;
@@ -41,7 +41,7 @@ li {
     margin-left: 15px;
     height: 220px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.1);
+    background-color: rgba(17, 18, 23, 0.7);
     text-align: center;
 }
 
@@ -49,7 +49,7 @@ li {
     margin-left: 20px;
     height: 220px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.1);
+    background-color: rgba(17, 18, 23, 0.7);
     
 }
 
@@ -58,7 +58,7 @@ li {
     margin-left: 25px;
     height: 200px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.1);
+    background-color: rgba(17, 18, 23, 0.7);
 }
 
 #cal, #about{
@@ -71,7 +71,7 @@ li {
     margin-left: 30px;
     height: 250px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    background-color: rgba(125, 126, 125, 0.1);
+    background-color: rgba(17, 18, 23, 0.7);
 }
 
 #calendar {
