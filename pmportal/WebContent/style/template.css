@@ -82,6 +82,7 @@ li {
 
 .navbar-inverse {
     background-color: rgba(17, 18, 23, 0.9);
+    border-top: none;
 }
 
 #layer1 {
