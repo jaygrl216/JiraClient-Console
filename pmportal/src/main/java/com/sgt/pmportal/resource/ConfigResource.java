@@ -38,7 +38,29 @@ public class ConfigResource {
 		System.out.println("Saved");
 		return "Saved";
 	}
-
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/save/update")
+	//saves credentials, sent as a JSON object, to a config file
+	public String saveEmail(String request) throws IOException{
+		JSONObject requestObject=new JSONObject(request);
+		String pm=requestObject.getString("pm");
+		String password=requestObject.getString("password");
+		String email=requestObject.getString("email");
+		File textFile=new File("pmpor/config.txt");
+		String fileString=new String(Files.readAllBytes(Paths.get("pmpor/config.txt")), StandardCharsets.UTF_8);
+		Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
+		int startIndex=fileString.indexOf(pm);
+		int length=fileString.substring(startIndex).indexOf(";") + 1;
+		int finalIndex=startIndex+length;
+		String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
+		fileWriter.write(newString+pm+","+password+","+email+";");
+		fileWriter.close();
+		System.out.println("Saved");
+		return "Saved";
+	}
+	
+	
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/save")

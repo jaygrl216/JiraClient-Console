@@ -24,8 +24,11 @@
 					Password</span> <br> <input type="password" id="jpass" /> <br>
 				<span class="inputTag">Jira URL</span><br> <input type="url"
 					id="jiraurl" /> <br> <span class="inputTag">Jira
-					Instance Alias</span><br> <input type="text" id="alias" /> <br>
-				<br>
+					Instance Alias</span><br> <input type="text" id="alias" /><br>
+				<p>If you would like to receive alerts, please input your email
+					below.</p>
+				<span class="inputTag">Email Address:</span><br> <input
+					type="text" id="email" /> <br> <br>
 				<p style="color: red; visibility: hidden" id="fail">Jira login
 					failed! Double check your login info. Your Jira URL is probably in
 					the form "http://serverURL/jira" or "http://serverURL".</p>
@@ -42,12 +45,10 @@
 	<script>
 		var hostURL = window.location.host;
 		function create() {
-			var pm = $("#uname").val();
-			var pass = $("#pass").val();
 			var jname = $("#jname").val();
 			var jpass = $("#jpass").val();
 			var url = $("#jiraurl").val();
-			var alias=$("#alias").val();
+			var alias = $("#alias").val();
 			var testResource = "http://" + hostURL
 					+ "/pmportal/rest/test/jira/" + jname + "/" + jpass + "/"
 					+ url;
@@ -62,21 +63,31 @@
 				alert("Failed to contact server!");
 			}).done(function(response) {
 				if (response == "Success") {
+					saveToConfig(jname, jpass, url, alias);
 					window.location = "select.html?user=" + uname;
-					saveToConfig(pm, pass, jname, jpass, url, alias);
 				} else {
 					$("#fail").css("visibility", "visible");
 				}
 				;
 			});
 		};
-		function saveToConfig(pm, pass, jname, jpass, baseURL, alias) {
-			var email="";
-			var request = "{\"pm\":\"" + pm + "\", \"password\":\""
-					+ pass + "\", \"email\":\"" + email + "\"}";
-			var saveRequest="{\"username\":\"" +jname+"\", \"password\":\""+ jpass + "\", \"url\":\"" + baseURL+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+0.8+"\", \"seaMax\":\""+1.25+"\", \"eeaMin\":\""+0.8+"\", \"eeaMax\":\""+1.25+"\", \"bugMax\":\""+10+"\"}";
-			var configResource = "http://" + hostURL + "/pmportal/rest/config/save/new";
-			var saveResource = "http://" + hostURL + "/pmportal/rest/config/save";
+		function saveToConfig(jname, jpass, baseURL, alias) {
+			var pm = $("#uname").val();
+			var pass = $("#pass").val();
+			var email = $("#email").val();
+			
+			var request = "{\"pm\":\"" + pm + "\", \"password\":\"" + pass
+					+ "\", \"email\":\"" + email + "\"}";
+			var saveRequest = "{\"pm\":\"" + pm + "\", \"username\":\"" + jname
+					+ "\", \"password\":\"" + jpass + "\", \"url\":\""
+					+ baseURL + "\", \"alias\":\"" + alias
+					+ "\", \"seaMin\":\"" + 0.8 + "\", \"seaMax\":\"" + 1.25
+					+ "\", \"eeaMin\":\"" + 0.8 + "\", \"eeaMax\":\"" + 1.25
+					+ "\", \"bugMax\":\"" + 10 + "\"}";
+			var configResource = "http://" + hostURL
+					+ "/pmportal/rest/config/save/new";
+			var saveResource = "http://" + hostURL
+					+ "/pmportal/rest/config/save";
 			$.ajax({
 				type : "POST",
 				data : request,
@@ -99,10 +110,11 @@
 				}).done(function(response) {
 					alert("Successfully saved configuration");
 					setCookie(jname, jpass, baseURL, pm);
-					window.location="home.html";
+					settingsCookie(email);
+					window.location = "home.html";
 				});
 			});
-			
+
 		};
 	</script>
 </body>

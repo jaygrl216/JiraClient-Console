@@ -1,10 +1,14 @@
 var username=getCookie("username").toString();
 var password=getCookie("password").toString();
+var pm=getCookie("pm").toString();
+if (pm==""){
+	window.location="index.html";
+};
 var baseURL=getCookie("url").toString();
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 var metrics = "http://"+hostURL+"/pmportal/rest/metrics/averages/" + username + "/" + password + "/" + baseURL;
-var config = "http://" +hostURL+"/pmportal/rest/config/get/user/" + username;
+var config = "http://" +hostURL+"/pmportal/rest/config/get/user/" + pm+"/"+username;
 var projectArray;
 var overdue = 0;
 var stop = 0;
