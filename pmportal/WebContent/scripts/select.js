@@ -3,7 +3,7 @@ var pm="";
 if (temp.length>0){
 	pm=temp[1];
 };
-var host=window.location.host;
+var hostURL=window.location.host;
 var responseObject;
 var userArray;
 var resource = "http://" + hostURL+ "/pmportal/rest/config/get/all/" + pm;

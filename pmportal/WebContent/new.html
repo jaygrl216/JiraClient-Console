@@ -64,7 +64,7 @@
 			}).done(function(response) {
 				if (response == "Success") {
 					saveToConfig(jname, jpass, url, alias);
-					window.location = "select.html?user=" + uname;
+					window.location = "select.html?user=" + $("#uname").val();
 				} else {
 					$("#fail").css("visibility", "visible");
 				}
