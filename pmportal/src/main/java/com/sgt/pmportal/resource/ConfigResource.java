@@ -30,7 +30,7 @@ public class ConfigResource {
 		String pm=requestObject.getString("pm");
 		String password=requestObject.getString("password");
 		String email=requestObject.getString("email");
-		File textFile=new File("pmpor/config.txt");
+		File textFile=new File("config.txt");
 		textFile.createNewFile();
 		Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
 		fileWriter.write(pm+","+password+","+email+";");
@@ -47,8 +47,8 @@ public class ConfigResource {
 		String pm=requestObject.getString("pm");
 		String password=requestObject.getString("password");
 		String email=requestObject.getString("email");
-		File textFile=new File("pmpor/config.txt");
-		String fileString=new String(Files.readAllBytes(Paths.get("pmpor/config.txt")), StandardCharsets.UTF_8);
+		File textFile=new File("config.txt");
+		String fileString=new String(Files.readAllBytes(Paths.get("config.txt")), StandardCharsets.UTF_8);
 		Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 		int startIndex=fileString.indexOf(pm);
 		int length=fileString.substring(startIndex).indexOf(";") + 1;
@@ -78,9 +78,9 @@ public class ConfigResource {
 		String url=requestObject.getString("url");
 		String alias=requestObject.getString("alias");
 		//check if user already exists, then write if not
-	File textFile=new File("pmpor/"+pm+".txt");
+	File textFile=new File(pm+".txt");
 		textFile.createNewFile();
-		String fileString=new String(Files.readAllBytes(Paths.get("pmpor/"+pm+".txt")), StandardCharsets.UTF_8);
+		String fileString=new String(Files.readAllBytes(Paths.get(pm+".txt")), StandardCharsets.UTF_8);
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 			int startIndex=fileString.indexOf(username);
@@ -105,7 +105,7 @@ public class ConfigResource {
 	public static String getAllCredentials(@PathParam ("pm") String pm) throws IOException{
 		JSONObject responseObject=new JSONObject();
 		JSONArray responseArray=new JSONArray();
-		String userString=new String(Files.readAllBytes(Paths.get("pmpor/"+pm+".txt")), StandardCharsets.UTF_8);
+		String userString=new String(Files.readAllBytes(Paths.get(pm+".txt")), StandardCharsets.UTF_8);
 		String[] userArray=userString.split(";");
 		for (String user:userArray){
 			String[] userData=user.split(",");
@@ -126,7 +126,7 @@ public class ConfigResource {
 	public String getUser(@PathParam ("pm") String pm, @PathParam("username") String username) throws IOException{
 		JSONObject responseObject=new JSONObject();
 		String email="";
-		String pmString=new String(Files.readAllBytes(Paths.get("pmpor/config.txt")), StandardCharsets.UTF_8);
+		String pmString=new String(Files.readAllBytes(Paths.get("config.txt")), StandardCharsets.UTF_8);
 		if (pmString.toLowerCase().contains(pm.toLowerCase())){
 			int startIndex=pmString.indexOf(pm);
 			int length=pmString.substring(startIndex).indexOf(";");
@@ -137,7 +137,7 @@ public class ConfigResource {
 		}else{
 			return responseObject.toString();
 		}
-		String fileString=new String(Files.readAllBytes(Paths.get("pmpor/"+pm+".txt")), StandardCharsets.UTF_8);
+		String fileString=new String(Files.readAllBytes(Paths.get(pm+".txt")), StandardCharsets.UTF_8);
 		if (fileString.toLowerCase().contains(username.toLowerCase())){
 			int startIndex=fileString.indexOf(username);
 			//do not add 1 to length or else will include semicolon
@@ -163,7 +163,7 @@ public class ConfigResource {
 	//Retrieves information on an individual user
 	public String getPM(@PathParam ("pm") String pm) throws IOException{
 		JSONObject responseObject=new JSONObject();
-		String fileString=new String(Files.readAllBytes(Paths.get("pmpor/config.txt")), StandardCharsets.UTF_8);
+		String fileString=new String(Files.readAllBytes(Paths.get("config.txt")), StandardCharsets.UTF_8);
 		if (fileString.toLowerCase().contains(pm.toLowerCase())){
 			int startIndex=fileString.indexOf(pm);
 			int length=fileString.substring(startIndex).indexOf(";");
@@ -181,14 +181,14 @@ public class ConfigResource {
 	public static JSONObject getUsersUnexposed() throws IOException{
 		JSONObject responseObject=new JSONObject();
 		JSONArray responseArray=new JSONArray();
-		String fileString=new String(Files.readAllBytes(Paths.get("pmpor/config.txt")), StandardCharsets.UTF_8);
+		String fileString=new String(Files.readAllBytes(Paths.get("config.txt")), StandardCharsets.UTF_8);
 		//convert to JSONObject for client to read
 		String[] pmArray=fileString.split(";");
 		for (String pmUser:pmArray){
 			String[] pmData=pmUser.split(",");
 			if (pmData.length>1){
 				String pm=pmData[0];
-				String userString=new String(Files.readAllBytes(Paths.get("pmpor/"+pm+".txt")), StandardCharsets.UTF_8);
+				String userString=new String(Files.readAllBytes(Paths.get(pm+".txt")), StandardCharsets.UTF_8);
 				String[] userArray=userString.split(";");
 				for (String user:userArray){
 					String[] userData=user.split(",");

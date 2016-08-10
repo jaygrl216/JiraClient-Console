@@ -19,9 +19,9 @@ public class TestResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String testLogin(@PathParam ("pm") String pm,
 			@PathParam ("password")	String password) throws IOException{
-		File configFile=new File("pmpor/config.txt");
+		File configFile=new File("config.txt");
 		if (configFile.exists()){
-		String fileString=new String(Files.readAllBytes(Paths.get("pmpor/config.txt")), StandardCharsets.UTF_8);
+		String fileString=new String(Files.readAllBytes(Paths.get("config.txt")), StandardCharsets.UTF_8);
 		if (fileString.toLowerCase().contains(pm.toLowerCase())){
 			int startIndex=fileString.indexOf(pm);
 			int length=fileString.substring(startIndex).indexOf(";");
