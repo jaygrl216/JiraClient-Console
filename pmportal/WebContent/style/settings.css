@@ -23,10 +23,10 @@ li {
 }
 
 input{
-	background-color: rgba(125, 126, 125, 0.1);
+	background-color: rgba(17, 18, 23, 0.7);
 }
 #settings {
-    background-color: rgba(125, 126, 125, 0.1);
+	background-color: rgba(17, 18, 23, 0.7);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
 	margin-left: 30px;
