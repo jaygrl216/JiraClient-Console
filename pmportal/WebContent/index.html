@@ -45,7 +45,6 @@
 		var pm = "";
 		function login() {
 			pm = $("#uname").val();
-			getUsers();
 			var pass = $("#pass").val();
 			var testResource = "http://" + hostURL
 					+ "/pmportal/rest/test/login/" + pm + "/" + pass;
@@ -60,6 +59,7 @@
 				alert("Failed to contact server!");
 			}).done(function(response) {
 				if (response == "Success") {
+					getUsers();
 				} else {
 					$("#fail").css("visibility", "visible");
 				}
