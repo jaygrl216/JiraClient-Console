@@ -10,6 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.NotificationService;
 @Path("/test")
@@ -41,7 +43,8 @@ public class TestResource {
 	public String testJira(@PathParam ("username") String username,
 			@PathParam ("password")	String password, @PathParam("url") String url) throws IOException{
 		try{
-			GeneralServices.login(url, username, password);
+			JiraRestClient client=GeneralServices.login(url, username, password);
+			client.getMetadataClient().getServerInfo().claim();
 		}catch(Exception e){
 			return "Fail";
 		}
