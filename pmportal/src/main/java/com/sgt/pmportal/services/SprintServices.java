@@ -443,7 +443,10 @@ public class SprintServices {
 		return null;
 	}
 	
-	
+	/**
+	 * Returns a list of issues that are in the backlog
+	 * @return List<Issue>
+	 */
 	public List<Issue> inBacklog() {
 		/*TODO
 		 * Find which issues are in the backlog 
