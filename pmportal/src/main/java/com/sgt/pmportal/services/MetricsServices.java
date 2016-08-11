@@ -54,7 +54,7 @@ public class MetricsServices {
 		double total = 0;
 		completedIssues= client
 				.getSearchClient().searchJql("project=" + projectKey + "&status=closed " 
-		+ "OR project=" + projectKey
+						+ "OR project=" + projectKey
 						+ "&status=done " + "OR project=" + projectKey + "&status=resolved ", 1000, 0)
 				.claim().getTotal();
 		if (completedIssues==0){
@@ -128,11 +128,11 @@ public class MetricsServices {
 		double actualEffort = 0;
 		double estimatedEffort = 0;
 		SprintServices sprintService = new SprintServices(client, authorization, baseURL);
-		List<JiraIssue> issueList = sprintService.getIssuesBySprint(sprint, client);
-
+		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("sprint="+sprint.getId()).claim().getIssues();
 		// for a modern JIRA, get estimation as a property of issues
 		try {
-			for (JiraIssue issue : issueList) {
+			for (BasicIssue issue : issueList) {
+				long issueCreation=client.getIssueClient().getIssue(issue.getKey()).claim().getCreationDate().toDate().getTime();
 				String getURL = "/rest/agile/latest/issue/" + issue.getKey() + "/estimation?boardId="
 						+ sprint.getBoardId();
 				String responseString = sprintService.getAgileData(getURL);
@@ -145,7 +145,7 @@ public class MetricsServices {
 				}
 				// if issue was added before the start date, that was in the
 				// estimation
-				if (sprint.getStartDate().getTime() > (issue.getCreationDate().toDate().getTime())) {
+				if (sprint.getStartDate().getTime() > issueCreation) {
 					estimatedEffort = estimatedEffort + estimation;
 				}
 				// the total issues present at the end represents the actual
@@ -156,7 +156,7 @@ public class MetricsServices {
 		} catch (FileNotFoundException greenHopper) {
 			System.err.println("Warning: Version of Jira is outdated! Attempting to fix with Greenhopper API");
 			String getURL = "/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId=" + sprint.getBoardId()
-					+ "&sprintId=" + sprint.getId();
+			+ "&sprintId=" + sprint.getId();
 			String responseString = sprintService.getAgileData(getURL);
 			JSONObject responseObject = new JSONObject(responseString);
 			JSONObject contentObject = responseObject.getJSONObject("contents");
@@ -321,7 +321,7 @@ public class MetricsServices {
 		// indices [0]=seaList, [1]=eeaList, [2]=bugList
 		return dataList;
 	}
-	
+
 	/**
 	 * Gets the regression slope from a list of data (assumes that the independent variable is from 0...N in increments of 1
 	 * 
@@ -377,14 +377,14 @@ public class MetricsServices {
 			for (int i = 0; i < x; i++) {
 				// error of a data point
 				double e = data.get(i) - (regressionSlope * i + b); // mx+b,
-																	// substitute
-																	// i for x
+				// substitute
+				// i for x
 				// sum of the squares of the error
 				sumE = sumE + e * e;
 			}
 			// variance 'v' of the error
 			double v = sumE / (N - 2); // N-2, two degrees of freedom (slope and
-										// point)
+			// point)
 			s = Math.sqrt(v);
 		}else{
 			s=0;
@@ -392,17 +392,17 @@ public class MetricsServices {
 		// [0]=forecast interval, [1]=error of the regression
 		return s;
 	}
-	
+
 	public List<Double> getAverageSEAAndEEA() throws IOException, ParseException {
 		ProjectServices projectService = new ProjectServices(client, 
 				authorization, baseURL);
-		
+
 		List<JiraProject> projects = projectService.getAllJiraProjects();
 		List<Double> averages = new ArrayList<Double>();
 		double totalSEA = 0;
 		double totalEEA = 0;
 		int total = 0;
-		
+
 		for(JiraProject project: projects) {
 			Double curSEA = calculateProjectSEA(project, null);
 			Double curEEA = calculateProjectEEA(project, null);
@@ -412,13 +412,13 @@ public class MetricsServices {
 				total++;
 			}
 		}
-		
+
 		double averageSEA = totalSEA / total ;
 		double averageEEA = totalEEA / total ;
 		averages.add(averageSEA);
 		averages.add(averageEEA);
-		
+
 		return averages;
-		
+
 	}
 }
