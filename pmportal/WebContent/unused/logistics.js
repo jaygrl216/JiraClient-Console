@@ -20,7 +20,7 @@ var projectArray;
 $(document).ajaxStop(function () {
 	projectArray = responseObject.projects;
     console.log(projectArray.length);
-    
+
          $.each(projectArray, function (index, proj) {
         var num = index + 1;
         $("#projectList").append("<li> Project " + num + "</li>");

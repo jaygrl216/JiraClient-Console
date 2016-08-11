@@ -42,7 +42,7 @@ public class ConfigResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/save/update")
 	//saves credentials, sent as a JSON object, to a config file
-	public String saveEmail(String request) throws IOException{
+	public String saveUpdate(String request) throws IOException{
 		JSONObject requestObject=new JSONObject(request);
 		String pm=requestObject.getString("pm");
 		String password=requestObject.getString("password");
@@ -53,6 +53,15 @@ public class ConfigResource {
 		int startIndex=fileString.indexOf(pm);
 		int length=fileString.substring(startIndex).indexOf(";") + 1;
 		int finalIndex=startIndex+length;
+		String userString=fileString.substring(startIndex, finalIndex-2);
+		String[] userData=userString.split(",");
+		//do not overwrite with empty values
+		if (password.equalsIgnoreCase("")){
+			password=userData[1];
+		};
+		if (email.equalsIgnoreCase("")){
+			email=userData[2];
+		};
 		String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
 		fileWriter.write(newString+pm+","+password+","+email+";");
 		fileWriter.close();

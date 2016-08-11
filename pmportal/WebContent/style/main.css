@@ -10,13 +10,14 @@ body {
 .login {
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
-	background-color: rgba(125, 126, 125, 0.1);
+	background-color: rgba(17, 18, 23, 0.7);
 	text-align: center;
 	margin-top: 150px;
 }
 
 #loginInput {
 	text-align: center;
+	padding:5px;
 }
 
 .inputTag {
