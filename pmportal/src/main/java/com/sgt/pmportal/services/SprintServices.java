@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
+import com.atlassian.jira.rest.client.domain.Issue;
 import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.Sprint;
@@ -440,6 +441,15 @@ public class SprintServices {
 			System.err.println("Project is not setup properly for Agile");
 		}
 		return null;
+	}
+	
+	
+	public List<Issue> inBacklog() {
+		/*TODO
+		 * Find which issues are in the backlog 
+		 */
+		return null;
+		
 	}
 
 }
