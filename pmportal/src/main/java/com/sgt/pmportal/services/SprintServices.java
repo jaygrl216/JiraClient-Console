@@ -22,7 +22,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
+import com.atlassian.jira.rest.client.domain.BasicIssue;
 import com.atlassian.jira.rest.client.domain.Issue;
+import com.atlassian.jira.rest.client.domain.SearchResult;
+import com.atlassian.util.concurrent.Promise;
 import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.Sprint;
@@ -446,12 +449,23 @@ public class SprintServices {
 	/**
 	 * Returns a list of issues that are in the backlog
 	 * @return List<Issue>
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
-	public List<Issue> inBacklog() {
-		/*TODO
-		 * Find which issues are in the backlog 
-		 */
-		return null;
+	public List<BasicIssue> inBacklog(JiraProject project) throws IOException, ParseException {
+		Promise<SearchResult> result = client.getSearchClient().searchJql(
+				"project=" + project.getKey() 
+				+ "AND issuetype != Epic AND resolution = Unresolved AND  "
+				+ "(Sprint = EMPTY OR Sprint not in (openSprints(), futureSprints())");
+		
+		SearchResult issues = result.claim();
+		List<BasicIssue> backlog = new ArrayList<BasicIssue>();
+		
+		for (BasicIssue i: issues.getIssues()) {
+			backlog.add(i);
+		}
+
+		return backlog;
 		
 	}
 
