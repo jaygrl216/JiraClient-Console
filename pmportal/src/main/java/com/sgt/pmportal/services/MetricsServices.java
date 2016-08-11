@@ -397,7 +397,7 @@ public class MetricsServices {
 	public List<Double> getAverageSEAAndEEA() throws IOException, ParseException {
 		ProjectServices projectService = new ProjectServices(client, 
 				authorization, baseURL);
-
+		SprintServices sprintService=new SprintServices(client, authorization, baseURL);
 		List<JiraProject> projects = projectService.getAllJiraProjects();
 		List<Double> averages = new ArrayList<Double>();
 		double totalSEA = 0;
@@ -405,8 +405,9 @@ public class MetricsServices {
 		int total = 0;
 
 		for(JiraProject project: projects) {
-			Double curSEA = calculateProjectSEA(project, null);
-			Double curEEA = calculateProjectEEA(project, null);
+			List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+			Double curSEA = calculateProjectSEA(project, sprintList);
+			Double curEEA = calculateProjectEEA(project, sprintList);
 			if(! ((Double) curEEA).isNaN()) {
 				totalSEA += curSEA;
 				totalEEA += curEEA;
