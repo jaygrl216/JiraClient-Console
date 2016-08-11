@@ -52,24 +52,16 @@ public class MetricsServices {
 		double progress=0;
 		double completedIssues = 0;
 		double total = 0;
-		Iterable<BasicIssue> issueComplete = client
+		completedIssues= client
 				.getSearchClient().searchJql("project=" + projectKey + "&status=closed " 
 		+ "OR project=" + projectKey
 						+ "&status=done " + "OR project=" + projectKey + "&status=resolved ", 1000, 0)
-				.claim().getIssues();
-		for (@SuppressWarnings("unused")
-		BasicIssue i : issueComplete) {
-			completedIssues++;
-		}
-		Iterable<BasicIssue> issueAll = client.getSearchClient().searchJql("project=" 
-		+ projectKey, 1000, 0).claim().getIssues();
-		for (@SuppressWarnings("unused")
-		BasicIssue issue : issueAll) {
-			total++;
-		}
-		if (total!=0){
+				.claim().getTotal();
+		if (completedIssues==0){
+			return progress;
+		};
+		total=client.getSearchClient().searchJql("project="+projectKey, 1000,0).claim().getTotal();
 		progress = (completedIssues / total * 100);
-		}
 		return progress;
 	}
 
@@ -221,18 +213,13 @@ public class MetricsServices {
 		long bugNum = 0;
 		// Long JQL query, but better performance if we let the jira server
 		// handle the sorting than converting all these
-		// to issues and then filtering their statuses. Leave spaces before OR!
-		Iterable<BasicIssue> issueList = client.getSearchClient()
+		// to issues and then filtering their statuses. Leave spaces before "OR"!
+		bugNum = client.getSearchClient()
 				.searchJql("project=" + projectKey + "&status=open&type=Bug " + "OR project=" + projectKey
 						+ "&status=\"In Progress\"&type=bug " + "OR project=" + projectKey
 						+ "&status=\"To Do\"&type=bug " + "OR project=" + projectKey + "&status=\"Reopened\"&type=bug",
 						1000, 0)
-				.claim().getIssues();
-		// iterate through search results to find those of type bug
-		for (@SuppressWarnings("unused")
-		BasicIssue issue : issueList) {
-			bugNum++;
-		}
+				.claim().getTotal();
 		return bugNum;
 	}
 
@@ -293,15 +280,10 @@ public class MetricsServices {
 			for (Sprint sprint : sprintList) {
 				seaList.add(calculateSprintSEA(sprint));
 				eeaList.add(calculateSprintEEA(sprint));
-				Iterable<BasicIssue> issueList = client.getSearchClient()
-						.searchJql("sprint= " + sprint.getId() + "&type=Bug ORDER BY createdDate", 1000, 0).claim()
-						.getIssues();
 				double bugNum = 0;
-				// go through issues to find bugs
-				for (@SuppressWarnings("unused")
-				BasicIssue issue : issueList) {
-					bugNum++;
-				}
+				bugNum= client.getSearchClient()
+						.searchJql("sprint= " + sprint.getId() + "&type=Bug ORDER BY createdDate", 1000, 0).claim()
+						.getTotal();			
 				// add the number of bugs in the sprint to a list
 				bugList.add(bugNum);
 			}
