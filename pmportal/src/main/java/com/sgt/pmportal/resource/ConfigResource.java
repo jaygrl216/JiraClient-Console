@@ -112,7 +112,7 @@ public class ConfigResource {
 			if (userData.length>1){
 				JSONObject tempObject=new JSONObject();
 				tempObject.put("username", userData[0]);
-				tempObject.put("alias", userData[2]);
+				tempObject.put("alias", userData[3]);
 				responseArray.put(tempObject);
 			}
 		}	
