@@ -44,7 +44,7 @@ public class TestResource {
 			@PathParam ("password")	String password, @PathParam("url") String url) throws IOException{
 		try{
 			JiraRestClient client=GeneralServices.login(url, username, password);
-			client.getMetadataClient().getServerInfo().claim();
+			client.getMetadataClient().getIssueTypes().claim();
 		}catch(Exception e){
 			return "Fail";
 		}
