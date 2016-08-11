@@ -60,6 +60,10 @@ nav h4 {
     text-align: center;
 }
 
+#info h3 {
+    margin-left: -10px;
+}
+
 #section2 {
     height: 200px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
