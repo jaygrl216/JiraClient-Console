@@ -182,8 +182,9 @@ public class MetricsServices {
 	 */
 	public Double calculateProjectEEA(JiraProject project, List<Sprint> sprintList)
 			throws IOException, ParseException {
-		SprintServices sprintService = new SprintServices(client, authorization, baseURL);
+		
 		if (sprintList == null) {
+			SprintServices sprintService = new SprintServices(client, authorization, baseURL);
 			sprintList = sprintService.getClosedSprintsByProject(project);
 		}
 		double eeaSum = 0;
