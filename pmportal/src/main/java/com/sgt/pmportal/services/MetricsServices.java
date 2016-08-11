@@ -49,7 +49,7 @@ public class MetricsServices {
 	 * @return double
 	 */
 	public double calculateProgress(String projectKey) {
-		double progress;
+		double progress=0;
 		double completedIssues = 0;
 		double total = 0;
 		Iterable<BasicIssue> issueComplete = client
@@ -60,7 +60,6 @@ public class MetricsServices {
 		for (@SuppressWarnings("unused")
 		BasicIssue i : issueComplete) {
 			completedIssues++;
-
 		}
 		Iterable<BasicIssue> issueAll = client.getSearchClient().searchJql("project=" 
 		+ projectKey, 1000, 0).claim().getIssues();
@@ -68,7 +67,9 @@ public class MetricsServices {
 		BasicIssue issue : issueAll) {
 			total++;
 		}
+		if (total!=0){
 		progress = (completedIssues / total * 100);
+		}
 		return progress;
 	}
 
