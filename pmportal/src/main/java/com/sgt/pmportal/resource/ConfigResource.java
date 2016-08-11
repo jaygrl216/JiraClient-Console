@@ -87,11 +87,11 @@ public class ConfigResource {
 			int length=fileString.substring(startIndex).indexOf(";") + 1;
 			int finalIndex=startIndex+length;
 			String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
-			fileWriter.write(newString+username+","+password+","+url+"," +","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
+			fileWriter.write(newString+username+","+password+","+url+","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 			fileWriter.close();
 		}else{
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
-			fileWriter.write(username+","+password+","+url+"," +","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
+			fileWriter.write(username+","+password+","+url+","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 			fileWriter.close();
 		};
 		System.out.println("Saved");
