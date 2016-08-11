@@ -1,28 +1,53 @@
 package com.sgt.pmportal.resource;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.NotificationService;
 @Path("/test")
 public class TestResource {
-	@Path ("/login/{username}/{password}/{url:.+}")
+	@Path ("/login/{pm}/{password}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public String testLogin(@PathParam ("username") String username,
-			@PathParam ("password")	String password,
-			@PathParam ("url") String url){
+	public String testLogin(@PathParam ("pm") String pm,
+			@PathParam ("password")	String password) throws IOException{
+		File configFile=new File("config.txt");
+		if (configFile.exists()){
+		String fileString=new String(Files.readAllBytes(Paths.get("config.txt")), StandardCharsets.UTF_8);
+		if (fileString.toLowerCase().contains(pm.toLowerCase())){
+			int startIndex=fileString.indexOf(pm);
+			int length=fileString.substring(startIndex).indexOf(";");
+			int finalIndex=startIndex+length;
+			String pmString=fileString.substring(startIndex, finalIndex);
+			String[] pmData=pmString.split(",");
+			if (password.equals(pmData[1])){
+				return "Success";
+			};
+		}
+		};
+		return "Fail";
+	}
+	@Path ("/jira/{username}/{password}/{url:.+}")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String testJira(@PathParam ("username") String username,
+			@PathParam ("password")	String password, @PathParam("url") String url) throws IOException{
 		try{
-			@SuppressWarnings("unused")
-			JiraRestClient client=GeneralServices.login(url, username, password);
-		}catch (Exception e){
-			return "Failed";
+			GeneralServices.login(url, username, password);
+		}catch(Exception e){
+			return "Fail";
 		}
 		return "Success";
 	}
+
 	@Path ("/email/{address}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)

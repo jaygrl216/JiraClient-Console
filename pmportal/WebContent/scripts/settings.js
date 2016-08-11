@@ -1,26 +1,26 @@
 var email=getCookie("email").toString();
-$("#userText").val(getCookie("username").toString());
-$("#urlText").val(getCookie("url").toString());
 if (email!=""){
 $("#emailInput").val(email);
 };
-
+var pm=getCookie("pm").toString();
+if (pm==""){
+	window.location="index.html";
+};
 var hostURL=window.location.host;
 function saveSettings(){
 	var eaddress=$("#emailInput").val();
-	var user=$("#userText").val();
+	var jname=$("#userText").val();
 	var baseURL=$("#urlText").val();
-	var pass=$("#passText").val();
-	if (pass==""){
-		pass=getCookie("password").toString();
+	var jpass=$("#passText").val();
+	if (jpass==""){
+		jpass=getCookie("password").toString();
 	};
 	var seaMin=$("#seaMin").val();
 	var seaMax=$("#seaMax").val();
 	var eeaMin=$("#eeaMin").val();
 	var eeaMax=$("#eeaMax").val();
 	var bugMax=$("#bugMax").val();
-	var remember=$("#rememberBox").prop("checked");
-	var testResource="http://"+hostURL+"/pmportal/rest/test/login/" + user + "/" + pass + "/" +baseURL;
+	var testResource="http://"+hostURL+"/pmportal/rest/test/jira/" + jname + "/" + jpass + "/" +baseURL;
 	$.ajax({
 		type:"GET",
 		dataType:"text",
@@ -32,29 +32,46 @@ function saveSettings(){
 		$("#fail").css("visibility","visible");
 	}).done(function(response){
 		if (response=="Success"){
-			setCookie(user, pass, baseURL, remember);
+			setCookie(jname, jpass, baseURL, remember);
 			settingsCookie(eaddress);
-			saveToConfig(user, pass, baseURL, eaddress, seaMin, seaMax, eeaMin, eeaMax, bugMax);
+			saveToConfig(jname, jpass, baseURL, eaddress, alias, seaMin, seaMax, eeaMin, eeaMax, bugMax);
 		}else{
 			alert("Login failed!");
 };
 });
 };
-function saveToConfig(user, pass, baseURL, eaddress, seaMin, seaMax, eeaMin, eeaMax, bugMax){
-	var request="{\"username\":\"" + user+"\", \"password\":\""+ pass + "\", \"url\":\"" + baseURL+"\", \"email\":\"" + eaddress+"\", \"seaMin\":\""+seaMin+"\", \"seaMax\":\""+seaMax+"\", \"eeaMin\":\""+eeaMin+"\", \"eeaMax\":\""+eeaMax+"\", \"bugMax\":\""+bugMax+"\"}";
-	var resource="http://"+hostURL+"/pmportal/rest/config/save";
-	$.ajax({
-		type:"POST",
-		data:request,
-		dataType:"text",
-		url:resource
-	}).fail(function( xhr, status, errorThrown ) {
-		console.log( "Error: " + errorThrown );
-		console.log( "Status: " + status );
-		console.dir( xhr );
-	}).done(function(response){
-		alert("Successfully saved configuration");
-});	
+function saveToConfig(jname, jpass, baseURL, eaddress, alias, seaMin, seaMax, eeaMin, eeaMax, bugMax){
+var request = "{\"pm\":\"" + pm + "\", \"password\":\""
+	+ pass + "\", \"email\":\"" + eaddress + "\"}";
+var saveRequest="{\"pm\":\"" + pm + "\", \"username\":\"" +jname+"\", \"password\":\""+ jpass + "\", \"url\":\"" + baseURL+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+0.8+"\", \"seaMax\":\""+1.25+"\", \"eeaMin\":\""+0.8+"\", \"eeaMax\":\""+1.25+"\", \"bugMax\":\""+10+"\"}";
+var configResource = "http://" + hostURL + "/pmportal/rest/config/save/update";
+var saveResource = "http://" + hostURL + "/pmportal/rest/config/save";
+$.ajax({
+type : "POST",
+data : request,
+dataType : "text",
+url : configResource
+}).fail(function(xhr, status, errorThrown) {
+console.log("Error: " + errorThrown);
+console.log("Status: " + status);
+console.dir(xhr);
+}).done(function(response) {
+	if  (jname!=""){
+$.ajax({
+	type : "POST",
+	data : saveRequest,
+	dataType : "text",
+	url : saveResource
+}).fail(function(xhr, status, errorThrown) {
+	console.log("Error: " + errorThrown);
+	console.log("Status: " + status);
+	console.dir(xhr);
+}).done(function(response) {
+	alert("Successfully saved configuration");
+	setCookie(jname, jpass, baseURL, pm);
+});
+}
+});
 };
 function testEmail(){
 	var eaddress=$("#emailInput").val();
