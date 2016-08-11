@@ -12,9 +12,7 @@ function saveSettings(){
 	var jname=$("#userText").val();
 	var baseURL=$("#urlText").val();
 	var jpass=$("#passText").val();
-	if (jpass==""){
-		jpass=getCookie("password").toString();
-	};
+	var alias=$("#alias").val();
 	var seaMin=$("#seaMin").val();
 	var seaMax=$("#seaMax").val();
 	var eeaMin=$("#eeaMin").val();
@@ -35,18 +33,20 @@ function saveSettings(){
 			if (response=="Success"){
 				setCookie(jname, jpass, baseURL, remember);
 				settingsCookie(eaddress);
-				saveToConfig(jname, jpass, baseURL, eaddress, alias, seaMin, seaMax, eeaMin, eeaMax, bugMax);
+				saveToConfig(jname, jpass, baseURL, eaddress, alias);
+				saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
 			}else{
 				alert("Login failed!");
 			};
 		});
 	}else{
-		saveToConfig(jname, jpass, baseURL, eaddress, alias, seaMin, seaMax, eeaMin, eeaMax, bugMax);
+		saveToConfig(jname, jpass, baseURL, eaddress, alias);
+		saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
 	}
 };
-function saveToConfig(jname, jpass, baseURL, eaddress, alias, seaMin, seaMax, eeaMin, eeaMax, bugMax){
+function saveToConfig(jname, jpass, baseURL, eaddress, alias){
 	var updateRequest = "{\"pm\":\"" + pm + "\", \"password\":\""
-	+ pass + "\", \"email\":\"" + eaddress + "\"}";
+	+ "" + "\", \"email\":\"" + eaddress + "\"}";
 	var saveRequest="{\"pm\":\"" + pm + "\", \"username\":\"" +jname+"\", \"password\":\""+ jpass + "\", \"url\":\"" + baseURL+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+0.8+"\", \"seaMax\":\""+1.25+"\", \"eeaMin\":\""+0.8+"\", \"eeaMax\":\""+1.25+"\", \"bugMax\":\""+10+"\"}";
 	var updateResource = "http://" + hostURL + "/pmportal/rest/config/save/update";
 	var saveResource = "http://" + hostURL + "/pmportal/rest/config/save";
@@ -71,12 +71,44 @@ function saveToConfig(jname, jpass, baseURL, eaddress, alias, seaMin, seaMax, ee
 				console.log("Status: " + status);
 				console.dir(xhr);
 			}).done(function(response) {
-				alert("Successfully saved configuration");
-				setCookie(jname, jpass, baseURL, pm);
+				alert("Successfully saved new user");
 			});
 		}
 	});
 };
+
+//the bounds are saved for the current jira user
+function saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax){
+	var username=getCookie("username");
+	var password=getCookie("password");
+	var getResource="http://"+hostURL+"/pmportal/rest/config/get/user/"+pm+"/"+username;
+	var saveResource = "http://" + hostURL + "/pmportal/rest/config/save";
+	//Get the current user's data, then update it
+	$.ajax({
+		type:"GET",
+		dataType:"json",
+		url:getResource
+	}).fail(function( xhr, status, errorThrown ) {
+		console.log( "Error: " + errorThrown );
+		console.log( "Status: " + status );
+		console.dir( xhr );
+	}).done(function(jsonObject){
+		var url=jsonObject.url;
+		var alias=jsonObject.url;
+		var saveRequest="{\"pm\":\"" + pm + "\", \"username\":\"" +username+"\", \"password\":\""+ password + "\", \"url\":\"" + url+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+seaMin+"\", \"seaMax\":\""+seaMax+"\", \"eeaMin\":\""+eeaMin+"\", \"eeaMax\":\""+eeaMax+"\", \"bugMax\":\""+bugMax+"\"}";
+		$.ajax({
+			type : "POST",
+			data : saveRequest,
+			dataType : "text",
+			url : saveResource
+		}).fail(function(xhr, status, errorThrown) {
+			console.log("Error: " + errorThrown);
+			console.log("Status: " + status);
+			console.dir(xhr);
+		});
+	});
+};
+
 function testEmail(){
 	var eaddress=$("#emailInput").val();
 	var testResource="http://"+hostURL+"/pmportal/rest/test/email/"+eaddress;
