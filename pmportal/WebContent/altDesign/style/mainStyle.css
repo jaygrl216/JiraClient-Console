@@ -49,7 +49,7 @@ nav h4 {
 #section1 {
     height: 250px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
-    background-color: #29282e;
+    background-color: rgba(41, 40, 46, 0.8);
     margin-left: 15px;
 }
 
@@ -67,7 +67,7 @@ nav h4 {
 #section2 {
     height: 200px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
-    background-color: #E3E3E3;
+    background-color: rgba(33, 66, 73, 0.5);
     margin-left: 15px;
     margin-top: 15px;
 }
@@ -75,7 +75,7 @@ nav h4 {
 #section3 {
     height: 300px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
-    background-color: #E3E3E3;
+    background-color: rgba(33, 66, 73, 0.5);
     margin-left: 35px;
     margin-top: 15px;
 }
@@ -83,7 +83,7 @@ nav h4 {
 #section4 {
     height:150px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
-    background-color: #29282e;
+    background-color: rgba(41, 40, 46, 0.8);
     margin-left: 5px;
     margin-top: 25px;
 }
@@ -91,10 +91,18 @@ nav h4 {
 #section5 {
     height: 120px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
-    background-image: url(../images/cloud.jpg);
+    background-image: url(../images/sky.jpg);
     background-size: cover;
     margin-left: 5px;
     margin-top: 15px;
+}
+
+#section5 p {
+    color:#fff;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 20px;
+    font-weight: bold;
 }
 
 h3 {
