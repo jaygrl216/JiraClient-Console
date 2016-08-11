@@ -49,13 +49,13 @@ nav h4 {
 #section1 {
     height: 250px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
-    background-color: #1db697;
-    margin-left: 50px;
+    background-color: #29282e;
+    margin-left: 15px;
 }
 
 #info {
     margin-top: 30px;
-    font-size: 18px;
+    font-size: 16px;
     color:#fff;
     text-align: center;
 }
@@ -67,7 +67,7 @@ nav h4 {
 #section2 {
     height: 200px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
-    background-color: #fff;
+    background-color: #E3E3E3;
     margin-left: 15px;
     margin-top: 15px;
 }
@@ -76,20 +76,20 @@ nav h4 {
     height: 300px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
     background-color: #E3E3E3;
-    margin-left: 70px;
+    margin-left: 35px;
     margin-top: 15px;
 }
 
 #section4 {
     height:150px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
-    background-color: #fff;
+    background-color: #29282e;
     margin-left: 5px;
-    margin-top: 15px;
+    margin-top: 25px;
 }
 
 #section5 {
-    height: 150px;
+    height: 120px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
     background-image: url(../images/cloud.jpg);
     background-size: cover;
@@ -98,9 +98,15 @@ nav h4 {
 }
 
 h3 {
-    margin-left: 35px;
+    margin-left: 5px;
     font-weight: bold;
 }
 
 
+#projList {
+    margin-left: 200px;
+}
 
+.btn-info {
+    background-color: #29282e;
+}
