@@ -54,7 +54,7 @@ nav h4 {
 }
 
 #info {
-    margin-top: 50px;
+    margin-top: 30px;
     font-size: 18px;
     color:#fff;
     text-align: center;
@@ -69,6 +69,31 @@ nav h4 {
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
     background-color: #fff;
     margin-left: 15px;
+    margin-top: 15px;
+}
+
+#section3 {
+    height: 300px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-color: #E3E3E3;
+    margin-left: 70px;
+    margin-top: 15px;
+}
+
+#section4 {
+    height:150px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-color: #fff;
+    margin-left: 5px;
+    margin-top: 15px;
+}
+
+#section5 {
+    height: 150px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-image: url(../images/cloud.jpg);
+    background-size: cover;
+    margin-left: 5px;
     margin-top: 15px;
 }
 
