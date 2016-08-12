@@ -33,7 +33,7 @@ public class ConfigResource {
 		File textFile=new File("config.txt");
 		textFile.createNewFile();
 		Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
-		fileWriter.write(pm+","+password+","+email+";");
+		fileWriter.write(pm+","+email+","+password+";");
 		fileWriter.close();
 		System.out.println("Saved");
 		return "Saved";
@@ -55,15 +55,15 @@ public class ConfigResource {
 		String[] userData=userString.split(",");
 		//do not overwrite with empty values
 		if (password.equalsIgnoreCase("")){
-			password=userData[1];
+			password=userData[2];
 		};
 		if (email.equalsIgnoreCase("")){
-			email=userData[2];
+			email=userData[1];
 		};
 		String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
 		File textFile=new File("config.txt");
 		Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-		fileWriter.write(newString+pm+","+password+","+email+";");
+		fileWriter.write(newString+pm+","+email+","+password+";");
 		fileWriter.close();
 		System.out.println("Saved");
 		return "Saved";
@@ -142,7 +142,7 @@ public class ConfigResource {
 			int finalIndex=startIndex+length;
 			String pmUserString=pmString.substring(startIndex, finalIndex);
 			String[] pmData=pmUserString.split(",");
-			email=pmData[0];
+			email=pmData[1];
 		}else{
 			return responseObject.toString();
 		}
@@ -181,7 +181,7 @@ public class ConfigResource {
 			String pmString=fileString.substring(startIndex, finalIndex);
 			String[] pmData=pmString.split(",");
 			responseObject.put("pm", pm);
-			responseObject.put("email", pmData[2]);
+			responseObject.put("email", pmData[1]);
 		}
 		return responseObject.toString();
 	}
@@ -213,7 +213,7 @@ public class ConfigResource {
 						tempObject.put("eeaMin", userData[6]);
 						tempObject.put("eeaMax", userData[7]);
 						tempObject.put("bugMax", userData[8]);
-						tempObject.put("email", pmData[2]);
+						tempObject.put("email", pmData[1]);
 						responseArray.put(tempObject);
 					}
 				}
