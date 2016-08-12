@@ -320,5 +320,8 @@ public class Tests {
 		JiraProject project = pService.getProjectByKey("IPOS");
 		List<BasicIssue> inBacklog = sprintService.inBacklog(project);
 		
+		for (BasicIssue issue: inBacklog) {
+			System.out.println("Issue Key: " + issue.getKey());
+		}
 	}
 }
