@@ -120,8 +120,10 @@
 			}).done(function(jsonObject) {
 				var uname = jsonObject.username;
 				var jpass = jsonObject.password;
-				var url = jsonObject.url;
+				var url = jsonObject.url
+				var email=jsonObject.email;
 				setCookie(uname, jpass, url, pm);
+				settingsCookie(email);
 				window.location = "home.html";
 			});
 		};

@@ -1,13 +1,13 @@
 function setCookie(uname, pass, url, pm){
 		//the cookie will persist until 2038, unless deleted except password
-		document.cookie ="username=" + uname + "; expires=Tuesday, January 18, 2038 01:00:00 AM";
+		document.cookie ="username=" + uname;
 		document.cookie="password=" + pass;
-		document.cookie="url=" + url + "; expires=Tuesday, January 18, 2038 01:00:00 AM";
-		document.cookie="pm="+pm+"; expires=Tuesday, January 18, 2038 01:00:00 AM";
+		document.cookie="url=" + url;
+		document.cookie="pm="+pm;
 };
 
 function settingsCookie(emailAddress){
-	document.cookie="email="+emailAddress + "; expires=Tuesday, January 18, 2038 01:00:00 AM";
+	document.cookie="email="+emailAddress;
 };
 
 function getCookie(cname) {
