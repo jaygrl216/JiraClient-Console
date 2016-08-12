@@ -31,6 +31,7 @@ input {
 	position:absolute;
 	margin-left:45%;
 	width:100%;
+	margin-top:10px;
 }
 #userList li {
 	color: #000;

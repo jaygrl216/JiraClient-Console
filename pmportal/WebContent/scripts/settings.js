@@ -81,7 +81,8 @@ function saveToConfig(jname, jpass, baseURL, eaddress, alias){
 function saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax){
 	var username=getCookie("username");
 	var password=getCookie("password");
-	var getResource="http://"+hostURL+"/pmportal/rest/config/get/user/"+pm+"/"+username;
+	var jiraurl=getCookie("url");
+	var getResource="http://"+hostURL+"/pmportal/rest/config/get/user/"+pm+"/"+jiraurl;
 	var saveResource = "http://" + hostURL + "/pmportal/rest/config/save";
 	//Get the current user's data, then update it
 	$.ajax({
@@ -94,7 +95,7 @@ function saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax){
 		console.dir( xhr );
 	}).done(function(jsonObject){
 		var url=jsonObject.url;
-		var alias=jsonObject.url;
+		var alias=jsonObject.alias;
 		var saveRequest="{\"pm\":\"" + pm + "\", \"username\":\"" +username+"\", \"password\":\""+ password + "\", \"url\":\"" + url+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+seaMin+"\", \"seaMax\":\""+seaMax+"\", \"eeaMin\":\""+eeaMin+"\", \"eeaMax\":\""+eeaMax+"\", \"bugMax\":\""+bugMax+"\"}";
 		$.ajax({
 			type : "POST",

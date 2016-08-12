@@ -30,7 +30,7 @@ public class TestResource {
 			int finalIndex=startIndex+length;
 			String pmString=fileString.substring(startIndex, finalIndex);
 			String[] pmData=pmString.split(",");
-			if (password.equals(pmData[1])){
+			if (password.equals(pmData[2])){
 				return "Success";
 			};
 		}
