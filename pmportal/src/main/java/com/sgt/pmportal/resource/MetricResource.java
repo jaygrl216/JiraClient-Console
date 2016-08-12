@@ -36,9 +36,11 @@ import org.xml.sax.SAXException;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.sgt.pmportal.domain.JiraProject;
+import com.sgt.pmportal.domain.Sprint;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.MetricsServices;
 import com.sgt.pmportal.services.ProjectServices;
+import com.sgt.pmportal.services.SprintServices;
 
 @Path ("/metrics")
 public class MetricResource {
@@ -153,13 +155,15 @@ public class MetricResource {
 		ProjectServices projectService=new ProjectServices(client, authorization, url);
 		List<JiraProject> projectList=projectService.getAllJiraProjects();
 		MetricsServices metricService=new MetricsServices(client, authorization, url);
+		SprintServices sprintService=new SprintServices(client, authorization, url);
 		JSONObject responseObject=new JSONObject();
 		JSONArray projectArray=new JSONArray();
 		for (JiraProject project:projectList){
 			String key=project.getKey();
 			String name=project.getName();
-			Double sea=metricService.calculateProjectSEA(project, null);
-			Double eea=metricService.calculateProjectEEA(project, null);
+			List<Sprint> sprintList=sprintService.getClosedSprintsByProject(project);
+			Double sea=metricService.calculateProjectSEA(project, sprintList);
+			Double eea=metricService.calculateProjectEEA(project, sprintList);
 			Long bugs=metricService.calculateBugs(key);
 			Double progress=metricService.calculateProgress(key);
 			String projectString="{\"name\":\""+name+"\", \"bugs\":\"" + bugs +

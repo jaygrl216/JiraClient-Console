@@ -119,9 +119,9 @@
 				alert("Failed to contact server!");
 			}).done(function(jsonObject) {
 				var uname = jsonObject.username;
-				var pass = jsonObject.password;
+				var jpass = jsonObject.password;
 				var url = jsonObject.url;
-				setCookie(uname, pass, url, pm);
+				setCookie(uname, jpass, url, pm);
 				window.location = "home.html";
 			});
 		};

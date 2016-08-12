@@ -155,6 +155,7 @@ public class ConfigResource {
 			String userString=fileString.substring(startIndex, finalIndex);
 			String[] userData=userString.split(",");
 			responseObject.put("username", userData[0]);
+			responseObject.put("password", userData[1]);
 			responseObject.put("email", email);
 			responseObject.put("url", userData[2]);
 			responseObject.put("alias", userData[3]);
