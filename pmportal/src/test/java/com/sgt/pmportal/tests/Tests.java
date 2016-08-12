@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.RestClientException;
+import com.atlassian.jira.rest.client.domain.BasicIssue;
 import com.atlassian.jira.rest.client.domain.Project;
 import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
@@ -28,8 +29,8 @@ import com.sgt.pmportal.services.UserServices;
 
 public class Tests {
 
-	private static final String JIRA_URL = "http://54.152.100.242/jira";
-	private static final String JIRA_ADMIN_USERNAME = "jwashington";
+	private static final String JIRA_URL = "https://sgtdemoproject.atlassian.net";
+	private static final String JIRA_ADMIN_USERNAME = "JWashington";
 	private static final String JIRA_ADMIN_PASSWORD = "Diamond2017";
 
 	/**
@@ -55,12 +56,13 @@ public class Tests {
 		//this runs a series of tests as a java application
 
 			test.printInfo();
-		test.testProjectInfo();
+		//test.testProjectInfo();
 		//		test.versionTest();
 		//	test.metricsServiceTest();
 		//		test.userServicesTest();
 		//		test.sprintServiceTest();
 		//test.projectAnalysisTest();
+			test.backlog();
 		System.out.println("Finished");
 
 	}
@@ -303,5 +305,20 @@ public class Tests {
 //				System.out.println("The project is expected to be completed on " 
 //						+ projectedDate.toString());
 
+	}
+	
+	public void backlog() throws IOException, ParseException {
+		JiraRestClient client = login();
+		ProjectServices pService = new ProjectServices(client, 
+				GeneralServices.encodeAuth(JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWORD), 
+				JIRA_URL);
+		String authorization=Base64.getUrlEncoder().encodeToString(
+				(JIRA_ADMIN_USERNAME + ":" + JIRA_ADMIN_PASSWORD).getBytes());
+		SprintServices sprintService = new SprintServices(client, authorization, 
+				JIRA_URL);
+		
+		JiraProject project = pService.getProjectByKey("IPOS");
+		List<BasicIssue> inBacklog = sprintService.inBacklog(project);
+		
 	}
 }

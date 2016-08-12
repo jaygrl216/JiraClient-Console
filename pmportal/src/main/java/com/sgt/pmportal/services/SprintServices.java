@@ -455,8 +455,8 @@ public class SprintServices {
 	public List<BasicIssue> inBacklog(JiraProject project) throws IOException, ParseException {
 		Promise<SearchResult> result = client.getSearchClient().searchJql(
 				"project=" + project.getKey() 
-				+ "AND issuetype != Epic AND resolution = Unresolved AND  "
-				+ "(Sprint = EMPTY OR Sprint not in (openSprints(), futureSprints())");
+				+ "AND issuetype != Epic"); /* AND resolution = Unresolved AND  "
+				+ "AND sprint is EMPTY AND resolution = Unresolved and status != Closed");*/
 		
 		SearchResult issues = result.claim();
 		List<BasicIssue> backlog = new ArrayList<BasicIssue>();
