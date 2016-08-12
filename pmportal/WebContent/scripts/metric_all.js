@@ -1,4 +1,7 @@
 var username=getCookie("username");
+if (username==""){
+	window.location="index.html";
+};
 var password=getCookie("password");
 var baseURL=getCookie("url");
 var hostURL=window.location.host;

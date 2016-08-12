@@ -139,3 +139,9 @@ function resetEEA(){
 function resetBugs(){
 	$("#bugMax").val("10");
 };
+
+function logout(){
+	setCookie("","","","");
+	settingsCookie("");
+	window.location="index.html";
+}
