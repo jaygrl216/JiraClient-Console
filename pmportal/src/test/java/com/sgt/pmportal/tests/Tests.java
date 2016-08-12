@@ -318,10 +318,10 @@ public class Tests {
 				JIRA_URL);
 		
 		JiraProject project = pService.getProjectByKey("IPOS");
-		List<JiraIssue> inBacklog = sprintService.inBacklog(project);
+		List<String> inBacklog = sprintService.inBacklog(project);
 		
-		for (JiraIssue issue: inBacklog) {
-			System.out.println("Issue Key: " + issue.getKey());
+		for (String issue: inBacklog) {
+			System.out.println("Issue Key: " + issue);
 		}
 	}
 }

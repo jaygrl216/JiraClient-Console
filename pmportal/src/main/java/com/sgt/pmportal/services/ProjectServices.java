@@ -318,6 +318,28 @@ public class ProjectServices {
 		c.add(Calendar.DATE, total);
 		return c.getTime();
 	}
+	
+	public int daysSinceCreation (String issue) {
+		Promise<SearchResult> result = mainClient.getSearchClient().searchJql(
+				"issueKey= " + issue); 
+		
+		SearchResult issues = result.claim();
+		JiraIssue jiraIssue = null;
+		
+		for(BasicIssue i: issues.getIssues()) {
+			jiraIssue = GeneralServices.toJiraIssue(i, mainClient);
+			break;
+		}
+		
+		if (jiraIssue != null) {
+			DateTime creation = jiraIssue.getCreationDate();
+			DateTime today = new DateTime();
+			Days daysBetween = Days.daysBetween(creation, today);
+			return daysBetween.getDays();
+		} else {
+			return -1;
+		}
+	}
 
 
 

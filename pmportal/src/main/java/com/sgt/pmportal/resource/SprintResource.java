@@ -41,14 +41,16 @@ public class SprintResource {
 				url);
 		
 		JiraProject project = projectService.getProjectByKey(key);
-		List<JiraIssue> issues = sprintService.inBacklog(project);
+		List<String> issues = sprintService.inBacklog(project);
 		
 		StringBuilder responseString = new StringBuilder();
 		responseString.append("{\"issues\":");
 		JSONArray issueArray = new JSONArray();
 		
-		for (JiraIssue issue: issues) {
-			JSONObject issueObject = new JSONObject(issue.JSONString());
+		for (String issue: issues) {
+			JSONObject issueObject = new JSONObject();
+			issueObject.put(key, issue);
+			issueObject.put("daysInLog", projectService.daysSinceCreation(issue));
 			issueArray.put(issueObject);
 		}
 		
