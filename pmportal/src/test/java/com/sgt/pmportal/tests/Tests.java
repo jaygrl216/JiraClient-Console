@@ -318,9 +318,9 @@ public class Tests {
 				JIRA_URL);
 		
 		JiraProject project = pService.getProjectByKey("IPOS");
-		List<BasicIssue> inBacklog = sprintService.inBacklog(project);
+		List<JiraIssue> inBacklog = sprintService.inBacklog(project);
 		
-		for (BasicIssue issue: inBacklog) {
+		for (JiraIssue issue: inBacklog) {
 			System.out.println("Issue Key: " + issue.getKey());
 		}
 	}
