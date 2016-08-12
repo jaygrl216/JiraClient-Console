@@ -210,7 +210,6 @@ public class ConfigResource {
 						tempObject.put("username", userData[1]);
 						tempObject.put("password", userData[2]);
 						tempObject.put("url", userData[0]);
-						tempObject.put("alias", userData[3]);
 						tempObject.put("seaMin", userData[4]);
 						tempObject.put("seaMax", userData[5]);
 						tempObject.put("eeaMin", userData[6]);

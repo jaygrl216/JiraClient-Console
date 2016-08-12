@@ -31,8 +31,6 @@ function saveSettings(){
 			$("#fail").css("visibility","visible");
 		}).done(function(response){
 			if (response=="Success"){
-				setCookie(jname, jpass, baseURL, pm);
-				settingsCookie(eaddress);
 				saveToConfig(jname, jpass, baseURL, eaddress, alias);
 				saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
 			}else{
@@ -72,6 +70,7 @@ function saveToConfig(jname, jpass, baseURL, eaddress, alias){
 				console.dir(xhr);
 			});
 		}
+		settingsCookie(eaddress);
 		alert("Settings saved!");
 	});
 };
