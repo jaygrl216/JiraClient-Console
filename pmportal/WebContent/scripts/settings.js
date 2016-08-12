@@ -81,7 +81,8 @@ function saveToConfig(jname, jpass, baseURL, eaddress, alias){
 function saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax){
 	var username=getCookie("username");
 	var password=getCookie("password");
-	var getResource="http://"+hostURL+"/pmportal/rest/config/get/user/"+pm+"/"+username;
+	var jiraurl=getCookie("url");
+	var getResource="http://"+hostURL+"/pmportal/rest/config/get/user/"+pm+"/"+jiraurl;
 	var saveResource = "http://" + hostURL + "/pmportal/rest/config/save";
 	//Get the current user's data, then update it
 	$.ajax({

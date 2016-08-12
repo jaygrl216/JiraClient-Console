@@ -47,13 +47,11 @@ public class ConfigResource {
 		String pm=requestObject.getString("pm");
 		String password=requestObject.getString("password");
 		String email=requestObject.getString("email");
-		File textFile=new File("config.txt");
 		String fileString=new String(Files.readAllBytes(Paths.get("config.txt")), StandardCharsets.UTF_8);
-		Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 		int startIndex=fileString.indexOf(pm);
 		int length=fileString.substring(startIndex).indexOf(";") + 1;
 		int finalIndex=startIndex+length;
-		String userString=fileString.substring(startIndex, finalIndex-2);
+		String userString=fileString.substring(startIndex, finalIndex-1);
 		String[] userData=userString.split(",");
 		//do not overwrite with empty values
 		if (password.equalsIgnoreCase("")){
@@ -63,6 +61,8 @@ public class ConfigResource {
 			email=userData[2];
 		};
 		String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
+		File textFile=new File("config.txt");
+		Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 		fileWriter.write(newString+pm+","+password+","+email+";");
 		fileWriter.close();
 		System.out.println("Saved");
@@ -87,20 +87,20 @@ public class ConfigResource {
 		String url=requestObject.getString("url");
 		String alias=requestObject.getString("alias");
 		//check if user already exists, then write if not
-	File textFile=new File(pm+".txt");
+		File textFile=new File(pm+".txt");
 		textFile.createNewFile();
 		String fileString=new String(Files.readAllBytes(Paths.get(pm+".txt")), StandardCharsets.UTF_8);
-		if (fileString.toLowerCase().contains(username.toLowerCase())){
+		if (fileString.toLowerCase().contains(url.toLowerCase())){
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-			int startIndex=fileString.indexOf(username);
+			int startIndex=fileString.indexOf(url);
 			int length=fileString.substring(startIndex).indexOf(";") + 1;
 			int finalIndex=startIndex+length;
 			String newString=fileString.substring(0, startIndex) + fileString.substring(finalIndex);
-			fileWriter.write(newString+username+","+password+","+url+","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
+			fileWriter.write(newString+url+","+username+","+password+","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 			fileWriter.close();
 		}else{
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
-			fileWriter.write(username+","+password+","+url+","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
+			fileWriter.write(url+","+username+","+password+","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 			fileWriter.close();
 		};
 		System.out.println("Saved");
@@ -130,9 +130,9 @@ public class ConfigResource {
 	}
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/get/user/{pm}/{username}")
+	@Path("/get/user/{pm}/{url:.+}")
 	//Retrieves information on an individual user
-	public String getUser(@PathParam ("pm") String pm, @PathParam("username") String username) throws IOException{
+	public String getUser(@PathParam ("pm") String pm, @PathParam("url") String url) throws IOException{
 		JSONObject responseObject=new JSONObject();
 		String email="";
 		String pmString=new String(Files.readAllBytes(Paths.get("config.txt")), StandardCharsets.UTF_8);
@@ -147,17 +147,17 @@ public class ConfigResource {
 			return responseObject.toString();
 		}
 		String fileString=new String(Files.readAllBytes(Paths.get(pm+".txt")), StandardCharsets.UTF_8);
-		if (fileString.toLowerCase().contains(username.toLowerCase())){
-			int startIndex=fileString.indexOf(username);
+		if (fileString.toLowerCase().contains(url.toLowerCase())){
+			int startIndex=fileString.indexOf(url);
 			//do not add 1 to length or else will include semicolon
 			int length=fileString.substring(startIndex).indexOf(";");
 			int finalIndex=startIndex+length;
 			String userString=fileString.substring(startIndex, finalIndex);
 			String[] userData=userString.split(",");
-			responseObject.put("username", userData[0]);
-			responseObject.put("password", userData[1]);
+			responseObject.put("username", userData[1]);
+			responseObject.put("password", userData[2]);
 			responseObject.put("email", email);
-			responseObject.put("url", userData[2]);
+			responseObject.put("url", userData[0]);
 			responseObject.put("alias", userData[3]);
 			responseObject.put("seaMin", userData[4]);
 			responseObject.put("seaMax", userData[5]);
@@ -204,9 +204,9 @@ public class ConfigResource {
 					String[] userData=user.split(",");
 					if (userData.length>1){
 						JSONObject tempObject=new JSONObject();
-						tempObject.put("username", userData[0]);
-						tempObject.put("password", userData[1]);
-						tempObject.put("url", userData[2]);
+						tempObject.put("username", userData[1]);
+						tempObject.put("password", userData[2]);
+						tempObject.put("url", userData[0]);
 						tempObject.put("alias", userData[3]);
 						tempObject.put("seaMin", userData[4]);
 						tempObject.put("seaMax", userData[5]);

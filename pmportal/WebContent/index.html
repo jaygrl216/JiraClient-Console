@@ -99,15 +99,15 @@
 				var item = $(this).text();
 				$.each(userArray, function(index, user) {
 					if (user.username + ", " + user.alias == item) {
-						selectUser(user.username);
+						selectUser(user.url);
 					}
 					;
 				});
 			});
 		});
-		function selectUser(username) {
+		function selectUser(jiraurl) {
 			var configResource = "http://" + hostURL
-					+ "/pmportal/rest/config/get/user/" + pm + "/" + username;
+					+ "/pmportal/rest/config/get/user/" + pm + "/" + jiraurl;
 			$.ajax({
 				type : "GET",
 				dataType : "json",
