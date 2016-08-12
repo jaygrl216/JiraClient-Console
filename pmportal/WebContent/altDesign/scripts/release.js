@@ -1,10 +1,15 @@
-//var username=getCookie("username").toString();
-//var password=getCookie("password").toString();
-//var baseURL=getCookie("url").toString();
-//var hostURL = window.location.host;
-//var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
+var username=getCookie("username").toString();
+if (username==""){
+	window.location="index.html";
+};
+var password=getCookie("password").toString();
+var baseURL=getCookie("url").toString();
+var hostURL = window.location.host;
+var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 //var issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 //var metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+
+var projectArray;
 
 var date = "";
 var week = "";
@@ -78,3 +83,22 @@ date = date.concat(current.getDate() + ", 20" + (current.getYear() - 100));
 $(document).ready(function(){
     $('#section5').append("<p>" + week + "<br>"+ date + "</p>");
 });
+
+$.ajax({
+	url: homeResource,
+	dataType: "json"
+}).fail(function(xhr, status, errorThrown ) {
+	console.log("Error: " + errorThrown );
+	console.log("Status: " + status );
+	console.dir(xhr);
+}).done(function(jsonObject){
+	responseObject = jsonObject;
+
+	projectArray = responseObject.projects;
+
+	$.each(projectArray, function (index, proj) {
+		var num = index + 1;
+		$("#projectList").append("<li>" + proj.name +  "</li>");
+	});
+});
+
