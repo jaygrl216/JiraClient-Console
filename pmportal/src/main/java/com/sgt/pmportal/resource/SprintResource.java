@@ -49,7 +49,7 @@ public class SprintResource {
 		
 		for (String issue: issues) {
 			JSONObject issueObject = new JSONObject();
-			issueObject.put(key, issue);
+			issueObject.put("key", issue);
 			issueObject.put("daysInLog", projectService.daysSinceCreation(issue));
 			issueArray.put(issueObject);
 		}
