@@ -70,10 +70,9 @@ function saveToConfig(jname, jpass, baseURL, eaddress, alias){
 				console.log("Error: " + errorThrown);
 				console.log("Status: " + status);
 				console.dir(xhr);
-			}).done(function(response) {
-				alert("Successfully saved new user");
 			});
 		}
+		alert("Settings saved!");
 	});
 };
 
@@ -94,9 +93,8 @@ function saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax){
 		console.log( "Status: " + status );
 		console.dir( xhr );
 	}).done(function(jsonObject){
-		var url=jsonObject.url;
-		var alias=jsonObject.alias;
-		var saveRequest="{\"pm\":\"" + pm + "\", \"username\":\"" +username+"\", \"password\":\""+ password + "\", \"url\":\"" + url+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+seaMin+"\", \"seaMax\":\""+seaMax+"\", \"eeaMin\":\""+eeaMin+"\", \"eeaMax\":\""+eeaMax+"\", \"bugMax\":\""+bugMax+"\"}";
+		var alias=jsonObject.alias.toString();
+		var saveRequest="{\"pm\":\"" + pm + "\", \"username\":\"" +username+"\", \"password\":\""+ password + "\", \"url\":\"" + jiraurl+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+seaMin+"\", \"seaMax\":\""+seaMax+"\", \"eeaMin\":\""+eeaMin+"\", \"eeaMax\":\""+eeaMax+"\", \"bugMax\":\""+bugMax+"\"}";
 		$.ajax({
 			type : "POST",
 			data : saveRequest,
@@ -141,3 +139,9 @@ function resetEEA(){
 function resetBugs(){
 	$("#bugMax").val("10");
 };
+
+function logout(){
+	setCookie("","","","");
+	settingsCookie("");
+	window.location="index.html";
+}
