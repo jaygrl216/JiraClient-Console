@@ -94,9 +94,8 @@ function saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax){
 		console.log( "Status: " + status );
 		console.dir( xhr );
 	}).done(function(jsonObject){
-		var url=jsonObject.url;
-		var alias=jsonObject.alias;
-		var saveRequest="{\"pm\":\"" + pm + "\", \"username\":\"" +username+"\", \"password\":\""+ password + "\", \"url\":\"" + url+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+seaMin+"\", \"seaMax\":\""+seaMax+"\", \"eeaMin\":\""+eeaMin+"\", \"eeaMax\":\""+eeaMax+"\", \"bugMax\":\""+bugMax+"\"}";
+		var alias=jsonObject.alias.toString();
+		var saveRequest="{\"pm\":\"" + pm + "\", \"username\":\"" +username+"\", \"password\":\""+ password + "\", \"url\":\"" + jiraurl+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+seaMin+"\", \"seaMax\":\""+seaMax+"\", \"eeaMin\":\""+eeaMin+"\", \"eeaMax\":\""+eeaMax+"\", \"bugMax\":\""+bugMax+"\"}";
 		$.ajax({
 			type : "POST",
 			data : saveRequest,

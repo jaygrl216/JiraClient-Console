@@ -87,10 +87,10 @@ public class ConfigResource {
 		String url=requestObject.getString("url");
 		String alias=requestObject.getString("alias");
 		//check if user already exists, then write if not
-		File textFile=new File(pm+".txt");
-		textFile.createNewFile();
 		String fileString=new String(Files.readAllBytes(Paths.get(pm+".txt")), StandardCharsets.UTF_8);
 		if (fileString.toLowerCase().contains(url.toLowerCase())){
+			File textFile=new File(pm+".txt");
+			textFile.createNewFile();
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 			int startIndex=fileString.indexOf(url);
 			int length=fileString.substring(startIndex).indexOf(";") + 1;
@@ -99,6 +99,8 @@ public class ConfigResource {
 			fileWriter.write(newString+url+","+username+","+password+","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 			fileWriter.close();
 		}else{
+			File textFile=new File(pm+".txt");
+			textFile.createNewFile();
 			Writer fileWriter=new BufferedWriter(new FileWriter(textFile, true));
 			fileWriter.write(url+","+username+","+password+","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 			fileWriter.close();
