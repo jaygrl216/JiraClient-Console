@@ -53,7 +53,8 @@ public class SprintResource {
 		}
 		
 		responseString.append(issueArray.toString());
-		 return responseString.toString();
+		responseString.append("}");
+		return responseString.toString();
 	
 	}
 
