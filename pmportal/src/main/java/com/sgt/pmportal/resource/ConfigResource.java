@@ -122,7 +122,8 @@ public class ConfigResource {
 			String[] userData=user.split(",");
 			if (userData.length>1){
 				JSONObject tempObject=new JSONObject();
-				tempObject.put("username", userData[0]);
+				tempObject.put("username", userData[1]);
+				tempObject.put("url", userData[0]);
 				tempObject.put("alias", userData[3]);
 				responseArray.put(tempObject);
 			}

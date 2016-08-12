@@ -70,10 +70,9 @@ function saveToConfig(jname, jpass, baseURL, eaddress, alias){
 				console.log("Error: " + errorThrown);
 				console.log("Status: " + status);
 				console.dir(xhr);
-			}).done(function(response) {
-				alert("Successfully saved new user");
 			});
 		}
+		alert("Settings saved!");
 	});
 };
 
