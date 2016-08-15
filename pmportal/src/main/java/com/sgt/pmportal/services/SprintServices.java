@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
+import com.atlassian.jira.rest.client.domain.BasicUser;
 import com.atlassian.jira.rest.client.domain.SearchResult;
 import com.atlassian.util.concurrent.Promise;
 import com.sgt.pmportal.domain.JiraIssue;
@@ -492,9 +493,15 @@ public class SprintServices {
 				} catch (JSONException noValue) {
 					System.err.println("Issue does not contain an estimation!");
 				}
-				String user=client.getIssueClient().getIssue(issue.getKey()).claim().getAssignee().getDisplayName();
+				BasicUser user=client.getIssueClient().getIssue(issue.getKey()).claim().getAssignee();
+				String username;
+				if (user==null){
+					username="None";
+				}else{
+					username=user.getDisplayName();
+				};
 				JSONObject userObject=new JSONObject();
-				userObject.put("name",user);
+				userObject.put("name",username);
 				userObject.put("effort", estimation);
 				userArray.put(userObject);
 			}
@@ -517,14 +524,14 @@ public class SprintServices {
 				}catch(JSONException noValue){
 					System.err.println("Issue does not contain an estimation!");
 				}
-				String user;
+				String username;
 				try{
-					user=issueObject.getString("assigneeName");
+					username=issueObject.getString("assigneeName");
 				}catch(JSONException noAssignee){
-					user="None";
+					username="None";
 				}
 				JSONObject userObject=new JSONObject();
-				userObject.put("name", user);
+				userObject.put("name", username);
 				userObject.put("effort", estimation);
 				userArray.put(userObject);
 			}
