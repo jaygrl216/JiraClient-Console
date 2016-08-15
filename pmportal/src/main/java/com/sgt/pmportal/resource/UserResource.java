@@ -10,7 +10,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.codehaus.jettison.json.JSONArray;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
