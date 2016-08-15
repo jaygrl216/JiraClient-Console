@@ -451,20 +451,20 @@ public class SprintServices {
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public List<JiraIssue> inBacklog(JiraProject project) throws IOException, ParseException {
+	public List<String> inBacklog(JiraProject project) throws IOException, 
+		ParseException {
 		Promise<SearchResult> result = client.getSearchClient().searchJql(
-				"project=" +project.getKey() + " AND issuetype != Epic AND resolution = Unresolved AND Sprint is EMPTY"); 
+				"project=" +project.getKey() + " AND issuetype != Epic AND "
+						+ "resolution = Unresolved AND Sprint is EMPTY"); 
 		
 		SearchResult issues = result.claim();
-		List<JiraIssue> backlog = new ArrayList<JiraIssue>();
+		List<String> backlog = new ArrayList<String>();
 		
 		for (BasicIssue i: issues.getIssues()) {
-			JiraIssue jiraIssue = GeneralServices.toJiraIssue(i, client);
-			backlog.add(jiraIssue);
+			backlog.add(i.getKey());
 		}
 
 		return backlog;
-		
 	}
 
 }
