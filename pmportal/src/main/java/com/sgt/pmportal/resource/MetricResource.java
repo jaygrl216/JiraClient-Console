@@ -140,9 +140,6 @@ public class MetricResource {
 			fileWriter.write(lineBreak);
 		}
 		fileWriter.close();
-		responseObject.put("seaAccuracy", metricService.getRegressionError(dataList.get(0), null));
-		responseObject.put("eeaAccuracy", metricService.getRegressionError(dataList.get(1), null));
-		responseObject.put("bugAccuracy", metricService.getRegressionError(dataList.get(2), null));
 		responseObject.put("response", 200);
 		return responseObject.toString();
 	}
@@ -150,7 +147,6 @@ public class MetricResource {
 	@Path("/all/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	//This method takes a really long time
 	public String getAllMetrics(@PathParam ("username") String username,
 			@PathParam ("password") String password,
 			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{

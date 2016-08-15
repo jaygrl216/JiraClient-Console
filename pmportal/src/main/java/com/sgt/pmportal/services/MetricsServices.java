@@ -102,11 +102,9 @@ public class MetricsServices {
 		if (length==0){
 			return 1.0;
 		};
-		System.out.println("Number of sprints: " + length);
-		// get sea values for every sprint
 		for (Sprint sprint : sprintList) {
 			double sea = calculateSprintSEA(sprint);
-			seaSum = seaSum + sea;
+			seaSum +=sea;
 		}
 		// calculate the average
 		double averageSEA = (seaSum / length);
@@ -138,7 +136,7 @@ public class MetricsServices {
 				JSONObject responseObject = new JSONObject(responseString);
 				double estimation = 0;
 				try {
-					estimation = (Double.valueOf(responseObject.get("value").toString())).doubleValue();
+					estimation = responseObject.getDouble("value");
 				} catch (JSONException noValue) {
 					System.err.println("Issue does not contain an estimation!");
 				}
@@ -153,7 +151,6 @@ public class MetricsServices {
 			}
 			// for older JIRAs, can find estimation in sprint report
 		} catch (FileNotFoundException greenHopper) {
-			System.err.println("Warning: Version of Jira is outdated! Attempting to fix with Greenhopper API");
 			String getURL = "/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId=" + sprint.getBoardId()
 			+ "&sprintId=" + sprint.getId();
 			String responseString = sprintService.getAgileData(getURL);
@@ -161,8 +158,8 @@ public class MetricsServices {
 			JSONObject contentObject = responseObject.getJSONObject("contents");
 			JSONObject allIssueObject = contentObject.getJSONObject("allIssuesEstimateSum");
 			JSONObject puntedIssueObject = contentObject.getJSONObject("puntedIssuesEstimateSum");
-			actualEffort = (Double.valueOf(allIssueObject.get("value").toString()).doubleValue());
-			estimatedEffort = actualEffort - (Double.valueOf(puntedIssueObject.get("value").toString()).doubleValue());
+			actualEffort = allIssueObject.getDouble("value");
+			estimatedEffort = actualEffort - puntedIssueObject.getDouble("value");
 		}
 		double eea = actualEffort / estimatedEffort;
 		if (actualEffort == 0) {
@@ -194,7 +191,7 @@ public class MetricsServices {
 		// get eea values for every sprint
 		for (Sprint sprint : sprintList) {
 			double eea = calculateSprintEEA(sprint);
-			eeaSum = eeaSum + eea;
+			eeaSum += eea;
 		}
 		// calculate the average
 		double averageEEA = (eeaSum / length);
