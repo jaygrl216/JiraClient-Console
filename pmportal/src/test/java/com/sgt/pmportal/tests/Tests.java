@@ -241,7 +241,7 @@ public class Tests {
 		System.out.println("");
 		//get issues from sprint
 		if (sprint !=null){
-			List<JiraIssue> issueList=sprintService.getIssuesBySprint(sprint, client);
+			List<JiraIssue> issueList=sprintService.getIssuesBySprint(sprint);
 			System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
 			for (JiraIssue il:issueList){
 				System.out.println(il.getKey());
@@ -249,7 +249,7 @@ public class Tests {
 				System.out.println("");
 				//get issues from sprint
 				if (sprint !=null){
-					issueList=sprintService.getIssuesBySprint(sprint, client);
+					issueList=sprintService.getIssuesBySprint(sprint);
 					System.out.println("\nIssues in sprint \"" +sprint.getName()+"\":\n");
 					for (JiraIssue i:issueList){
 						System.out.println(i.getKey());

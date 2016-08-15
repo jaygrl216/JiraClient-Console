@@ -326,7 +326,7 @@ public class SprintServices {
 	 * @return List<JiraIssue>
 	 * @throws IOException
 	 */
-	public List<JiraIssue> getIssuesBySprint(Sprint sprint, JiraRestClient client) throws IOException{
+	public List<JiraIssue> getIssuesBySprint(Sprint sprint) throws IOException{
 		List<JiraIssue> issueList=new ArrayList<JiraIssue>();
 		String response=getAgileData("/rest/api/latest/search?jql=sprint="+sprint.getId());
 		JSONObject responseObject=new JSONObject(response);
@@ -473,7 +473,7 @@ public class SprintServices {
 			return null;
 		}
 		Sprint currentSprint=sprintList.get(0);
-		List<JiraIssue>	issueList=getIssuesBySprint(currentSprint, client);
+		List<JiraIssue>	issueList=getIssuesBySprint(currentSprint);
 		return null;
 	}
 
