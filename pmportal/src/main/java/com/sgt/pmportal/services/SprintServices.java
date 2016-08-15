@@ -496,13 +496,24 @@ public class SprintServices {
 				BasicUser user=client.getIssueClient().getIssue(issue.getKey()).claim().getAssignee();
 				String username;
 				if (user==null){
-					username="None";
+					username="Unassigned";
 				}else{
 					username=user.getDisplayName();
 				};
+				int addIssue=1;
+				for (int t=0; t<userArray.length(); t++){
+					if (username.equals(userArray.getJSONObject(t).getString("name"))){
+						double oldestimation=userArray.getJSONObject(t).getDouble("effort");
+						estimation+=oldestimation;
+						int oldIssue=userArray.getJSONObject(t).getInt("numIssues");
+						addIssue+=oldIssue;
+						userArray.remove(t);
+					}
+				}
 				JSONObject userObject=new JSONObject();
 				userObject.put("name",username);
 				userObject.put("effort", estimation);
+				userObject.put("numIssues", addIssue);
 				userArray.put(userObject);
 			}
 			// for older JIRAs, can find estimation in sprint report
@@ -520,7 +531,7 @@ public class SprintServices {
 				JSONObject estimateValue=estimateObject.getJSONObject("statFieldValue");
 				double estimation=0;
 				try{
-					estimation=(Double.valueOf(estimateValue.getString("value"))).doubleValue();
+					estimation=(Double.valueOf(estimateValue.get("value").toString())).doubleValue();
 				}catch(JSONException noValue){
 					System.err.println("Issue does not contain an estimation!");
 				}
@@ -528,11 +539,22 @@ public class SprintServices {
 				try{
 					username=issueObject.getString("assigneeName");
 				}catch(JSONException noAssignee){
-					username="None";
+					username="Unassigned";
+				}
+				int addIssue=1;
+				for (int t=0; t<userArray.length(); t++){
+					if (username.equals(userArray.getJSONObject(t).getString("name"))){
+						double oldestimation=userArray.getJSONObject(t).getDouble("effort");
+						estimation+=oldestimation;
+						int oldIssue=userArray.getJSONObject(t).getInt("numIssues");
+						addIssue+=oldIssue;
+						userArray.remove(t);
+					}
 				}
 				JSONObject userObject=new JSONObject();
 				userObject.put("name", username);
 				userObject.put("effort", estimation);
+				userObject.put("numIssues", addIssue);
 				userArray.put(userObject);
 			}
 		}
