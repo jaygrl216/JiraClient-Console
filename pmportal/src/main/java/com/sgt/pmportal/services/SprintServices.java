@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
 import com.atlassian.jira.rest.client.domain.SearchResult;
+import com.atlassian.jira.rest.client.internal.json.gen.IssueUpdateJsonGenerator;
 import com.atlassian.util.concurrent.Promise;
 import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
@@ -51,7 +52,7 @@ public class SprintServices {
 		this.authorization = authorization;
 		this.baseURL = baseURL;
 	}
-	
+
 	public List<Sprint> getOpenSprintsByProject(JiraProject project) 
 			throws IOException, ParseException{
 		String boardId = "0";
@@ -139,7 +140,7 @@ public class SprintServices {
 		}
 		return sprintList;
 	}
-	
+
 	public List<Sprint> getClosedSprintsByProject(JiraProject project) throws IOException, ParseException{
 		String boardId="0";
 		ArrayList<Sprint> sprintList=new ArrayList<Sprint>();
@@ -175,8 +176,8 @@ public class SprintServices {
 					return sprintList;
 				}
 				try{
-				JSONObject sprintObject=new JSONObject(sprintResponse);
-				sprintArray=sprintObject.getJSONArray("values");
+					JSONObject sprintObject=new JSONObject(sprintResponse);
+					sprintArray=sprintObject.getJSONArray("values");
 				}catch (JSONException noData){
 					return sprintList;
 				};
@@ -195,8 +196,8 @@ public class SprintServices {
 				String sprintGreenHopperResponse=getAgileData("/rest/greenhopper/latest/sprintquery/" + boardId);
 				JSONArray sprintGreenHopperArray=new JSONArray();
 				try{
-				JSONObject sprintGreenHopperObject=new JSONObject(sprintGreenHopperResponse);
-				sprintGreenHopperArray=sprintGreenHopperObject.getJSONArray("sprints");
+					JSONObject sprintGreenHopperObject=new JSONObject(sprintGreenHopperResponse);
+					sprintGreenHopperArray=sprintGreenHopperObject.getJSONArray("sprints");
 				}catch (JSONException noData){
 					return sprintList;
 				};
@@ -266,8 +267,8 @@ public class SprintServices {
 					return sprintList;
 				}
 				try{
-				JSONObject sprintObject=new JSONObject(sprintResponse);
-				sprintArray=sprintObject.getJSONArray("values");
+					JSONObject sprintObject=new JSONObject(sprintResponse);
+					sprintArray=sprintObject.getJSONArray("values");
 				}catch(JSONException noData){
 					return sprintList;
 				};
@@ -283,8 +284,8 @@ public class SprintServices {
 				String sprintGreenHopperResponse=getAgileData("/rest/greenhopper/latest/sprintquery/" + boardId);
 				JSONArray sprintGreenHopperArray=new JSONArray();
 				try{
-				JSONObject sprintGreenHopperObject=new JSONObject(sprintGreenHopperResponse);
-				sprintGreenHopperArray=sprintGreenHopperObject.getJSONArray("sprints");
+					JSONObject sprintGreenHopperObject=new JSONObject(sprintGreenHopperResponse);
+					sprintGreenHopperArray=sprintGreenHopperObject.getJSONArray("sprints");
 				}catch (JSONException noData){
 					return sprintList;
 				};
@@ -404,7 +405,7 @@ public class SprintServices {
 		return Days.daysBetween(new DateTime(s.getEndDate()), 
 				new DateTime(s.getCompleteDate())).getDays();
 	}
-	
+
 	/**
 	 * Estimated days between start and end date
 	 * 
@@ -415,7 +416,7 @@ public class SprintServices {
 		return Days.daysBetween(new DateTime(s.getStartDate()), 
 				new DateTime(s.getEndDate())).getDays();
 	}
-	
+
 	/**
 	 * HTTP GET request used to retrieve Agile data
 	 * @param url
@@ -444,7 +445,7 @@ public class SprintServices {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns a list of issues that are in the backlog
 	 * @return List<Issue>
@@ -452,22 +453,22 @@ public class SprintServices {
 	 * @throws IOException 
 	 */
 	public List<String> inBacklog(JiraProject project) throws IOException, 
-		ParseException {
+	ParseException {
 		Promise<SearchResult> result = client.getSearchClient().searchJql(
 				"project=" +project.getKey() + " AND issuetype != Epic AND "
 						+ "resolution = Unresolved AND Sprint is EMPTY"); 
-		
+
 		SearchResult issues = result.claim();
 		List<String> backlog = new ArrayList<String>();
-		
+
 		for (BasicIssue i: issues.getIssues()) {
 			backlog.add(i.getKey());
 		}
 
 		return backlog;
 	}
-	
-	public List<Number> resourceAllocation(JiraProject project) throws IOException, ParseException{
+
+	public JSONObject resourceAllocation(JiraProject project) throws IOException, ParseException{
 		List<Sprint> sprintList=getOpenSprintsByProject(project);
 		if (sprintList.isEmpty()){
 			return null;
@@ -478,6 +479,8 @@ public class SprintServices {
 				+ "&status=\"In Progress\" " + "OR sprint=" + id
 				+ "&status=\"To Do\" " + "OR sprint=" + id + "&status=\"Reopened\"",
 				1000, 0).claim().getIssues();
+		JSONObject returnObject=new JSONObject();
+		JSONArray userArray=new JSONArray();
 		try {
 			for (BasicIssue issue : issueList) {
 				String getURL = "/rest/agile/latest/issue/" + issue.getKey() + "/estimation?boardId="
@@ -490,7 +493,11 @@ public class SprintServices {
 				} catch (JSONException noValue) {
 					System.err.println("Issue does not contain an estimation!");
 				}
-				
+				String user=client.getIssueClient().getIssue(issue.getKey()).claim().getAssignee().getDisplayName();
+				JSONObject userObject=new JSONObject();
+				userObject.put("name",user);
+				userObject.put("effort", estimation);
+				userArray.put(userObject);
 			}
 			// for older JIRAs, can find estimation in sprint report
 		} catch (FileNotFoundException greenHopper) {
@@ -511,9 +518,15 @@ public class SprintServices {
 				}catch(JSONException noValue){
 					System.err.println("Issue does not contain an estimation!");
 				}
+				String user=issueObject.getString("assigneeName");
+				JSONObject userObject=new JSONObject();
+				userObject.put("name", user);
+				userObject.put("effort", estimation);
+				userArray.put(userObject);
 			}
 		}
-		return null;
+		returnObject.put("users", userArray);
+		return returnObject;
 	}
 
 }
