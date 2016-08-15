@@ -24,7 +24,6 @@ import org.json.JSONObject;
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.domain.BasicIssue;
 import com.atlassian.jira.rest.client.domain.SearchResult;
-import com.atlassian.jira.rest.client.internal.json.gen.IssueUpdateJsonGenerator;
 import com.atlassian.util.concurrent.Promise;
 import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
