@@ -517,7 +517,12 @@ public class SprintServices {
 				}catch(JSONException noValue){
 					System.err.println("Issue does not contain an estimation!");
 				}
-				String user=issueObject.getString("assigneeName");
+				String user;
+				try{
+					user=issueObject.getString("assigneeName");
+				}catch(JSONException noAssignee){
+					user="None";
+				}
 				JSONObject userObject=new JSONObject();
 				userObject.put("name", user);
 				userObject.put("effort", estimation);
