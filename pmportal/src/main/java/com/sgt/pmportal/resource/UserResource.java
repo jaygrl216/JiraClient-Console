@@ -43,7 +43,7 @@ public class UserResource {
 		JiraProject project=projectService.getProjectByKey(projectKey);
 		JSONObject returnObject=sprintService.resourceAllocation(project);
 		if (returnObject==null){
-			String response="{\"users\":[{\"name\":\"Unassigned\", \"effort\":0, \"numIssues\":0}]";
+			String response="{\"users\":[]";
 			return response;
 		};
 		return returnObject.toString();
