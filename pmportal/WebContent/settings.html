@@ -15,7 +15,7 @@
 
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
         <ul class="nav nav-justified">
-			<li><a href="index.html">Home</a></li>
+			<li><a href="home.html">Home</a></li>
 			<li><a href="release.html">Release</a></li>
 			<li><a href="metric_all.html">Metrics</a></li>
 			<li><a href="reports.html">Reports</a></li>
@@ -30,12 +30,19 @@
 
 					<div class="row" id="layer1">
 						<div class="col-lg-3" id="settings">
+						<h4>Account Details</h4>
 							<p>If you would like to receive email notifications, please input your email below</p>
 							Email Address: <input type="text" id="emailInput" />
 							<input type="button" value="Send Test Email" onclick="testEmail()"/>
 							<br>
 							<br>
-							<h4>Set notification boundaries</h4>
+							<p>Change Password</p>
+							Current Password: <input type="password" id="curPass" />
+							New Password: <input type="password" id="newPass"/>
+							Confirm Password: <input type="password" id="confirmPass"/>
+							<br>
+							<br>
+							<h4>Notification Settings</h4>
 							<table><tr>
 							<td>SEA: </td><td> <input type="number" id="seaMin" value="0.8" min="0" max="1" step="0.01"/> - <input type="number" id="seaMax" value="1.25" min="1" step="0.01"/>
 							<input type="button" value="Reset" onclick="resetSEA()"/></td>
@@ -58,7 +65,10 @@
 							is correct; it is generally "http://serverURL" or
 							"http://serverURL/jira"</p>
 							
-							<a><input type="button" onclick="saveSettings()" value="Save"/></a><input type="button" onclick="logout()" value="Log out"/>
+							<a><input type="button" onclick="saveSettings()" value="Save"/></a>
+							<br>
+							<br>
+							<input type="button" onclick="logout()" value="Log out"/>
 
 						</div>
 					</div>

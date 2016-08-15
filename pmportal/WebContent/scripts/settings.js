@@ -8,43 +8,46 @@ if (pm==""){
 };
 var hostURL=window.location.host;
 function saveSettings(){
-	var eaddress=$("#emailInput").val();
-	var jname=$("#userText").val();
-	var baseURL=$("#urlText").val();
-	var jpass=$("#passText").val();
-	var alias=$("#alias").val();
-	var seaMin=$("#seaMin").val();
-	var seaMax=$("#seaMax").val();
-	var eeaMin=$("#eeaMin").val();
-	var eeaMax=$("#eeaMax").val();
-	var bugMax=$("#bugMax").val();
-	var testResource="http://"+hostURL+"/pmportal/rest/test/jira/" + jname + "/" + jpass + "/" +baseURL;
-	if (jname!=""){
-		$.ajax({
-			type:"GET",
-			dataType:"text",
-			url:testResource
-		}).fail(function( xhr, status, errorThrown ) {
-			console.log( "Error: " + errorThrown );
-			console.log( "Status: " + status );
-			console.dir( xhr );
-			$("#fail").css("visibility","visible");
-		}).done(function(response){
-			if (response=="Success"){
-				saveToConfig(jname, jpass, baseURL, eaddress, alias);
-				saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
-			}else{
-				alert("Login failed!");
-			};
-		});
-	}else{
-		saveToConfig(jname, jpass, baseURL, eaddress, alias);
-		saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
-	}
+	if (passCheck()){
+		var newPass=("#newPass").val();
+		var eaddress=$("#emailInput").val();
+		var jname=$("#userText").val();
+		var baseURL=$("#urlText").val();
+		var jpass=$("#passText").val();
+		var alias=$("#alias").val();
+		var seaMin=$("#seaMin").val();
+		var seaMax=$("#seaMax").val();
+		var eeaMin=$("#eeaMin").val();
+		var eeaMax=$("#eeaMax").val();
+		var bugMax=$("#bugMax").val();
+		var testResource="http://"+hostURL+"/pmportal/rest/test/jira/" + jname + "/" + jpass + "/" +baseURL;
+		if (jname!=""){
+			$.ajax({
+				type:"GET",
+				dataType:"text",
+				url:testResource
+			}).fail(function( xhr, status, errorThrown ) {
+				console.log( "Error: " + errorThrown );
+				console.log( "Status: " + status );
+				console.dir( xhr );
+				$("#fail").css("visibility","visible");
+			}).done(function(response){
+				if (response=="Success"){
+					saveToConfig(jname, jpass, baseURL, eaddress, alias);
+					saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
+				}else{
+					alert("Login failed!");
+				};
+			});
+		}else{
+			saveToConfig(jname, jpass, baseURL, alias,eaddress, newPass);
+			saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
+		}
+	};
 };
-function saveToConfig(jname, jpass, baseURL, eaddress, alias){
+function saveToConfig(jname, jpass, baseURL, alias, eaddress, newPass){
 	var updateRequest = "{\"pm\":\"" + pm + "\", \"password\":\""
-	+ "" + "\", \"email\":\"" + eaddress + "\"}";
+	+ newPass + "\", \"email\":\"" + eaddress + "\"}";
 	var saveRequest="{\"pm\":\"" + pm + "\", \"username\":\"" +jname+"\", \"password\":\""+ jpass + "\", \"url\":\"" + baseURL+"\", \"alias\":\"" + alias+"\", \"seaMin\":\""+0.8+"\", \"seaMax\":\""+1.25+"\", \"eeaMin\":\""+0.8+"\", \"eeaMax\":\""+1.25+"\", \"bugMax\":\""+10+"\"}";
 	var updateResource = "http://" + hostURL + "/pmportal/rest/config/save/update";
 	var saveResource = "http://" + hostURL + "/pmportal/rest/config/save";
@@ -127,6 +130,44 @@ function testEmail(){
 		};
 	});
 };
+function passCheck(){
+	var curPass=$("#curPass").val();
+	var newPass=$("#newPass").val();
+	var confirmPass=$("#confirmPass").val();
+	if (newPass!=""){
+		if (newPass==confirmPass){
+			var testResource = "http://" + hostURL
+			+ "/pmportal/rest/test/login/" + pm + "/" + curPass;
+			$.ajax({
+				type : "GET",
+				dataType : "text",
+				url : testResource
+			}).fail(function(xhr, status, errorThrown) {
+				console.log("Error: " + errorThrown);
+				console.log("Status: " + status);
+				console.dir(xhr);
+				alert("Failed to contact server!");
+			}).done(function(response) {
+				if (response == "Success") {
+					return true;
+				} else {
+					alert("Wrong password!");
+					$("#curPass").css("border", "1px solid #ff0000");
+					return false;
+				}
+				;
+			});
+		}else{
+			alert("Passwords do not match!");
+			("#newPass").css("border","1px solid #ff0000");
+			("#confirmPass").css("border", "1px solid #ff0000");
+			return false;
+		};
+	}else{
+		return true;
+	};
+};
+
 function resetSEA(){
 	$("#seaMin").val("0.8");
 	$("#seaMax").val("1.25");
