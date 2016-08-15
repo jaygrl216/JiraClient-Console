@@ -526,11 +526,11 @@ public class SprintServices {
 			JSONObject contentObject = responseObject.getJSONObject("contents");
 			JSONArray incompletedIssues = contentObject.getJSONArray("incompletedIssues");
 			for (int i=0; i<incompletedIssues.length();i++){
+				double estimation=0;
 				JSONObject issueObject=incompletedIssues.getJSONObject(i);
+				try{
 				JSONObject estimateObject=issueObject.getJSONObject("estimateStatistic");
 				JSONObject estimateValue=estimateObject.getJSONObject("statFieldValue");
-				double estimation=0;
-				try{
 					estimation=(Double.valueOf(estimateValue.get("value").toString())).doubleValue();
 				}catch(JSONException noValue){
 					System.err.println("Issue does not contain an estimation!");

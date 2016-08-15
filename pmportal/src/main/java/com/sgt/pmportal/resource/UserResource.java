@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
@@ -42,6 +43,16 @@ public class UserResource {
 		SprintServices sprintService=new SprintServices(client, authorization, url);
 		JiraProject project=projectService.getProjectByKey(projectKey);
 		JSONObject returnObject=sprintService.resourceAllocation(project);
+		if (returnObject==null){
+			returnObject=new JSONObject();
+			JSONArray userArray=new JSONArray();
+			JSONObject userObject=new JSONObject();
+			userObject.put("name", "Unassigned");
+			userObject.put("effort", 0);
+			userObject.put("numIssues", 0);
+			userArray.put(userObject);
+			returnObject.put("users", userArray);
+		};
 		return returnObject.toString();
 	}
 }
