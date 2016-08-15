@@ -473,7 +473,46 @@ public class SprintServices {
 			return null;
 		}
 		Sprint currentSprint=sprintList.get(0);
-		List<JiraIssue>	issueList=getIssuesBySprint(currentSprint);
+		String id=currentSprint.getId();
+		Iterable<BasicIssue> issueList=client.getSearchClient().searchJql("sprint=" + id + "&status=open " + "OR sprint=" + id
+				+ "&status=\"In Progress\" " + "OR sprint=" + id
+				+ "&status=\"To Do\" " + "OR sprint=" + id + "&status=\"Reopened\"",
+				1000, 0).claim().getIssues();
+		try {
+			for (BasicIssue issue : issueList) {
+				String getURL = "/rest/agile/latest/issue/" + issue.getKey() + "/estimation?boardId="
+						+ currentSprint.getBoardId();
+				String responseString = getAgileData(getURL);
+				JSONObject responseObject = new JSONObject(responseString);
+				double estimation = 0;
+				try {
+					estimation = (Double.valueOf(responseObject.get("value").toString())).doubleValue();
+				} catch (JSONException noValue) {
+					System.err.println("Issue does not contain an estimation!");
+				}
+				
+			}
+			// for older JIRAs, can find estimation in sprint report
+		} catch (FileNotFoundException greenHopper) {
+			System.err.println("Warning: Version of Jira is outdated! Attempting to fix with Greenhopper API");
+			String getURL = "/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId=" + currentSprint.getBoardId()
+			+ "&sprintId=" + currentSprint.getId();
+			String responseString = getAgileData(getURL);
+			JSONObject responseObject = new JSONObject(responseString);
+			JSONObject contentObject = responseObject.getJSONObject("contents");
+			JSONArray incompletedIssues = contentObject.getJSONArray("incompletedIssues");
+			for (int i=0; i<incompletedIssues.length();i++){
+				JSONObject issueObject=incompletedIssues.getJSONObject(i);
+				JSONObject estimateObject=issueObject.getJSONObject("estimateStatistic");
+				JSONObject estimateValue=estimateObject.getJSONObject("statFieldValue");
+				double estimation=0;
+				try{
+					estimation=(Double.valueOf(estimateValue.getString("value"))).doubleValue();
+				}catch(JSONException noValue){
+					System.err.println("Issue does not contain an estimation!");
+				}
+			}
+		}
 		return null;
 	}
 
