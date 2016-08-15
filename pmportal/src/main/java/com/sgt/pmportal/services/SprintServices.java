@@ -466,5 +466,15 @@ public class SprintServices {
 
 		return backlog;
 	}
+	
+	public List<Number> resourceAllocation(JiraProject project) throws IOException, ParseException{
+		List<Sprint> sprintList=getOpenSprintsByProject(project);
+		if (sprintList.isEmpty()){
+			return null;
+		}
+		Sprint currentSprint=sprintList.get(0);
+		List<JiraIssue>	issueList=getIssuesBySprint(currentSprint, client);
+		return null;
+	}
 
 }
