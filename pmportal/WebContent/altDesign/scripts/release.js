@@ -174,7 +174,6 @@ function showInitialData() {
 //    due.setDate(projDate[1]);
 
      projKey = project.key;
-    $("#metricLink").attr("href", "metrics.html?project=" + projKey);
     metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 

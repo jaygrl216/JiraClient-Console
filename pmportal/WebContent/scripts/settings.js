@@ -69,7 +69,7 @@ function saveSettings(){
 			$("#fail").css("visibility","visible");
 		}).done(function(response){
 			if (response=="Success"){
-				saveToConfig(jname, jpass, baseURL, eaddress, alias);
+				saveToConfig(jname, jpass, baseURL, alias, eaddress, newPass);
 				saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
 				alert("Settings saved!");
 			}else{
@@ -111,6 +111,10 @@ function saveToConfig(jname, jpass, baseURL, alias, eaddress, newPass){
 			});
 		}
 		settingsCookie(eaddress);
+		//clear password boxes
+		$("#curPass").val("");
+		$("#newPass").val("");
+		$("#confirmPass").val("");
 	});
 };
 
