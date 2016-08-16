@@ -108,12 +108,12 @@ var pieData = {
 		                    {
 		                    	data: [60.5,39.5],
 		                    	backgroundColor: [
-		                    	                  "#FA760A",
-		                    	                  "#FAEB48",
+		                    	                  "#6AF263",
+		                    	                  "#D8F545",
 		                    	                  ],
 		                    	                  hoverBackgroundColor: [
-		                    	                                         "#FA9848",
-		                    	                                         "#FAF087",
+		                    	                                         "#BAFAB6",
+		                    	                                         "#E6F59A",
 		                    	                                         ]
 		                    }]
 };
@@ -174,7 +174,7 @@ function createBar() {
 		type: 'bar',
 		data: barData,
 		options: {
-			maintainAspectRatio: true,
+			maintainAspectRatio: false,
 			responsive: true,
 			scales: {
 				yAxes: [{

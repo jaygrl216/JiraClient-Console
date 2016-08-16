@@ -101,7 +101,7 @@ nav h4 {
     color:#fff;
     text-align: center;
     font-size: 25px;
-    margin-top: 20px;
+    margin-top: 10px;
     font-weight: bold;
 }
 
@@ -126,4 +126,26 @@ h4 {
 
 .btn-info {
     background-color: #29282e;
+}
+
+#bar {
+    margin-top: -15px;
+}
+
+a:link {
+    color:#fff;
+}
+
+a:visited {
+    color:#fff;
+}
+
+a:active {
+    color:#fff;
+}
+
+a:hover {
+    color:#C2C4B7;
+    text-decoration: none;
+    font-weight: bold;
 }
