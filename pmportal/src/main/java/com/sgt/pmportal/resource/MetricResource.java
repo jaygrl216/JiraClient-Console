@@ -100,45 +100,46 @@ public class MetricResource {
 		Document document = builder.parse( new InputSource( new StringReader( xmlString ) ) );
 		Transformer transformer = TransformerFactory.newInstance().newTransformer();
 		Result output;
+		Source input = new DOMSource(document);
 		try{
 			//Tomcat
 			output = new StreamResult(new File("webapps/pmportal/data/output.xml"));
-			Source input = new DOMSource(document);
 			transformer.transform(input, output);
 		}catch (Exception e){
+			try{
 			output = new StreamResult(new File("../applications/pmportal/data/output.xml"));
-			Source input = new DOMSource(document);
 			transformer.transform(input, output);
+			}catch(Exception e2){
+				output = new StreamResult(new File("../eclipseApps/pmportal/data/output.xml"));
+				transformer.transform(input, output);
+			}
 		}
 		//create excel file
 		String lineBreak= System.getProperty("line.separator");
 		File textFile;
+		Writer fileWriter;
 		try{
 			//Tomcat
 			textFile=new File("webapps/pmportal/data/output.xls");
-			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-			fileWriter.write("SEA	EEA	Bugs");
-			fileWriter.write(lineBreak);
-			for (int i=0; i<dataList.get(0).size(); i++){
-				fileWriter.write(dataList.get(0).get(i).toString() +"	"+ dataList.get(1).get(i).toString()+"	"+dataList.get(2).get(i).toString());
-				fileWriter.write(lineBreak);
-			}
-			fileWriter.close();
+			fileWriter=new BufferedWriter(new FileWriter(textFile));
 		}catch (Exception e){
 			//glassfish
+			try{
 			textFile=new File("../applications/pmportal/data/output.xls");
-			Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
-			fileWriter.write("SEA	EEA	Bugs");
-			fileWriter.write(lineBreak);
-			for (int i=0; i<dataList.get(0).size(); i++){
-				fileWriter.write(dataList.get(0).get(i).toString() +"	"+ dataList.get(1).get(i).toString()+"	"+dataList.get(2).get(i).toString());
-				fileWriter.write(lineBreak);
+			fileWriter=new BufferedWriter(new FileWriter(textFile));
+			}catch(Exception e2){
+				//glassfish eclipse
+				textFile=new File("../eclipseApps/pmportal/data/output.xls");
+				fileWriter=new BufferedWriter(new FileWriter(textFile));
 			}
-			fileWriter.close();
 		}
-		responseObject.put("seaAccuracy", metricService.getRegressionError(dataList.get(0), null));
-		responseObject.put("eeaAccuracy", metricService.getRegressionError(dataList.get(1), null));
-		responseObject.put("bugAccuracy", metricService.getRegressionError(dataList.get(2), null));
+		fileWriter.write("SEA	EEA	Bugs");
+		fileWriter.write(lineBreak);
+		for (int i=0; i<dataList.get(0).size(); i++){
+			fileWriter.write(dataList.get(0).get(i).toString() +"	"+ dataList.get(1).get(i).toString()+"	"+dataList.get(2).get(i).toString());
+			fileWriter.write(lineBreak);
+		}
+		fileWriter.close();
 		responseObject.put("response", 200);
 		return responseObject.toString();
 	}
@@ -146,7 +147,6 @@ public class MetricResource {
 	@Path("/all/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	//This method takes a really long time
 	public String getAllMetrics(@PathParam ("username") String username,
 			@PathParam ("password") String password,
 			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{

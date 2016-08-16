@@ -7,42 +7,79 @@ if (pm==""){
 	window.location="index.html";
 };
 var hostURL=window.location.host;
-function saveSettings(){
-	if (passCheck()){
-		var newPass=("#newPass").val();
-		var eaddress=$("#emailInput").val();
-		var jname=$("#userText").val();
-		var baseURL=$("#urlText").val();
-		var jpass=$("#passText").val();
-		var alias=$("#alias").val();
-		var seaMin=$("#seaMin").val();
-		var seaMax=$("#seaMax").val();
-		var eeaMin=$("#eeaMin").val();
-		var eeaMax=$("#eeaMax").val();
-		var bugMax=$("#bugMax").val();
-		var testResource="http://"+hostURL+"/pmportal/rest/test/jira/" + jname + "/" + jpass + "/" +baseURL;
-		if (jname!=""){
+function passCheck(){
+	$("#curPass").css("border", "2px inset #ffffff")
+	$("#newPass").css("border","2px inset #ffffff");
+	$("#confirmPass").css("border", "2px inset #ffffff");
+	var curPass=$("#curPass").val();
+	var newPass=$("#newPass").val();
+	var confirmPass=$("#confirmPass").val();
+	if (newPass!=""){
+		if (newPass==confirmPass){
+			var testResource = "http://" + hostURL
+			+ "/pmportal/rest/test/login/" + pm + "/" + curPass;
 			$.ajax({
-				type:"GET",
-				dataType:"text",
-				url:testResource
-			}).fail(function( xhr, status, errorThrown ) {
-				console.log( "Error: " + errorThrown );
-				console.log( "Status: " + status );
-				console.dir( xhr );
-				$("#fail").css("visibility","visible");
-			}).done(function(response){
-				if (response=="Success"){
-					saveToConfig(jname, jpass, baseURL, eaddress, alias);
-					saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
+				type : "GET",
+				dataType : "text",
+				url : testResource
+			}).fail(function(xhr, status, errorThrown) {
+				console.log("Error: " + errorThrown);
+				console.log("Status: " + status);
+				console.dir(xhr);
+				alert("Failed to contact server!");
+			}).done(function(response) {
+				if (response == "Success") {
+					saveSettings();					
 				}else{
-					alert("Login failed!");
+					alert("Wrong password!");
+					$("#curPass").css("border", "2px inset #ff0000");
 				};
 			});
 		}else{
-			saveToConfig(jname, jpass, baseURL, alias,eaddress, newPass);
-			saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
-		}
+			alert("Passwords do not match!");
+			$("#newPass").css("border","2px inset #ff0000");
+			$("#confirmPass").css("border", "2px inset #ff0000");
+		};
+	}else{
+		saveSettings();
+	};
+};
+function saveSettings(){
+	var newPass=$("#newPass").val();
+	var eaddress=$("#emailInput").val();
+	var jname=$("#userText").val();
+	var baseURL=$("#urlText").val();
+	var jpass=$("#passText").val();
+	var alias=$("#alias").val();
+	var seaMin=$("#seaMin").val();
+	var seaMax=$("#seaMax").val();
+	var eeaMin=$("#eeaMin").val();
+	var eeaMax=$("#eeaMax").val();
+	var bugMax=$("#bugMax").val();
+	var testResource="http://"+hostURL+"/pmportal/rest/test/jira/" + jname + "/" + jpass + "/" +baseURL;
+	if (jname!=""){
+		$.ajax({
+			type:"GET",
+			dataType:"text",
+			url:testResource
+		}).fail(function( xhr, status, errorThrown ) {
+			console.log( "Error: " + errorThrown );
+			console.log( "Status: " + status );
+			console.dir( xhr );
+			$("#fail").css("visibility","visible");
+		}).done(function(response){
+			if (response=="Success"){
+				saveToConfig(jname, jpass, baseURL, eaddress, alias);
+				saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
+				alert("Settings saved!");
+			}else{
+				alert("Login failed!");
+			};
+		});
+	}else{
+		saveToConfig(jname, jpass, baseURL, alias,eaddress, newPass);
+		saveBounds(seaMin, seaMax, eeaMin, eeaMax, bugMax);
+		alert("Settings saved!");
 	};
 };
 function saveToConfig(jname, jpass, baseURL, alias, eaddress, newPass){
@@ -74,7 +111,6 @@ function saveToConfig(jname, jpass, baseURL, alias, eaddress, newPass){
 			});
 		}
 		settingsCookie(eaddress);
-		alert("Settings saved!");
 	});
 };
 
@@ -129,43 +165,6 @@ function testEmail(){
 			alert("Email failed to send!");
 		};
 	});
-};
-function passCheck(){
-	var curPass=$("#curPass").val();
-	var newPass=$("#newPass").val();
-	var confirmPass=$("#confirmPass").val();
-	if (newPass!=""){
-		if (newPass==confirmPass){
-			var testResource = "http://" + hostURL
-			+ "/pmportal/rest/test/login/" + pm + "/" + curPass;
-			$.ajax({
-				type : "GET",
-				dataType : "text",
-				url : testResource
-			}).fail(function(xhr, status, errorThrown) {
-				console.log("Error: " + errorThrown);
-				console.log("Status: " + status);
-				console.dir(xhr);
-				alert("Failed to contact server!");
-			}).done(function(response) {
-				if (response == "Success") {
-					return true;
-				} else {
-					alert("Wrong password!");
-					$("#curPass").css("border", "1px solid #ff0000");
-					return false;
-				}
-				;
-			});
-		}else{
-			alert("Passwords do not match!");
-			("#newPass").css("border","1px solid #ff0000");
-			("#confirmPass").css("border", "1px solid #ff0000");
-			return false;
-		};
-	}else{
-		return true;
-	};
 };
 
 function resetSEA(){

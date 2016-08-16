@@ -294,7 +294,7 @@ public class ProjectServices {
 			} else if (s.isOpen()) {
 				System.out.println("Open: " + s.getName());
 				System.out.println("End: " + s.getEndDate());
-				List<JiraIssue> issueList = sprintService.getIssuesBySprint(s, mainClient);
+				List<JiraIssue> issueList = sprintService.getIssuesBySprint(s);
 				for (JiraIssue i: issueList) {
 					if ("Closed".equals(i.getStatus()) ||
 							"Resolved".equals(i.getStatus()) ||

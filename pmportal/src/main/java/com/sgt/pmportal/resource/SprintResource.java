@@ -15,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
-import com.sgt.pmportal.domain.JiraIssue;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.services.GeneralServices;
 import com.sgt.pmportal.services.ProjectServices;
