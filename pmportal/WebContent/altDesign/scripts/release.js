@@ -85,8 +85,8 @@ var barData = {
 		datasets: [
 		           {
 		        	   label: 'Issues Created',
-		        	   backgroundColor: "rgba(105, 214, 209, 0.8)",
-		        	   borderColor: "rgba(105, 214, 209, 1)",
+		        	   backgroundColor: "rgba(105, 214, 209, 0.6)",
+		        	   borderColor: "rgba(105, 214, 209, 0.8)",
 		        	   data: [40]
 		           },
 		           {
@@ -95,8 +95,29 @@ var barData = {
 		        	   borderColor: "rgba(41, 40, 46, 1)",
 		        	   data: [20]
 		           }
-		           ]
+		           ],
 };
+
+var pieData = {
+		labels: [
+		         "Completed",
+		         "To Do",
+		         ],
+
+		         datasets: [
+		                    {
+		                    	data: [60.5,39.5],
+		                    	backgroundColor: [
+		                    	                  "#FA760A",
+		                    	                  "#FAEB48",
+		                    	                  ],
+		                    	                  hoverBackgroundColor: [
+		                    	                                         "#FA9848",
+		                    	                                         "#FAF087",
+		                    	                                         ]
+		                    }]
+};
+
 
 $(document).ready(function(){
     $('#section5').append("<p>" + week + "<br>"+ date + "</p>");
@@ -144,6 +165,7 @@ function showInitialData() {
     $('#info').append("<h3> Project Information </h3>").append("<p> Project Name: " + project.name+ "</p>").append
     ("<p> Project Lead: " + project.lead.displayName+ "</p>").append("<p> Project Due Date: " + project.due+ "</p>");
     createBar();
+    createPie();
 }
 
 function createBar() {
@@ -152,7 +174,7 @@ function createBar() {
 		type: 'bar',
 		data: barData,
 		options: {
-			maintainAspectRatio: false,
+			maintainAspectRatio: true,
 			responsive: true,
 			scales: {
 				yAxes: [{
@@ -165,4 +187,17 @@ function createBar() {
 
 	});
 }
+
+function createPie() {
+	var ctx = document.getElementById('pie').getContext('2d');
+	pieChart = new Chart(ctx, {
+		type: 'pie',
+		data: pieData,
+		options: {
+			maintainAspectRatio: true,
+			responsive: true
+		}
+	});
+}
+
 

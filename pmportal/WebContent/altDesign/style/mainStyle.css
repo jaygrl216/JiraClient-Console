@@ -112,9 +112,11 @@ nav h4 {
     background-color: rgba(41, 40, 46, 0.8);
 }
 
-h3 {
+h4 {
     margin-left: 5px;
     font-weight: bold;
+    color:#fff;
+    text-align: center;
 }
 
 
