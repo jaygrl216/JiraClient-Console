@@ -80,6 +80,7 @@ switch(current.getMonth()) {
 
 date = date.concat(current.getDate() + ", 20" + (current.getYear() - 100));
 
+
 var barData = {
 		labels: [],
 		datasets: [
@@ -87,13 +88,13 @@ var barData = {
 		        	   label: 'Issues Created',
 		        	   backgroundColor: "rgba(105, 214, 209, 0.6)",
 		        	   borderColor: "rgba(105, 214, 209, 0.8)",
-		        	   data: [40]
+		        	   data: []
 		           },
 		           {
 		        	   label: 'Issues Completed',
 		        	   backgroundColor: "rgba(41, 40, 46, 0.8)",
 		        	   borderColor: "rgba(41, 40, 46, 1)",
-		        	   data: [20]
+		        	   data: []
 		           }
 		           ],
 };
@@ -106,7 +107,7 @@ var pieData = {
 
 		         datasets: [
 		                    {
-		                    	data: [60.5,39.5],
+		                    	data: [0,0],
 		                    	backgroundColor: [
 		                    	                  "#6AF263",
 		                    	                  "#D8F545",
@@ -152,8 +153,8 @@ $.ajax({
 
 $(document).ajaxStop(function () {
     if(stop == 0) {
-//        createBar();
-//        createPie();
+        createBar();
+        createPie();
         showInitialData();
         stop = 1;
     }
@@ -161,11 +162,62 @@ $(document).ajaxStop(function () {
 
 function showInitialData() {
 	var project = projectArray[0];
+    console.log(project);
+
     $('#info').empty();
     $('#info').append("<h3> Project Information </h3>").append("<p> Project Name: " + project.name+ "</p>").append
-    ("<p> Project Lead: " + project.lead.displayName+ "</p>").append("<p> Project Due Date: " + project.due+ "</p>");
-    createBar();
-    createPie();
+    ("<p> Project Lead: " + project.lead.displayName+ "</p>").append("<p> Project Due Date: " + project.due + "</p>");
+//    projDate = project.due.split("-");
+//    due = new Date();
+//    due.setMonth(projDate[0]);
+//    due.setDate(projDate[1]);
+
+     projKey = project.key;
+    $("#metricLink").attr("href", "metrics.html?project=" + projKey);
+    metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+
+    $.ajax({
+		url: metricResource,
+		dataType: "json"
+	}).fail(function(xhr, status, errorThrown ) {
+		console.log("Error: " + errorThrown );
+		console.log("Status: " + status );
+		console.dir(xhr);
+	}).done(function(jsonObject){
+		responseObject3 = jsonObject;
+		metrics = responseObject3;
+		pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
+		pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
+		createPie();
+	});
+
+
+    $.ajax({
+		url: issueResource,
+		dataType: "json"
+	}).fail(function(xhr, status, errorThrown ) {
+		console.log("Error: " + errorThrown );
+		console.log("Status: " + status );
+		console.dir(xhr);
+	}).done(function(jsonObject){
+		console.log("SUCCESS");
+		responseObject2 = jsonObject;
+		issueArray = responseObject2.issues;
+		var completed = 0;
+		var toDo = 0;
+
+		$.each(issueArray, function (index, issue) {
+			if(issue.status == "Resolved" || issue.status == "Closed" || issue.status == "Done") {
+				completed = completed + 1;
+			} else {
+				toDo = toDo + 1;
+			}
+		});
+		barData.datasets[0].data[0] = issueArray.length
+		barData.datasets[1].data[0]= completed;
+		createBar();
+	});
 }
 
 function createBar() {
