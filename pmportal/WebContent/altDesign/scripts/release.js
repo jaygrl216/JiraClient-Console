@@ -80,6 +80,24 @@ switch(current.getMonth()) {
 
 date = date.concat(current.getDate() + ", 20" + (current.getYear() - 100));
 
+var barData = {
+		labels: [],
+		datasets: [
+		           {
+		        	   label: 'Issues Created',
+		        	   backgroundColor: "rgba(105, 214, 209, 0.8)",
+		        	   borderColor: "rgba(105, 214, 209, 1)",
+		        	   data: [40]
+		           },
+		           {
+		        	   label: 'Issues Completed',
+		        	   backgroundColor: "rgba(41, 40, 46, 0.8)",
+		        	   borderColor: "rgba(41, 40, 46, 1)",
+		        	   data: [20]
+		           }
+		           ]
+};
+
 $(document).ready(function(){
     $('#section5').append("<p>" + week + "<br>"+ date + "</p>");
     
@@ -125,6 +143,26 @@ function showInitialData() {
     $('#info').empty();
     $('#info').append("<h3> Project Information </h3>").append("<p> Project Name: " + project.name+ "</p>").append
     ("<p> Project Lead: " + project.lead.displayName+ "</p>").append("<p> Project Due Date: " + project.due+ "</p>");
-    
+    createBar();
+}
+
+function createBar() {
+	var ctx = document.getElementById('bar').getContext('2d');
+	barChart = new Chart(ctx, {
+		type: 'bar',
+		data: barData,
+		options: {
+			maintainAspectRatio: false,
+			responsive: true,
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true
+					}
+				}]
+			}
+		}
+
+	});
 }
 
