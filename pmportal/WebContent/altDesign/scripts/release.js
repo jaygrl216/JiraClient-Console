@@ -163,10 +163,11 @@ $(document).ajaxStop(function () {
 function showInitialData() {
 	var project = projectArray[0];
     console.log(project);
+    var projDate = new Date();
 
     $('#info').empty();
     $('#info').append("<h3> Project Information </h3>").append("<p> Project Name: " + project.name+ "</p>").append
-    ("<p> Project Lead: " + project.lead.displayName+ "</p>").append("<p> Project Due Date: " + project.due + "</p>");
+    ("<p> Project Lead: " + project.lead.displayName+ "</p>");
 //    projDate = project.due.split("-");
 //    due = new Date();
 //    due.setMonth(projDate[0]);
@@ -188,7 +189,15 @@ function showInitialData() {
 		metrics = responseObject3;
 		pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
 		pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
+
+        projDate = project.due.split("-");
+        var due = new Date();
+        due.setMonth(projDate[0]);
+        due.setDate(projDate[1]);
+        $('#info').append("<p> Project Due Date: " + due + "</p>");
 		createPie();
+
+
 	});
 
 
