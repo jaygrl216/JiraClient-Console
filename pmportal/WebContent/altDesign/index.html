@@ -2,18 +2,132 @@
 <html lang="en">
 
     <head>
-        <title>PMPortal Dashboard: Release</title>
+        <title>PMPortal Dashboard</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="style/login.css">
+        <script type="text/javascript" src="scripts/jquery-3.0.0.js"></script>
+
 
     </head>
 
 
     <body>
-                <ul>
-                    <li>Home</li>
-                    <li><a href="release.html">Release</a></li>
-                    <li>Metrics</li>
-                    <li>Reports</li>
-                    <li>Profile</li>
-               </ul>
+        <div class="row">
+		<div class="col-lg-6 col-lg-offset-3 login">
+			<h2>PMPortal Login</h2>
+
+			<div id="loginInput">
+				<span class="inputTag">Username</span> <br> <input type="text"
+					id="uname" /> <br> <span class="inputTag">Password</span> <br>
+				<input type="password" id="pass" /> <br> <br> <input
+					type="button" id="loginButton" value="Log In" onclick="login()" />
+				<p style="color: red; visibility: hidden" id="fail">Login
+					failed! Double check your login info, or create a new user.</p>
+				<input type="button" value="Create new user"
+					onclick="createNew()" id="newUser"/>
+			</div>
+		</div>
+	</div>
+	<div class="dropdown">
+		<button type="button" data-toggle="dropdown"
+			class="btn btn-info dropdown-toggle">
+			Select Jira Instance<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" id="userList">
+		</ul>
+	</div>
+
+	<script src="scripts/cookiehandler.js"></script>
+	<script src="scripts/jquery-1.12.4.min.js"></script>
+	<script src="scripts/bootstrap.min.js"></script>
+	<script>
+		$(".dropdown").hide();
+		var hostURL = window.location.host;
+		var pm = "";
+		function login() {
+			pm = $("#uname").val();
+			var pass = $("#pass").val();
+			var testResource = "http://" + hostURL
+					+ "/pmportal/rest/test/login/" + pm + "/" + pass;
+			$.ajax({
+				type : "GET",
+				dataType : "text",
+				url : testResource
+			}).fail(function(xhr, status, errorThrown) {
+				console.log("Error: " + errorThrown);
+				console.log("Status: " + status);
+				console.dir(xhr);
+				alert("Failed to contact server!");
+			}).done(function(response) {
+				if (response == "Success") {
+					getUsers();
+				} else {
+					$("#fail").css("visibility", "visible");
+				}
+				;
+			});
+		};
+		function createNew() {
+			window.location = "new.html";
+		}
+		var userArray;
+		function getUsers() {
+			var resource = "http://" + hostURL
+					+ "/pmportal/rest/config/get/all/" + pm;
+			$.ajax({
+				type : "GET",
+				dataType : "json",
+				url : resource
+			}).fail(function(xhr, status, errorThrown) {
+				console.log("Error: " + errorThrown);
+				console.log("Status: " + status);
+				console.dir(xhr);
+			}).done(
+					function(jsonObject) {
+						$(".dropdown").show();
+						$("#loginInput").hide();
+						userArray = jsonObject.users;
+						$.each(userArray, function(index, user) {
+							$("#userList").append(
+									"<li>" + user.username + ", " + user.alias
+											+ "</li>");
+						});
+					});
+		}
+		$(document).ready(function() {
+			$("#userList").on("click", "li", function() {
+				var item = $(this).text();
+				$.each(userArray, function(index, user) {
+					if (user.username + ", " + user.alias == item) {
+						selectUser(user.username);
+					}
+					;
+				});
+			});
+		});
+		function selectUser(username) {
+			var configResource = "http://" + hostURL
+					+ "/pmportal/rest/config/get/user/" + pm + "/" + username;
+			$.ajax({
+				type : "GET",
+				dataType : "json",
+				url : configResource
+			}).fail(function(xhr, status, errorThrown) {
+				console.log("Error: " + errorThrown);
+				console.log("Status: " + status);
+				console.dir(xhr);
+				alert("Failed to contact server!");
+			}).done(function(jsonObject) {
+				var uname = jsonObject.username;
+				var pass = jsonObject.password;
+				var url = jsonObject.url;
+				setCookie(uname, pass, url, pm);
+				window.location = "release.html";
+			});
+		};
+	</script>
     </body>
 </html>

@@ -91,7 +91,7 @@ nav h4 {
 #section5 {
     height: 120px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
-    background-image: url(../images/sky.jpg);
+    background: linear-gradient(135deg, #f6e6b4 0%,#314347 100%);
     background-size: cover;
     margin-left: 5px;
     margin-top: 15px;
@@ -103,6 +103,13 @@ nav h4 {
     font-size: 25px;
     margin-top: 20px;
     font-weight: bold;
+}
+
+#miniRow {
+    margin-left: 15px;
+    height:50px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(41, 40, 46, 0.8);
 }
 
 h3 {

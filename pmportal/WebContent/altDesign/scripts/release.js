@@ -8,9 +8,9 @@ var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
 //var issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 //var metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-
+var stop = 0;
 var projectArray;
-
+var projKey = "";
 var date = "";
 var week = "";
 var current = new Date();
@@ -82,6 +82,15 @@ date = date.concat(current.getDate() + ", 20" + (current.getYear() - 100));
 
 $(document).ready(function(){
     $('#section5').append("<p>" + week + "<br>"+ date + "</p>");
+    
+    $("#projList").on( "click", "li" , function () {
+		var item = $(this).text();
+		$.each(projectArray, function (index, proj) {
+			if(proj.name == item) {
+				showProjectData(index);
+			}
+		});
+	});
 });
 
 $.ajax({
@@ -101,4 +110,21 @@ $.ajax({
 		$("#projectList").append("<li>" + proj.name +  "</li>");
 	});
 });
+
+$(document).ajaxStop(function () {
+    if(stop == 0) {
+//        createBar();
+//        createPie();
+        showInitialData();
+        stop = 1;
+    }
+});
+
+function showInitialData() {
+	var project = projectArray[0];
+    $('#info').empty();
+    $('#info').append("<h3> Project Information </h3>").append("<p> Project Name: " + project.name+ "</p>").append
+    ("<p> Project Lead: " + project.lead.displayName+ "</p>").append("<p> Project Due Date: " + project.due+ "</p>");
+    
+}
 
