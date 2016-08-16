@@ -149,3 +149,11 @@ a:hover {
     text-decoration: none;
     font-weight: bold;
 }
+
+#section4projects {
+    height:280px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(41, 40, 46, 0.8);
+    margin-left: 5px;
+    margin-top: 25px;
+}
