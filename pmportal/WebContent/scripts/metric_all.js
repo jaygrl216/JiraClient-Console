@@ -5,7 +5,7 @@ if (username==""){
 var password=getCookie("password");
 var baseURL=getCookie("url");
 var hostURL=window.location.host;
-var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
+var projectResource = "http://"+hostURL+"/pmportal/rest/metrics/all/projects/" + username + "/" + password + "/" + baseURL;
 var allResource="http://" + hostURL+ "/pmportal/rest/metrics/all/" + username + "/" + password + "/" + baseURL;
 var responseObject;
 var metricObject;
@@ -18,7 +18,7 @@ var bugData=[];
 var progData=[];
 $("#aboutInfo").hide();
 $.ajax({
-	url: homeResource,
+	url: projectResource,
 	dataType: "json"
 }).fail(function(xhr, status, errorThrown ) {
 	console.log("Error: " + errorThrown );

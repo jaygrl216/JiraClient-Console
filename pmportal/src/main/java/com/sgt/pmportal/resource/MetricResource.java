@@ -190,6 +190,7 @@ public class MetricResource {
 		for (BasicProject project:projectList){
 			JSONObject tempObject=new JSONObject();
 			tempObject.put("name", project.getName());
+			tempObject.put("key", project.getKey());
 			projectArray.put(tempObject);
 		}
 		responseObject.put("projects", projectArray);
