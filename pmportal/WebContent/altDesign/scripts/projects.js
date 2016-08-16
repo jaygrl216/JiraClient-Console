@@ -9,8 +9,8 @@ var url=getCookie("url");
 //resource allocation, should be called after project data is loaded so it has a key
 var userResource;
 var userArray;
-var userLabelArray[];
-var effortArray[];
+var userLabelArray=[];
+var effortArray=[];
 var key="PMPOR";
 function resourceAllocation(){
 var userResource="http://" + hostURL + "/pmportal/rest/user/"+key+"/"+username+"/"+password+"/"+url;
