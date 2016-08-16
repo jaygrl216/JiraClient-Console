@@ -35,6 +35,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
+import com.atlassian.jira.rest.client.domain.BasicProject;
 import com.sgt.pmportal.domain.JiraProject;
 import com.sgt.pmportal.domain.Sprint;
 import com.sgt.pmportal.services.GeneralServices;
@@ -176,7 +177,24 @@ public class MetricResource {
 		responseObject.put("project", projectArray);
 		return responseObject.toString();
 	}
-	
+	@Path("/all/projects/{username}/{password}/{url:.+}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getProjectNames(@PathParam ("username") String username,
+			@PathParam ("password") String password,
+			@PathParam("url") String url) throws URISyntaxException, IOException, ParseException{
+		JiraRestClient client=GeneralServices.login(url, username, password);
+		Iterable<BasicProject> projectList=client.getProjectClient().getAllProjects().claim();
+		JSONObject responseObject=new JSONObject();
+		JSONArray projectArray=new JSONArray();
+		for (BasicProject project:projectList){
+			JSONObject tempObject=new JSONObject();
+			tempObject.put("name", project.getName());
+			projectArray.put(tempObject);
+		}
+		responseObject.put("projects", projectArray);
+		return responseObject.toString();
+	}
 	@Path("/averages/{username}/{password}/{url:.+}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
