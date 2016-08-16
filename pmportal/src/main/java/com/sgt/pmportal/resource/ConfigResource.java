@@ -65,7 +65,6 @@ public class ConfigResource {
 		Writer fileWriter=new BufferedWriter(new FileWriter(textFile));
 		fileWriter.write(newString+pm+","+email+","+password+";");
 		fileWriter.close();
-		System.out.println("Saved");
 		return "Saved";
 	}
 
@@ -105,7 +104,6 @@ public class ConfigResource {
 			fileWriter.write(url+","+username+","+password+","+alias+","+ seaMin + "," + seaMax + "," + eeaMin +"," + eeaMax + "," +bugMax+";");
 			fileWriter.close();
 		};
-		System.out.println("Saved");
 		return "Saved";
 	}
 
