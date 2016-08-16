@@ -2,12 +2,12 @@ var hostURL=window.location.host;
 var username=getCookie("username");
 var password=getCookie("password");
 var url=getCookie("url");
-
+var key="PMPOR";
 
 
 
 //resource allocation
-var userResource="http://" + hostURL + "/pmportal/rest/user/"+username+"/"+password+"/"+url;
+var userResource="http://" + hostURL + "/pmportal/rest/user/"+key+"/"+username+"/"+password+"/"+url;
 var userArray;
 var userLabelArray[];
 var effortArray[];
