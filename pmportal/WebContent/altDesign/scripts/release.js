@@ -168,12 +168,8 @@ function showInitialData() {
     $('#info').empty();
     $('#info').append("<h3> Project Information </h3>").append("<p> Project Name: " + project.name+ "</p>").append
     ("<p> Project Lead: " + project.lead.displayName+ "</p>");
-//    projDate = project.due.split("-");
-//    due = new Date();
-//    due.setMonth(projDate[0]);
-//    due.setDate(projDate[1]);
 
-     projKey = project.key;
+    projKey = project.key;
     metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
 
@@ -196,6 +192,12 @@ function showInitialData() {
         due.setDate(projDate[1]);
         $('#info').append("<p> Project Due Date: " + due + "</p>");
 		createPie();
+
+        if(current.getDate() > due.getDate()) {
+            $('#section4').append("yes");
+        } else {
+            $('#section4').append("no");
+        }
 
 
 	});
