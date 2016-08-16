@@ -2,15 +2,18 @@ var hostURL=window.location.host;
 var username=getCookie("username");
 var password=getCookie("password");
 var url=getCookie("url");
-var key="PMPOR";
 
 
 
-//resource allocation
-var userResource="http://" + hostURL + "/pmportal/rest/user/"+key+"/"+username+"/"+password+"/"+url;
+
+//resource allocation, should be called after project data is loaded so it has a key
+var userResource;
 var userArray;
 var userLabelArray[];
 var effortArray[];
+var key="PMPOR";
+function resourceAllocation(){
+var userResource="http://" + hostURL + "/pmportal/rest/user/"+key+"/"+username+"/"+password+"/"+url;
 $.ajax({
 	url: userResource,
 	dataType: "json"
@@ -26,6 +29,7 @@ $.ajax({
 	});
 	graphEffort();
 });
+}
 function graphEffort(){
 var ctx=document.getElementById("resourceAllocation").getContext("2d");
 	var effortData = {
