@@ -197,7 +197,7 @@ function showInitialData() {
         $('#info').append("<p class='date'><span class='header'> Project Due Date:</span> " + due + "</p>");
 		createPie();
 
-        if(current.getDate() > due.getDate()) {
+        if(current.getTime() > due.getTime()) {
             $('#section4').append("<p class='overdueYes'>Yes</p>");
         } else {
             $('#section4').append("<p class='overdueNo'>No</p>");
@@ -304,7 +304,7 @@ function showProjectData(num) {
         $('#info').append("<p class='date'><span class='header'> Project Due Date:</span> " + due + "</p>");
 		pieChart.update();
 
-        if(current.getDate() > due.getDate()) {
+        if(current.getTime() > due.getTime()) {
             $('#section4').append("<p class='overdueYes'>Yes</p>");
         } else {
             $('#section4').append("<p class='overdueNo'>No</p>");
