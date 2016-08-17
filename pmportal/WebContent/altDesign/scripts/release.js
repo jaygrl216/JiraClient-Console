@@ -197,7 +197,7 @@ function showInitialData() {
         $('#info').append("<p class='date'><span class='header'> Project Due Date:</span> " + due + "</p>");
 		createPie();
 
-        if(current.getDate() < due.getDate()) {
+        if(current.getDate() > due.getDate()) {
             $('#section4').append("<p class='overdueYes'>Yes</p>");
         } else {
             $('#section4').append("<p class='overdueNo'>No</p>");
@@ -276,6 +276,9 @@ function showProjectData(num) {
     $('#info').empty();
     $('#info').append("<h3> Project Information </h3>").append("<p><span class='header'>Project Name:</span> " + project.name+ "</p>").append
     ("<p><span class='header'> Project Lead:</span> " + project.lead.displayName+ "</p>");
+    $('#section4').empty();
+    $('#section4').append("<h4> Overdue </h4>");
+
 
     projKey = project.key;
     metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
@@ -301,7 +304,7 @@ function showProjectData(num) {
         $('#info').append("<p class='date'><span class='header'> Project Due Date:</span> " + due + "</p>");
 		pieChart.update();
 
-        if(current.getDate() < due.getDate()) {
+        if(current.getDate() > due.getDate()) {
             $('#section4').append("<p class='overdueYes'>Yes</p>");
         } else {
             $('#section4').append("<p class='overdueNo'>No</p>");
