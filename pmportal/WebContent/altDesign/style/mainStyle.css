@@ -80,6 +80,15 @@ nav h4 {
     margin-top: 15px;
 }
 
+#section3backlog {
+    height: 300px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(33, 66, 73, 0.5);
+    margin-left: 35px;
+    margin-top: 15px;
+    overflow-y: auto;
+}
+
 #section4 {
     height:150px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
