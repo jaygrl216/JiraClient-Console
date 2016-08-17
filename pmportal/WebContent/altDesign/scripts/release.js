@@ -6,8 +6,8 @@ var password=getCookie("password").toString();
 var baseURL=getCookie("url").toString();
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;
-//var issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
-//var metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+var issueResource;
+var metricResource;
 var stop = 0;
 var projectArray;
 var projKey = "";
@@ -16,6 +16,7 @@ var week = "";
 var current = new Date();
 var barChart;
 var pieChart;
+var backlog;
 
 switch(current.getDay()) {
     case 0:
@@ -162,6 +163,28 @@ $(document).ajaxStop(function () {
     }
 });
 
+function getBacklog(resource) {
+   $.ajax({
+		url: resource,
+		dataType: "json"
+	}).fail(function(xhr, status, errorThrown ) {
+		console.log("Error: " + errorThrown );
+		console.log("Status: " + status );
+		console.dir(xhr);
+	}).done(function(jsonObject){
+		console.log("SUCCESS");
+		var backlogIssues = jsonObject.issues;
+
+		$.each(backlogIssues, function (index, issue) {
+			if(issue.daysInLog > 10) {
+                $('#section3backlog').append("<p class='warning'>" + issue.key + "-" + issue.daysInLog + "</p>");
+            } else if (issue.daysInLog > 20) {
+                $('#section3backlog').append("<p class='bad'>" + issue.key + "-" + issue.daysInLog + "</p>");
+            }
+		});
+	});
+}
+
 function showInitialData() {
 	var project = projectArray[0];
     console.log(project);
@@ -176,6 +199,10 @@ function showInitialData() {
     projKey = project.key;
     metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    backlog = "http://" + hostURL +"/pmportal/rest/sprint/backlog/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    $("#metricLink").attr("href", "metrics.html?project=" + projKey);
+
+//    getBacklog(backlog);
 
     $.ajax({
 		url: metricResource,
@@ -253,6 +280,7 @@ function showInitialData() {
 		barData.datasets[1].data[0]= completed;
 		createBar();
 	});
+
 }
 
 function createBar() {
@@ -295,6 +323,8 @@ function showProjectData(num) {
     $('h3 small').empty();
     $('h3 small').append(project.key);
     $('#info').empty();
+    $('#section3backlog').empty();
+    $('#section3backlog').append("<h4> Backlog </h4>");
     $('#info').append("<h3> Project Information </h3>").append("<p><span class='header'>Project Name:</span> " + project.name+ "</p>").append
     ("<p><span class='header'> Project Lead:</span> " + project.lead.displayName+ "</p>");
     $('#section4').empty();
@@ -304,6 +334,9 @@ function showProjectData(num) {
     projKey = project.key;
     metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
     issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    backlog = "http://" + hostURL +"/pmportal/rest/sprint/backlog/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    $("#metricLink").attr("href", "metrics.html?project=" + projKey);
+
 
     $.ajax({
 		url: metricResource,
@@ -381,6 +414,8 @@ function showProjectData(num) {
 		barData.datasets[1].data[0]= completed;
 		barChart.update();
 	});
+
+//    getBacklog(backlog);
 }
 
 
