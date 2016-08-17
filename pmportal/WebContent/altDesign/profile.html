@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+    <head>
+        <title>PMPortal Dashboard: Reports</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../scripts/cookiehandler.js"></script>
+        <script src="../scripts/jquery-2.4.js"></script>
+        <link rel="stylesheet" href="style/bootstrap.min.css">
+        <link rel="stylesheet" href="style/mainStyle.css">
+        <script type="text/javascript" src="scripts/Chart.js"></script>
+
+
+    </head>
+
+
+    <body>
+        <div class="row" id="mainRow">
+            <nav class="col-lg-2">
+                <h4>PMPortal Dashboard</h4>
+                <div id="navTop">
+                    <h4>Welcome!</h4>
+                </div>
+               <ul>
+                   <li><a href="home.html">Home</a></li>
+                   <li><a href="release.html">Release</a></li>
+                   <li><a href="metrics.html" id="metricLink">Individual Metrics</a></li>
+                   <li><a href="metric_all.html">Full Metrics</a></li>
+                   <li><a href="reports.html">Reports</a></li>
+                   <li><a href="profile.html">Profile</a></li>
+               </ul>
+            </nav>
+
+            <div class="col-lg-10" id="scrollable">
+                <h3>Profile &amp; Settings</h3>
+                <div class="row">
+                    <div class="col-lg-8" id="section1">
+                        <div id="info">
+                        <h3>Project Information</h3>
+                        <p>Project Name</p>
+                        <p>Description</p>
+                        <p>Lead</p>
+                        <p>Due Date</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="dropdown" id="projList">
+                                <button type="button" data-toggle="dropdown" class="btn btn-info dropdown-toggle">
+                                    Projects<span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" id="projectList">
+                                </ul>
+                            </div>
+
+                            <div class="col-lg-12" id="section2">
+                                <h4>Project Progress</h4>
+                                <canvas id="pie"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7" id="section3">
+                         <h4>Issue Tracking</h4>
+                        <canvas id="bar"></canvas>
+                    </div>
+
+                    <div class ="col-lg-4">
+                        <div class="row" id="section4">
+                            <h4>Metrics and Progress</h4>
+                        </div>
+
+                        <div class="row" id="section5">
+                            <h4>Today's Date Is:</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7" id="section3backlog">
+                         <h4>Backlog</h4>
+                        <canvas id="bar"></canvas>
+                    </div>
+
+                    <div class ="col-lg-4">
+                        <div class="row" id="section4projects">
+                            <h4>User Workload</h4>
+                            <canvas id="resourceAllocation"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <script src="scripts/bootstrap.min.js"></script>
+    </body>
+</html>

@@ -1,7 +1,7 @@
 var username=getCookie("username");
-if (username==""){
-	window.location="index.html";
-};
+//if (username==""){
+//	window.location="index.html";
+//};
 var password=getCookie("password");
 var baseURL=getCookie("url");
 var projectKey=getKeyFromURL();
@@ -12,7 +12,7 @@ var id="sea";
 var loaded=false;
 var lineChart;
 var ctx = document.getElementById("chart").getContext("2d");
-$("h3").append(projectKey);
+$("small").append(projectKey);
 //retrieve data
 $.ajax({
 	type:"GET",
@@ -26,7 +26,7 @@ $.ajax({
 }).done(function(jsonObject){
 	responseObject=jsonObject;
 	loaded=true;
-    generateReport();e
+    generateReport();
 	if (responseObject.response==200){
 	generateTable();
 	drawLineGraphics();
@@ -154,7 +154,7 @@ function generateTable(){
 	bugArray=JSON.parse(responseObject.bugs);
 //subtract 1 to neglect prediction
 	for (var i=0;i<seaArray.length-1; i++){
-		$("#dataTable").append("<tr><td> Sprint: "+ (i+1)+ "</td><td>"+seaArray[i]+"</td><td>"+eeaArray[i]+"</td><td>"+bugArray[i]+"</td></tr>");
+		$("#dataTable").append("<tr><td> Sprint: "+ (i+1)+ "</td><td>"+Math.round(seaArray[i]*100)/100+"</td><td>"+Math.round(eeaArray[i]*100)/100+"</td><td>"+bugArray[i]+"</td></tr>");
 	};
 };
 function redirectToAll(){
