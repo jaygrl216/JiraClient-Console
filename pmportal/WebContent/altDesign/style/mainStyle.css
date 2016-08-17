@@ -157,3 +157,25 @@ a:hover {
     margin-left: 5px;
     margin-top: 25px;
 }
+
+.overdueYes {
+    text-align: center;
+    color: #EB2121;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.overdueNo {
+    text-align: center;
+    color: #21EB5D;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.date {
+    color: #F7A13E;
+}
+
+.header {
+    text-decoration: underline;
+}
