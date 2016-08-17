@@ -27,7 +27,6 @@
                <ul>
                    <li><a href="home.html">Home</a></li>
                    <li><a href="release.html">Release</a></li>
-                   <li><a href="projects.html">Projects</a></li>
                    <li><a href="metrics.html">Individual Metrics</a></li>
                    <li><a href="metric_all.html">Full Metrics</a></li>
                    <li><a href="reports.html">Reports</a></li>
@@ -35,7 +34,7 @@
                </ul>
             </nav>
 
-            <div class="col-lg-10">
+            <div class="col-lg-10" id="scrollable">
                 <h3>Release Dashboard <small>Project Name</small></h3>
                 <div class="row">
                     <div class="col-lg-8" id="section1">
@@ -74,11 +73,25 @@
 
                     <div class ="col-lg-4">
                         <div class="row" id="section4">
-                            <h4>Overdue</h4>
+                            <h4>Metrics</h4>
                         </div>
 
                         <div class="row" id="section5">
                             <h4>Today's Date Is:</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7" id="section3">
+                         <h4>Backlog</h4>
+                        <canvas id="bar"></canvas>
+                    </div>
+
+                    <div class ="col-lg-4">
+                        <div class="row" id="section4projects">
+                            <h4>User Workload</h4>
+                            <canvas id="resourceAllocation"></canvas>
                         </div>
                     </div>
                 </div>

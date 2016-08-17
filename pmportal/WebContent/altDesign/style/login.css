@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway);
 
 body {
-	background-color: rgba(41, 40, 46, 1);
+	background-color: #e8e4e1;
 	color: #fff;
 	font-family: 'Raleway', sans-serif;
 	overflow-x: hidden;
@@ -10,7 +10,7 @@ body {
 .login {
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
-	background-color: rgba(125, 126, 125, 0.1);
+	background-color: rgba(41, 40, 46, 0.8);
 	text-align: center;
 	margin-top: 150px;
 }
@@ -18,7 +18,7 @@ body {
 .create, .create1 {
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)
 		inset;
-	background-color: rgba(125, 126, 125, 0.1);
+	background-color: rgba(41, 40, 46, 0.8);
 	text-align: center;
 	margin-top: 50px;
 }

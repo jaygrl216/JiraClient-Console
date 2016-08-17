@@ -179,3 +179,8 @@ a:hover {
 .header {
     text-decoration: underline;
 }
+
+#scrollable {
+    height: 600px;
+    overflow-y: auto;
+}
