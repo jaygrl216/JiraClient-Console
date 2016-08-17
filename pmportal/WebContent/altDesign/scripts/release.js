@@ -14,6 +14,8 @@ var projKey = "";
 var date = "";
 var week = "";
 var current = new Date();
+var barChart;
+var pieChart;
 
 switch(current.getDay()) {
     case 0:
@@ -261,6 +263,78 @@ function createPie() {
 			maintainAspectRatio: true,
 			responsive: true
 		}
+	});
+}
+
+function showProjectData(num) {
+    var project = projectArray[num];
+    console.log(project);
+    var projDate = new Date();
+
+    $('h3 small').empty();
+    $('h3 small').append(project.key);
+    $('#info').empty();
+    $('#info').append("<h3> Project Information </h3>").append("<p><span class='header'>Project Name:</span> " + project.name+ "</p>").append
+    ("<p><span class='header'> Project Lead:</span> " + project.lead.displayName+ "</p>");
+
+    projKey = project.key;
+    metricResource = "http://"+hostURL+"/pmportal/rest/metrics/project/basic/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+    issueResource = "http://"+hostURL+"/pmportal/rest/issues/" + projKey + "/" + username + "/" + password + "/" + baseURL;
+
+    $.ajax({
+		url: metricResource,
+		dataType: "json"
+	}).fail(function(xhr, status, errorThrown ) {
+		console.log("Error: " + errorThrown );
+		console.log("Status: " + status );
+		console.dir(xhr);
+	}).done(function(jsonObject){
+		responseObject3 = jsonObject;
+		metrics = responseObject3;
+		pieData.datasets[0].data[0] = Math.round(metrics.progress * 100) / 100;
+		pieData.datasets[0].data[1] = Math.round((100 - metrics.progress) * 100) / 100;
+
+        projDate = project.due.split("-");
+        var due = new Date();
+        due.setMonth(projDate[0]);
+        due.setDate(projDate[1]);
+        $('#info').append("<p class='date'><span class='header'> Project Due Date:</span> " + due + "</p>");
+		pieChart.update();
+
+        if(current.getDate() < due.getDate()) {
+            $('#section4').append("<p class='overdueYes'>Yes</p>");
+        } else {
+            $('#section4').append("<p class='overdueNo'>No</p>");
+        }
+
+
+	});
+
+
+    $.ajax({
+		url: issueResource,
+		dataType: "json"
+	}).fail(function(xhr, status, errorThrown ) {
+		console.log("Error: " + errorThrown );
+		console.log("Status: " + status );
+		console.dir(xhr);
+	}).done(function(jsonObject){
+		console.log("SUCCESS");
+		responseObject2 = jsonObject;
+		issueArray = responseObject2.issues;
+		var completed = 0;
+		var toDo = 0;
+
+		$.each(issueArray, function (index, issue) {
+			if(issue.status == "Resolved" || issue.status == "Closed" || issue.status == "Done") {
+				completed = completed + 1;
+			} else {
+				toDo = toDo + 1;
+			}
+		});
+		barData.datasets[0].data[0] = issueArray.length
+		barData.datasets[1].data[0]= completed;
+		barChart.update();
 	});
 }
 
