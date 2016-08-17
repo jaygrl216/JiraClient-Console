@@ -197,10 +197,31 @@ function showInitialData() {
         $('#info').append("<p class='date'><span class='header'> Project Due Date:</span> " + due + "</p>");
 		createPie();
 
-        if(current.getTime() > due.getTime()) {
-            $('#section4').append("<p class='overdueYes'>Yes</p>");
+        var seaData = Math.round(metrics.sea * 100) / 100;
+        var eeaData = Math.round(metrics.eea * 100) / 100;
+        var progressData = Math.round(metrics.progress * 100) / 100;
+
+         if(seaData < 1) {
+            $("#section4").append("<p>SEA: <span class='good'>" + seaData + "</span></p>");
+        } else if (seaData >= 1) {
+            $("#section4").append("<p>SEA: <span class='bad'>" + seaData + "</span></p>");
         } else {
-            $('#section4').append("<p class='overdueNo'>No</p>");
+            $("#graph").append("<p class='warning'> SEA: Cannot Compute SEA </p>");
+        }
+
+        if(eeaData < 1) {
+            $("#section4").append("<p>EEA: <span class='good'>" + eeaData + "</span></p>");
+        } else if (eeaData >= 1) {
+            $("#section4").append("<p>EEA: <span class='bad'>" + seaData + "</span></p>");
+        } else {
+            $("#graph").append("<p class='warning'> EEA: Cannot Compute SEA </p>");
+        }
+
+
+        if(current.getTime() > due.getTime()) {
+            $('#section4').append("<p>Overdue: <span class='overdueYes'>Yes</span></p>");
+        } else {
+            $('#section4').append("<p>Overdue: <span class='overdueNo'>No</span></p>");
         }
 
 
@@ -277,7 +298,7 @@ function showProjectData(num) {
     $('#info').append("<h3> Project Information </h3>").append("<p><span class='header'>Project Name:</span> " + project.name+ "</p>").append
     ("<p><span class='header'> Project Lead:</span> " + project.lead.displayName+ "</p>");
     $('#section4').empty();
-    $('#section4').append("<h4> Overdue </h4>");
+    $('#section4').append("<h4> Metrics and Progress </h4>");
 
 
     projKey = project.key;
@@ -304,10 +325,31 @@ function showProjectData(num) {
         $('#info').append("<p class='date'><span class='header'> Project Due Date:</span> " + due + "</p>");
 		pieChart.update();
 
-        if(current.getTime() > due.getTime()) {
-            $('#section4').append("<p class='overdueYes'>Yes</p>");
+        var seaData = Math.round(metrics.sea * 100) / 100;
+        var eeaData = Math.round(metrics.eea * 100) / 100;
+        var progressData = Math.round(metrics.progress * 100) / 100;
+
+         if(seaData < 1) {
+            $("#section4").append("<p>SEA: <span class='good'>" + seaData + "</span></p>");
+        } else if (seaData >= 1) {
+            $("#section4").append("<p>SEA: <span class='bad'>" + seaData + "</span></p>");
         } else {
-            $('#section4').append("<p class='overdueNo'>No</p>");
+            $("#graph").append("<p class='warning'> SEA: Cannot Compute SEA </p>");
+        }
+
+        if(eeaData < 1) {
+            $("#section4").append("<p>EEA: <span class='good'>" + eeaData + "</span></p>");
+        } else if (eeaData >= 1) {
+            $("#section4").append("<p>EEA: <span class='bad'>" + seaData + "</span></p>");
+        } else {
+            $("#graph").append("<p class='warning'> EEA: Cannot Compute SEA </p>");
+        }
+
+
+        if(current.getTime() > due.getTime()) {
+            $('#section4').append("<p>Overdue: <span class='overdueYes'>Yes</span></p>");
+        } else {
+            $('#section4').append("<p>Overdue: <span class='overdueNo'>No</span></p>");
         }
 
 

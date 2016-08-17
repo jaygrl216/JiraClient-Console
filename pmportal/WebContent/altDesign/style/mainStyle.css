@@ -95,6 +95,8 @@ nav h4 {
     background-color: rgba(41, 40, 46, 0.8);
     margin-left: 5px;
     margin-top: 25px;
+    color: #fff;
+    text-align: center;
 }
 
 #section5 {
@@ -168,17 +170,21 @@ a:hover {
 }
 
 .overdueYes {
-    text-align: center;
     color: #EB2121;
     font-weight: bold;
-    font-size: 50px;
+}
+
+.good {
+    color: #21EB5D;
+}
+
+.bad {
+  color: #EB2121;
 }
 
 .overdueNo {
-    text-align: center;
     color: #21EB5D;
     font-weight: bold;
-    font-size: 50px;
 }
 
 .date {
