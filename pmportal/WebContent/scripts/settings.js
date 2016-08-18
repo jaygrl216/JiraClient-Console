@@ -3,9 +3,9 @@ if (email!=""){
 	$("#emailInput").val(email);
 };
 var pm=getCookie("pm").toString();
-if (pm==""){
-	window.location="index.html";
-};
+//if (pm==""){
+//	window.location="index.html";
+//};
 var hostURL=window.location.host;
 function passCheck(){
 	$("#curPass").css("border", "2px inset #ffffff")

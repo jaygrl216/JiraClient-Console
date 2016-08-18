@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-        <title>PMPortal Dashboard: Reports</title>
+        <title>PMPortal Dashboard: Settings</title>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,68 +34,52 @@
             </nav>
 
             <div class="col-lg-10" id="scrollable">
-                <h3>Profile &amp; Settings</h3>
+                <h3 id="heading2">Profile &amp; Settings</h3>
                 <div class="row">
-                    <div class="col-lg-8" id="section1">
-                        <div id="info">
-                        <h3>Project Information</h3>
-                        <p>Project Name</p>
-                        <p>Description</p>
-                        <p>Lead</p>
-                        <p>Due Date</p>
+                    <div class="col-lg-11" id="settings">
+                        <h4>Account Details</h4>
+							<p class="main">If you would like to receive email notifications, please input your email below</p>
+							Email Address: <input type="text" id="emailInput" />
+							<input type="button" value="Send Test Email" onclick="testEmail()"/>
+							<br>
+							<br>
+							<p class="main">Change Password</p>
+							Current Password: <input type="password" id="curPass" />
+							<br><br>New Password:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="password" id="newPass"/>
+							<br><br>Confirm Password: <input type="password" id="confirmPass"/>
+							<br>
+							<br>
+							<h4>Notification Settings</h4>
+							<table><tr>
+							<td>SEA: </td><td> <input type="number" id="seaMin" value="0.8" min="0" max="1" step="0.01"/> - <input type="number" id="seaMax" value="1.25" min="1" step="0.01"/>
+							<input type="button" value="Reset" onclick="resetSEA()"/></td>
+							</tr><tr>
+							<td>EEA: </td><td><input type="number" id="eeaMin" value="0.8" min="0" max="1" step="0.01"/> - <input type="number" id="eeaMax" value="1.25" min="1" step="0.01"/>
+							<input type="button" value="Reset" onclick="resetEEA()"/></td>
+							</tr><tr>
+							<td>Bugs: &nbsp;</td><td><input type="number" id="bugMax" value="10" min="0"/>
+							<input type="button" value="Reset" onclick="resetBugs()"/></td>
+							</tr></table>
+							<br>
+							<h4>Add Jira Instance</h4>
+							Jira Username: <input type="text" id="userText"/>
+							<br><br>Jira Password: <input type="password" id="passText"/>
+							<br><br>Jira URL:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="urlText"/>
+							<br><br>Jira Instance Alias <input type="text" id="alias"/>
+							<p style="color:red">Your credentials will be overwritten if you specify an existing Jira URL</p>
+							<p style="color: red; visibility: hidden" id="fail">Login
+							failed! Double check your login info, and make sure the Jira URL
+							is correct; it is generally "http://serverURL" or
+							"http://serverURL/jira"</p>
+
+                            <div id="finish">
+							<a><input type="button" onclick="passCheck()" value="Save"/></a>
+							<input type="button" onclick="logout()" value="Log out"/>
                         </div>
-                    </div>
 
-                    <div class="col-lg-3">
-                        <div class="row">
-                            <div class="dropdown" id="projList">
-                                <button type="button" data-toggle="dropdown" class="btn btn-info dropdown-toggle">
-                                    Projects<span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" id="projectList">
-                                </ul>
-                            </div>
-
-                            <div class="col-lg-12" id="section2">
-                                <h4>Project Progress</h4>
-                                <canvas id="pie"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-7" id="section3">
-                         <h4>Issue Tracking</h4>
-                        <canvas id="bar"></canvas>
-                    </div>
-
-                    <div class ="col-lg-4">
-                        <div class="row" id="section4">
-                            <h4>Metrics and Progress</h4>
-                        </div>
-
-                        <div class="row" id="section5">
-                            <h4>Today's Date Is:</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-7" id="section3backlog">
-                         <h4>Backlog</h4>
-                        <canvas id="bar"></canvas>
-                    </div>
-
-                    <div class ="col-lg-4">
-                        <div class="row" id="section4projects">
-                            <h4>User Workload</h4>
-                            <canvas id="resourceAllocation"></canvas>
-                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
 

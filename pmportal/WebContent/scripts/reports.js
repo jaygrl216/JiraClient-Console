@@ -2,9 +2,9 @@ var username=getCookie("username").toString();
 var password=getCookie("password").toString();
 var url=getCookie("url").toString();
 var pm=getCookie("pm").toString();
-if (pm==""){
-	window.location="index.html";
-};
+//if (pm==""){
+//	window.location="index.html";
+//};
 var baseURL=getCookie("url").toString();
 var hostURL = window.location.host;
 var homeResource = "http://"+hostURL+"/pmportal/rest/home/" + username + "/" + password + "/" + baseURL;

@@ -3,6 +3,7 @@
 body {
     background-color: #e8e4e1;
     font-family: 'Raleway', sans-serif;
+    overflow-y: hidden;
 }
 
 html, body, #mainRow {
@@ -196,8 +197,33 @@ a:hover {
 }
 
 #scrollable {
-    height: 600px;
+    height: 610px;
     overflow-y: auto;
+}
+
+#settings {
+    height: 700px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(41, 40, 46, 0.8);
+    margin-left: 40px;
+    color: #fff;
+}
+
+#heading2 {
+    margin-left: 25px;
+    margin-top: 8px;
+}
+
+input {
+    color: #000;
+}
+
+.main {
+    font-weight: bold;
+}
+
+#finish {
+    margin-top: -15px;
 }
 
 
