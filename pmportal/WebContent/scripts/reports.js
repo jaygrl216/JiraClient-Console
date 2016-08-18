@@ -76,30 +76,30 @@ $(document).ajaxStop(function () {
     if(stop == 0) {
         $('.gen1').hide();
         if(overdue == 0) {
-            $("#graph").append("<p class='overdueGood'>" + overdue + "</p>");
+            $("#section4").append("<p class='overdueGood'>" + overdue + "</p>");
         } else {
-            $("#graph").append("<p class='overdueBad'>" + overdue + "</p>");
+            $("#section4").append("<p class='overdueBad'>" + overdue + "</p>");
         }
 
         if(seaMin <= averageSEA && averageSEA <= seaMax) {
-            $("#graph2").append("<h5> Average SEA </h5> <p class='good'>" + averageSEA+ "</p>");
+            $("#section2").append("<h5> Average SEA </h5> <p class='good'>" + averageSEA+ "</p>");
             $('.sea1').show();
         } else if (averageSEA > seaMax) {
-            $("#graph2").append("<h5> Average SEA </h5> <p class='bad'>" + averageSEA+ "</p>");
+            $("#section2").append("<h5> Average SEA </h5> <p class='bad'>" + averageSEA+ "</p>");
             $('.sea2').show();
         } else {
-            $("#graph2").append("<h5> Average SEA </h5> <p class='below'>" + averageSEA+ "</p>");
+            $("#section2").append("<h5> Average SEA </h5> <p class='below'>" + averageSEA+ "</p>");
             $('.sea3').show();
         }
 
         if(seaMin <= averageEEA && averageEEA <= eeaMax) {
-            $("#graph2").append("<h5> Average EEA </h5> <p class='good'>" + averageEEA + "</p>");
+            $("#section2").append("<h5> Average EEA </h5> <p class='good'>" + averageEEA + "</p>");
             $('.eea1').show();
         } else if (averageEEA > eeaMax) {
-            $("#graph2").append("<h5> Average EEA </h5> <p class='bad'>" + averageEEA + "</p>");
+            $("#section2").append("<h5> Average EEA </h5> <p class='bad'>" + averageEEA + "</p>");
             $('.eea2').show();
         } else {
-           $("#graph2").append("<h5> Average EEA </h5> <p class='below'>" + averageEEA + "</p>");
+           $("#section2").append("<h5> Average EEA </h5> <p class='below'>" + averageEEA + "</p>");
             $('.eea3').show();
         }
 

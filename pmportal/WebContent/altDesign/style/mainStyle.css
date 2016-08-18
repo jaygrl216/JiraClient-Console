@@ -73,6 +73,14 @@ nav h4 {
     margin-top: 15px;
 }
 
+#section2reports {
+    height: 200px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(33, 66, 73, 0.5);
+    margin-left: 15px;
+    margin-top: 30px;
+}
+
 #section3 {
     height: 300px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
@@ -90,12 +98,37 @@ nav h4 {
     overflow-y: auto;
 }
 
+#section3reports {
+    height: 450px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(33, 66, 73, 0.5);
+    margin-left: 35px;
+    margin-top: 15px;
+}
+
+#calendar {
+    margin-top: 20px;
+    color:rgba(41, 40, 46, 0.8);
+}
+
+
+
 #section4 {
     height:150px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
     background-color: rgba(41, 40, 46, 0.8);
     margin-left: 5px;
     margin-top: 25px;
+    color: #fff;
+    text-align: center;
+}
+
+#section4reports {
+    height:250px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.1) inset;
+    background-color: rgba(41, 40, 46, 0.8);
+    margin-left: 5px;
+    margin-top:50px;
     color: #fff;
     text-align: center;
 }
@@ -197,9 +230,10 @@ a:hover {
 }
 
 #scrollable {
-    height: 610px;
+    height: 630px;
     overflow-y: auto;
 }
+
 
 #settings {
     height: 700px;
@@ -224,6 +258,16 @@ input {
 
 #finish {
     margin-top: -15px;
+}
+
+.sea1, .eea1, .sea2, .eea2, .sea3, .eea3{
+    display: none;
+    color:#fff;
+}
+
+.gen1 {
+    color:#fff;
+    font-weight: bold;
 }
 
 

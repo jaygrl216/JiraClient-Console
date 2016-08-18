@@ -88,6 +88,8 @@ public class ConfigResource {
 		String url=requestObject.getString("url");
 		String alias=requestObject.getString("alias");
 		//check if user already exists, then write if not
+		File userFile=new File(pm+".txt");
+		userFile.createNewFile();
 		String fileString=new String(Files.readAllBytes(Paths.get(pm+".txt")), StandardCharsets.UTF_8);
 		if (fileString.toLowerCase().contains(url.toLowerCase())){
 			File textFile=new File(pm+".txt");

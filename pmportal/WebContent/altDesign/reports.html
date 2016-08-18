@@ -6,11 +6,16 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="../scripts/cookiehandler.js"></script>
-        <script src="../scripts/jquery-2.4.js"></script>
+         <link rel='stylesheet' href='style/fullcalendar.css' />
+        <script src="scripts/cookiehandler.js"></script>
+        <script src="scripts/jquery-2.4.js"></script>
+        <script src='scripts/moment.min.js'></script>
+        <script src='scripts/fullcalendar.js'></script>
+        <link rel="icon" href="favicon.ico">
         <link rel="stylesheet" href="style/bootstrap.min.css">
-        <link rel="stylesheet" href="style/mainStyle.css">
-        <script type="text/javascript" src="scripts/Chart.js"></script>
+        <link rel="stylesheet" type="text/css" href="style/mainStyle.css">
+        <script type="text/javascript" src="scripts/reports.js"></script>
+
 
 
     </head>
@@ -37,60 +42,44 @@
                 <h3>Reports</h3>
                 <div class="row">
                     <div class="col-lg-8" id="section1">
-                        <div id="info">
-                        <h3>Project Information</h3>
-                        <p>Project Name</p>
-                        <p>Description</p>
-                        <p>Lead</p>
-                        <p>Due Date</p>
-                        </div>
+                         <h4>General Report</h4>
+                        <p class="gen1">Below is information about where your planning efforts stand based on the average SEA and EEA values across all your projects.</p>
+
+                        <p class="sea1">Your SEA value is within your boundaries. This means on average you are allocating a proper amount of time for your users to complete project tasks. You most likely do not need to change your planning to continue getting a value within your boundaries. </p>
+
+                        <p class="eea1">Your EEA value is within your boundaries. This means on average you are estimating the right amount of story points for each task. Your ability to estimate effort per task is going well and you should not have to make any changes to your planning.</p>
+
+                        <p class="sea2">Your SEA value is above your boundaries. This means on average your team is completing tasks slower than you expect. This is not a necessarily a bad thing. You and your team should work together to allocate less tasks in a given period or increase the length of your sprints. By doing this, you should be able to stay within your boundaries. </p>
+
+                        <p class="eea2">Your EEA value is above your boundaries. This means on average your and your team are estimating less story points per task than you should. This could mean your team thinks tasks will be easier to complete than they actually are. In the future, you should estimate more story points for certain tasks that you find your team taking more time to complete. This should help your EEA average stay within your boundary. </p>
+
+                        <p class="sea3">Your SEA value is below your boundaries. This means on average your team is completing tasks faster than you expect. This is not necessarily a bad thing. You and your team should work together to allocate more tasks in a given period or shorten the length of your sprints. By doing this, you should be able to stay within your boundaries. </p>
+
+                        <p class="eea3">Your EEA value is below your boundaries. This means on average your and your team are estimating more story points per task than you should. This could mean your team thinks tasks will be harder to complete than they actually are. In the future, you should estimate less story points for certain tasks that you find your team completing quickly. This should help your EEA average stay within your boundary. </p>
+
                     </div>
 
                     <div class="col-lg-3">
                         <div class="row">
-                            <div class="dropdown" id="projList">
-                                <button type="button" data-toggle="dropdown" class="btn btn-info dropdown-toggle">
-                                    Projects<span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" id="projectList">
-                                </ul>
-                            </div>
-
-                            <div class="col-lg-12" id="section2">
-                                <h4>Project Progress</h4>
-                                <canvas id="pie"></canvas>
+                            <div class="col-lg-12" id="section2reports">
+                                <h4>Data</h4>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-7" id="section3">
-                         <h4>Issue Tracking</h4>
-                        <canvas id="bar"></canvas>
+                    <div class="col-lg-7" id="section3reports">
+                        <div id="calendar"></div>
                     </div>
 
                     <div class ="col-lg-4">
-                        <div class="row" id="section4">
-                            <h4>Metrics and Progress</h4>
+                        <div class="row" id="section4reports">
+                            <h4>Overdue Projects</h4>
                         </div>
 
                         <div class="row" id="section5">
                             <h4>Today's Date Is:</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-7" id="section3backlog">
-                         <h4>Backlog</h4>
-                        <canvas id="bar"></canvas>
-                    </div>
-
-                    <div class ="col-lg-4">
-                        <div class="row" id="section4projects">
-                            <h4>User Workload</h4>
-                            <canvas id="resourceAllocation"></canvas>
                         </div>
                     </div>
                 </div>

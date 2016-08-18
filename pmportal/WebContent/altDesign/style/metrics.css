@@ -196,7 +196,7 @@ a:hover {
     background-color: rgba(41, 40, 46, 0.8);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     height: 400px;
-    margin-left: 15px;
+    margin-left: 40px;
     margin-top: 15px;
     margin-bottom: 15px;
 	color: #FFFFFF;
@@ -225,7 +225,7 @@ a:hover {
 }
 #reportContainer{
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-	margin-left: 15px;
+	margin-left: 40px;
 	background-color: rgba(33, 66, 73, 0.5);
     color: #FFFFFF;
     text-align: center;
@@ -234,7 +234,7 @@ a:hover {
 #data {
     text-align: center;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1)inset;
-    margin-left: 15px;
+    margin-left: 40px;
     margin-bottom: 15px;
     background-color: rgba(33, 66, 73, 0.5);
     color: #FFFFFF;
@@ -248,7 +248,7 @@ th, td {
 
 #about{
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-	margin-left: 15px;
+	margin-left: 40px;
 	margin-bottom: 15px;
     background-color: rgba(17, 18, 23, 0.7);
     color: #FFFFFF;
@@ -277,7 +277,7 @@ table {
 }
 
 h3 {
-    margin-left: 15px;
+    margin-left: 40px;
     margin-bottom: -40px;
 }
 
