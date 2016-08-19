@@ -286,4 +286,9 @@ input {
     margin-top: -50px;
 }
 
+#projectList li:hover {
+    background-color: rgba(33, 66, 73, 0.5);
+    color: #fff;
+}
+
 

@@ -108,7 +108,7 @@ function drawGraphics(){
 			        	   label:"Bugs",
 			        	   data:bugData,
 			        	   fill:false,
-			        	   backgroundColor:"#rgba(144, 177, 212, 0.8)",
+			        	   backgroundColor:"rgba(144, 177, 212, 0.8)",
 			           }]
 
 	};

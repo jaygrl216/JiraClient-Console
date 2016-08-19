@@ -158,5 +158,5 @@ function generateTable(){
 	};
 };
 function redirectToAll(){
-	window.location="metric_all.html";
+	window.location="metrics_all.html";
 };

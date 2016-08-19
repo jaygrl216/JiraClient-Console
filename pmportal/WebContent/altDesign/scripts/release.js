@@ -367,15 +367,15 @@ function showProjectData(num) {
         } else if (seaData >= 1) {
             $("#section4").append("<p>SEA: <span class='bad'>" + seaData + "</span></p>");
         } else {
-            $("#graph").append("<p class='warning'> SEA: Cannot Compute SEA </p>");
+            $("#section4").append("<p class='warning'> SEA: Cannot Compute SEA </p>");
         }
 
         if(eeaData < 1) {
             $("#section4").append("<p>EEA: <span class='good'>" + eeaData + "</span></p>");
         } else if (eeaData >= 1) {
-            $("#section4").append("<p>EEA: <span class='bad'>" + seaData + "</span></p>");
+            $("#section4").append("<p>EEA: <span class='bad'>" + eeaData + "</span></p>");
         } else {
-            $("#graph").append("<p class='warning'> EEA: Cannot Compute SEA </p>");
+            $("#section4").append("<p class='warning'> EEA: Cannot Compute EEA </p>");
         }
 
 
