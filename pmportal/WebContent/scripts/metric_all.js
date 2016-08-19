@@ -1,7 +1,7 @@
 var username=getCookie("username");
-if (username==""){
-	window.location="index.html";
-};
+//if (username==""){
+//	window.location="index.html";
+//};
 var password=getCookie("password");
 var baseURL=getCookie("url");
 var hostURL=window.location.host;
@@ -16,6 +16,7 @@ var seaData=[];
 var eeaData=[];
 var bugData=[];
 var progData=[];
+Chart.defaults.global.defaultFontColor = '#fff';
 $("#aboutInfo").hide();
 $.ajax({
 	url: projectResource,
@@ -48,10 +49,10 @@ $.ajax({
 	drawGraphics();
 });
 $(document).ajaxStart(function(){
-	$("#loadImage").show();
+	$(".loadImage").show();
 });
 $(document).ajaxStop(function(){
-	$("#loadImage").hide();
+	$(".loadImage").hide();
 });
 $(document).ready(function(){
 	$("#projectList").on( "click", "li" , function () {
@@ -85,7 +86,7 @@ function drawGraphics(){
 			        	   label:"SEA",
 			        	   data:seaData,
 			        	   fill:false,
-			        	   backgroundColor:"#FF0000",
+			        	   backgroundColor:"rgba(237, 76, 76, 0.8)",
 			           }]
 
 	};
@@ -96,7 +97,7 @@ function drawGraphics(){
 			        	   label:"EEA",
 			        	   data:eeaData,
 			        	   fill:false,
-			        	   backgroundColor:"#00FF00",
+			        	   backgroundColor:"rgba(144, 212, 168, 0.8)",
 			           }]
 
 	};
@@ -107,7 +108,7 @@ function drawGraphics(){
 			        	   label:"Bugs",
 			        	   data:bugData,
 			        	   fill:false,
-			        	   backgroundColor:"#0000FF",
+			        	   backgroundColor:"#rgba(144, 177, 212, 0.8)",
 			           }]
 
 	};
@@ -118,7 +119,7 @@ function drawGraphics(){
 			        	   label:"Progress",
 			        	   data:progData,
 			        	   fill:false,
-			        	   backgroundColor:"#FF00FF",
+			        	   backgroundColor:"rgba(212, 144, 203, 0.8)",
 			           }]
 
 	};
