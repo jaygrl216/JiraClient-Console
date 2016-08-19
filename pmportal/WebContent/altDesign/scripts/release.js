@@ -228,17 +228,17 @@ function showInitialData() {
         var eeaData = Math.round(metrics.eea * 100) / 100;
         var progressData = Math.round(metrics.progress * 100) / 100;
 
-         if(seaData < 1) {
+         if(seaData <= 1) {
             $("#section4").append("<p>SEA: <span class='good'>" + seaData + "</span></p>");
-        } else if (seaData >= 1) {
+        } else if (seaData > 1) {
             $("#section4").append("<p>SEA: <span class='bad'>" + seaData + "</span></p>");
         } else {
             $("#graph").append("<p class='warning'> SEA: Cannot Compute SEA </p>");
         }
 
-        if(eeaData < 1) {
+        if(eeaData <= 1) {
             $("#section4").append("<p>EEA: <span class='good'>" + eeaData + "</span></p>");
-        } else if (eeaData >= 1) {
+        } else if (eeaData > 1) {
             $("#section4").append("<p>EEA: <span class='bad'>" + seaData + "</span></p>");
         } else {
             $("#graph").append("<p class='warning'> EEA: Cannot Compute SEA </p>");
@@ -310,7 +310,7 @@ function createPie() {
 		data: pieData,
 		options: {
 			maintainAspectRatio: true,
-			responsive: true
+			responsive: false
 		}
 	});
 }
